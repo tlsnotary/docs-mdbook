@@ -1,0 +1,284 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Key Exchange - tlsn-docs</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../intro.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../../protocol/index.html"><strong aria-hidden="true">2.</strong> Protocol</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../protocol/2pc/garbled_circuits.html"><strong aria-hidden="true">2.1.</strong> Secure 2-Party Computation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../protocol/2pc/garbled_circuits.html"><strong aria-hidden="true">2.1.1.</strong> Garbled Circuits</a></li><li class="chapter-item expanded "><a href="../../protocol/2pc/oblivious_transfer.html"><strong aria-hidden="true">2.1.2.</strong> Oblivious Transfer</a></li><li class="chapter-item expanded "><a href="../../protocol/2pc/paillier.html"><strong aria-hidden="true">2.1.3.</strong> Paillier</a></li><li class="chapter-item expanded "><a href="../../protocol/2pc/mac.html"><strong aria-hidden="true">2.1.4.</strong> MAC</a></li></ol></li><li class="chapter-item expanded "><a href="../../protocol/handshake/index.html"><strong aria-hidden="true">2.2.</strong> Handshake</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../protocol/handshake/key_exchange.html" class="active"><strong aria-hidden="true">2.2.1.</strong> Key Exchange</a></li><li class="chapter-item expanded "><a href="../../protocol/handshake/prf.html"><strong aria-hidden="true">2.2.2.</strong> PRF</a></li><li class="chapter-item expanded "><a href="../../protocol/handshake/verify.html"><strong aria-hidden="true">2.2.3.</strong> Verification</a></li></ol></li><li class="chapter-item expanded "><a href="../../protocol/query/index.html"><strong aria-hidden="true">2.3.</strong> Query</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../protocol/query/encryption.html"><strong aria-hidden="true">2.3.1.</strong> Encryption</a></li><li class="chapter-item expanded "><a href="../../protocol/query/decryption.html"><strong aria-hidden="true">2.3.2.</strong> Decryption</a></li><li class="chapter-item expanded "><a href="../../protocol/query/commitment.html"><strong aria-hidden="true">2.3.3.</strong> Commitment</a></li></ol></li><li class="chapter-item expanded "><a href="../../protocol/notarization/index.html"><strong aria-hidden="true">2.4.</strong> Notarization</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">tlsn-docs</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="key-exchange"><a class="header" href="#key-exchange">Key Exchange</a></h1>
+<p>In TLS, the first step towards obtaining TLS session keys is to compute a shared secret between the client and the server by running the <a href="https://en.wikipedia.org/wiki/Elliptic-curve_Diffie%E2%80%93Hellman">ECDH protocol</a>. The resulting shared secret in TLS terms is called the pre-master secret <code>PMS</code>.</p>
+<img src="https://raw.githubusercontent.com/tlsnotary/docs-assets/main/diagrams/key_exchange.png" width="800">
+<p>Using the notation from Wikipedia, below is the 3-party ECDH protocol between the <code>Server</code> the <code>Client</code> and the <code>Notary</code>, enabling the <code>Client</code> and the <code>Notary</code> to arrive at shares of <code>PMS</code>.</p>
+<ol>
+<li><code>Server</code> sends its public key \(\small{Q_b}\) to <code>Client</code>, and <code>Client</code> forwards it to <code>Notary</code></li>
+<li><code>Client</code> picks a random private key share \( \small{d_c} \) and computes a public key share \( \small{Q_c = d_c * G} \)</li>
+<li><code>Notary</code> picks a random private key share \( \small{d_n} \) and computes a public key share \( \small{Q_n = d_n * G} \)</li>
+<li><code>Notary</code> sends \( \small{Q_n} \) to <code>Client</code> who computes \( \small{Q_a = Q_c + Q_n} \) and sends \( \small{Q_a} \) to <code>Server</code></li>
+<li><code>Client</code> computes an EC point \( \small{(x_p, y_p) = d_c * Q_b} \)</li>
+<li><code>Notary</code> computes an EC point \( \small{(x_q, y_q) = d_n * Q_b} \)</li>
+<li>Addition of points \( \small{(x_p, y_p)} \) and \( \small{(x_q, y_q)} \) results in the coordinate \( \small{x_r} \), which is <code>PMS</code>. (The coordinate \( \small{y_r} \) is not used in TLS)</li>
+</ol>
+<p>Using the notation from <a href="https://en.wikipedia.org/wiki/Elliptic_curve_point_multiplication#Point_addition">here</a>, our goal is to compute
+\[ \tag{1} x_r = (\frac{y_q-y_p}{x_q-x_p})^2 - x_p - x_q \]
+in such a way that</p>
+<ol>
+<li>Neither party learns the other party's \( \small{x} \) value</li>
+<li>Neither party learns \( \small{x_r} \), only their respective shares of \( \small{x_r} \).</li>
+</ol>
+<p>Let's start out by simplifying the equation</p>
+<p>\[\tag{2} x_r = (y_q^2 - 2y_q y_p + y_p^2)(x_q - x_p)^{-2} - x_p - x_q \bmod p \]</p>
+<p>Since this is finite field arithmetic, if \( \small{x_r &gt; p} \) we must reduce \( \small{x_r} \) modulo \( \small{p} \), i.e assign \( \small{x_r} \) the value \( \small{x_r \bmod p} \). The trailing \( \small{\bmod p} \) is always implied from here on out, but may be omitted for brevity.</p>
+<blockquote>
+<p>For the curious, the modulus of the most common EC curve P-256 is a prime number and its value is \( \small{p = 2^{256} - 2^{224} + 2^{192} + 2^{96} - 1}\)</p>
+</blockquote>
+<p>Based on <a href="https://en.wikipedia.org/wiki/Fermat&#x27;s_little_theorem">Fermat's little theorem</a>:</p>
+<p>\[ a^{-2} \bmod p = a^{p-3} \bmod p \]</p>
+<p>Replacing the negative power of Equation (2), we get:</p>
+<p>\[\tag{3} x_r = (y_q^2 - 2y_q y_p + y_p^2)(x_q - x_p)^\color{red}{p-3} - x_p - x_q \]</p>
+<p>We then proceed to decompose Equation (3) into discrete parts:</p>
+<p>\[ \tag{4} A = (y_q^2 - 2y_q y_p + y_p^2) \\\
+B = (x_q - x_p)^{p-3} \\\
+C = - x_p - x_q \]</p>
+<h2 id="computing--smalla--y_q2---2y_q-y_p--y_p2-"><a class="header" href="#computing--smalla--y_q2---2y_q-y_p--y_p2-">Computing \( \small{A = (y_q^2 - 2y_q y_p + y_p^2)} \)</a></h2>
+<p><code>Notary</code>:</p>
+<ol>
+<li>Sends \( \small{E(y_q^2)} \) and \( \small{E(-2y_q)} \)</li>
+</ol>
+<p><code>Client</code>:</p>
+<ol start="2">
+<li>Computes \( \small{E(y_p^2)} \)</li>
+<li>Computes \( \small{E(A) = E(y_q^2) + E(-2y_q) * y_p + E(y_p^2)} \)</li>
+<li>Generates random masks \( \small{M_A} \) and \( \small{N_A} \) and computes \( \small{E(A * M_A + N_A)} \)</li>
+<li>Sends \( \small{E(A * M_A + N_A)} \) and \( \small{(N_A \bmod p)} \)</li>
+</ol>
+<blockquote>
+<p>Note that here \( \small{N_A} \) (as well as \( \small{N_b} \) and \( \small{N_B} \) below) is crucial, as without it <code>Notary</code> would be able to factorize \( \small{A * M_A} \) and learn \( \small{A} \)</p>
+</blockquote>
+<p><code>Notary</code>:</p>
+<ol start="6">
+<li>Decrypts and gets \( \small{(A * M_A + N_A)} \)</li>
+<li>Reduces \( \small{(A * M_A + N_A) \bmod p} \)</li>
+<li>Computes \( \small{(A * M_A) \bmod p = (A * M_A + N_A) \bmod p - N_A \bmod p} \)</li>
+</ol>
+<h2 id="computing--smallb--x_q---x_pp-3-"><a class="header" href="#computing--smallb--x_q---x_pp-3-">Computing \( \small{B = (x_q - x_p)^{p-3}} \)</a></h2>
+<p><code>Notary</code>:</p>
+<ol>
+<li>Sends \( \small{E(x_q)} \)</li>
+</ol>
+<p><code>Client</code>:</p>
+<ol start="2">
+<li>Lets \( \small{b = x_q - x_p} \)</li>
+<li>Computes \( \small{E(-x_p)} \)</li>
+<li>Computes \( \small{E(b) = E(x_q) + E(-x_p)} \)</li>
+<li>Generates random masks \( \small{M_b} \) and \( \small{N_b} \) and computes \( \small{E(b * M_b + N_b)} \)</li>
+<li>Sends \( \small{E(b * M_b + N_b)} \) and \( \small{(N_b \bmod p)} \)</li>
+</ol>
+<p><code>Notary</code>:</p>
+<ol start="7">
+<li>Decrypts and gets \( \small{(b * M_b + N_b)} \)</li>
+<li>Reduces \( \small{(b * M_b + N_b) \bmod p} \)</li>
+<li>Computes \( \small{(b * M_b) \bmod p = (b * M_b + N_b) \bmod p - N_b \bmod p} \)</li>
+<li>Sends \( \small{E((b * M_b)^{p-3} \bmod p)} \)</li>
+</ol>
+<p><code>Client</code>:</p>
+<ol start="11">
+<li>Computes multiplicative inverse \( \small{inv = (M_b^{p-3})^{-1} \bmod p} \)</li>
+<li>Computes \( \small{E((b * M_b)^{p-3} \bmod p) * inv = E(b^{p-3} * (M_b^{p-3})^{-1}) = E(b^{p-3}) = E(B)} \)</li>
+<li>Generates random masks \( \small{M_B} \) and \( \small{N_B)} \) and computes \( \small{E(B * M_B + N_B)} \)</li>
+<li>Sends \( \small{E(B * M_B + N_B)} \) and \( \small{N_B \bmod p} \)</li>
+</ol>
+<p><code>Notary</code>:</p>
+<ol start="15">
+<li>Decrypts and gets \( \small{(B * M_B + N_B)} \)</li>
+<li>Reduces \( \small{(B * M_B + N_B) \bmod p} \)</li>
+<li>Computes \( \small{(B * M_B) \bmod p = (B * M_B + N_B) \bmod p - N_B \bmod p} \)</li>
+</ol>
+<h2 id="computing--smallx_r--a--b--c-"><a class="header" href="#computing--smallx_r--a--b--c-">Computing \( \small{x_r = A * B + C} \)</a></h2>
+<p><code>Notary</code>:</p>
+<ol>
+<li>Sends \( \small{E(A * M_A * B * M_B)} \) and \( \small{E(-x_q)} \)</li>
+</ol>
+<p><code>Client</code>:</p>
+<ol start="2">
+<li>Computes \( \small{E(A * B) = E(A * M_A * B * M_B) * (M_A * M_B)^{-1}} \) and \( \small{E(-x_p)} \)</li>
+<li>Computes \( \small{E(A * B + C) = E(A * B) + E(-x_q) + E(-x_p)} \)</li>
+<li>Generates and applies a random mask \( \small{E(S_q)} \) and sends \( \small{E(A * B + C + S_q)} \)</li>
+<li>Computes additive <code>PMS</code> share \( \small{s_q = (S_q \bmod p)} \)</li>
+</ol>
+<p><code>Notary</code>:</p>
+<ol start="6">
+<li>Decrypts and gets \( \small{A * B + C + S_q} \)</li>
+<li>Computes additive <code>PMS</code> share \( \small{s_p = (A * B + C + S_q) \bmod p} \)</li>
+</ol>
+<p>The protocol described above is secure against <code>Notary</code> sending malicious inputs. Indeed, because <code>Client</code> only sends back masked values, <code>Notary</code> cannot learn anything about those values.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../protocol/handshake/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../../protocol/handshake/prf.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../protocol/handshake/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../../protocol/handshake/prf.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
