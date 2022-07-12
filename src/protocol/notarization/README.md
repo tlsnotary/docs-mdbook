@@ -20,6 +20,8 @@ The `Notary` is the party of which the authenticity of the `Transcript` relies o
 
 The `Server` can be any server which supports TLS. The TLSNotary protocol is entirely transparent to the `Server`, thus it can not be censored nor does it have to support any additional functionality.
 
+<img src="https://raw.githubusercontent.com/tlsnotary/docs-assets/main/diagrams/tls12-multiround.png">
+
 ## Transcript
 
 The primary artifact generated from this phase is called the `Transcript`. It contains session meta-data, handshake data, and commitments to all the requests and responses. Typically the `Transcript` is signed by the `Notary`, however that is not necessary in the case where the `Notary` will also act as the `Verifier` in the selective disclosure phase.
