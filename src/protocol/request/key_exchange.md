@@ -4,14 +4,14 @@ In TLS, the first step towards obtaining TLS session keys is to compute a shared
 
 <img src="https://raw.githubusercontent.com/tlsnotary/docs-assets/main/diagrams/key_exchange.png" width="800">
 
-Using the notation from Wikipedia, below is the 3-party ECDH protocol between the `Server` the `Client` and the `Notary`, enabling the `Client` and the `Notary` to arrive at shares of `PMS`.
+Using the notation from Wikipedia, below is the 3-party ECDH protocol between the `Server` the `Requester` and the `Notary`, enabling the `Requester` and the `Notary` to arrive at shares of `PMS`.
 
 
-1. `Server` sends its public key \\(\small{Q_b}\\) to `Client`, and `Client` forwards it to `Notary`
-2. `Client` picks a random private key share \\( \small{d_c} \\) and computes a public key share \\( \small{Q_c = d_c * G} \\)
+1. `Server` sends its public key \\(\small{Q_b}\\) to `Requester`, and `Requester` forwards it to `Notary`
+2. `Requester` picks a random private key share \\( \small{d_c} \\) and computes a public key share \\( \small{Q_c = d_c * G} \\)
 3. `Notary` picks a random private key share \\( \small{d_n} \\) and computes a public key share \\( \small{Q_n = d_n * G} \\)
-4. `Notary` sends \\( \small{Q_n} \\) to `Client` who computes \\( \small{Q_a = Q_c + Q_n} \\) and sends \\( \small{Q_a} \\) to `Server`
-5. `Client` computes an EC point \\( \small{(x_p, y_p) = d_c * Q_b} \\)
+4. `Notary` sends \\( \small{Q_n} \\) to `Requester` who computes \\( \small{Q_a = Q_c + Q_n} \\) and sends \\( \small{Q_a} \\) to `Server`
+5. `Requester` computes an EC point \\( \small{(x_p, y_p) = d_c * Q_b} \\)
 6. `Notary` computes an EC point \\( \small{(x_q, y_q) = d_n * Q_b} \\)
 7. Addition of points \\( \small{(x_p, y_p)} \\) and \\( \small{(x_q, y_q)} \\) results in the coordinate \\( \small{x_r} \\), which is `PMS`. (The coordinate \\( \small{y_r} \\) is not used in TLS)
 
@@ -50,7 +50,7 @@ C = - x_p - x_q \\]
 
 1. Sends \\( \small{E(y_q^2)} \\) and \\( \small{E(-2y_q)} \\)
 
-`Client`:
+`Requester`:
 
 2. Computes \\( \small{E(y_p^2)} \\)
 3. Computes \\( \small{E(A) = E(y_q^2) + E(-2y_q) * y_p + E(y_p^2)} \\)
@@ -71,7 +71,7 @@ C = - x_p - x_q \\]
 
 1. Sends \\( \small{E(x_q)} \\)
 
-`Client`:
+`Requester`:
 
 2. Lets \\( \small{b = x_q - x_p} \\)
 3. Computes \\( \small{E(-x_p)} \\)
@@ -86,7 +86,7 @@ C = - x_p - x_q \\]
 9. Computes \\( \small{(b * M_b) \bmod p = (b * M_b + N_b) \bmod p - N_b \bmod p} \\)
 10. Sends \\( \small{E((b * M_b)^{p-3} \bmod p)} \\)
 
-`Client`:
+`Requester`:
 
 11.  Computes multiplicative inverse \\( \small{inv = (M_b^{p-3})^{-1} \bmod p} \\)
 12.  Computes \\( \small{E((b * M_b)^{p-3} \bmod p) * inv = E(b^{p-3} * (M_b^{p-3})^{-1}) = E(b^{p-3}) = E(B)} \\)
@@ -105,7 +105,7 @@ C = - x_p - x_q \\]
 
 1. Sends \\( \small{E(A * M_A * B * M_B)} \\) and \\( \small{E(-x_q)} \\)
 
-`Client`:
+`Requester`:
 
 2. Computes \\( \small{E(A * B) = E(A * M_A * B * M_B) * (M_A * M_B)^{-1}} \\) and \\( \small{E(-x_p)} \\)
 3. Computes \\( \small{E(A * B + C) = E(A * B) + E(-x_q) + E(-x_p)} \\)
@@ -117,4 +117,4 @@ C = - x_p - x_q \\]
 6. Decrypts and gets \\( \small{A * B + C + S_q} \\)
 7. Computes additive `PMS` share \\( \small{s_p = (A * B + C + S_q) \bmod p} \\)
 
-The protocol described above is secure against `Notary` sending malicious inputs. Indeed, because `Client` only sends back masked values, `Notary` cannot learn anything about those values.
+The protocol described above is secure against `Notary` sending malicious inputs. Indeed, because `Requester` only sends back masked values, `Notary` cannot learn anything about those values.
