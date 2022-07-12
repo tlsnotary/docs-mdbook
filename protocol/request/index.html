@@ -151,9 +151,9 @@
 <h2 id="server"><a class="header" href="#server">Server</a></h2>
 <p>The <code>Server</code> can be any server which supports TLS. The TLSNotary protocol is entirely transparent to the <code>Server</code>, thus it can not be censored nor does it have to support any additional functionality.</p>
 <h2 id="transcript"><a class="header" href="#transcript">Transcript</a></h2>
-<p>The primary artifact generated from this phase is called the <code>Transcript</code>. It contains session meta-data, the server signature, and commitments to all the requests and responses.</p>
+<p>The primary artifact generated from this phase is called the <code>Transcript</code>. It contains session meta-data, handshake data, and commitments to all the requests and responses.</p>
 <blockquote>
-<p>Note that the server signature (RSA) does not reveal the identity of the server.</p>
+<p>Note that the server ephemeral key does not reveal the identity of the server.</p>
 </blockquote>
 <img src="https://raw.githubusercontent.com/tlsnotary/docs-assets/main/diagrams/transcript.png">
                     </main>
