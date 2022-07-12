@@ -78,7 +78,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Protocol</li><li class="chapter-item expanded "><a href="protocol/overview/index.html"><strong aria-hidden="true">1.</strong> Overview</a></li><li class="chapter-item expanded "><a href="protocol/request/index.html"><strong aria-hidden="true">2.</strong> Request Phase</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="protocol/request/key_exchange.html"><strong aria-hidden="true">2.1.</strong> Key Exchange</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.2.</strong> (Enc/Dec)ryption</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.3.</strong> Commitment</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Notarization Phase</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Selective Disclosure Phase</div></li><li class="chapter-item expanded "><a href="protocol/2pc/garbled_circuits.html"><strong aria-hidden="true">5.</strong> Secure 2-Party Computation</a></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Garbled Circuits</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.2.</strong> Oblivious Transfer</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.3.</strong> Paillier</div></li><li class="chapter-item expanded "><a href="protocol/2pc/mac.html"><strong aria-hidden="true">5.4.</strong> MAC</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Protocol</li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> Overview</div></li><li class="chapter-item expanded "><a href="protocol/notarization/index.html"><strong aria-hidden="true">2.</strong> Notarization</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="protocol/notarization/key_exchange.html"><strong aria-hidden="true">2.1.</strong> Key Exchange</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.2.</strong> (Enc/Dec)ryption</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.3.</strong> Commitment</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Selective Disclosure</div></li><li class="chapter-item expanded "><a href="protocol/2pc/garbled_circuits.html"><strong aria-hidden="true">4.</strong> Secure 2-Party Computation</a></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Garbled Circuits</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Oblivious Transfer</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> Paillier</div></li><li class="chapter-item expanded "><a href="protocol/2pc/mac.html"><strong aria-hidden="true">4.4.</strong> MAC</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -138,33 +138,8 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="overview"><a class="header" href="#overview">Overview</a></h1>
-<div>
-    <style>
-        .zoom-without-container {
-           transition: transform .2s; /* Animation */
-           margin: 0 auto;
-         }
-         .zoom-without-container img{
-         	width:100%;
-         	height:auto;	
-         }
-         .zoom-without-container:hover {
-           transform: scale(2);
-         }
-    </style>
-    <div class="zoom-without-container">
-        <img src="https://raw.githubusercontent.com/tlsnotary/docs-assets/main/diagrams/overview.png" alt="zoom">
-    </div>
-</div>
-<p>The TLSNotary protocol can be decomposed into three distinct phases:</p>
-<ol>
-<li><a href="protocol/overview/./request.html">Request Phase</a></li>
-<li>Notarization Phase</li>
-<li>Selective Disclosure Phase</li>
-</ol>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="request-phase"><a class="header" href="#request-phase">Request Phase</a></h1>
-<p>During the Request Phase the <code>Requester</code>, otherwise referred to as the <code>User</code>, and the <code>Notary</code> work together to generate an authenticated <code>Transcript</code> of a TLS session with a <code>Server</code>.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="notarization-phase"><a class="header" href="#notarization-phase">Notarization Phase</a></h1>
+<p>During the Notarization Phase the <code>Requester</code>, otherwise referred to as the <code>User</code>, and the <code>Notary</code> work together to generate an authenticated <code>Transcript</code> of a TLS session with a <code>Server</code>.</p>
 <p>Listed below are some key points regarding this process:</p>
 <ul>
 <li>The identity of the <code>Server</code> is not revealed to the <code>Notary</code>, but the <code>Requester</code> is capable of proving the <code>Server</code> identity to a <code>Verifier</code> later.</li>
@@ -178,9 +153,9 @@
 <h2 id="server"><a class="header" href="#server">Server</a></h2>
 <p>The <code>Server</code> can be any server which supports TLS. The TLSNotary protocol is entirely transparent to the <code>Server</code>, thus it can not be censored nor does it have to support any additional functionality.</p>
 <h2 id="transcript"><a class="header" href="#transcript">Transcript</a></h2>
-<p>The primary artifact generated from this phase is called the <code>Transcript</code>. It contains session meta-data, handshake data, and commitments to all the requests and responses.</p>
+<p>The primary artifact generated from this phase is called the <code>Transcript</code>. It contains session meta-data, handshake data, and commitments to all the requests and responses. Typically the <code>Transcript</code> is signed by the <code>Notary</code>, however that is not necessary in the case where the <code>Notary</code> will also act as the <code>Verifier</code> in the selective disclosure phase.</p>
 <blockquote>
-<p>Note that the server ephemeral key does not reveal the identity of the server.</p>
+<p>Note that the server ephemeral key does not reveal the identity of the server to the <code>Notary</code>.</p>
 </blockquote>
 <img src="https://raw.githubusercontent.com/tlsnotary/docs-assets/main/diagrams/transcript.png"><div style="break-before: page; page-break-before: always;"></div><h1 id="key-exchange"><a class="header" href="#key-exchange">Key Exchange</a></h1>
 <p>In TLS, the first step towards obtaining TLS session keys is to compute a shared secret between the client and the server by running the <a href="https://en.wikipedia.org/wiki/Elliptic-curve_Diffie%E2%80%93Hellman">ECDH protocol</a>. The resulting shared secret in TLS terms is called the pre-master secret <code>PMS</code>.</p>
