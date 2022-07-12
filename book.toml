@@ -7,4 +7,4 @@ title = "tlsn-docs"
 
 [output.html]
 mathjax-support = true
-default-theme = "light"
+default-theme = "ayu"
