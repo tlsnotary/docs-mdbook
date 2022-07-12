@@ -22,9 +22,9 @@ The `Server` can be any server which supports TLS. The TLSNotary protocol is ent
 
 ## Transcript
 
-The primary artifact generated from this phase is called the `Transcript`. It contains session meta-data, the server signature, and commitments to all the requests and responses.
+The primary artifact generated from this phase is called the `Transcript`. It contains session meta-data, handshake data, and commitments to all the requests and responses.
 
-> Note that the server signature (RSA) does not reveal the identity of the server.
+> Note that the server ephemeral key does not reveal the identity of the server.
 
 
 <img src="https://raw.githubusercontent.com/tlsnotary/docs-assets/main/diagrams/transcript.png">
