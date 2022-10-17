@@ -18,7 +18,7 @@ In TLS the plaintext is split up into chunks called "TLS records". Each TLS reco
 
 #### 2.1 GHASH output
 
-The `GHASH output` is the output of the GHASH function described in the [NIST publication](https://nvlpubs.nist.gov/nistpubs/legacy/sp/nistspecialpublication800-38d.pdf) in section 6.4 in this way: "In effect, the GHASH function calculates \\(  \small{ X1•H^{m} ⊕ X2•H^{m−1} ⊕ ... ⊕ Xm−1•H^{2} ⊕ Xm•H } \\)" 
+The `GHASH output` is the output of the GHASH function described in the [NIST publication](https://nvlpubs.nist.gov/nistpubs/legacy/sp/nistspecialpublication800-38d.pdf) in section 6.4 in this way: "In effect, the GHASH function calculates \\(  \small{ X1•H^{m} ⊕ X2•H^{m−1} ⊕ ... ⊕ Xm−1•H^{2} ⊕ Xm•H } \\)".
 
 In other words, GHASH splits up the ciphertext into 16-byte blocks, each block is numbered \\( \small{ X_1, X_2, ... }\\) etc. There's also \\( \small{H} \\) which is called the `GHASH key`. We need to raise \\( \small{H} \\) to as many powers as there are blocks, i.e. if we have 5 blocks then we need 5 powers: \\( \small{ H, H^2, H^3, H^4, H^5 } \\). Each block is multiplied by the corresponding power and all products are summed together.
 
@@ -64,19 +64,19 @@ Suppose that the ciphertext consists of only 1 block \\( \small{ X1 } \\). The `
 
 The `User` and the `Notary` will compute locally the left and the right terms respectively. Then each party will XOR their result to the `GCTR output` share and will get their XOR share of the MAC:
 
-`User`  : \\( \small{X_1 • H_u \\quad XOR \\quad CGTR_u = MAC_u} \\)
+`User`  : \\( \small{X_1 • H_u \\quad ⊕ \\quad CGTR_u = MAC_u} \\)
 
-`Notary`: \\( \small{X_1 • H_n \\quad XOR \\quad CGTR_n = MAC_n} \\)
+`Notary`: \\( \small{X_1 • H_n \\quad ⊕ \\quad CGTR_n = MAC_n} \\)
 
 Finally, the `Notary` sends \\( \small{MAC_n}\\) to the `User` who obtains: 
 
-\\( \small{ MAC = MAC_n \\quad XOR \\quad MAC_u} \\)
+\\( \small{ MAC = MAC_n \\quad ⊕ \\quad MAC_u} \\)
 
 #### 3.2 Example with two ciphertext blocks. Free Squaring.
 
 Now, let's suppose that the ciphertext consists of 2 blocks \\( \small{ X_1 }\\) and \\( \small{ X_2 }\\). The `GHASH_output` will be:
 
-\\( \small{ X_1 • (H_u ⊕ H_n) + X_2 • H^2 } \\)
+\\( \small{ X_1 • (H_u ⊕ H_n) ⊕ X_2 • H^2 } \\)
 
 The only unknown here is:
 
@@ -90,17 +90,17 @@ To sum up, each party can locally square their share of \\( \small{H}\\) and get
 
 Now, let's suppose that the ciphertext consists of 3 blocks \\( \small {X_1, X_2, X_3} \\) and the parties already performed `Free Squaring` and have their shares of \\( \small{H^2} \\). The `GHASH_output` will be:
 
-\\( \small{ X_1•(H_u + H_n) + X_2•(H^2_u + H^2_n)+ X_3•H^3 } \\)
+\\( \small{ X_1•(H_u ⊕ H_n) ⊕ X_2•(H^2_u ⊕ H^2_n) ⊕ X_3•H^3 } \\)
 
 Observe that:
 
-\\( \small { H^3 = H^2 * H = (H^2_u + H^2_n) * (H_u + H_n) = H^2_u * H_u + H^2_u * H_n + H^2n * H_u + H^2_n * H_n } \\)
+\\( \small { H^3 = H^2•H = (H^2_u ⊕ H^2_n) • (H_u ⊕ H_n) = (H^2_u • H_u) ⊕ (H^2_u • H_n) ⊕ (H^2_n • H_u) ⊕ (H^2_n • H_n) } \\)
 
 The 1st and the 4th terms can be computed locally by the `User` and the `Notary` respectively. Only the 2nd and the 3rd terms need to be computed using `2PC`.
 
 In [Figure 1](#Figure_1) it can be seen that for each of the 128 loop iterations, the value of `x` changes independently of `y`. This allows `PartyX` (the party who has the `x` value) to compute a table (we call it an `Xtable`) of 128 rows where each row's value equals the value of `x` in one of the 128 iterations. Then, depending on the bit of `y`, the corresponding `Xtable` row will either be XORed to the result or be ignored.
 
-The protocol below which we dub `Mul_2PC` shows how to perform `multiplication in a finite field` using [1-out-of-2 Oblivious Transfer](https://en.wikipedia.org/wiki/Oblivious_transfer#1–2_oblivious_transfer) (OT). `PartyX` computes an `Xtable` with 4 rows and masks each row's value as well as the 0's value. `PartyY` is the OT receiver and receives a masked `Xtable` row (if the bit of `y` is 1) or a masked 0 (if the bit of `y` is 1). We illustrate `Mul_2PC` for 4-bit values:
+The protocol below which we dub `Mul_2PC` shows how to perform `multiplication in a finite field` using [1-out-of-2 Oblivious Transfer](https://en.wikipedia.org/wiki/Oblivious_transfer#1–2_oblivious_transfer) (OT). `PartyX` computes an `Xtable` with 4 rows and masks each row's value as well as the 0's value. `PartyY` is the OT receiver and receives a masked `Xtable` row (if the bit of `y` is 1) or a masked 0 (if the bit of `y` is 0). We illustrate `Mul_2PC` for a 4-bit value:
 
 <img src="mul2pc.png" width="800">
 
@@ -125,17 +125,17 @@ sharings of \\( \small{H} \\).</span>
 
 Recalling that:
 
-\\( \small{ H^5•X_5 = (H^4_n + H^4_u)(H_n + H_u)X_5 = H^4_nH_nX_5 + \color{blue}{H^4_nH_uX_5} + \color{blue}{H^4_uH_nX_5} + H^4_uH_uX_5 } \\)
-\\( \small{ H^7•X_7 = (H^6_n + H^6_u)(H_n + H_u)X_7 = H^6_nH_nX_7 + \color{blue}{H^6_nH_uX_7} + \color{blue}{H^6_uH_nX_7} + H^6_uH_uX_7 } \\)
-\\( \small{ H^9•X_9 = (H^8_n + H^8_u)(H_n + H_u)X_9 = H^8_nH_nX_9 + \color{blue}{H^8_nH_uX_9} + \color{blue}{H^8_uH_nX_9} + H^8_uH_uX_9 } \\)
+\\( \small{ H^5•X_5 = (H^4_n ⊕ H^4_u)(H_n ⊕ H_u)X_5 = H^4_nH_nX_5 ⊕ \color{blue}{H^4_nH_uX_5} ⊕ \color{blue}{H^4_uH_nX_5} ⊕ H^4_uH_uX_5 } \\)
+\\( \small{ H^7•X_7 = (H^6_n ⊕ H^6_u)(H_n ⊕ H_u)X_7 = H^6_nH_nX_7 ⊕ \color{blue}{H^6_nH_uX_7} ⊕ \color{blue}{H^6_uH_nX_7} ⊕ H^6_uH_uX_7 } \\)
+\\( \small{ H^9•X_9 = (H^8_n ⊕ H^8_u)(H_n ⊕ H_u)X_9 = H^8_nH_nX_9 ⊕ \color{blue}{H^8_nH_uX_9} ⊕ \color{blue}{H^8_uH_nX_9} ⊕ H^8_uH_uX_9 } \\)
 
 Above, we <span style="color:blue">highlighted</span>  all terms which the parties cannot compute locally and must compute using `Mul_2PC`. The sum of the highlighted terms can be represented as:
 
-\\( \small{ H^4_n\color{blue}{H_u}X_5 + H^4_u\color{red}{H_n}X_5 + H^6_n\color{blue}{H_u}X_7 + H^6_u\color{red}{H_n}X_7 + H^8_n\color{blue}{H_u}X_9 + H^8_u\color{red}{H_n}X_9 = \\\ \color{blue}{H_u}(H^4_nX_5 + H^6_nX_7 + H^8_nH_9) + \color{red}{H_n}(H^4_uX_5 + H^6_uX_7 + H^8_uH_9) } \\)
+\\( \small{ H^4_n\color{blue}{H_u}X_5 ⊕ H^4_u\color{red}{H_n}X_5 ⊕ H^6_n\color{blue}{H_u}X_7 ⊕ H^6_u\color{red}{H_n}X_7 ⊕ H^8_n\color{blue}{H_u}X_9 ⊕ H^8_u\color{red}{H_n}X_9 = \\\ \color{blue}{H_u}(H^4_nX_5 ⊕ H^6_nX_7 ⊕ H^8_nH_9) ⊕ \color{red}{H_n}(H^4_uX_5 ⊕ H^6_uX_7 ⊕ H^8_uH_9) } \\)
 
 The terms in brackets can be locally computed by the respective party. Let's call the term on the left `termN` and the term on the right `termU`. Then we can re-write the above to show that only 2 `Mul_2PC` are needed:
 
-\\( \small{ \color{blue}{H_u} • termN + \color{red}{H_n} • termU } \\)
+\\( \small{ \color{blue}{H_u} • termN ⊕ \color{red}{H_n} • termU } \\)
 
 Each party will combine his shares from `Mul_2PC` with all the terms he computed locally earlier and will obtain his share of the `GHASH_block`.
 
