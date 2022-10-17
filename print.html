@@ -277,7 +277,7 @@ C = - x_p - x_q \]</p>
 <h2 id="2-how-a-mac-is-computed-in-aes-gcm"><a class="header" href="#2-how-a-mac-is-computed-in-aes-gcm">2. How a MAC is computed in AES-GCM <a name="section2"></a></a></h2>
 <p>In TLS the plaintext is split up into chunks called &quot;TLS records&quot;. Each TLS record is encrypted and a MAC is computed for the ciphertext. The MAC (in AES-GCM) is obtained by XORing together the <code>GHASH output</code> and the <code>GCTR output</code>. Let's see how each of those outputs is computed:</p>
 <h4 id="21-ghash-output"><a class="header" href="#21-ghash-output">2.1 GHASH output</a></h4>
-<p>The <code>GHASH output</code> is the output of the GHASH function described in the <a href="https://nvlpubs.nist.gov/nistpubs/legacy/sp/nistspecialpublication800-38d.pdf">NIST publication</a> in section 6.4 in this way: &quot;In effect, the GHASH function calculates \(  \small{ X1•H^{m} ⊕ X2•H^{m−1} ⊕ ... ⊕ Xm−1•H^{2} ⊕ Xm•H } \)&quot; </p>
+<p>The <code>GHASH output</code> is the output of the GHASH function described in the <a href="https://nvlpubs.nist.gov/nistpubs/legacy/sp/nistspecialpublication800-38d.pdf">NIST publication</a> in section 6.4 in this way: &quot;In effect, the GHASH function calculates \(  \small{ X1•H^{m} ⊕ X2•H^{m−1} ⊕ ... ⊕ Xm−1•H^{2} ⊕ Xm•H } \)&quot;.</p>
 <p>In other words, GHASH splits up the ciphertext into 16-byte blocks, each block is numbered \( \small{ X_1, X_2, ... }\) etc. There's also \( \small{H} \) which is called the <code>GHASH key</code>. We need to raise \( \small{H} \) to as many powers as there are blocks, i.e. if we have 5 blocks then we need 5 powers: \( \small{ H, H^2, H^3, H^4, H^5 } \). Each block is multiplied by the corresponding power and all products are summed together.</p>
 <p>&quot;•&quot; is a special type of multiplication called <code>multiplication in a finite field</code> described in section 6.3 of the NIST publication. Below is the pseudocode for multiplying two 128-bit field elements <code>x</code> and <code>y</code> in a finite field:</p>
 <p>Figure 1: multiplication in a finite field<a name="Figure_1"></a></p>
@@ -309,25 +309,30 @@ C = - x_p - x_q \]</p>
 <p>Suppose that the ciphertext consists of only 1 block \( \small{ X1 } \). The <code>GHASH_output</code> will be:</p>
 <p>\( \small{ X_1•H = X_1•(H_u ⊕ H_n) = X_1•H_u ⊕ X_1•H_n } \)</p>
 <p>The <code>User</code> and the <code>Notary</code> will compute locally the left and the right terms respectively. Then each party will XOR their result to the <code>GCTR output</code> share and will get their XOR share of the MAC:</p>
-<p><code>User</code>  : \( \small{X_1 • H_u \quad XOR \quad CGTR_u = MAC_u} \)</p>
-<p><code>Notary</code>: \( \small{X_1 • H_n \quad XOR \quad CGTR_n = MAC_n} \)</p>
+<p><code>User</code>  : \( \small{X_1 • H_u \quad ⊕ \quad CGTR_u = MAC_u} \)</p>
+<p><code>Notary</code>: \( \small{X_1 • H_n \quad ⊕ \quad CGTR_n = MAC_n} \)</p>
 <p>Finally, the <code>Notary</code> sends \( \small{MAC_n}\) to the <code>User</code> who obtains: </p>
-<p>\( \small{ MAC = MAC_n \quad XOR \quad MAC_u} \)</p>
+<p>\( \small{ MAC = MAC_n \quad ⊕ \quad MAC_u} \)</p>
 <h4 id="32-example-with-two-ciphertext-blocks-free-squaring"><a class="header" href="#32-example-with-two-ciphertext-blocks-free-squaring">3.2 Example with two ciphertext blocks. Free Squaring.</a></h4>
 <p>Now, let's suppose that the ciphertext consists of 2 blocks \( \small{ X_1 }\) and \( \small{ X_2 }\). The <code>GHASH_output</code> will be:</p>
-<p>\( \small{ X_1 • (H_u ⊕ H_n) + X_2 • H^2 } \)</p>
+<p>\( \small{ X_1 • (H_u ⊕ H_n) ⊕ X_2 • H^2 } \)</p>
 <p>The only unknown here is:</p>
 <p>\( \small{ H^2 = (H_u ⊕ H_n)^2 = (H_u)^2 ⊕ 2(H_u • H_n) ⊕ (H_n)^2 = (H_u)^2 ⊕ (H_n)^2 } \)</p>
 <p>The reason why the middle term \( \small{ 2(H_u•H_n) }\) disappeared is this: \( \small{2} \) is not a field element, so <code>multiplication in a finite field</code> cannot be applied to it. Instead, we substitute \( \small { 2(H_u•H_n) }\) with \( \small { (H_u • H_n) ⊕ (H_u • H_n) } \). Since ⊕ is defined as XOR, we are essentially XORing the value to itself and get 0. </p>
 <p>To sum up, each party can locally square their share of \( \small{H}\) and get a share of \( \small{H^2}\). We call this method <code>Free Squaring</code> (&quot;free&quot; meaning &quot;without any communication cost&quot;). If e.g. the parties had their shares of \( \small{H^3}\) they could repeatedly perform <code>Free Squaring</code> to obtain their shares of \( \small{ H^6, H^{12}, H^{24}, H^{48}} \) etc.</p>
 <h4 id="33-example-with-three-ciphertext-blocks-2pc-multiplication"><a class="header" href="#33-example-with-three-ciphertext-blocks-2pc-multiplication">3.3 Example with three ciphertext blocks. 2PC multiplication.</a></h4>
 <p>Now, let's suppose that the ciphertext consists of 3 blocks \( \small {X_1, X_2, X_3} \) and the parties already performed <code>Free Squaring</code> and have their shares of \( \small{H^2} \). The <code>GHASH_output</code> will be:</p>
-<p>\( \small{ X_1•(H_u + H_n) + X_2•(H^2_u + H^2_n)+ X_3•H^3 } \)</p>
+<blockquote>
+<p>📝 <span style="color:red">In the following and elsewhere below \( \small{H^n_x} \) always refers to a sharing of \( \small{H^n} \) for party \( \small{x} \), and not
+a sharing of \( \small{H} \) raised to the \( \small{n} \)th power, i.e. we deal with sharings of powers of \( \small{H} \) and not powers of
+sharings of \( \small{H} \).</span></p>
+</blockquote>
+<p>\( \small{ X_1•(H_u ⊕ H_n) ⊕ X_2•(H^2_u ⊕ H^2_n) ⊕ X_3•H^3 } \)</p>
 <p>Observe that:</p>
-<p>\( \small { H^3 = H^2 * H = (H^2_u + H^2_n) * (H_u + H_n) = H^2_u * H_u + H^2_u * H_n + H^2n * H_u + H^2_n * H_n } \)</p>
+<p>\( \small { H^3 = H^2•H = (H^2_u ⊕ H^2_n) • (H_u ⊕ H_n) = (H^2_u • H_u) ⊕ (H^2_u • H_n) ⊕ (H^2_n • H_u) ⊕ (H^2_n • H_n) } \)</p>
 <p>The 1st and the 4th terms can be computed locally by the <code>User</code> and the <code>Notary</code> respectively. Only the 2nd and the 3rd terms need to be computed using <code>2PC</code>.</p>
 <p>In <a href="protocol/2pc/mac.html#Figure_1">Figure 1</a> it can be seen that for each of the 128 loop iterations, the value of <code>x</code> changes independently of <code>y</code>. This allows <code>PartyX</code> (the party who has the <code>x</code> value) to compute a table (we call it an <code>Xtable</code>) of 128 rows where each row's value equals the value of <code>x</code> in one of the 128 iterations. Then, depending on the bit of <code>y</code>, the corresponding <code>Xtable</code> row will either be XORed to the result or be ignored.</p>
-<p>The protocol below which we dub <code>Mul_2PC</code> shows how to perform <code>multiplication in a finite field</code> using <a href="https://en.wikipedia.org/wiki/Oblivious_transfer#1%E2%80%932_oblivious_transfer">1-out-of-2 Oblivious Transfer</a> (OT). <code>PartyX</code> computes an <code>Xtable</code> with 4 rows and masks each row's value as well as the 0's value. <code>PartyY</code> is the OT receiver and receives a masked <code>Xtable</code> row (if the bit of <code>y</code> is 1) or a masked 0 (if the bit of <code>y</code> is 1). We illustrate <code>Mul_2PC</code> for 4-bit values:</p>
+<p>The protocol below which we dub <code>Mul_2PC</code> shows how to perform <code>multiplication in a finite field</code> using <a href="https://en.wikipedia.org/wiki/Oblivious_transfer#1%E2%80%932_oblivious_transfer">1-out-of-2 Oblivious Transfer</a> (OT). <code>PartyX</code> computes an <code>Xtable</code> with 4 rows and masks each row's value as well as the 0's value. <code>PartyY</code> is the OT receiver and receives a masked <code>Xtable</code> row (if the bit of <code>y</code> is 1) or a masked 0 (if the bit of <code>y</code> is 0). We illustrate <code>Mul_2PC</code> for a 4-bit value:</p>
 <img src="protocol/2pc/mul2pc.png" width="800">
 <p>Note how neither party has the actual result of the multiplication i.e. (row1 XOR row4). The parties only have their XOR shares of the result.</p>
 <p>Using <code>Free Squaring</code> and <code>Mul_2PC</code>, the parties can start with their shares of \( \small{ H } \) and compute <code>GHASH output</code> for any ciphertext size.</p>
@@ -336,17 +341,14 @@ C = - x_p - x_q \]</p>
 <p>Suppose that the ciphertext consists of 9 blocks \( \small{ X_1, ..., X_9 } \) and that the parties already ran <code>Mul_2PC</code> to obtain their shares of \( \small{ H^3 } \). After performing <code>Free Squaring</code> on their shares of \( \small{ H^2 } \) and \( \small{ H^3 } \), here are all the shares of powers which each party has:
 \( \small{ H, H^2, H^3, H^4, H^6, H^8 } \)</p>
 <p>Naively, the parties could use <code>Mul_2PC</code> to compute their shares of \( \small{ H^5, H^7, H^9 } \) using 3 invocations of <code>Mul_2PC</code>. We now show how this can be done with 2 invocations of <code>Mul_2PC</code>. </p>
-<p><span style="color:red">In the following \( \small{H^n_x} \) always refers to a sharing of \( \small{H^n} \) for party \( \small{x} \), and not
-a sharing of \( \small{H} \) raised to the \( \small{n} \)th power, i.e. we deal with sharings of powers of \( \small{H} \) and not powers of
-sharings of \( \small{H} \).</span></p>
 <p>Recalling that:</p>
-<p>\( \small{ H^5•X_5 = (H^4_n + H^4_u)(H_n + H_u)X_5 = H^4_nH_nX_5 + \color{blue}{H^4_nH_uX_5} + \color{blue}{H^4_uH_nX_5} + H^4_uH_uX_5 } \)
-\( \small{ H^7•X_7 = (H^6_n + H^6_u)(H_n + H_u)X_7 = H^6_nH_nX_7 + \color{blue}{H^6_nH_uX_7} + \color{blue}{H^6_uH_nX_7} + H^6_uH_uX_7 } \)
-\( \small{ H^9•X_9 = (H^8_n + H^8_u)(H_n + H_u)X_9 = H^8_nH_nX_9 + \color{blue}{H^8_nH_uX_9} + \color{blue}{H^8_uH_nX_9} + H^8_uH_uX_9 } \)</p>
+<p>\( \small{ H^5•X_5 = (H^4_n ⊕ H^4_u)(H_n ⊕ H_u)X_5 = H^4_nH_nX_5 ⊕ \color{blue}{H^4_nH_uX_5} ⊕ \color{blue}{H^4_uH_nX_5} ⊕ H^4_uH_uX_5 } \)
+\( \small{ H^7•X_7 = (H^6_n ⊕ H^6_u)(H_n ⊕ H_u)X_7 = H^6_nH_nX_7 ⊕ \color{blue}{H^6_nH_uX_7} ⊕ \color{blue}{H^6_uH_nX_7} ⊕ H^6_uH_uX_7 } \)
+\( \small{ H^9•X_9 = (H^8_n ⊕ H^8_u)(H_n ⊕ H_u)X_9 = H^8_nH_nX_9 ⊕ \color{blue}{H^8_nH_uX_9} ⊕ \color{blue}{H^8_uH_nX_9} ⊕ H^8_uH_uX_9 } \)</p>
 <p>Above, we <span style="color:blue">highlighted</span>  all terms which the parties cannot compute locally and must compute using <code>Mul_2PC</code>. The sum of the highlighted terms can be represented as:</p>
-<p>\( \small{ H^4_n\color{blue}{H_u}X_5 + H^4_u\color{red}{H_n}X_5 + H^6_n\color{blue}{H_u}X_7 + H^6_u\color{red}{H_n}X_7 + H^8_n\color{blue}{H_u}X_9 + H^8_u\color{red}{H_n}X_9 = \\ \color{blue}{H_u}(H^4_nX_5 + H^6_nX_7 + H^8_nH_9) + \color{red}{H_n}(H^4_uX_5 + H^6_uX_7 + H^8_uH_9) } \)</p>
+<p>\( \small{ H^4_n\color{blue}{H_u}X_5 ⊕ H^4_u\color{red}{H_n}X_5 ⊕ H^6_n\color{blue}{H_u}X_7 ⊕ H^6_u\color{red}{H_n}X_7 ⊕ H^8_n\color{blue}{H_u}X_9 ⊕ H^8_u\color{red}{H_n}X_9 = \\ \color{blue}{H_u}(H^4_nX_5 ⊕ H^6_nX_7 ⊕ H^8_nH_9) ⊕ \color{red}{H_n}(H^4_uX_5 ⊕ H^6_uX_7 ⊕ H^8_uH_9) } \)</p>
 <p>The terms in brackets can be locally computed by the respective party. Let's call the term on the left <code>termN</code> and the term on the right <code>termU</code>. Then we can re-write the above to show that only 2 <code>Mul_2PC</code> are needed:</p>
-<p>\( \small{ \color{blue}{H_u} • termN + \color{red}{H_n} • termU } \)</p>
+<p>\( \small{ \color{blue}{H_u} • termN ⊕ \color{red}{H_n} • termU } \)</p>
 <p>Each party will combine his shares from <code>Mul_2PC</code> with all the terms he computed locally earlier and will obtain his share of the <code>GHASH_block</code>.</p>
 <h4 id="35-security-considerations"><a class="header" href="#35-security-considerations">3.5 Security considerations</a></h4>
 <p><code>PartyX</code> may act maliciously and craft the <code>Xtable</code> in a way which leaks bits of y through <code>PartyY</code>s output of <code>Mul_2PC</code>. For this reason, the role of <code>GCTR_output</code> share is crucial in ensuring malicious security of the protocol. The <code>GCTR_output</code> share serves essentially as a one-time pad masking <code>PartyY</code>'s potentially leaky <code>GHASH_output</code> from <code>PartyX</code>.</p>
