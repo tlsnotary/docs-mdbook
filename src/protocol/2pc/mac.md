@@ -90,6 +90,11 @@ To sum up, each party can locally square their share of \\( \small{H}\\) and get
 
 Now, let's suppose that the ciphertext consists of 3 blocks \\( \small {X_1, X_2, X_3} \\) and the parties already performed `Free Squaring` and have their shares of \\( \small{H^2} \\). The `GHASH_output` will be:
 
+
+> 📝 <span style="color:red">In the following and elsewhere below \\( \small{H^n_x} \\) always refers to a sharing of \\( \small{H^n} \\) for party \\( \small{x} \\), and not
+a sharing of \\( \small{H} \\) raised to the \\( \small{n} \\)th power, i.e. we deal with sharings of powers of \\( \small{H} \\) and not powers of
+sharings of \\( \small{H} \\).</span>
+
 \\( \small{ X_1•(H_u ⊕ H_n) ⊕ X_2•(H^2_u ⊕ H^2_n) ⊕ X_3•H^3 } \\)
 
 Observe that:
@@ -118,10 +123,6 @@ Suppose that the ciphertext consists of 9 blocks \\( \small{ X_1, ..., X_9 } \\)
 \\( \small{ H, H^2, H^3, H^4, H^6, H^8 } \\)
 
 Naively, the parties could use `Mul_2PC` to compute their shares of \\( \small{ H^5, H^7, H^9 } \\) using 3 invocations of `Mul_2PC`. We now show how this can be done with 2 invocations of `Mul_2PC`. 
-
-<span style="color:red">In the following \\( \small{H^n_x} \\) always refers to a sharing of \\( \small{H^n} \\) for party \\( \small{x} \\), and not
-a sharing of \\( \small{H} \\) raised to the \\( \small{n} \\)th power, i.e. we deal with sharings of powers of \\( \small{H} \\) and not powers of
-sharings of \\( \small{H} \\).</span>
 
 Recalling that:
 
