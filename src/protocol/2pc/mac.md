@@ -119,6 +119,10 @@ Suppose that the ciphertext consists of 9 blocks \\( \small{ X_1, ..., X_9 } \\)
 
 Naively, the parties could use `Mul_2PC` to compute their shares of \\( \small{ H^5, H^7, H^9 } \\) using 3 invocations of `Mul_2PC`. We now show how this can be done with 2 invocations of `Mul_2PC`. 
 
+<span style="color:red">In the following \\( \small{H^n_x} \\) always refers to a sharing of \\( \small{H^n} \\) for party \\( \small{x} \\), and not
+a sharing of \\( \small{H} \\) raised to the \\( \small{n} \\)th power, i.e. we deal with sharings of powers of \\( \small{H} \\) and not powers of
+sharings of \\( \small{H} \\).</span>
+
 Recalling that:
 
 \\( \small{ H^5•X_5 = (H^4_n + H^4_u)(H_n + H_u)X_5 = H^4_nH_nX_5 + \color{blue}{H^4_nH_uX_5} + \color{blue}{H^4_uH_nX_5} + H^4_uH_uX_5 } \\)
