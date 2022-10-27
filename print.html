@@ -78,7 +78,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Protocol</li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> Overview</div></li><li class="chapter-item expanded "><a href="protocol/notarization/index.html"><strong aria-hidden="true">2.</strong> Notarization</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="protocol/notarization/key_exchange.html"><strong aria-hidden="true">2.1.</strong> Key Exchange</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.2.</strong> (Enc/Dec)ryption</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.3.</strong> Commitment</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Selective Disclosure</div></li><li class="chapter-item expanded "><a href="protocol/2pc/garbled_circuits.html"><strong aria-hidden="true">4.</strong> Secure 2-Party Computation</a></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Garbled Circuits</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Oblivious Transfer</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> Paillier</div></li><li class="chapter-item expanded "><a href="protocol/2pc/mac.html"><strong aria-hidden="true">4.4.</strong> MAC</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Protocol</li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> Overview</div></li><li class="chapter-item expanded "><a href="protocol/notarization/index.html"><strong aria-hidden="true">2.</strong> Notarization</a></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">2.1.</strong> TLS Handshake</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="protocol/notarization/key_exchange.html"><strong aria-hidden="true">2.1.1.</strong> Key Exchange</a></li><li class="chapter-item expanded "><a href="protocol/notarization/prf.html"><strong aria-hidden="true">2.1.2.</strong> Symmetric key derivation</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.2.</strong> (Enc/Dec)ryption</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.3.</strong> Commitment</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Selective Disclosure</div></li><li class="chapter-item expanded "><a href="protocol/2pc/garbled_circuits.html"><strong aria-hidden="true">4.</strong> Secure 2-Party Computation</a></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Garbled Circuits</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Oblivious Transfer</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> Paillier</div></li><li class="chapter-item expanded "><a href="protocol/2pc/mac.html"><strong aria-hidden="true">4.4.</strong> MAC</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -264,6 +264,177 @@ C = - x_p - x_q \]</p>
 <li>Computes additive <code>PMS</code> share \( \small{s_p = (A * B + C + S_q) \bmod p} \)</li>
 </ol>
 <p>The protocol described above is secure against <code>Notary</code> sending malicious inputs. Indeed, because <code>Requester</code> only sends back masked values, <code>Notary</code> cannot learn anything about those values.</p>
+<div style="break-before: page; page-break-before: always;"></div><h3 id="overview"><a class="header" href="#overview">Overview</a></h3>
+<p>The pre-master secret (<code>PMS</code>) must be put through a <code>PRF</code> (pseudo-random function) defined by the TLS spec in order to compute the symmetric TLS keys and also to compute the <code>verify_data</code> for the <code>Client_Finished</code> and the <code>Server_Finished</code> messages.</p>
+<p>Below we describe how the parties (<code>N</code> stands for <code>Notary</code> and <code>U</code> stands for <code>User</code>) who have their shares of <code>PMS</code> can use 2PC to compute the <code>PRF</code>. </p>
+<blockquote>
+<p>Since the TLSNotary protocol already uses Garbled Circuits and Oblivious Transfer which give 128-bit computational security for the parties against each other, we argue that it is acceptable to perform some PRF computations outside of 2PC as long as it is done with at least 128-bit security.
+Performing some PRF computations outside of 2PC allows to save on computation and bandwidth.</p>
+</blockquote>
+<blockquote>
+<p>Note that the User's TLS connection retains the standard TLS security guarantees against any third-party adversary. </p>
+</blockquote>
+<p>To elaborate, recall how <a href="https://en.wikipedia.org/wiki/HMAC">HMAC</a> is computed (assuming |k| &lt;= block size):</p>
+<pre><code>HMAC(k, m) = H((k ⊕ opad) | H((k ⊕ ipad) | m))
+</code></pre>
+<p>Notice that both H(k ⊕ opad) and H(k ⊕ ipad) can be computed separately prior to finalization. In this
+document we name these units as such:</p>
+<ul>
+<li><code>outer hash state</code>: H(k ⊕ opad)</li>
+<li><code>inner hash state</code>: H(k ⊕ ipad)</li>
+<li><code>inner hash</code>: H((k ⊕ ipad) | m)</li>
+</ul>
+<p>In TLS, the master secret is computed like so:</p>
+<pre><code class="language-python">seed = &quot;master secret&quot; | client_random | server_random
+a0 = seed
+a1 = HMAC(pms, a0)
+a2 = HMAC(pms, a1)
+p1 = HMAC(pms, a1 | seed)
+p2 = HMAC(pms, a2 | seed)
+ms = (p1 | p2)[:48]
+</code></pre>
+<p>Notice that in each step the key, in this case <code>PMS</code>, is constant. Thus both the <code>outer</code> and <code>inner hash state</code> can be reused for each step.</p>
+<p>Below is the description of the all the steps to compute the <code>PRF</code> both inside and outside the 2PC circuit.</p>
+<h2 id="-----computing-the-master-secret"><a class="header" href="#-----computing-the-master-secret">---- Computing the master secret</a></h2>
+<h3 id="---inside-the-circuit"><a class="header" href="#---inside-the-circuit">-- Inside the circuit</a></h3>
+<ol>
+<li>To evaluate the circuit, the parties input their <code>PMS</code> shares. The circuit outputs:</li>
+</ol>
+<ul>
+<li>H(PMS ⊕ opad) called <code>PMS</code> <code>outer hash state</code> to <code>N</code> and</li>
+<li>H(PMS ⊕ ipad) called <code>PMS</code> <code>inner hash state</code> to <code>U</code></li>
+</ul>
+<h3 id="---outside-the-circuit"><a class="header" href="#---outside-the-circuit">-- Outside the circuit</a></h3>
+<ol start="2">
+<li>
+<p><code>U</code> computes H((PMS ⊕ ipad) || a0) called <code>inner hash</code> of <code>a1</code> and passes it to <code>N</code>.</p>
+</li>
+<li>
+<p><code>N</code> computes <code>a1</code> and passes it to <code>U</code>.</p>
+</li>
+<li>
+<p><code>U</code> computes the <code>inner hash</code> of <code>a2</code> and passes it to <code>N</code>.</p>
+</li>
+<li>
+<p><code>N</code> computes <code>a2</code> and passes it to <code>U</code>.</p>
+</li>
+<li>
+<p><code>U</code> computes the <code>inner hash</code> of p2 and passes it to <code>N</code>.</p>
+</li>
+<li>
+<p><code>N</code> computes <code>p2</code> and passes it to <code>U</code>.
+&gt;Note that now both parties know <code>p2</code> which is the last 16 bytes of the master secret. They still don't know the other 32 bytes of the master secret, which ensures adequate security.</p>
+</li>
+<li>
+<p><code>U</code> computes the <code>inner hash</code> of <code>p1</code>.</p>
+</li>
+</ol>
+<h3 id="---inside-the-circuit-1"><a class="header" href="#---inside-the-circuit-1">-- Inside the circuit</a></h3>
+<ol start="9">
+<li>To evaluate the circuit, <code>N</code> inputs the <code>PMS outer hash state</code> and <code>U</code> inputs <code>p2</code> and the <code>inner hash</code> of <code>p1</code>. The circuit computes the master secret (<code>MS</code>).</li>
+</ol>
+<h2 id="-----computing-the-expanded-keys"><a class="header" href="#-----computing-the-expanded-keys">---- Computing the expanded keys</a></h2>
+<p>The parties proceed to compute the <code>expanded keys</code>. The corresponding python code is:</p>
+<pre><code class="language-python">seed = str.encode(&quot;key expansion&quot;) + server_random + client_random
+a0 = seed
+a1 = hmac.new(ms , a0, hashlib.sha256).digest()
+a2 = hmac.new(ms , a1, hashlib.sha256).digest()
+p1 = hmac.new(ms, a1+seed, hashlib.sha256).digest()
+p2 = hmac.new(ms, a2+seed, hashlib.sha256).digest()
+ek = (p1 + p2)[:40]
+client_write_key = ek[:16]
+server_write_key = ek[16:32]
+client_write_IV = ek[32:36]
+server_write_IV = ek[36:40]
+</code></pre>
+<h3 id="---inside-the-circuit-2"><a class="header" href="#---inside-the-circuit-2">-- Inside the circuit</a></h3>
+<ol start="10">
+<li>Having computed <code>MS</code>, the circuit outputs:</li>
+</ol>
+<ul>
+<li>H(MS ⊕ opad) called the <code>MS outer hash state</code> to <code>N</code> and</li>
+<li>H(MS ⊕ ipad) called the <code>MS inner hash state</code> to <code>U</code></li>
+</ul>
+<h3 id="---outside-the-circuit-1"><a class="header" href="#---outside-the-circuit-1">-- Outside the circuit</a></h3>
+<ol start="11">
+<li>
+<p><code>U</code> computes the <code>inner hash</code> of <code>a1</code> and sends it to <code>N</code>.</p>
+</li>
+<li>
+<p><code>N</code> computes <code>a1</code> and sends it to <code>U</code>.</p>
+</li>
+<li>
+<p><code>U</code> computes the <code>inner hash</code> of <code>a2</code> and sends it to <code>N</code>.</p>
+</li>
+<li>
+<p><code>N</code> computes <code>a2</code> and sends it to <code>U</code>.</p>
+</li>
+<li>
+<p><code>U</code> computes the <code>inner hash state</code> of <code>p1</code> and the <code>inner hash state</code> of <code>p2</code>.</p>
+</li>
+</ol>
+<h3 id="---inside-the-circuit-3"><a class="header" href="#---inside-the-circuit-3">-- Inside the circuit</a></h3>
+<ol start="16">
+<li>To evaluate the circuit, <code>N</code> inputs <code>MS outer hash state</code> (from Step 10) and <code>U</code> inputs <code>inner hash state</code> of <code>p1</code> and <code>inner hash state</code> of <code>p2</code>. The circuit computes <code>p1</code> and <code>p2</code>. The circuit outputs xor shares of the <code>expanded keys</code> to each party.</li>
+</ol>
+<h2 id="-----computing-the-encrypted-client_finished"><a class="header" href="#-----computing-the-encrypted-client_finished">---- Computing the encrypted Client_Finished</a></h2>
+<h3 id="---inside-the-circuit-4"><a class="header" href="#---inside-the-circuit-4">-- Inside the circuit</a></h3>
+<ol start="17">
+<li>To evaluate the circuit, the parties input their shares of the <code>expanded keys</code>. The circuit outputs data needed to encrypt and authenticate the <code>Client_Finished</code> (<code>CF</code>) message.</li>
+</ol>
+<h3 id="---outside-the-circuit-2"><a class="header" href="#---outside-the-circuit-2">-- Outside the circuit</a></h3>
+<p>The parties proceed to compute <code>verify_data</code> for the <code>CF</code> message. The corresponding python code is:</p>
+<pre><code class="language-python"># (handshake_hash) is a sha256 hash of all TLS handshake message up to this point
+seed = str.encode('client finished') + handshake_hash
+a0 = seed
+a1 = hmac.new(ms, a0, hashlib.sha256).digest()
+p1 = hmac.new(ms, a1+seed, hashlib.sha256).digest()
+verify_data = p1[:12]
+</code></pre>
+<ol start="18">
+<li>
+<p><code>U</code> computes <code>inner hash</code> of <code>a1</code> and sends it to <code>N</code>.</p>
+</li>
+<li>
+<p><code>N</code> (who has <code>MS</code> <code>outer hash state</code> from Step 10) computes <code>a1</code> and sends it to <code>U</code>.</p>
+</li>
+<li>
+<p><code>U</code> computes <code>inner hash</code> of <code>p1</code> and sends it to <code>N</code>.</p>
+</li>
+<li>
+<p><code>N</code> computes <code>p1</code> and gets <code>verify_data</code> and sends it to <code>U</code>.</p>
+</li>
+</ol>
+<blockquote>
+<p>Note that it is safe for <code>N</code> to know <code>verify_data</code> for <code>CF</code>. </p>
+</blockquote>
+<p>Using the data from Step 17, <code>U</code> proceeds to encrypt and authenticate <code>CF</code> and sends it to the webserver.</p>
+<h2 id="-----verifying-the-server_finished"><a class="header" href="#-----verifying-the-server_finished">---- Verifying the Server_Finished</a></h2>
+<p>Upon <code>U</code>'s receiving the encrypted <code>Server_Finished</code> (<code>SF</code>) from the webserver, the parties proceed to compute <code>verify_data</code> for <code>SF</code>, to enable <code>U</code> to check that the received <code>SF</code> is correct. The corresponding python code is:</p>
+<pre><code class="language-python"># (handshake_hash) is a sha256 hash of all TLS handshake message up to this point
+seed = str.encode('server finished') + handshake_hash
+a0 = seed
+a1 = hmac.new(ms, a0, hashlib.sha256).digest()
+p1 = hmac.new(ms, a1+seed, hashlib.sha256).digest()
+verify_data = p1[:12]
+</code></pre>
+<h3 id="---outside-the-circuit-3"><a class="header" href="#---outside-the-circuit-3">-- Outside the circuit</a></h3>
+<ol start="22">
+<li>
+<p><code>U</code> computes <code>inner hash</code> of <code>a1</code> and sends it to <code>N</code>.</p>
+</li>
+<li>
+<p><code>N</code> (who has <code>MS</code> <code>outer hash state</code> from Step 10) computes <code>a1</code> and sends it to <code>U</code>.</p>
+</li>
+<li>
+<p><code>U</code> computes <code>inner hash</code> of <code>p1</code>.</p>
+</li>
+</ol>
+<h3 id="---inside-the-circuit-5"><a class="header" href="#---inside-the-circuit-5">-- Inside the circuit</a></h3>
+<ol start="25">
+<li>To evaluate the circuit, <code>N</code> inputs <code>MS</code> <code>outer hash state</code> (from Step 10) and <code>U</code> inputs <code>inner hash</code> of <code>p1</code>. The circuit outputs <code>verify_data</code> for <code>SF</code> to <code>U</code>.</li>
+</ol>
+<p>The parties proceed to decrypt and authenticate the <code>SF</code> in 2PC. <code>U</code> checks that <code>verify_data</code> from <code>SF</code> matches <code>verify_data</code> from Step 25.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="secure-2-party-computation"><a class="header" href="#secure-2-party-computation">Secure 2-Party Computation</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="computing-mac-in-2pc"><a class="header" href="#computing-mac-in-2pc">Computing MAC in 2PC</a></h1>
 <ol>
