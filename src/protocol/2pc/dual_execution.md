@@ -1,0 +1,5 @@
+To ensure malicious security of the Garbled Circuits 2PC, TLSNotary uses the [Dual Execution protocol](https://securecomputation.org/docs/pragmaticmpc.pdf) (see Section 7.6).
+
+DualEX inherently leaks one bit of private input with probability 1/2. This is not a problem during the TLS handshake when the private inputs are symmetric keys or hash pre-images. Leaking 1 bit does not give the adversary any advantage, since with the same probability the adversary may have guessed that bit while brute-forcing the key or the pre-image.
+
+However, the leakage becomes a problem when encrypting the request or decrypting the response, since leaking even 1 bit of the plaintext may be catastrophic for the User's privacy. To overcome this leakage, we use a variant of DualEx where privacy is guaranteed only for the User.

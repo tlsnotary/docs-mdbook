@@ -12,6 +12,8 @@
   - [Selective Disclosure]()
   - [Secure 2-Party Computation](./protocol/2pc/garbled_circuits.md)
     - [Garbled Circuits]()
+      - [Dual Execution](./protocol/2pc/dual_execution.md)
+        - [Dual Execution with privacy only for the User](./protocol/2pc/dual_execution_with_privacy_only_for_the_user.md)
     - [Oblivious Transfer]()
     - [Paillier]()
     - [MAC](./protocol/2pc/mac.md)
