@@ -172,98 +172,23 @@
 <li>Addition of points \( \small{(x_p, y_p)} \) and \( \small{(x_q, y_q)} \) results in the coordinate \( \small{x_r} \), which is <code>PMS</code>. (The coordinate \( \small{y_r} \) is not used in TLS)</li>
 </ol>
 <p>Using the notation from <a href="https://en.wikipedia.org/wiki/Elliptic_curve_point_multiplication#Point_addition">here</a>, our goal is to compute
-\[ \tag{1} x_r = (\frac{y_q-y_p}{x_q-x_p})^2 - x_p - x_q \]
+\[ x_r = (\frac{y_q-y_p}{x_q-x_p})^2 - x_p - x_q \]
 in such a way that</p>
 <ol>
 <li>Neither party learns the other party's \( \small{x} \) value</li>
 <li>Neither party learns \( \small{x_r} \), only their respective shares of \( \small{x_r} \).</li>
 </ol>
-<p>Let's start out by simplifying the equation</p>
-<p>\[\tag{2} x_r = (y_q^2 - 2y_q y_p + y_p^2)(x_q - x_p)^{-2} - x_p - x_q \bmod p \]</p>
-<p>Since this is finite field arithmetic, if \( \small{x_r &gt; p} \) we must reduce \( \small{x_r} \) modulo \( \small{p} \), i.e assign \( \small{x_r} \) the value \( \small{x_r \bmod p} \). The trailing \( \small{\bmod p} \) is always implied from here on out, but may be omitted for brevity.</p>
-<blockquote>
-<p>For the curious, the modulus of the most common EC curve P-256 is a prime number and its value is \( \small{p = 2^{256} - 2^{224} + 2^{192} + 2^{96} - 1}\)</p>
-</blockquote>
-<p>Based on <a href="https://en.wikipedia.org/wiki/Fermat&#x27;s_little_theorem">Fermat's little theorem</a>:</p>
-<p>\[ a^{-2} \bmod p = a^{p-3} \bmod p \]</p>
-<p>Replacing the negative power of Equation (2), we get:</p>
-<p>\[\tag{3} x_r = (y_q^2 - 2y_q y_p + y_p^2)(x_q - x_p)^\color{red}{p-3} - x_p - x_q \]</p>
-<p>We then proceed to decompose Equation (3) into discrete parts:</p>
-<p>\[ \tag{4} A = (y_q^2 - 2y_q y_p + y_p^2) \\\
-B = (x_q - x_p)^{p-3} \\\
-C = - x_p - x_q \]</p>
-<h2 id="computing--smalla--y_q2---2y_q-y_p--y_p2-"><a class="header" href="#computing--smalla--y_q2---2y_q-y_p--y_p2-">Computing \( \small{A = (y_q^2 - 2y_q y_p + y_p^2)} \)</a></h2>
-<p><code>Notary</code>:</p>
-<ol>
-<li>Sends \( \small{E(y_q^2)} \) and \( \small{E(-2y_q)} \)</li>
-</ol>
-<p><code>Requester</code>:</p>
-<ol start="2">
-<li>Computes \( \small{E(y_p^2)} \)</li>
-<li>Computes \( \small{E(A) = E(y_q^2) + E(-2y_q) * y_p + E(y_p^2)} \)</li>
-<li>Generates random masks \( \small{M_A} \) and \( \small{N_A} \) and computes \( \small{E(A * M_A + N_A)} \)</li>
-<li>Sends \( \small{E(A * M_A + N_A)} \) and \( \small{(N_A \bmod p)} \)</li>
-</ol>
-<blockquote>
-<p>Note that here \( \small{N_A} \) (as well as \( \small{N_b} \) and \( \small{N_B} \) below) is crucial, as without it <code>Notary</code> would be able to factorize \( \small{A * M_A} \) and learn \( \small{A} \)</p>
-</blockquote>
-<p><code>Notary</code>:</p>
-<ol start="6">
-<li>Decrypts and gets \( \small{(A * M_A + N_A)} \)</li>
-<li>Reduces \( \small{(A * M_A + N_A) \bmod p} \)</li>
-<li>Computes \( \small{(A * M_A) \bmod p = (A * M_A + N_A) \bmod p - N_A \bmod p} \)</li>
-</ol>
-<h2 id="computing--smallb--x_q---x_pp-3-"><a class="header" href="#computing--smallb--x_q---x_pp-3-">Computing \( \small{B = (x_q - x_p)^{p-3}} \)</a></h2>
-<p><code>Notary</code>:</p>
-<ol>
-<li>Sends \( \small{E(x_q)} \)</li>
-</ol>
-<p><code>Requester</code>:</p>
-<ol start="2">
-<li>Lets \( \small{b = x_q - x_p} \)</li>
-<li>Computes \( \small{E(-x_p)} \)</li>
-<li>Computes \( \small{E(b) = E(x_q) + E(-x_p)} \)</li>
-<li>Generates random masks \( \small{M_b} \) and \( \small{N_b} \) and computes \( \small{E(b * M_b + N_b)} \)</li>
-<li>Sends \( \small{E(b * M_b + N_b)} \) and \( \small{(N_b \bmod p)} \)</li>
-</ol>
-<p><code>Notary</code>:</p>
-<ol start="7">
-<li>Decrypts and gets \( \small{(b * M_b + N_b)} \)</li>
-<li>Reduces \( \small{(b * M_b + N_b) \bmod p} \)</li>
-<li>Computes \( \small{(b * M_b) \bmod p = (b * M_b + N_b) \bmod p - N_b \bmod p} \)</li>
-<li>Sends \( \small{E((b * M_b)^{p-3} \bmod p)} \)</li>
-</ol>
-<p><code>Requester</code>:</p>
-<ol start="11">
-<li>Computes multiplicative inverse \( \small{inv = (M_b^{p-3})^{-1} \bmod p} \)</li>
-<li>Computes \( \small{E((b * M_b)^{p-3} \bmod p) * inv = E(b^{p-3} * (M_b^{p-3})^{-1}) = E(b^{p-3}) = E(B)} \)</li>
-<li>Generates random masks \( \small{M_B} \) and \( \small{N_B)} \) and computes \( \small{E(B * M_B + N_B)} \)</li>
-<li>Sends \( \small{E(B * M_B + N_B)} \) and \( \small{N_B \bmod p} \)</li>
-</ol>
-<p><code>Notary</code>:</p>
-<ol start="15">
-<li>Decrypts and gets \( \small{(B * M_B + N_B)} \)</li>
-<li>Reduces \( \small{(B * M_B + N_B) \bmod p} \)</li>
-<li>Computes \( \small{(B * M_B) \bmod p = (B * M_B + N_B) \bmod p - N_B \bmod p} \)</li>
-</ol>
-<h2 id="computing--smallx_r--a--b--c-"><a class="header" href="#computing--smallx_r--a--b--c-">Computing \( \small{x_r = A * B + C} \)</a></h2>
-<p><code>Notary</code>:</p>
-<ol>
-<li>Sends \( \small{E(A * M_A * B * M_B)} \) and \( \small{E(-x_q)} \)</li>
-</ol>
-<p><code>Requester</code>:</p>
-<ol start="2">
-<li>Computes \( \small{E(A * B) = E(A * M_A * B * M_B) * (M_A * M_B)^{-1}} \) and \( \small{E(-x_p)} \)</li>
-<li>Computes \( \small{E(A * B + C) = E(A * B) + E(-x_q) + E(-x_p)} \)</li>
-<li>Generates and applies a random mask \( \small{E(S_q)} \) and sends \( \small{E(A * B + C + S_q)} \)</li>
-<li>Computes additive <code>PMS</code> share \( \small{s_q = (S_q \bmod p)} \)</li>
-</ol>
-<p><code>Notary</code>:</p>
-<ol start="6">
-<li>Decrypts and gets \( \small{A * B + C + S_q} \)</li>
-<li>Computes additive <code>PMS</code> share \( \small{s_p = (A * B + C + S_q) \bmod p} \)</li>
-</ol>
-<p>The protocol described above is secure against <code>Notary</code> sending malicious inputs. Indeed, because <code>Requester</code> only sends back masked values, <code>Notary</code> cannot learn anything about those values.</p>
+<p>We will use two maliciously secure protocols described on p.25 in the paper <a href="https://www.cs.umd.edu/%7Efenghao/paper/modexp.pdf">Eﬃcient Secure Two-Party Exponentiation</a>:</p>
+<ul>
+<li><code>A2M</code> protocol, which converts additive shares into multiplicative shares, i.e. given shares <code>a</code> and <code>b</code> such that <code>a + b = c</code>, it converts them into shares <code>d</code> and <code>e</code> such that <code>d * e = c</code></li>
+<li><code>M2A</code> protocol, which converts multiplicative shares into additive shares</li>
+</ul>
+<p>We apply <code>A2M</code> to \(y_q + (-y_p)\) to get \(A_q * A_p\) and also we apply <code>A2M</code> to \(x_q + (-x_p)\) to get \(B_q * B_p\). Then the above can be rewritten as:</p>
+<p>\[x_r = (\frac{A_q}{B_q})^2 * (\frac{A_p}{B_p})^2 - x_p - x_q \]</p>
+<p>Then the first party locally computes the first factor and gets \(C_q\), the second party locally computes the second factor and gets \(C_p\). Then we can again rewrite as:</p>
+<p>\[x_r = C_q * C_p - x_p - x_q \]</p>
+<p>Now we apply <code>M2A</code> to \(C_q * C_p\) to get \(D_q + D_p\), which leads us to two final terms each of which is the share of \(x_r\) of the respective party: </p>
+<p>\[x_r = (D_q - x_q) + (D_p - x_p)\]</p>
 <div style="break-before: page; page-break-before: always;"></div><h3 id="overview"><a class="header" href="#overview">Overview</a></h3>
 <p>The pre-master secret (<code>PMS</code>) must be put through a <code>PRF</code> (pseudo-random function) defined by the TLS spec in order to compute the symmetric TLS keys and also to compute the <code>verify_data</code> for the <code>Client_Finished</code> and the <code>Server_Finished</code> messages.</p>
 <p>Below we describe how the parties (<code>N</code> stands for <code>Notary</code> and <code>U</code> stands for <code>User</code>) who have their shares of <code>PMS</code> can use 2PC to compute the <code>PRF</code>. </p>
