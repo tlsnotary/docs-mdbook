@@ -78,7 +78,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Protocol</li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> Overview</div></li><li class="chapter-item expanded "><a href="protocol/notarization/index.html"><strong aria-hidden="true">2.</strong> Notarization</a></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">2.1.</strong> TLS Handshake</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="protocol/notarization/key_exchange.html"><strong aria-hidden="true">2.1.1.</strong> Key Exchange</a></li><li class="chapter-item expanded "><a href="protocol/notarization/prf.html"><strong aria-hidden="true">2.1.2.</strong> Symmetric key derivation</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.2.</strong> (Enc/Dec)ryption</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.3.</strong> Commitment</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Selective Disclosure</div></li><li class="chapter-item expanded "><a href="protocol/2pc/garbled_circuits.html"><strong aria-hidden="true">4.</strong> Secure 2-Party Computation</a></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Garbled Circuits</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="protocol/2pc/dual_execution.html"><strong aria-hidden="true">4.1.1.</strong> Dual Execution</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="protocol/2pc/dual_execution_with_privacy_only_for_the_user.html"><strong aria-hidden="true">4.1.1.1.</strong> Dual Execution with privacy only for the User</a></li></ol></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Oblivious Transfer</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> Paillier</div></li><li class="chapter-item expanded "><a href="protocol/2pc/mac.html"><strong aria-hidden="true">4.4.</strong> MAC</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Protocol</li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> Overview</div></li><li class="chapter-item expanded "><a href="protocol/notarization/index.html"><strong aria-hidden="true">2.</strong> Notarization</a></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">2.1.</strong> TLS Handshake</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="protocol/notarization/key_exchange.html"><strong aria-hidden="true">2.1.1.</strong> Key Exchange</a></li><li class="chapter-item expanded "><a href="protocol/notarization/prf.html"><strong aria-hidden="true">2.1.2.</strong> Symmetric key derivation</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.2.</strong> (Enc/Dec)ryption</div></li><li class="chapter-item expanded "><a href="protocol/notarization/commitment.html"><strong aria-hidden="true">2.3.</strong> Commitment</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="protocol/notarization/public_data_commitment.html"><strong aria-hidden="true">2.3.1.</strong> Commitment to public data</a></li></ol></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Selective Disclosure</div></li><li class="chapter-item expanded "><a href="protocol/2pc/garbled_circuits.html"><strong aria-hidden="true">4.</strong> Secure 2-Party Computation</a></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Garbled Circuits</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="protocol/2pc/dual_execution.html"><strong aria-hidden="true">4.1.1.</strong> Dual Execution</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="protocol/2pc/dual_execution_with_privacy_only_for_the_user.html"><strong aria-hidden="true">4.1.1.1.</strong> Dual Execution with privacy only for the User</a></li></ol></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Oblivious Transfer</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> Paillier</div></li><li class="chapter-item expanded "><a href="protocol/2pc/mac.html"><strong aria-hidden="true">4.4.</strong> MAC</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -435,6 +435,63 @@ verify_data = p1[:12]
 <li>To evaluate the circuit, <code>N</code> inputs <code>MS</code> <code>outer hash state</code> (from Step 10) and <code>U</code> inputs <code>inner hash</code> of <code>p1</code>. The circuit outputs <code>verify_data</code> for <code>SF</code> to <code>U</code>.</li>
 </ol>
 <p>The parties proceed to decrypt and authenticate the <code>SF</code> in 2PC. <code>U</code> checks that <code>verify_data</code> from <code>SF</code> matches <code>verify_data</code> from Step 25.</p>
+<div style="break-before: page; page-break-before: always;"></div><p>At the end of the TLSNotary protocol, the User has the authenticated AES ciphertext which can be thought of as a commitment to the plaintext. This form of commitment is not amenable to use cases when the User wants to make part of the plaintext public while keeping another part private. Naively, the User's option is to prove the decryption of the ciphertext in zero-knowledge which is computationally expensive.</p>
+<p>We describe two less computationally heavy approaches for converting the AES ciphertext commitments. </p>
+<p>The first approach is useful for commitments to the data which the User intends to make public. It is based on decrypting the ciphertext with Garbled Circuits and producing a hash commitment to the wire labels.</p>
+<p>The second approach is useful for commitments to the private data which the User later intends to prove statements about in zero-knowledge. This approach produces a Poseidon hash over the private data. </p>
+<div style="break-before: page; page-break-before: always;"></div><p>We describe an interactive protocol between the User <code>U</code> and the Notary <code>N</code>, whereby <code>U</code> can convert the authenticated AES ciphertext into a hash commitment to Garbled Circuits wire labels.</p>
+<h3 id="-----creating-the-new-commitment"><a class="header" href="#-----creating-the-new-commitment">---- Creating the new commitment</a></h3>
+<ol start="0">
+<li>
+<p>At the end of the TLSNotary session, both <code>U</code> and <code>N</code> know the authenticated AES <code>ciphertext</code>. </p>
+</li>
+<li>
+<p><code>N</code> reveals his TLS session key shares to <code>U</code>.</p>
+</li>
+<li>
+<p><code>U</code> decrypts the <code>ciphertext</code> in the clear and learns the plaintext <code>p</code>.</p>
+</li>
+<li>
+<p><code>N</code> picks a <code>seed</code> and uses it as the source of randomness to generate (in the semi-honest model) a privacy-free garbled circuit whose functionality is to accept the plaintext input, encrypt it, and output the ciphertext. </p>
+</li>
+<li>
+<p>With <code>p</code> as her circuit input, <code>U</code> receives input wire labels <code>IWLs</code> via Oblivious Transfer and then evaluates the circuit on those <code>IWLs</code>. The result of the evaluation are output wire labels <code>OWLs</code> which <code>U</code> does not know the decoding for.</p>
+</li>
+<li>
+<p><code>U</code> sends two commitments: <code>commitment to IWLs</code> and <code>commitment to OWLs</code> to <code>N</code>.</p>
+</li>
+<li>
+<p><code>N</code> reveals the <code>seed</code> and <code>U</code> checks that the circuit (including its <code>IWLs</code> and <code>OWLs</code>) was generated correctly and, if successful, reveals her <code>OWLs</code>.</p>
+</li>
+<li>
+<p><code>N</code> verifies <code>commitment to OWLs</code> and then checks that decoded <code>OWLs</code> match the <code>ciphertext</code> (from Step 0) and, if successful, signs (<code>seed</code> + <code>commitment to IWLs</code>). </p>
+</li>
+</ol>
+<blockquote>
+<p>Now, (<code>seed</code> + <code>commitment to IWLs</code>) become <code>U</code>'s new commitment to <code>p</code>.</p>
+</blockquote>
+<h3 id="-----verifying-the-commitment"><a class="header" href="#-----verifying-the-commitment">---- Verifying the commitment</a></h3>
+<p>Verifier performs the following steps:</p>
+<ol>
+<li>
+<p>Receives the following from <code>U</code>: plaintext <code>p</code>, <code>signature</code> for (<code>seed</code> + <code>commitment to IWLs</code>), <code>seed</code>, <code>commitment to IWLs</code>.</p>
+</li>
+<li>
+<p>(using a trusted <code>N</code>s pubkey) Verifies the <code>signature</code>.</p>
+</li>
+<li>
+<p>Re-generates the <code>IWLs</code> from the <code>seed</code>.</p>
+</li>
+<li>
+<p>Picks only those <code>IWLs</code> which correspond to <code>p</code> and checks that the commitment to those <code>IWLs</code> matches <code>commitment to IWLs</code>.</p>
+</li>
+<li>
+<p>Accepts <code>p</code> as authentic.</p>
+</li>
+</ol>
+<h3 id="-----dynamic-commitment-using-a-merkle-tree"><a class="header" href="#-----dynamic-commitment-using-a-merkle-tree">---- Dynamic commitment using a Merkle tree</a></h3>
+<p>In situations where <code>U</code> does not know in advance which subset of the public data she will be revealing later to the Verifier, <code>U</code> can commit to the Merkle tree of all her input wire labels (from Step 4 above). 
+Later, <code>U</code> can reveal only those Merkle leaves which she wants to make public to the Verifier. </p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="secure-2-party-computation"><a class="header" href="#secure-2-party-computation">Secure 2-Party Computation</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><p>To ensure malicious security of the Garbled Circuits 2PC, TLSNotary uses the <a href="https://securecomputation.org/docs/pragmaticmpc.pdf">Dual Execution protocol</a> (see Section 7.6).</p>
 <p>DualEX inherently leaks one bit of private input with probability 1/2. This is not a problem during the TLS handshake when the private inputs are symmetric keys or hash pre-images. Leaking 1 bit does not give the adversary any advantage, since with the same probability the adversary may have guessed that bit while brute-forcing the key or the pre-image.</p>
