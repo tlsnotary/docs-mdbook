@@ -7,24 +7,57 @@
 
 ## 1. What is a MAC <a name="section1"></a>
 
-When sending encrypted ciphertext to the Webserver, the User attaches a checksum to it. The Webserver uses this checksum to check whether the ciphertext has been tampered with while in transit. This checksum is known as the "authentication tag" and also as the "Message Authentication Code" (MAC).
+When sending an encrypted ciphertext to the Webserver, the User attaches a
+checksum to it. The Webserver uses this checksum to check whether the ciphertext
+has been tampered with while in transit. This checksum is known as the
+"authentication tag" and also as the "Message Authentication Code" (MAC).
 
-The first few paragraphs of [this article](https://zsecurity.org/bit-flipping-attacks-against-cipher-block-chaining-algorithms/) explain what would happen if there was no MAC: it would be possible for a malicious actor to modify the **plaintext** by flipping certain bits of the **ciphertext**.
+In order to create a MAC for some ciphertext not only the ciphertext but also
+some secret key is used as an input. This makes it impossible to forge some
+ciphertext without knowing the secret key.
+
+The first few paragraphs of [this article](https://zsecurity.org/bit-flipping-attacks-against-cipher-block-chaining-algorithms/)
+explain what would happen if there was no MAC: it would be possible for a
+malicious actor to modify the **plaintext** by flipping certain bits of the
+**ciphertext**.
 
 
 ## 2. How a MAC is computed in AES-GCM <a name="section2"></a>
 
-In TLS the plaintext is split up into chunks called "TLS records". Each TLS record is encrypted and a MAC is computed for the ciphertext. The MAC (in AES-GCM) is obtained by XORing together the `GHASH output` and the `GCTR output`. Let's see how each of those outputs is computed:
+In TLS the plaintext is split up into chunks called "TLS records". Each TLS
+record is encrypted and a MAC is computed for the ciphertext. The MAC (in
+AES-GCM) is obtained by XORing together the `GHASH output` and the `GCTR
+output`. Let's see how each of those outputs is computed:
 
-#### 2.1 GHASH output
+#### 2.1 GCTR output 
 
-The `GHASH output` is the output of the GHASH function described in the [NIST publication](https://nvlpubs.nist.gov/nistpubs/legacy/sp/nistspecialpublication800-38d.pdf) in section 6.4 in this way: "In effect, the GHASH function calculates \\(  \small{ X1•H^{m} ⊕ X2•H^{m−1} ⊕ ... ⊕ Xm−1•H^{2} ⊕ Xm•H } \\)".
+The `GCTR output` is computed by simply AES-ECB encrypting a counter block with
+the counter set to 1 (the iv, nonce and AES key are the same as for the rest of
+the TLS record).  
 
-In other words, GHASH splits up the ciphertext into 16-byte blocks, each block is numbered \\( \small{ X_1, X_2, ... }\\) etc. There's also \\( \small{H} \\) which is called the `GHASH key`. We need to raise \\( \small{H} \\) to as many powers as there are blocks, i.e. if we have 5 blocks then we need 5 powers: \\( \small{ H, H^2, H^3, H^4, H^5 } \\). Each block is multiplied by the corresponding power and all products are summed together.
+#### 2.2 GHASH output
 
-"•" is a special type of multiplication called `multiplication in a finite field` described in section 6.3 of the NIST publication. Below is the pseudocode for multiplying two 128-bit field elements `x` and `y` in a finite field:
+The `GHASH output` is the output of the GHASH function described in the
+[NIST publication](https://nvlpubs.nist.gov/nistpubs/legacy/sp/nistspecialpublication800-38d.pdf)
+in section 6.4 in this way: "In effect, the GHASH function calculates \\(
+\small{ X_1•H^{m} ⊕ X_2•H^{m−1} ⊕ ... ⊕ X_{m−1}•H^{2} ⊕ X_m•H } \\)". \\(H\\)
+and \\(X\\) are elements of the extension field \\(\mathrm{GF}(2^{128})\\).
 
-Figure 1: multiplication in a finite field<a name="Figure_1"></a>
+* "•" is a special type of multiplication called `multiplication in a finite
+field` described in section 6.3 of the NIST publication.
+* ⊕ is `addition in a finite field` and it is defined as XOR.
+
+In other words, GHASH splits up the ciphertext into 16-byte blocks, each block
+is numbered \\( \small{ X_1, X_2, ... }\\) etc. There's also \\( \small{H} \\)
+which is called the `GHASH key`, which just is the AES-encrypted zero-block. We
+need to raise \\( \small{H} \\) to as many powers as there are blocks, i.e. if
+we have 5 blocks then we need 5 powers: \\( \small{ H, H^2, H^3, H^4, H^5 } \\).
+Each block is multiplied by the corresponding power and all products are summed
+together.
+
+Below is the pseudocode for multiplying two 128-bit field elements `x` and `y`
+in \\(\mathrm{GF}(2^{128})\\):
+
 ```
 1. result = 0
 2. R = 0xE1000000000000000000000000000000
@@ -36,33 +69,33 @@ Figure 1: multiplication in a finite field<a name="Figure_1"></a>
 8. return result
 ```
 
-⊕ is `addition in a finite field` and it is defined as XOR.
-
-Standard math properties hold in finite field math, viz. commutative: \\( \small{ a+b=b+a } \\) and distributive: \\( \small{ a(b+c)=ab+ac } \\).
-
-#### 2.1 GCTR output 
-
-The `GCTR output` is computed by simply AES-ECB encrypting a counter block with the counter set to 1 (the iv, nonce and AES key are the same as for the rest of the TLS record).  
+Standard math properties hold in finite field math, viz. commutative: \\(
+\small{ a+b=b+a } \\) and distributive: \\( \small{ a(b+c)=ab+ac } \\).
 
 
 ## 3. Computing MAC using secure two-party computation (2PC) <a name="section3"></a>
 
-Below we introduce the protocol. At the start of the protocol each party has:
-1. ciphertext blocks \\( \small{ X_1, X_2, ... } \\).
+The goal of the protocol is to compute the MAC in such a way that neither party
+would learn the other party's share of \\( \small{ H } \\) i.e. the `GHASH key`
+share. At the start of the protocol each party has:
+1. ciphertext blocks \\( \small{ X_1, X_2, ..., X_m } \\).
+2. his XOR share of \\( \small{ H } \\): the `User` has \\( \small{ H_u } \\)
+   and the `Notary` has \\( \small{ H_n } \\).
+3. his XOR share of the `GCTR output`: the `User` has \\( \small{ GCTR_u } \\)
+   and the `Notary` has \\( \small{ GCTR_n } \\).
 
-(the following items were obtained at an earlier stage of the TLSNotary protocol):
+Note that **2.** and **3.** were obtained at an earlier stage of the TLSNotary protocol.
 
-2. his XOR share of \\( \small{ H } \\): the `User` has \\( \small{ H_u } \\) and the `Notary` has \\( \small{ H_n } \\).
-3. his XOR share of the `GCTR output`: the `User` has \\( \small{ GCTR_u } \\) and the `Notary` has \\( \small{ GCTR_n } \\).
+### 3.1 Example with a single ciphertext block
 
-The goal of the protocol is to compute the MAC in such a way that neither party would learn the other party's share of \\( \small{ H } \\) i.e. the `GHASH key` share.
-
-#### 3.1 Example with one ciphertext block
-Suppose that the ciphertext consists of only 1 block \\( \small{ X1 } \\). The `GHASH_output` will be:
+To illustrate what we want to achieve, we consider the case of just having
+a single ciphertext \\( \small{ X_1 } \\) block. The `GHASH_output` will be:
 
 \\( \small{ X_1•H = X_1•(H_u ⊕ H_n) = X_1•H_u ⊕ X_1•H_n } \\)
 
-The `User` and the `Notary` will compute locally the left and the right terms respectively. Then each party will XOR their result to the `GCTR output` share and will get their XOR share of the MAC:
+The `User` and the `Notary` will compute locally the left and the right terms
+respectively. Then each party will XOR their result to the `GCTR output` share
+and will get their XOR share of the MAC:
 
 `User`  : \\( \small{X_1 • H_u \\quad ⊕ \\quad CGTR_u = MAC_u} \\)
 
@@ -72,7 +105,31 @@ Finally, the `Notary` sends \\( \small{MAC_n}\\) to the `User` who obtains:
 
 \\( \small{ MAC = MAC_n \\quad ⊕ \\quad MAC_u} \\)
 
-#### 3.2 Example with two ciphertext blocks. Free Squaring.
+**For longer ciphertexts, the problem is that higher powers of the hashkey
+\\(H^k\\) cannot be computed locally, because we deal with additive sharings,
+i.e.\\( (H_u)^k ⊕ (H_n)^k \neq H^k\\).**
+
+### 3.2 Our Protocol
+
+Our protocol can be divided into the following steps. Each step will be
+explained in further details.
+
+1. First, both parties convert their **additive** shares \\(H_u\\) and \\(H_n\\) into
+   **multiplicative** shares \\(\overline{H}_u\\) and \\(\overline{H}_n\\).
+2. Then each party **locally** computes the needed higher powers of these multiplicative
+   shares, i.e for \\(m\\) blocks of ciphertext:
+   - the user computes \\(\overline{H_u}^2, \overline{H_u}^3, ... \overline{H_u}^m\\) 
+   - the notary computes \\(\overline{H_n}^2, \overline{H_n}^3, ... \overline{H_n}^m\\) 
+3. Then both parties convert each of these multiplicative shares back to additve shares
+   - the user ends up with \\(H_u, H_u^2, ... H_u^m\\) 
+   - the notary ends up with \\(H_n, H_n^2, ... H_n^m\\) 
+
+The conversion steps require the use of **A2M** (Addition-to-Multiplication) and
+**M2A** (Multiplication-to-Addition) protocols, which use oblivious transfer as
+their core cryptographic primitive.
+
+
+### 3.3 Convert additive shares of H into multiplicative shares of H (A2M)
 
 Now, let's suppose that the ciphertext consists of 2 blocks \\( \small{ X_1 }\\) and \\( \small{ X_2 }\\). The `GHASH_output` will be:
 
