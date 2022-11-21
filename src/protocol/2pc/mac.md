@@ -89,7 +89,7 @@ Note that **2.** and **3.** were obtained at an earlier stage of the TLSNotary p
 ### 3.1 Example with a single ciphertext block
 
 To illustrate what we want to achieve, we consider the case of just having
-a single ciphertext \\( \small{ X_1 } \\) block. The `GHASH_output` will be:
+a single ciphertext block \\( \small{ X_1 } \\). The `GHASH_output` will be:
 
 \\( \small{ X_1•H = X_1•(H_u ⊕ H_n) = X_1•H_u ⊕ X_1•H_n } \\)
 
@@ -107,99 +107,55 @@ Finally, the `Notary` sends \\( \small{MAC_n}\\) to the `User` who obtains:
 
 **For longer ciphertexts, the problem is that higher powers of the hashkey
 \\(H^k\\) cannot be computed locally, because we deal with additive sharings,
-i.e.\\( (H_u)^k ⊕ (H_n)^k \neq H^k\\).**
+i.e.\\( (H_u)^k ⊕ (H_n)^k \neq H^k\\).** 
 
-### 3.2 Our Protocol
-
-Our protocol can be divided into the following steps. Each step will be
-explained in further details.
+### 3.2 Computing ciphertexts with an arbitrary number of blocks
+We now introduce our 2PC MAC protocol for computing ciphertexts with an
+arbitrary number of blocks. Our protocol can be divided into the following
+steps.
 
 1. First, both parties convert their **additive** shares \\(H_u\\) and \\(H_n\\) into
    **multiplicative** shares \\(\overline{H}_u\\) and \\(\overline{H}_n\\).
-2. Then each party **locally** computes the needed higher powers of these multiplicative
+2. This allows each party to **locally** compute the needed higher powers of these multiplicative
    shares, i.e for \\(m\\) blocks of ciphertext:
    - the user computes \\(\overline{H_u}^2, \overline{H_u}^3, ... \overline{H_u}^m\\) 
    - the notary computes \\(\overline{H_n}^2, \overline{H_n}^3, ... \overline{H_n}^m\\) 
-3. Then both parties convert each of these multiplicative shares back to additve shares
+3. Then both parties convert each of these multiplicative shares back to additive shares
    - the user ends up with \\(H_u, H_u^2, ... H_u^m\\) 
    - the notary ends up with \\(H_n, H_n^2, ... H_n^m\\) 
+4. Each party can now **locally** compute their additive MAC share \\(MAC_{n/u}\\).
 
-The conversion steps require the use of **A2M** (Addition-to-Multiplication) and
-**M2A** (Multiplication-to-Addition) protocols, which use oblivious transfer as
-their core cryptographic primitive.
-
-
-### 3.3 Convert additive shares of H into multiplicative shares of H (A2M)
-
-Now, let's suppose that the ciphertext consists of 2 blocks \\( \small{ X_1 }\\) and \\( \small{ X_2 }\\). The `GHASH_output` will be:
-
-\\( \small{ X_1 • (H_u ⊕ H_n) ⊕ X_2 • H^2 } \\)
-
-The only unknown here is:
-
-\\( \small{ H^2 = (H_u ⊕ H_n)^2 = (H_u)^2 ⊕ 2(H_u • H_n) ⊕ (H_n)^2 = (H_u)^2 ⊕ (H_n)^2 } \\)
-
-The reason why the middle term \\( \small{ 2(H_u•H_n) }\\) disappeared is this: \\( \small{2} \\) is not a field element, so `multiplication in a finite field` cannot be applied to it. Instead, we substitute \\( \small { 2(H_u•H_n) }\\) with \\( \small { (H_u • H_n) ⊕ (H_u • H_n) } \\). Since ⊕ is defined as XOR, we are essentially XORing the value to itself and get 0. 
-
-To sum up, each party can locally square their share of \\( \small{H}\\) and get a share of \\( \small{H^2}\\). We call this method `Free Squaring` ("free" meaning "without any communication cost"). If e.g. the parties had their shares of \\( \small{H^3}\\) they could repeatedly perform `Free Squaring` to obtain their shares of \\( \small{ H^6, H^{12}, H^{24}, H^{48}} \\) etc.
-
-#### 3.3 Example with three ciphertext blocks. 2PC multiplication.
-
-Now, let's suppose that the ciphertext consists of 3 blocks \\( \small {X_1, X_2, X_3} \\) and the parties already performed `Free Squaring` and have their shares of \\( \small{H^2} \\). The `GHASH_output` will be:
+The conversion steps (**1.** and **3.**) require communication between the user
+and the notary. They will use **A2M** (Addition-to-Multiplication) and **M2A**
+(Multiplication-to-Addition) protocols, which make use of **oblivious
+transfer**, to convert shares.
 
 
-> 📝 <span style="color:red">In the following and elsewhere below \\( \small{H^n_x} \\) always refers to a sharing of \\( \small{H^n} \\) for party \\( \small{x} \\), and not
-a sharing of \\( \small{H} \\) raised to the \\( \small{n} \\)th power, i.e. we deal with sharings of powers of \\( \small{H} \\) and not powers of
-sharings of \\( \small{H} \\).</span>
+#### 3.2.1 (A2M) Convert additive shares of H into multiplicative shares
 
-\\( \small{ X_1•(H_u ⊕ H_n) ⊕ X_2•(H^2_u ⊕ H^2_n) ⊕ X_3•H^3 } \\)
+#### 3.2.2 (M2A) Convert multiplicative shares \\(\overline{H^k}\\) into additive shares
 
-Observe that:
+We use the oblivious transfer method described in chapter 4.1 of [Two Party RSA Key
+Generation](https://link.springer.com/content/pdf/10.1007/3-540-48405-1_8.pdf)
+to convert the multiplicative shares \\(\overline{H_{n/u}}\\) into additive
+shares \\(H_{n/u}\\).
 
-\\( \small { H^3 = H^2•H = (H^2_u ⊕ H^2_n) • (H_u ⊕ H_n) = (H^2_u • H_u) ⊕ (H^2_u • H_n) ⊕ (H^2_n • H_u) ⊕ (H^2_n • H_n) } \\)
+The user will decompose his shares into several <span
+style="color:red">packages</span>, each masked with some random value
+\\(s_i\\). He will then obliviously send these packages to the notary.
+Depending on the binary representation of his multiplicative share, the notary
+will choose one of the choices and do this for all 128 oblivious transfers.
 
-The 1st and the 4th terms can be computed locally by the `User` and the `Notary` respectively. Only the 2nd and the 3rd terms need to be computed using `2PC`.
+After that the user will locally XOR all his \\(s_i\\) and end up with his additive
+share \\(H_u\\), and the notary will do the same for all the results of the
+oblivious transfer get \\(H_n\\).
 
-In [Figure 1](#Figure_1) it can be seen that for each of the 128 loop iterations, the value of `x` changes independently of `y`. This allows `PartyX` (the party who has the `x` value) to compute a table (we call it an `Xtable`) of 128 rows where each row's value equals the value of `x` in one of the 128 iterations. Then, depending on the bit of `y`, the corresponding `Xtable` row will either be XORed to the result or be ignored.
-
-The protocol below which we dub `Mul_2PC` shows how to perform `multiplication in a finite field` using [1-out-of-2 Oblivious Transfer](https://en.wikipedia.org/wiki/Oblivious_transfer#1–2_oblivious_transfer) (OT). `PartyX` computes an `Xtable` with 4 rows and masks each row's value as well as the 0's value. `PartyY` is the OT receiver and receives a masked `Xtable` row (if the bit of `y` is 1) or a masked 0 (if the bit of `y` is 0). We illustrate `Mul_2PC` for a 4-bit value:
-
-<img src="mul2pc.png" width="800">
-
-Note how neither party has the actual result of the multiplication i.e. (row1 XOR row4). The parties only have their XOR shares of the result.
-
-
-Using `Free Squaring` and `Mul_2PC`, the parties can start with their shares of \\( \small{ H } \\) and compute `GHASH output` for any ciphertext size.
-
-#### 3.4 Example with nine ciphertext blocks. Block Aggregation.
-
-We present an optimization we call `Block Aggregation` which allows to decrease both the amount of rounds of communication between the parties and the amount of OT instances.
-
-
-Suppose that the ciphertext consists of 9 blocks \\( \small{ X_1, ..., X_9 } \\) and that the parties already ran `Mul_2PC` to obtain their shares of \\( \small{ H^3 } \\). After performing `Free Squaring` on their shares of \\( \small{ H^2 } \\) and \\( \small{ H^3 } \\), here are all the shares of powers which each party has:
-\\( \small{ H, H^2, H^3, H^4, H^6, H^8 } \\)
-
-Naively, the parties could use `Mul_2PC` to compute their shares of \\( \small{ H^5, H^7, H^9 } \\) using 3 invocations of `Mul_2PC`. We now show how this can be done with 2 invocations of `Mul_2PC`. 
-
-Recalling that:
-
-\\( \small{ H^5•X_5 = (H^4_n ⊕ H^4_u)(H_n ⊕ H_u)X_5 = H^4_nH_nX_5 ⊕ \color{blue}{H^4_nH_uX_5} ⊕ \color{blue}{H^4_uH_nX_5} ⊕ H^4_uH_uX_5 } \\)
-\\( \small{ H^7•X_7 = (H^6_n ⊕ H^6_u)(H_n ⊕ H_u)X_7 = H^6_nH_nX_7 ⊕ \color{blue}{H^6_nH_uX_7} ⊕ \color{blue}{H^6_uH_nX_7} ⊕ H^6_uH_uX_7 } \\)
-\\( \small{ H^9•X_9 = (H^8_n ⊕ H^8_u)(H_n ⊕ H_u)X_9 = H^8_nH_nX_9 ⊕ \color{blue}{H^8_nH_uX_9} ⊕ \color{blue}{H^8_uH_nX_9} ⊕ H^8_uH_uX_9 } \\)
-
-Above, we <span style="color:blue">highlighted</span>  all terms which the parties cannot compute locally and must compute using `Mul_2PC`. The sum of the highlighted terms can be represented as:
-
-\\( \small{ H^4_n\color{blue}{H_u}X_5 ⊕ H^4_u\color{red}{H_n}X_5 ⊕ H^6_n\color{blue}{H_u}X_7 ⊕ H^6_u\color{red}{H_n}X_7 ⊕ H^8_n\color{blue}{H_u}X_9 ⊕ H^8_u\color{red}{H_n}X_9 = \\\ \color{blue}{H_u}(H^4_nX_5 ⊕ H^6_nX_7 ⊕ H^8_nH_9) ⊕ \color{red}{H_n}(H^4_uX_5 ⊕ H^6_uX_7 ⊕ H^8_uH_9) } \\)
-
-The terms in brackets can be locally computed by the respective party. Let's call the term on the left `termN` and the term on the right `termU`. Then we can re-write the above to show that only 2 `Mul_2PC` are needed:
-
-\\( \small{ \color{blue}{H_u} • termN ⊕ \color{red}{H_n} • termU } \\)
-
-Each party will combine his shares from `Mul_2PC` with all the terms he computed locally earlier and will obtain his share of the `GHASH_block`.
-
-
-#### 3.5 Security considerations
-
-`PartyX` may act maliciously and craft the `Xtable` in a way which leaks bits of y through `PartyY`s output of `Mul_2PC`. For this reason, the role of `GCTR_output` share is crucial in ensuring malicious security of the protocol. The `GCTR_output` share serves essentially as a one-time pad masking `PartyY`'s potentially leaky `GHASH_output` from `PartyX`.  
+\begin{aligned}
+\overline{H} &= \overline{H_u} \cdot \overline{H_n} \\\\
+&= \overline{H_u} \cdot \sum_i \overline{H_{n, i}} \cdot 2^i \\\\
+&= \sum_i (\overline{H_{n, i}} \cdot \color{red}{\overline{H_u} \cdot 2^i + s_i}) ⊕ \sum_i s_i \\\\
+&= \sum_i \color{red}{t_{u, i}}^{\overline{H_{n, i}}} ⊕ \sum_i s_i \\\\
+&\equiv H_n ⊕ H_u
+\end{aligned}
 
 
