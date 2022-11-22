@@ -128,33 +128,65 @@ steps.
 The conversion steps (**1.** and **3.**) require communication between the user
 and the notary. They will use **A2M** (Addition-to-Multiplication) and **M2A**
 (Multiplication-to-Addition) protocols, which make use of **oblivious
-transfer**, to convert shares.
+transfer**, to convert the shares. **The user will be the sender and the notary
+the receiver.**
 
 
-#### 3.2.1 (A2M) Convert additive shares of H into multiplicative shares
+#### 3.2.1 (A2M) Convert additive shares of H into multiplicative share
+
+At first (step **1.**) we have to get a multiplicative share of \\(H_{n/u}\\),
+so that notary and user can locally compute the needed higher powers. For this
+we use an adapted version of the A2M protocol in chapter 4 of [Efficient Secure
+Two-Party Exponentiation](https://www.cs.umd.edu/~fenghao/paper/modexp.pdf).
+
+The user will decompose his share into \\(i\\) individual oblivious transfers
+\\(t_{u, i}^k = R \cdot (k \cdot 2^i + H_{u, i} \cdot 2^i ⊕ s_i)\\), where
+- \\(R\\) is some random value used for all oblivious transfers
+- \\(s_i\\) is a random mask used per oblivious transfer, with \\(\sum_i s_i = 0\\)
+- \\(k \in \\{0, 1\\}\\) depending on the receiver's choice.
+
+The notary's choice in the i-th OT will depend on the bit value in the i-th
+position of his additive share \\(H_n\\). In the end the multiplicative share of
+the user \\(\overline{H_u}\\) will simply be the inverse \\(R^{-1}\\) of the
+random value, and the notary will sum all his OT outputs, so that all the
+\\(s_i\\) will vanish and hence he gets his multiplicative share
+\\(\overline{H_n}\\).
+
+\begin{align}
+H &= H_u ⊕ H_n \\\\
+&= R^{-1} \cdot R \cdot \sum_i (H_{u,i} ⊕ H_{n, i}) \cdot 2^i ⊕ s_i \\\\
+&= R^{-1} \cdot \sum_i t_{u, i}^{H_{n, i}} ⊕ R \cdot \sum_i s_i \\\\
+&= \overline{H_u} \cdot \overline{H_n}
+\end{align}
+
+
 
 #### 3.2.2 (M2A) Convert multiplicative shares \\(\overline{H^k}\\) into additive shares
 
-We use the oblivious transfer method described in chapter 4.1 of [Two Party RSA Key
+In step **3.** of our protocol, we use the oblivious transfer method described
+in chapter 4.1 of [Two Party RSA Key
 Generation](https://link.springer.com/content/pdf/10.1007/3-540-48405-1_8.pdf)
-to convert the multiplicative shares \\(\overline{H_{n/u}}\\) into additive
-shares \\(H_{n/u}\\).
+to convert all the multiplicative shares \\(\overline{H_{n/u}^k}\\) back into
+additive shares \\(H_{n/u}^k\\). We only show how the method works for the share
+\\(\overline{H_{n/u}^1}\\), because it is the same for higher powers.
 
-The user will decompose his shares into several <span
-style="color:red">packages</span>, each masked with some random value
-\\(s_i\\). He will then obliviously send these packages to the notary.
-Depending on the binary representation of his multiplicative share, the notary
-will choose one of the choices and do this for all 128 oblivious transfers.
+The user will be the OT sender and decompose his shares into \\(i\\) individual
+oblivious transfers \\(t_{u,i}^k = k \cdot \overline{H_u} \cdot 2^i + s_i\\),
+where \\(k \in \\{0, 1\\}\\), depending on the receiver's choices. Each of these
+OTs is masked with a random value \\(s_i\\). He will then obliviously send these
+packages to the notary. Depending on the binary representation of his
+multiplicative share, the notary will choose one of the choices and do this for
+all 128 oblivious transfers.
 
 After that the user will locally XOR all his \\(s_i\\) and end up with his additive
 share \\(H_u\\), and the notary will do the same for all the results of the
-oblivious transfer get \\(H_n\\).
+oblivious transfers and get \\(H_n\\).
 
 \begin{aligned}
 \overline{H} &= \overline{H_u} \cdot \overline{H_n} \\\\
 &= \overline{H_u} \cdot \sum_i \overline{H_{n, i}} \cdot 2^i \\\\
-&= \sum_i (\overline{H_{n, i}} \cdot \color{red}{\overline{H_u} \cdot 2^i + s_i}) ⊕ \sum_i s_i \\\\
-&= \sum_i \color{red}{t_{u, i}}^{\overline{H_{n, i}}} ⊕ \sum_i s_i \\\\
+&= \sum_i (\overline{H_{n, i}} \cdot \overline{H_u} \cdot 2^i ⊕ s_i) ⊕ \sum_i s_i \\\\
+&= \sum_i t_{u, i}^{\overline{H_{n, i}}} ⊕ \sum_i s_i \\\\
 &\equiv H_n ⊕ H_u
 \end{aligned}
 
