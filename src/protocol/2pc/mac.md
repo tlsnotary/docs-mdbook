@@ -212,4 +212,45 @@ The remaining even additive shares can then be computed locally.
 
 ### 3.3 Creating a robust protocol
 
+Note that it is quite possible that the user or the notary act maliciously,
+meaning that they do not stick to the rules of the protocol. We have to ensure
+that nothing bad happens when they do. In both oblivious transfers (M2A and A2M)
+the user will play the role of the OT sender and the notary will be the OT
+receiver. We will now have a look at what happens when either party does not
+follow the protocol.
+
+#### 3.3.1 Malicious notary
+It is easy to see that our protocol has no problem in dealing with a malicious
+notary, because he is the OT receiver, which means that there is actually no
+input from him during the protocol execution except for the final MAC output. He
+just receives the OT input from the user, so the only thing he can do is to
+provide a wrong MAC keyshare. This will cause the server to reject the MAC
+when the user sends the request. The protocol simply aborts. 
+
+
+#### 3.3.2 Malicious user
+
+A malicious user could actually manipulate what he sends in the OT and
+potentially endanger the security of the protocol by leaking the notary's 
+MAC key. To address this we force the user to reveal his MAC key after the
+server response so that the notary can check for the correctness of the whole
+MAC 2PC protocol. Then if the notary detects that the user cheated, he would
+simply abort the protocol.
+
+The only problem when doing this is, that we want the whole TLSNotary protocol
+to work under the assumption that the notary can intercept the traffic between
+the user and the server. This would allow the notary to trick the user into
+thinking that the TLS session is already terminated, if he can force the server
+to respond. The user would send his MAC key share too early and the notary
+could, now having the complete MAC key, forge the ciphertext and create a valid
+MAC for it. He would then send this forged request to the server and forward the
+response of the server to the user.
+
+To prevent this scenario we need to make sure that the TLS connection to the
+server is terminated before the user sends his MAC key share to the notary.
+Following the [TLS RFC](https://www.rfc-editor.org/rfc/rfc8446#section-6.1), 
+we could leverage the `close_notify` message for this, but unfortunately a lot
+of web servers do not implement that. As a workaround in these cases, the user
+will terminate the TLS connection by sending an invalid record header and force
+the server to answer with a fatal alert message, which closes the connection.
 
