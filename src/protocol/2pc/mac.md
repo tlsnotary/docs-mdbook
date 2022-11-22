@@ -29,13 +29,13 @@ record is encrypted and a MAC is computed for the ciphertext. The MAC (in
 AES-GCM) is obtained by XORing together the `GHASH output` and the `GCTR
 output`. Let's see how each of those outputs is computed:
 
-#### 2.1 GCTR output 
+### 2.1 GCTR output 
 
 The `GCTR output` is computed by simply AES-ECB encrypting a counter block with
 the counter set to 1 (the iv, nonce and AES key are the same as for the rest of
 the TLS record).  
 
-#### 2.2 GHASH output
+### 2.2 GHASH output
 
 The `GHASH output` is the output of the GHASH function described in the
 [NIST publication](https://nvlpubs.nist.gov/nistpubs/legacy/sp/nistspecialpublication800-38d.pdf)
@@ -114,6 +114,8 @@ We now introduce our 2PC MAC protocol for computing ciphertexts with an
 arbitrary number of blocks. Our protocol can be divided into the following
 steps.
 
+##### Steps
+
 1. First, both parties convert their **additive** shares \\(H_u\\) and \\(H_n\\) into
    **multiplicative** shares \\(\overline{H}_u\\) and \\(\overline{H}_n\\).
 2. This allows each party to **locally** compute the needed higher powers of these multiplicative
@@ -125,7 +127,7 @@ steps.
    - the notary ends up with \\(H_n, H_n^2, ... H_n^m\\) 
 4. Each party can now **locally** compute their additive MAC share \\(MAC_{n/u}\\).
 
-The conversion steps (**1.** and **3.**) require communication between the user
+The conversion steps (**1** and **3**) require communication between the user
 and the notary. They will use **A2M** (Addition-to-Multiplication) and **M2A**
 (Multiplication-to-Addition) protocols, which make use of **oblivious
 transfer**, to convert the shares. **The user will be the sender and the notary
@@ -134,7 +136,7 @@ the receiver.**
 
 #### 3.2.1 (A2M) Convert additive shares of H into multiplicative share
 
-At first (step **1.**) we have to get a multiplicative share of \\(H_{n/u}\\),
+At first (step **1**) we have to get a multiplicative share of \\(H_{n/u}\\),
 so that notary and user can locally compute the needed higher powers. For this
 we use an adapted version of the A2M protocol in chapter 4 of [Efficient Secure
 Two-Party Exponentiation](https://www.cs.umd.edu/~fenghao/paper/modexp.pdf).
@@ -163,7 +165,7 @@ H &= H_u ⊕ H_n \\\\
 
 #### 3.2.2 (M2A) Convert multiplicative shares \\(\overline{H^k}\\) into additive shares
 
-In step **3.** of our protocol, we use the oblivious transfer method described
+In step **3** of our protocol, we use the oblivious transfer method described
 in chapter 4.1 of [Two Party RSA Key
 Generation](https://link.springer.com/content/pdf/10.1007/3-540-48405-1_8.pdf)
 to convert all the multiplicative shares \\(\overline{H_{n/u}^k}\\) back into
@@ -189,5 +191,25 @@ oblivious transfers and get \\(H_n\\).
 &= \sum_i t_{u, i}^{\overline{H_{n, i}}} ⊕ \sum_i s_i \\\\
 &\equiv H_n ⊕ H_u
 \end{aligned}
+
+### 3.3 Free Squaring
+
+In the actual implementation of the protocol we only compute odd multiplicative
+shares, i.e. \\(\overline{H}, \overline{H^3}, \overline{H^5}, \ldots\\), so that
+we only need to share these odd shares in step **3**. This is possible because
+we can compute even additive shares from odd additive shares. We observe that
+for even \\(k\\):
+
+\begin{align}
+H^k &= (H_n^{k/2} ⊕ H_u^{k/2})^2 \\\\
+&= H_n^k ⊕ H_n^{k/2} H_u^{k/2} ⊕ H_u^{k/2} H_n^{k/2} ⊕ H_u^k \\\\
+&= H_n^k ⊕ H_u^k
+\end{align}
+
+So we only need to convert odd multiplicative shares into odd additive shares,
+which means that we only need 50% of bandwidth in the corresponding OTs.
+The remaining even additive shares can then be computed locally.
+
+### 3.3 Creating a robust protocol
 
 
