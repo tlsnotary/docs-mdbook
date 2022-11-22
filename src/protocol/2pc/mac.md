@@ -97,9 +97,9 @@ The `User` and the `Notary` will compute locally the left and the right terms
 respectively. Then each party will XOR their result to the `GCTR output` share
 and will get their XOR share of the MAC:
 
-`User`  : \\( \small{X_1 • H_u \\quad ⊕ \\quad CGTR_u = MAC_u} \\)
+`User`  : \\( \small{X_1 • H_u \\quad ⊕ \\quad GCTR_u = MAC_u} \\)
 
-`Notary`: \\( \small{X_1 • H_n \\quad ⊕ \\quad CGTR_n = MAC_n} \\)
+`Notary`: \\( \small{X_1 • H_n \\quad ⊕ \\quad GCTR_n = MAC_n} \\)
 
 Finally, the `Notary` sends \\( \small{MAC_n}\\) to the `User` who obtains: 
 
