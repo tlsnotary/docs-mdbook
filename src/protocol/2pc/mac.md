@@ -133,6 +133,7 @@ and the notary. They will use **A2M** (Addition-to-Multiplication) and **M2A**
 transfer**, to convert the shares. **The user will be the sender and the notary
 the receiver.**
 
+![2PC MAC Overview](2pc-mac-overview.png)
 
 #### 3.2.1 (A2M) Convert additive shares of H into multiplicative share
 
