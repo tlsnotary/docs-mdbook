@@ -6,5 +6,8 @@ src = "src"
 title = "tlsn-docs"
 
 [output.html]
-mathjax-support = true
 default-theme = "ayu"
+
+[output.katex]
+
+[preprocessor.katex]
