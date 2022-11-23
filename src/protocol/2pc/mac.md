@@ -39,24 +39,24 @@ the TLS record).
 
 The `GHASH output` is the output of the GHASH function described in the
 [NIST publication](https://nvlpubs.nist.gov/nistpubs/legacy/sp/nistspecialpublication800-38d.pdf)
-in section 6.4 in this way: "In effect, the GHASH function calculates \\(
-\small{ X_1•H^{m} ⊕ X_2•H^{m−1} ⊕ ... ⊕ X_{m−1}•H^{2} ⊕ X_m•H } \\)". \\(H\\)
-and \\(X\\) are elements of the extension field \\(\mathrm{GF}(2^{128})\\).
+in section 6.4 in this way: "In effect, the GHASH function calculates $
+X_1•H^{m} ⊕ X_2•H^{m−1} ⊕ ... ⊕ X_{m−1}•H^{2} ⊕ X_m•H$". $H$
+and $X$ are elements of the extension field $\mathrm{GF}(2^{128})$.
 
 * "•" is a special type of multiplication called `multiplication in a finite
 field` described in section 6.3 of the NIST publication.
 * ⊕ is `addition in a finite field` and it is defined as XOR.
 
 In other words, GHASH splits up the ciphertext into 16-byte blocks, each block
-is numbered \\( \small{ X_1, X_2, ... }\\) etc. There's also \\( \small{H} \\)
+is numbered $X_1, X_2, ...$ etc. There's also $ H $
 which is called the `GHASH key`, which just is the AES-encrypted zero-block. We
-need to raise \\( \small{H} \\) to as many powers as there are blocks, i.e. if
-we have 5 blocks then we need 5 powers: \\( \small{ H, H^2, H^3, H^4, H^5 } \\).
+need to raise $ H $ to as many powers as there are blocks, i.e. if
+we have 5 blocks then we need 5 powers: $H, H^2, H^3, H^4, H^5$.
 Each block is multiplied by the corresponding power and all products are summed
 together.
 
 Below is the pseudocode for multiplying two 128-bit field elements `x` and `y`
-in \\(\mathrm{GF}(2^{128})\\):
+in $\mathrm{GF}(2^{128})$:
 
 ```
 1. result = 0
@@ -69,45 +69,45 @@ in \\(\mathrm{GF}(2^{128})\\):
 8. return result
 ```
 
-Standard math properties hold in finite field math, viz. commutative: \\(
-\small{ a+b=b+a } \\) and distributive: \\( \small{ a(b+c)=ab+ac } \\).
+Standard math properties hold in finite field math, viz. commutative: $a+b=b+a$
+and distributive: $a(b+c)=ab+ac$.
 
 
 ## 3. Computing MAC using secure two-party computation (2PC) <a name="section3"></a>
 
 The goal of the protocol is to compute the MAC in such a way that neither party
-would learn the other party's share of \\( \small{ H } \\) i.e. the `GHASH key`
+would learn the other party's share of $ H $ i.e. the `GHASH key`
 share. At the start of the protocol each party has:
-1. ciphertext blocks \\( \small{ X_1, X_2, ..., X_m } \\).
-2. his XOR share of \\( \small{ H } \\): the `User` has \\( \small{ H_u } \\)
-   and the `Notary` has \\( \small{ H_n } \\).
-3. his XOR share of the `GCTR output`: the `User` has \\( \small{ GCTR_u } \\)
-   and the `Notary` has \\( \small{ GCTR_n } \\).
+1. ciphertext blocks $X_1, X_2, ..., X_m$.
+2. his XOR share of $ H $: the `User` has $ H_u $
+   and the `Notary` has $ H_n $.
+3. his XOR share of the `GCTR output`: the `User` has $ GCTR_u $
+   and the `Notary` has $ GCTR_n $.
 
 Note that **2.** and **3.** were obtained at an earlier stage of the TLSNotary protocol.
 
 ### 3.1 Example with a single ciphertext block
 
 To illustrate what we want to achieve, we consider the case of just having
-a single ciphertext block \\( \small{ X_1 } \\). The `GHASH_output` will be:
+a single ciphertext block $ X_1 $. The `GHASH_output` will be:
 
-\\( \small{ X_1•H = X_1•(H_u ⊕ H_n) = X_1•H_u ⊕ X_1•H_n } \\)
+$X_1•H = X_1•(H_u ⊕ H_n) = X_1•H_u ⊕ X_1•H_n$
 
 The `User` and the `Notary` will compute locally the left and the right terms
 respectively. Then each party will XOR their result to the `GCTR output` share
 and will get their XOR share of the MAC:
 
-`User`  : \\( \small{X_1 • H_u \\quad ⊕ \\quad GCTR_u = MAC_u} \\)
+`User`  : $X_1 • H_u \quad ⊕ \quad GCTR_u = MAC_u$
 
-`Notary`: \\( \small{X_1 • H_n \\quad ⊕ \\quad GCTR_n = MAC_n} \\)
+`Notary`: $X_1 • H_n \quad ⊕ \quad GCTR_n = MAC_n$
 
-Finally, the `Notary` sends \\( \small{MAC_n}\\) to the `User` who obtains: 
+Finally, the `Notary` sends $ MAC_n$ to the `User` who obtains: 
 
-\\( \small{ MAC = MAC_n \\quad ⊕ \\quad MAC_u} \\)
+$MAC = MAC_n \quad ⊕ \quad MAC_u$
 
 **For longer ciphertexts, the problem is that higher powers of the hashkey
-\\(H^k\\) cannot be computed locally, because we deal with additive sharings,
-i.e.\\( (H_u)^k ⊕ (H_n)^k \neq H^k\\).** 
+$H^k$ cannot be computed locally, because we deal with additive sharings,
+i.e.$ (H_u)^k ⊕ (H_n)^k \neq H^k$.** 
 
 ### 3.2 Computing ciphertexts with an arbitrary number of blocks
 We now introduce our 2PC MAC protocol for computing ciphertexts with an
@@ -116,16 +116,16 @@ steps.
 
 ##### Steps
 
-1. First, both parties convert their **additive** shares \\(H_u\\) and \\(H_n\\) into
-   **multiplicative** shares \\(\overline{H}_u\\) and \\(\overline{H}_n\\).
+1. First, both parties convert their **additive** shares $H_u$ and $H_n$ into
+   **multiplicative** shares $\overline{H}_u$ and $\overline{H}_n$.
 2. This allows each party to **locally** compute the needed higher powers of these multiplicative
-   shares, i.e for \\(m\\) blocks of ciphertext:
-   - the user computes \\(\overline{H_u}^2, \overline{H_u}^3, ... \overline{H_u}^m\\) 
-   - the notary computes \\(\overline{H_n}^2, \overline{H_n}^3, ... \overline{H_n}^m\\) 
+   shares, i.e for $m$ blocks of ciphertext:
+   - the user computes $\overline{H_u}^2, \overline{H_u}^3, ... \overline{H_u}^m$ 
+   - the notary computes $\overline{H_n}^2, \overline{H_n}^3, ... \overline{H_n}^m$ 
 3. Then both parties convert each of these multiplicative shares back to additive shares
-   - the user ends up with \\(H_u, H_u^2, ... H_u^m\\) 
-   - the notary ends up with \\(H_n, H_n^2, ... H_n^m\\) 
-4. Each party can now **locally** compute their additive MAC share \\(MAC_{n/u}\\).
+   - the user ends up with $H_u, H_u^2, ... H_u^m$ 
+   - the notary ends up with $H_n, H_n^2, ... H_n^m$ 
+4. Each party can now **locally** compute their additive MAC share $MAC_{n/u}$.
 
 The conversion steps (**1** and **3**) require communication between the user
 and the notary. They will use **A2M** (Addition-to-Multiplication) and **M2A**
@@ -137,54 +137,56 @@ the receiver.**
 
 #### 3.2.1 (A2M) Convert additive shares of H into multiplicative share
 
-At first (step **1**) we have to get a multiplicative share of \\(H_{n/u}\\),
+At first (step **1**) we have to get a multiplicative share of $H_{n/u}$,
 so that notary and user can locally compute the needed higher powers. For this
 we use an adapted version of the A2M protocol in chapter 4 of [Efficient Secure
 Two-Party Exponentiation](https://www.cs.umd.edu/~fenghao/paper/modexp.pdf).
 
-The user will decompose his share into \\(i\\) individual oblivious transfers
-\\(t_{u, i}^k = R \cdot (k \cdot 2^i + H_{u, i} \cdot 2^i ⊕ s_i)\\), where
-- \\(R\\) is some random value used for all oblivious transfers
-- \\(s_i\\) is a random mask used per oblivious transfer, with \\(\sum_i s_i = 0\\)
-- \\(k \in \\{0, 1\\}\\) depending on the receiver's choice.
+The user will decompose his share into $i$ individual oblivious transfers
+$t_{u, i}^k = R \cdot (k \cdot 2^i + H_{u, i} \cdot 2^i ⊕ s_i)$, where
+- $R$ is some random value used for all oblivious transfers
+- $s_i$ is a random mask used per oblivious transfer, with $\sum_i s_i = 0$
+- $k \in \\{0, 1\\}$ depending on the receiver's choice.
 
 The notary's choice in the i-th OT will depend on the bit value in the i-th
-position of his additive share \\(H_n\\). In the end the multiplicative share of
-the user \\(\overline{H_u}\\) will simply be the inverse \\(R^{-1}\\) of the
+position of his additive share $H_n$. In the end the multiplicative share of
+the user $\overline{H_u}$ will simply be the inverse $R^{-1}$ of the
 random value, and the notary will sum all his OT outputs, so that all the
-\\(s_i\\) will vanish and hence he gets his multiplicative share
-\\(\overline{H_n}\\).
+$s_i$ will vanish and hence he gets his multiplicative share
+$\overline{H_n}$.
 
+$$
 \begin{align}
 H &= H_u ⊕ H_n \\\\
 &= R^{-1} \cdot R \cdot \sum_i (H_{u,i} ⊕ H_{n, i}) \cdot 2^i ⊕ s_i \\\\
 &= R^{-1} \cdot \sum_i t_{u, i}^{H_{n, i}} ⊕ R \cdot \sum_i s_i \\\\
 &= \overline{H_u} \cdot \overline{H_n}
 \end{align}
+$$
 
 
-
-#### 3.2.2 (M2A) Convert multiplicative shares \\(\overline{H^k}\\) into additive shares
+#### 3.2.2 (M2A) Convert multiplicative shares $\overline{H^k}$ into additive shares
 
 In step **3** of our protocol, we use the oblivious transfer method described
 in chapter 4.1 of [Two Party RSA Key
 Generation](https://link.springer.com/content/pdf/10.1007/3-540-48405-1_8.pdf)
-to convert all the multiplicative shares \\(\overline{H_{n/u}^k}\\) back into
-additive shares \\(H_{n/u}^k\\). We only show how the method works for the share
-\\(\overline{H_{n/u}^1}\\), because it is the same for higher powers.
+to convert all the multiplicative shares $\overline{H_{n/u}^k}$ back into
+additive shares $H_{n/u}^k$. We only show how the method works for the share
+$\overline{H_{n/u}^1}$, because it is the same for higher powers.
 
-The user will be the OT sender and decompose his shares into \\(i\\) individual
-oblivious transfers \\(t_{u,i}^k = k \cdot \overline{H_u} \cdot 2^i + s_i\\),
-where \\(k \in \\{0, 1\\}\\), depending on the receiver's choices. Each of these
-OTs is masked with a random value \\(s_i\\). He will then obliviously send these
+The user will be the OT sender and decompose his shares into $i$ individual
+oblivious transfers $t_{u,i}^k = k \cdot \overline{H_u} \cdot 2^i + s_i$,
+where $k \in \\{0, 1\\}$, depending on the receiver's choices. Each of these
+OTs is masked with a random value $s_i$. He will then obliviously send these
 packages to the notary. Depending on the binary representation of his
 multiplicative share, the notary will choose one of the choices and do this for
 all 128 oblivious transfers.
 
-After that the user will locally XOR all his \\(s_i\\) and end up with his additive
-share \\(H_u\\), and the notary will do the same for all the results of the
-oblivious transfers and get \\(H_n\\).
+After that the user will locally XOR all his $s_i$ and end up with his additive
+share $H_u$, and the notary will do the same for all the results of the
+oblivious transfers and get $H_n$.
 
+$$
 \begin{aligned}
 \overline{H} &= \overline{H_u} \cdot \overline{H_n} \\\\
 &= \overline{H_u} \cdot \sum_i \overline{H_{n, i}} \cdot 2^i \\\\
@@ -192,21 +194,24 @@ oblivious transfers and get \\(H_n\\).
 &= \sum_i t_{u, i}^{\overline{H_{n, i}}} ⊕ \sum_i s_i \\\\
 &\equiv H_n ⊕ H_u
 \end{aligned}
+$$
 
 ### 3.3 Free Squaring
 
 In the actual implementation of the protocol we only compute odd multiplicative
-shares, i.e. \\(\overline{H}, \overline{H^3}, \overline{H^5}, \ldots\\), so that
+shares, i.e. $\overline{H}, \overline{H^3}, \overline{H^5}, \ldots$, so that
 we only need to share these odd shares in step **3**. This is possible because
 we can compute even additive shares from odd additive shares. We observe that
-for even \\(k\\):
+for even $k$:
 
+$$
 \begin{align}
 H^k &= (H_n^{k/2} ⊕ H_u^{k/2})^2 \\\\
 &= (H_n^{k/2})^2 ⊕ H_n^{k/2} H_u^{k/2} ⊕ H_u^{k/2} H_n^{k/2} ⊕ (H_u^{k/2})^2 \\\\
 &= (H_n^{k/2})^2 ⊕ (H_u^{k/2})^2 \\\\
 &= H_n^k ⊕ H_u^k
 \end{align}
+$$
 
 So we only need to convert odd multiplicative shares into odd additive shares,
 which means that we only need 50% of bandwidth in the corresponding OTs.
