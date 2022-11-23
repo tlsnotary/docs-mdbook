@@ -48,9 +48,9 @@ field` described in section 6.3 of the NIST publication.
 * ⊕ is `addition in a finite field` and it is defined as XOR.
 
 In other words, GHASH splits up the ciphertext into 16-byte blocks, each block
-is numbered $X_1, X_2, ...$ etc. There's also $ H $
+is numbered $X_1, X_2, ...$ etc. There's also $H$
 which is called the `GHASH key`, which just is the AES-encrypted zero-block. We
-need to raise $ H $ to as many powers as there are blocks, i.e. if
+need to raise $H$ to as many powers as there are blocks, i.e. if
 we have 5 blocks then we need 5 powers: $H, H^2, H^3, H^4, H^5$.
 Each block is multiplied by the corresponding power and all products are summed
 together.
@@ -76,20 +76,20 @@ and distributive: $a(b+c)=ab+ac$.
 ## 3. Computing MAC using secure two-party computation (2PC) <a name="section3"></a>
 
 The goal of the protocol is to compute the MAC in such a way that neither party
-would learn the other party's share of $ H $ i.e. the `GHASH key`
+would learn the other party's share of $H$ i.e. the `GHASH key`
 share. At the start of the protocol each party has:
 1. ciphertext blocks $X_1, X_2, ..., X_m$.
-2. his XOR share of $ H $: the `User` has $ H_u $
-   and the `Notary` has $ H_n $.
-3. his XOR share of the `GCTR output`: the `User` has $ GCTR_u $
-   and the `Notary` has $ GCTR_n $.
+2. his XOR share of $H$: the `User` has $H_u$
+   and the `Notary` has $H_n$.
+3. his XOR share of the `GCTR output`: the `User` has $GCTR_u$
+   and the `Notary` has $GCTR_n$.
 
 Note that **2.** and **3.** were obtained at an earlier stage of the TLSNotary protocol.
 
 ### 3.1 Example with a single ciphertext block
 
 To illustrate what we want to achieve, we consider the case of just having
-a single ciphertext block $ X_1 $. The `GHASH_output` will be:
+a single ciphertext block $X_1$. The `GHASH_output` will be:
 
 $X_1•H = X_1•(H_u ⊕ H_n) = X_1•H_u ⊕ X_1•H_n$
 

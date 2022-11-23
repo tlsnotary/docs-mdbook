@@ -10,17 +10,17 @@ Using the notation from Wikipedia, below is the 3-party ECDH protocol between th
 1. `Server` sends its public key $Q_b$ to `Requester`, and `Requester` forwards it to `Notary`
 2. `Requester` picks a random private key share $d_c$ and computes a public key share $Q_c = d_c * G$
 3. `Notary` picks a random private key share $d_n$ and computes a public key share $Q_n = d_n * G$
-4. `Notary` sends $ Q_n $ to `Requester` who computes $Q_a = Q_c + Q_n $ and sends $ Q_a $ to `Server`
+4. `Notary` sends $Q_n$ to `Requester` who computes $Q_a = Q_c + Q_n $ and sends $Q_a$ to `Server`
 5. `Requester` computes an EC point $(x_p, y_p) = d_c * Q_b$
 6. `Notary` computes an EC point $(x_q, y_q) = d_n * Q_b$
-7. Addition of points $(x_p, y_p)$ and $(x_q, y_q)$ results in the coordinate $ x_r $, which is `PMS`. (The coordinate $ y_r $ is not used in TLS)
+7. Addition of points $(x_p, y_p)$ and $(x_q, y_q)$ results in the coordinate $x_r$, which is `PMS`. (The coordinate $y_r$ is not used in TLS)
 
 
 Using the notation from [here](https://en.wikipedia.org/wiki/Elliptic_curve_point_multiplication#Point_addition), our goal is to compute
 $$ x_r = (\frac{y_q-y_p}{x_q-x_p})^2 - x_p - x_q $$
 in such a way that
-1. Neither party learns the other party's $ x $ value
-2. Neither party learns $ x_r $, only their respective shares of $ x_r $.
+1. Neither party learns the other party's $x$ value
+2. Neither party learns $x_r$, only their respective shares of $x_r$.
 
 We will use two maliciously secure protocols described on p.25 in the paper [Eﬃcient Secure Two-Party Exponentiation](https://www.cs.umd.edu/~fenghao/paper/modexp.pdf):
 
