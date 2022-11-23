@@ -203,7 +203,8 @@ for even \\(k\\):
 
 \begin{align}
 H^k &= (H_n^{k/2} ⊕ H_u^{k/2})^2 \\\\
-&= H_n^k ⊕ H_n^{k/2} H_u^{k/2} ⊕ H_u^{k/2} H_n^{k/2} ⊕ H_u^k \\\\
+&= (H_n^{k/2})^2 ⊕ H_n^{k/2} H_u^{k/2} ⊕ H_u^{k/2} H_n^{k/2} ⊕ (H_u^{k/2})^2 \\\\
+&= (H_n^{k/2})^2 ⊕ (H_u^{k/2})^2 \\\\
 &= H_n^k ⊕ H_u^k
 \end{align}
 
