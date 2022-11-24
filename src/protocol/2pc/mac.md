@@ -79,9 +79,9 @@ The goal of the protocol is to compute the MAC in such a way that neither party
 would learn the other party's share of $H$ i.e. the `GHASH key`
 share. At the start of the protocol each party has:
 1. ciphertext blocks $X_1, X_2, ..., X_m$.
-2. his XOR share of $H$: the `User` has $H_u$
+2. XOR share of $H$: the `User` has $H_u$
    and the `Notary` has $H_n$.
-3. his XOR share of the `GCTR output`: the `User` has $GCTR_u$
+3. XOR share of the `GCTR output`: the `User` has $GCTR_u$
    and the `Notary` has $GCTR_n$.
 
 Note that **2.** and **3.** were obtained at an earlier stage of the TLSNotary protocol.
@@ -168,7 +168,7 @@ $$
 #### 3.2.2 (M2A) Convert multiplicative shares $\overline{H^k}$ into additive shares
 
 In step **3** of our protocol, we use the oblivious transfer method described
-in chapter 4.1 of [Two Party RSA Key
+in chapter 4.1 of the Gilboa paper [Two Party RSA Key
 Generation](https://link.springer.com/content/pdf/10.1007/3-540-48405-1_8.pdf)
 to convert all the multiplicative shares $\overline{H_{n/u}^k}$ back into
 additive shares $H_{n/u}^k$. We only show how the method works for the share
@@ -177,10 +177,10 @@ $\overline{H_{n/u}^1}$, because it is the same for higher powers.
 The user will be the OT sender and decompose his shares into $i$ individual
 oblivious transfers $t_{u,i}^k = k \cdot \overline{H_u} \cdot 2^i + s_i$,
 where $k \in \\{0, 1\\}$, depending on the receiver's choices. Each of these
-OTs is masked with a random value $s_i$. He will then obliviously send these
-packages to the notary. Depending on the binary representation of his
-multiplicative share, the notary will choose one of the choices and do this for
-all 128 oblivious transfers.
+OTs is masked with a random value $s_i$. He will then obliviously send them to
+the notary. Depending on the binary representation of his multiplicative share,
+the notary will choose one of the choices and do this for all 128 oblivious
+transfers.
 
 After that the user will locally XOR all his $s_i$ and end up with his additive
 share $H_u$, and the notary will do the same for all the results of the
@@ -214,25 +214,31 @@ H^k &= (H_n^{k/2} ⊕ H_u^{k/2})^2 \\\\
 $$
 
 So we only need to convert odd multiplicative shares into odd additive shares,
-which means that we only need 50% of bandwidth in the corresponding OTs.
-The remaining even additive shares can then be computed locally.
+which gives us a 50% reduction in cost. The remaining even additive shares can
+then be computed locally.
 
 ### 3.3 Creating a robust protocol
 
-Note that it is quite possible that the user or the notary act maliciously,
-meaning that they do not stick to the rules of the protocol. We have to ensure
-that nothing bad happens when they do. In both oblivious transfers (M2A and A2M)
-the user will play the role of the OT sender and the notary will be the OT
-receiver. We will now have a look at what happens when either party does not
-follow the protocol.
+
+Both the A2M and M2A protocols on their own only provide semi-honest security.
+They are secure against a malicious receiver, but the sender has degrees of
+freedom to cause leakage of the MAC keyshares. However, for our purposes this
+does not present a problem as long as leakage is detected.
+
+To detect a malicious sender, we require the sender to commit to the PRG seed
+used to generate the random values in the share conversion protocols. After the
+TLS session is closed the MAC keyshares are no longer secret, which allows the
+sender to reveal this seed to the receiver. Subsequently, the receiver can
+perform a consistency check to make sure the sender followed the protocol
+honestly.
 
 #### 3.3.1 Malicious notary
-It is easy to see that our protocol has no problem in dealing with a malicious
-notary, because he is the OT receiver, which means that there is actually no
-input from him during the protocol execution except for the final MAC output. He
-just receives the OT input from the user, so the only thing he can do is to
-provide a wrong MAC keyshare. This will cause the server to reject the MAC
-when the user sends the request. The protocol simply aborts. 
+The protocol is secure against a malicious notary, because he is the OT
+receiver, which means that there is actually no input from him during the
+protocol execution except for the final MAC output. He just receives the OT
+input from the user, so the only thing he can do is to provide a wrong MAC
+keyshare. This will cause the server to reject the MAC when the user sends the
+request. The protocol simply aborts. 
 
 
 #### 3.3.2 Malicious user
@@ -256,8 +262,9 @@ response of the server to the user.
 To prevent this scenario we need to make sure that the TLS connection to the
 server is terminated before the user sends his MAC key share to the notary.
 Following the [TLS RFC](https://www.rfc-editor.org/rfc/rfc8446#section-6.1), 
-we could leverage the `close_notify` message for this, but unfortunately a lot
-of web servers do not implement that. As a workaround in these cases, the user
-will terminate the TLS connection by sending an invalid record header and force
-the server to answer with a fatal alert message, which closes the connection.
+we leverage `close_notify` to ensure all messages sent to the server have been
+processed and the connection is closed. Unfortunately, many server TLS
+implementations do not support `close_notify`. In these cases we instead send an
+invalid message to the server which forces it to respond with a fatal alert
+message and close the connection.
 
