@@ -19,7 +19,7 @@ Secondly, we observe that the Notary's keyshare is an _ephemeral secret_: it is 
 
 * $p$ is the User's plaintext request
 * $k$ is the AES key
-* $[k]\_1$ and $[k]\_2$ are the User's and Notary's AES keyshares, respectively. That is, $k = [k]\_1 \oplus [k]\_2$.
+* $k_u$ and $k_n$ are the User's and Notary's AES keyshares, respectively. That is, $k = k_u \oplus k_n$.
 * $\mathsf{Enc}$ denotes the encryption algorithm used by the TLS session
 * $\mathsf{PRG}$ denotes a pseudorandom generator
 * $\mathsf{com}_x$ denotes a binding commitment to the value $x$
@@ -30,13 +30,13 @@ We define the ideal functionality we wish to instantiate. In words, the function
 
 Ideal functionality for ONESHOTENC:
 
-1. User → ℱ: $p, [k]\_1$
-2. Notary → ℱ: $[k]\_2$
-3. ℱ → User: $\mathsf{Enc}\_k(p)$
-4. ℱ → Notary: $\mathsf{Enc}\_k(p)$
-5. User → ℱ: $\mathsf{com}\_\mathsf{resp}$
+1. User → ℱ: $p, k_u$
+2. Notary → ℱ: $k_n$
+3. ℱ → User: $\mathsf{Enc}_k(p)$
+4. ℱ → Notary: $\mathsf{Enc}_k(p)$
+5. User → ℱ: $\mathsf{com}_\mathsf{resp}$
 6. ℱ → User: $k$
-7. ℱ → Notary: $\mathsf{com}\_\mathsf{resp}$
+7. ℱ → Notary: $\mathsf{com}_\mathsf{resp}$
 
 ## Protocol
 
@@ -48,8 +48,8 @@ To set up for dual-execution, the parties set up the OTs. Because we have a priv
 In the first step of the protocol, the User has to get her AES ciphertext from the Notary. The User does not trust the Notary (for privacy or integrity), and the User's data is far more sensitive to leakage than the Notary's. So the parties do an ordinary DualEx:
 
 0. The User and Notary both garble a copy of the encryption circuit, and do OTs for each other. For committed OT the Notary constructs the input wire labels and OT encryption keys as $\mathsf{PRG}(\rho)$ where $\rho$ is a randomly sampled PRG seed, and sends $\mathsf{com}_\rho$ to the User after the OT is done.
-1. The User sends her garbled encryption circuit and garbled wires for $[k]\_1$ and $p$. She also sends the output decoding information.
-2. The Notary uses his OT values to evaluate the circuit on $[k]\_2$. He derives the encoded ciphertext $C$ and decodes it into ciphertext $c$ using output decoding information.[^1]
+1. The User sends her garbled encryption circuit and garbled wires for $k_u$ and $p$. She also sends the output decoding information.
+2. The Notary uses his OT values to evaluate the circuit on $k_n$. He derives the encoded ciphertext $C$ and decodes it into ciphertext $c$ using output decoding information.[^1]
 3. The Notary sends $C$ to the User.[^2]
 
     Step 3 is a relaxation of DualEx. In DualEx, the User would not learn the Notary's evaluation output at this point. As mentioned earlier, in TLSNotary protocol's setting, we are not worried that $C$ may leak the Notary's input, as long as this behaviour will be detected later. Also we are not worried about DualEx's inherent 1-bit leakage since it gives no meaningful advantage to the User as explained earlier. 
@@ -75,10 +75,10 @@ Also at this point, the User has learned the ciphertext, and, if malicious, has 
 
 ### Part 3
 
-Now that the session is over and $[k]\_2$ is no longer secret, the Notary can switch to privacy-free garbling for the second part of DualEx.
+Now that the session is over and $k_n$ is no longer secret, the Notary can switch to privacy-free garbling for the second part of DualEx.
 
-7. The Notary sends his garbled encryption circuit to the User, as well as the garbled wires for $[k]\_2$. He also sends the output decoding information.
-8. The User evaluates the circuit on $[k]\_1$ and $p$, using the OT values from step 0, derives the encoded ciphertext $C'$ and decodes it into ciphertext $c$ using output decoding information.
+7. The Notary sends his garbled encryption circuit to the User, as well as the garbled wires for $k_n$. He also sends the output decoding information.
+8. The User evaluates the circuit on $k_u$ and $p$, using the OT values from step 0, derives the encoded ciphertext $C'$ and decodes it into ciphertext $c$ using output decoding information.
 9. As per DualEx, she computes $Check_u = H(w_A || W_A^{v_A})$ and sends a commitment $\mathsf{com}\_{Check_u}$ to the Notary.
 
     Note that at this stage the Notary could reveal $Check_n$ and the User would make sure that $Check_n == Check_u$. Then likewise the User would reveal $Check_u$ and the Notary would make sure that $Check_n == Check_u$.
