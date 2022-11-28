@@ -1,0 +1,36 @@
+name: manual deploy github pages
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Fetch mdbook-katex
+        uses: dsaltares/fetch-gh-release-asset@master
+        with:
+          repo: lzanini/mdbook-katex
+          version: tags/v0.2.17
+          file: "mdbook-katex-v0.2.17-x86_64-unknown-linux-gnu.tar.gz"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install mdbook-katex
+        run: tar -xvf mdbook-katex-v0.2.17-x86_64-unknown-linux-gnu.tar.gz -C /usr/local/bin
+
+      - name: Setup mdBook
+        uses: peaceiris/actions-mdbook@v1
+        with:
+          mdbook-version: "0.4.21"
+
+      - run: mdbook build
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./book
