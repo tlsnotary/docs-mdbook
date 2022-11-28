@@ -25,7 +25,7 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: install
-          args: --git "https://github.com/sinui0/mdbook-katex"
+          args: mdbook-katex --version 0.2.17
 
       - run: mdbook build
 

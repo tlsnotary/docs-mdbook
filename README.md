@@ -6,7 +6,7 @@ Install mdbook and mdbook-katex
 
 ```bash
 cargo install mdbook --version 0.4.21
-cargo install --git "https://github.com/sinui0/mdbook-katex"
+cargo install mdbook-katex --version 0.2.17
 ```
 
 Then build and serve
