@@ -22,7 +22,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install mdbook-katex
-        run: tar -xvf mdbook-katex-v0.2.17-x86_64-unknown-linux-gnu.tar.gz -C /bin
+        run: tar -xvf mdbook-katex-v0.2.17-x86_64-unknown-linux-gnu.tar.gz -C /usr/local/bin
 
       - name: Setup mdBook
         uses: peaceiris/actions-mdbook@v1
