@@ -12,20 +12,22 @@ jobs:
       group: ${{ github.workflow }}-${{ github.ref }}
     steps:
       - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
+
+      - name: Fetch mdbook-katex
+        uses: dsaltares/fetch-gh-release-asset@master
         with:
-          toolchain: stable
+          repo: lzanini/mdbook-katex
+          version: tags/v0.2.17
+          file: "mdbook-katex-v0.2.17-x86_64-unknown-linux-gnu.tar.gz"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install mdbook-katex
+        run: tar -xvf mdbook-katex-v0.2.17-x86_64-unknown-linux-gnu.tar.gz -C /bin
 
       - name: Setup mdBook
         uses: peaceiris/actions-mdbook@v1
         with:
           mdbook-version: "0.4.21"
-
-      - name: Install mdbook-katex
-        uses: actions-rs/cargo@v1
-        with:
-          command: install
-          args: mdbook-katex --version 0.2.17
 
       - run: mdbook build
 
