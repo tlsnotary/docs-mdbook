@@ -25,8 +25,7 @@
         <link rel="stylesheet" href="../../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        <!-- MathJax -->
-        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <link rel="stylesheet" href="../../src/css/katex.css">
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -136,7 +135,8 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h3 id="overview"><a class="header" href="#overview">Overview</a></h3>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h3 id="overview"><a class="header" href="#overview">Overview</a></h3>
 <p>The pre-master secret (<code>PMS</code>) must be put through a <code>PRF</code> (pseudo-random function) defined by the TLS spec in order to compute the symmetric TLS keys and also to compute the <code>verify_data</code> for the <code>Client_Finished</code> and the <code>Server_Finished</code> messages.</p>
 <p>Below we describe how the parties (<code>N</code> stands for <code>Notary</code> and <code>U</code> stands for <code>User</code>) who have their shares of <code>PMS</code> can use 2PC to compute the <code>PRF</code>. </p>
 <blockquote>
