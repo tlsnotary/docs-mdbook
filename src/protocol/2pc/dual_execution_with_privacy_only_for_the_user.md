@@ -6,9 +6,9 @@ When encrypting the plaintext request in Dual Execution 2PC, the User can avoid 
 
 The User wants to encrypt a TLS request with some server, but she doesn't have the encryption key. Rather she has just one share of the key. The Notary has the other share. The Notary needs to know that the only ciphertext sent to the TLS server is the ciphertext he has seen (it would be bad, e.g., if the User had the full key because she'd lie to the Notary about the request she sent). We want a 2PC scheme that will allow the User and Notary to collaboratively compute the ciphertext such that: the User does not reveal her plaintext or key share, and the Notary does not reveal his key share.
 
-## Observations
+## [Observations](#observations)
 
-We make two observations. Firstly, a small amount of keyshare leakage is tolerable. For example, if the Notary leaks 3 bits of their keyshare, it gives the User no meaningful advantage in any attack, as she could have simply guessed the bits correctly with $1/2^3 = 12.5%$ probability and mounted the same attack.
+We make two observations. Firstly, a small amount of keyshare leakage is tolerable. For example, if the Notary leaks 3 bits of their keyshare, it gives the User no meaningful advantage in any attack, as she could have simply guessed the bits correctly with $\frac{1}{2^3} = 12.5$% probability and mounted the same attack.
 
 Secondly, we observe that the Notary's keyshare is an _ephemeral secret_: it is only private for the duration of the User's TLS session. This implies two things:
 
@@ -40,7 +40,7 @@ Ideal functionality for ONESHOTENC:
 
 ## Protocol
 
-We now describe the protocol at a high level. It is based on Figure 1 of the [Dual-Execution (DualEx) technique](https://www.cs.virginia.edu/~evans/pubs/oakland2012/quidproquotocols.pdf) with a relaxation (see Step 3 below). We overcome DualEx's inherent 1-bit leakage by introducing a consistency check which the User performs on the Notary, thus removing the ability to leak the User's input. It is still possible for a malicious User to leak the Notary's input (i.e. the AES key share), but it gives her no meaningful advantage as per the first observation above.
+We now describe the protocol at a high level. It is based on Figure 1 of the [Dual-Execution (DualEx) technique](https://www.cs.virginia.edu/~evans/pubs/oakland2012/quidproquotocols.pdf) with a relaxation (see Step 3 below). We overcome DualEx's inherent leakage by introducing a consistency check which the User performs on the Notary, thus removing the ability to leak the User's input. It is still possible for a malicious User to leak the Notary's input (i.e. the AES key share), but it gives her no meaningful advantage as per the first observation above.
 ### Part 1
 
 To set up for dual-execution, the parties set up the OTs. Because we have a privacy-free step later, the Notary's OT needs to be opened up later, so we have the notary do a "committed OT" (see section 2 of [JKO13](https://eprint.iacr.org/2013/073)), so that he can be forced to open the labels later on.
@@ -50,9 +50,17 @@ In the first step of the protocol, the User has to get her AES ciphertext from t
 0. The User and Notary both garble a copy of the encryption circuit, and do OTs for each other. For committed OT the Notary constructs the input wire labels and OT encryption keys as $\mathsf{PRG}(\rho)$ where $\rho$ is a randomly sampled PRG seed, and sends $\mathsf{com}_\rho$ to the User after the OT is done.
 1. The User sends her garbled encryption circuit and garbled wires for $k_u$ and $p$. She also sends the output decoding information.
 2. The Notary uses his OT values to evaluate the circuit on $k_n$. He derives the encoded ciphertext $C$ and decodes it into ciphertext $c$ using output decoding information.[^1]
+
+    Since the encoding $C$ itself may leak the Notary's private input, we need to briefly describe how the encoding is constructed and how we prevent the leakage.
+
+    In garbled circuits, the garbler assigns a pair of encodings (called "labels") to each output bit $b$: the "zero label" when $b$ is 0 and the "one label" when $b$ is 1. Upon the evaluation, the evaluator will learn only one of those two labels - the so-called evaluator's "active label".
+
+    To prevent the leakage, the Notary will receive from the User a hash commitment to each label. Then the Notary will hash his active label and check that the hash matches one of the two commitments for that output bit.
+    Note that this commitment approach leaks $n$ Notary's input bits (the input is the keyshare) with probability $\frac{1}{2^n}$, which is acceptable for our case as explained in the [first observation](#observations) above.
+
 3. The Notary sends $C$ to the User.[^2]
 
-    Step 3 is a relaxation of DualEx. In DualEx, the User would not learn the Notary's evaluation output at this point. As mentioned earlier, in TLSNotary protocol's setting, we are not worried that $C$ may leak the Notary's input, as long as this behaviour will be detected later. Also we are not worried about DualEx's inherent 1-bit leakage since it gives no meaningful advantage to the User as explained earlier. 
+    Step 3 is a relaxation of DualEx. In DualEx, the User would not learn the Notary's evaluation output at this point. As mentioned earlier, in TLSNotary protocol's setting, we are not worried that $C$ may leak the Notary's input, as long as this behaviour will be detected later. Also we are not worried about DualEx's inherent 1-bit leakage since it gives no meaningful advantage to the User as explained earlier.
     
     There is no wiggle room for the User to exploit this relaxation because she is locked into using the inputs she received via OT in Step 0 and she has to pass the DualEx equality check which will follow later in Step 14.
 
@@ -67,7 +75,7 @@ In the first step of the protocol, the User has to get her AES ciphertext from t
 
 At this point, the Notary (even if malicious) has learned nothing about the key or the plaintext. He has only learned the ciphertext.
 
-Also at this point, the User has learned the ciphertext, and, if malicious, has potentially learned the entire key $k$. As mentioned in the second observation above, it is okay if the User was malicious and learned $k$, but the Notary has to detect it and then abort the rest of the TLSNotary protocol. Before this step, the Notary waits for the User to complete their TLS session:
+Also at this point, the User has learned the ciphertext, and, if malicious, has potentially learned the entire key $k$. As mentioned in the second observation [above](#observations), it is okay if the User was malicious and learned $k$, but the Notary has to detect it and then abort the rest of the TLSNotary protocol. Before this step, the Notary waits for the User to complete their TLS session:
 
 ### Part 2
 
