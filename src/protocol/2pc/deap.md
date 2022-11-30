@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Malicious secure 2-party computation with garbled circuits typically comes at the expense of dramatically lower efficiency compared to execution in the semi-honest model. One technique, called [Dual Execution (DualEx)](https://www.iacr.org/archive/pkc2006/39580468/39580468.pdf), achieves malicious security with a minimal 2x overhead. However, it comes with the concession that a malicious adversary may learn an expected ~1 bit of the other's input.
+Malicious secure 2-party computation with garbled circuits typically comes at the expense of dramatically lower efficiency compared to execution in the semi-honest model. One technique, called [Dual Execution (DualEx)](https://www.iacr.org/archive/pkc2006/39580468/39580468.pdf), achieves malicious security with a minimal 2x overhead. However, it comes with the concession that a malicious adversary may learn $k$ bits of the other's input with probability $2^{-k}$.
 
 We present a variant of Dual Execution which provides different trade-offs. Our variant ensures no leakage _for one party_, by sacrificing privacy entirely for the other. Hence the name, Dual Execution with Asymmetric Privacy (DEAP). This variant has similarities to zero-knowledge protocols, but nevertheless is distinct. In the first phase of the protocol both parties have private inputs. It is not until the second phase where one party reveals their private input that the protocol resembles the zero-knowledge setting.
 
