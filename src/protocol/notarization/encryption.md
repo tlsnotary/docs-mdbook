@@ -28,6 +28,18 @@ During the entirety of the TLS session the User performs the role of the garbled
 
 There is one exception to the above, and that is during the transmission of the first encrypted handshake messages in which The Notary has the opportunity to pick a different value for their keyshare. The result of this would simply be a corrupt payload. Either the User or Server would detect this immediately and subsequently abort the connection prior to the transmission of any application data. Past this stage the Notary is committed to using the same keyshare for the rest of the session and thus has no opportunity to introduce a malicious input.
 
+### Notation
+
+* $p$ is one block of plaintext
+* $c$ is the corresponding block of ciphertext, ie $c = \mathsf{Enc}(k, ctr) \oplus p$
+* $k$ is the cipher key
+* $k_U$ and $k_N$ denote the User and Notary cipher keyshares, respectively, where $k = k_U \oplus k_N$
+* $z$ is a mask randomly selected by the User
+* $ectr$ is the encrypted counter-block, ie $ectr = \mathsf{Enc}(k, ctr)$
+* $\mathsf{Enc}$ denotes the block cipher used by the TLS session
+* $\mathsf{com}_x$ denotes a binding commitment to the value $x$
+* $[x]_A$ denotes a garbled encoding of $x$ chosen by party $A$
+
 ## Encryption Protocol
 
 The encryption protocol uses [DEAP](../2pc/deap.md) without any special variations. The User and Notary directly compute the ciphertext for each block of a message the User wishes to send to the Notary:
