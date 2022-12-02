@@ -24,7 +24,7 @@ We assume that it is acceptable for either party to cause the protocol to abort 
 
 ### Committed Oblivious Transfer
 
-In the second phase of our protocol Bob must open all oblivious transfers he sent to Alice. To achieve this, we require a very relaxed flavor of committed oblivious transfer. For more detail on these relaxations see section 2 of [Zero-Knowledge Using Garbled Circuits [JKO13]](https://eprint.iacr.org/2013/073.pdf).
+In the last phase of our protocol Bob must open all oblivious transfers he sent to Alice. To achieve this, we require a very relaxed flavor of committed oblivious transfer. For more detail on these relaxations see section 2 of [Zero-Knowledge Using Garbled Circuits [JKO13]](https://eprint.iacr.org/2013/073.pdf).
 
 ### Privacy-free Garbling
 
