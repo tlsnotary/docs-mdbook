@@ -2,13 +2,13 @@
 
 ## Introduction
 
-Malicious secure 2-party computation with garbled circuits typically comes at the expense of dramatically lower efficiency compared to execution in the semi-honest model. One technique, called [Dual Execution (DualEx)](https://www.iacr.org/archive/pkc2006/39580468/39580468.pdf), achieves malicious security with a minimal 2x overhead. However, it comes with the concession that a malicious adversary may learn $k$ bits of the other's input with probability $2^{-k}$.
+Malicious secure 2-party computation with garbled circuits typically comes at the expense of dramatically lower efficiency compared to execution in the semi-honest model. One technique, called [Dual Execution [MF06]](https://www.iacr.org/archive/pkc2006/39580468/39580468.pdf), achieves malicious security with a minimal 2x overhead. However, it comes with the concession that a malicious adversary may learn $k$ bits of the other's input with probability $2^{-k}$.
 
 We present a variant of Dual Execution which provides different trade-offs. Our variant ensures no leakage _for one party_, by sacrificing privacy entirely for the other. Hence the name, Dual Execution with Asymmetric Privacy (DEAP). This variant has similarities to zero-knowledge protocols, but nevertheless is distinct. In the semi-honest phase of the protocol both parties have private inputs. It is not until the last phase where one party reveals their private input that the protocol resembles the zero-knowledge setting.
 
 Similarly to standard DualEx, our variant ensures output correctness and detects leakage (of the revealing parties input) with probability $1 - 2^{-k}$ where $k$ is the number of bits leaked.
 
-## Preliminaries
+## Preliminary
 
 The protocol takes place between Alice and Bob who want to compute $f(x, y)$ where $x$ and $y$ are Alice and Bob's inputs respectively. The privacy of Alice's input is ensured, while Bob's input will be revealed in the final steps of the protocol.
 
@@ -18,15 +18,19 @@ Firstly, our protocol assumes a small amount of premature leakage of Bob's input
 
 If Alice is malicious, she has the opportunity to prematurely leak $k$ bits of Bob's input with $2^{-k}$ probability of it going undetected.
 
+### Aborts
+
+We assume that it is acceptable for either party to cause the protocol to abort at any time, with the condition that no information of Alice's inputs are leaked from doing so.
+
 ### Committed Oblivious Transfer
 
-In the second phase of our protocol Bob must open all oblivious transfers he sent to Alice. To achieve this, we require a very relaxed flavor of committed oblivious transfer. For more detail on these relaxations see section 2 of [Zero-Knowledge Using Garbled Circuits (JKO13)](https://eprint.iacr.org/2013/073.pdf).
+In the second phase of our protocol Bob must open all oblivious transfers he sent to Alice. To achieve this, we require a very relaxed flavor of committed oblivious transfer. For more detail on these relaxations see section 2 of [Zero-Knowledge Using Garbled Circuits [JKO13]](https://eprint.iacr.org/2013/073.pdf).
 
 ### Privacy-free Garbling
 
 Bob's inputs will be revealed in their entirety at the end of the protocol, and because of this Bob can garble his circuit using a privacy-free garbling scheme. This is quite convenient as this substantially reduces the cost of the second execution.
 
-Our implementation uses the [Half-gate garbling scheme (ZRE15)](https://eprint.iacr.org/2014/756.pdf) which enjoys a 50% reduction in cost for both garbling and evaluating a circuit in privacy-free mode.
+Our implementation uses the [Half-gate garbling scheme [ZRE15]](https://eprint.iacr.org/2014/756.pdf) which enjoys a 50% reduction in cost for both garbling and evaluating a circuit in privacy-free mode.
 
 ### Notation
 
@@ -56,7 +60,7 @@ The protocol can be thought of as three distinct phases: The setup phase, semi-h
 4. Alice retrieves her active input labels $[x]_B$ from Bob using OT[^1].
 5. Bob retrieves his active input labels $[y]_A$ from Alice using OT.
 
-[^1]: It is necessary that Alice retrieves her active input labels $[x]_B$ before any evaluation takes place. This protects against adaptive attacks by Alice. For example, consider the scenario where Alice is malicious and garbles her circuit so it computes a different function which leaks Bob's entire input $f'(x, y) = y$. Now when choosing her input labels for Bob's circuit, she could change her input to $x'$ such that $f(x', y) = f'(x, y)$. The equality check at the end would still pass, causing Bob to be unaware that his entire input was leaked to Alice.
+[^1]: It is necessary that Alice retrieves her active input labels $[x]_B$ before any evaluation takes place. This protects against adaptive attacks by Alice. See the [section below](#malicious-alice) for more detail.
 
 ### Semi-honest
 
@@ -83,3 +87,39 @@ Alice, if honest, has learned the correct output $v$ thanks to the authenticity 
 19. Bob verifies $\mathsf{com}_{\mathsf{check}_A}$ then asserts $\mathsf{check}_A == \mathsf{check}_B$, aborting otherwise.
 
 Bob is now convinced that $v^A$ is correct, ie $f(x, y) = v^A$. Bob is also assured that Alice only learned up to k bits of his input prior to revealing, with a probability of $2^{-k}$ of it being undetected.
+
+## Analysis
+
+### Malicious Alice
+
+[On the Leakage of Corrupted Garbled Circuits [DPB18]](https://eprint.iacr.org/2018/743.pdf) is recommended reading on this topic.
+
+During the semi-honest phase, Alice has some degrees of freedom in how she garbles $G_A$. According to [DPB18], when using a modern garbling scheme such as [ZRE15], these corruptions boil down to two classes: detectable and undetectable.
+
+Recall that our scheme assumes Bob's input is an ephemeral secret which can be revealed in the final stage. For this reason, we are entirely unconcerned about the detectable variety. Simply providing Bob with the output label commitments $\mathsf{com}_{[v]_A}$ is sufficient to detect many different types of corruptions. In this context, our primary concern is regarding the _correctness_ of the output of $G_A$.
+
+[DPB18] shows that any undetectable corruption made to $G_A$ is constrained to the arbitrary insertion of NOT gates into the circuit, such that $G_A$ computes $f_A$ instead of $f$. Note that any corruption of $d_A$ has an equivalent effect. [DPB18] also shows that Alice's ability to exploit this is constrained by the topology of the circuit.
+
+Recall that in the final stage of our protocol Bob checks that the output of $G_A$ matches the output of $G_B$, or more specifically:
+
+$$f_A(x_1, y_1) == f_B(x_2, y_2)$$
+
+For the moment we'll assume Bob garbles honestly and provides the same inputs for both evaluations.
+
+$$f_A(x_1, y) == f(x_2, y)$$
+
+In the scenario where Bob reveals the output of $f_A(x_1, y)$ prior to Alice committing to $x_2$ there is a trivial _adaptive attack_ available to Alice. As an extreme example, assume Alice could choose $f_A$ such that $f_A(x_1, y) = y$. For most practical functions this is not possible to garble without detection, but for the sake of illustration we humor the possibility. In this case she could simply compute $x_2$ where $f(x_2, y) = y$ in order to pass the equality check.
+
+To address this, Alice is forced to choose $f_A$, $x_1$ and $x_2$ prior to Bob revealing the output. In this case it is obvious that any _valid_ combination of $(f_A, x_1, x_2)$ must satisfy all constraints on $y$. Thus, for any non-trivial $f$, choosing a valid combination would be equivalent to guessing $y$ correctly. In which case, any attack would be detected by the equality check with probability $1 - 2^{-k}$ where k is the number of guessed bits of $y$. This result is acceptable within our model as [explained earlier](#premature-leakage).
+
+### Malicious Bob
+
+[Zero-Knowledge Using Garbled Circuits [JKO13]](https://eprint.iacr.org/2013/073.pdf) is recommended reading on this topic.
+
+The last stage of our variant is functionally equivalent to the protocol described in [JKO13]. After Alice evaluates $G_B$ and commits to $[v]_B$, Bob opens his garbled circuit and all OTs entirely. Following this, Alice performs a series of consistency checks to detect any malicious behavior. These consistency checks do _not_ depend on any of Alice's inputs, so any attempted selective failure attack by Bob would be futile.
+
+Bob's only options are to behave honestly, or cause Alice to abort without leaking any information.
+
+### Malicious Alice & Bob
+
+They deserve whatever they get.
