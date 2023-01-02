@@ -18,3 +18,4 @@
     - [Oblivious Transfer]()
     - [Paillier]()
     - [MAC](./protocol/2pc/mac.md)
+    - [Maliciously Secure Share Conversion](./protocol/2pc/share-conversion.md)
