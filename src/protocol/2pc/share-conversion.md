@@ -79,7 +79,9 @@ In the case of a malicious sender the following two things can happen:
       time to forge an rng seed. 
 2. During replay, do we need to check the OT envelopes, i.e. does the receiver
    need to record what the sender sent, and check it in the replay?
+    - Probably yes, because of a selective failure attack.
 3. Is it sufficient for the sender to just commit to the rng seed and input?
+    - I do not think so. See 2.
 4. Is there a good solution to prevent malicious behavior if we cannot reveal?
     - Some MPC protocols use ZK-proofs to ensure malicious security. I think
       this is probably too complicated for our use case.
