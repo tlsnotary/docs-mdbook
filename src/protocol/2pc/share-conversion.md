@@ -22,7 +22,7 @@ receiver ends up with $y$, so that $a \cdot b = x + y$.
 
 
 #### OT Sender
-with input $a \in \mathcal{F}, \, r \overset{\$}{\leftarrow} \{0, 1\}^b$
+with input $a \in \mathcal{F}, \, r \leftarrow \{0, 1\}^b$
 
 1. Sample some random masks: $s_i = rng(r, i), \, 0 \le i < l, \, s_i \in
    \mathcal{F} $
@@ -43,59 +43,50 @@ with input $b \in \mathcal{F}$
 ### Adding malicious security
 
 Our goal is to add malicious security to our share conversion protocols. This
-means that we want an honest receiver to be able to detect a malicious sender.
+means that we want an honest receiver to be able to detect a malicious sender,
+who is then able to abort the protocol.
 
+#### Malicious receiver
 Note that in our protocol it is not possible to have a malicious receiver, since
 he does not contribute any input. Even when this protocol is embedded into an
-outer protocol, where at some point the receiver opens his output $y$ or some
-computation involving it, this is equivalent to changing his input $b$.
+outer protocol, where at some point the receiver opens a forged output $y'$ or some
+computation involving it, this would be equivalent to change his input from $b
+\rightarrow b'$.
 
-In the case of a malicious sender the following two things can happen:
+#### Malicious sender
+In the case of a malicious sender the following things can happen:
 
 1. The sender can impose an arbitrary field element $b'$ as input onto the
    receiver without him noticing. To do this he simply sends $(t_i^k, t_i^k)$ in
-   every OT, where $k$ is k-th bit of $b'$.
-2. If combined with an outer protocol, where the receiver reveals some
-   computation involving his output, it is possible for the sender to make the
-   receiver leak some additional information depending on the outer protocol,
-   just exploiting that he can impose arbitrary input onto the receiver.
+   every OT, where $k$ is i-th bit of $b'$.
+2. For each OT round $i$, the sender can alter one of the OT values to be $T_i^k
+   = t_i^k + c_i$, where $c_i \in \mathcal{F}, \, k \in \{0, 1\}$. This will cause
+   that in the end the equation $a \cdot b = x + y$ no longer holds but only if
+   the forged OT value has actually been picked by the receiver.
+3. The sender does not use a random number generator with a seed $r$ to sample
+   the masks $s_i$, instead he simply chooses them at will.
 
-   As a simple example, imagine the case, where after carrying out the M2A
-   protocol both parties want to use their shares in some protocol which for
-   some reason makes both parties reveal if their output shares are even or odd.
-   In this case the OT sender could have forged $l - 1$ OTs, only using a single
-   honest OT, which would allow him to leak that bit of the receiver's input share
-   $b$. It depends entirely on the outer protocol what can be leaked and if the
-   malicious behavior will be detected.
+### Replay protocol
+In order to mitigate these issues we will introduce a replay protocol. The idea
+is that at some point after the M2A protocol, the sender has to reveal the rng seed
+$r$ and his input $a$ to the receiver. The receiver can then check if the value
+he picked during protocol execution does match what he can now reconstruct from
+$r$ and $a$.
+
+In practice the sender uses the same rng seed $r$ once to seed his rng and then
+he uses it to produce masks for several protocol executions $l$, $a_l \cdot b_k =
+x_k + y_k$. So the sender will write his seed $r$ and all the $a_l$ to some
+tape, which in the end is sent to the receiver. As a security precaution we also
+let the sender commit to his rng seed before protocol execution. In detail:
+
+1. Sender has some inputs $a_l$ and picks some rng seed $r$.
+2. Sender commits his rng seed to the receiver.
+3. Sender sends all his OTs for $l$ protocol executions.
+4. Sender sends tape which contains the rng seed $R$ and all the $A_l$.
+5. Receiver checks that $r == R$.
+6. For every protocol execution $l$ the receiver checks that $T_{l, k}^{b_{l,
+   k}} == t_{l, k}^{b_{l, k}}$, where $t$ is what was sent in the OT and $T$ is
+   reconstructed from $R$ and $A_l$.
 
 
-### Questions
 
-1. Do we need a cointoss to construct an unbiased RNG?
-    - I do not think so. What advantage would he get from this? Even in the most
-      extreme case, where he can arbitrarily choose all $s_i$, it is not clear
-      to me how this can be used against the receiver. Furthermore, we assume
-      the OT sender to be computationally bounded. It would take him exponential
-      time to forge an rng seed. 
-2. During replay, do we need to check the OT envelopes, i.e. does the receiver
-   need to record what the sender sent, and check it in the replay?
-    - Probably yes, because of a selective failure attack.
-3. Is it sufficient for the sender to just commit to the rng seed and input?
-    - I do not think so. See 2.
-4. Is there a good solution to prevent malicious behavior if we cannot reveal?
-    - Some MPC protocols use ZK-proofs to ensure malicious security. I think
-      this is probably too complicated for our use case.
-
-### Current solution
-
-In our current implementation, to detect a malicious sender we leverage that at
-some later point the sender is allowed to reveal all his secrets. This allows us
-to use a replay protocol to detect a malicious sender:
-
-1. Sender records $r$ and all $a_k$ on some tape.
-2. Receiver records $b_k$ and $y_k$.
-3. Sender sends the tape to receiver.
-4. Receiver locally reconstructs the OT and checks he gets the same outputs: $y_k
-   == y'_k$
-
-### Improved solution
