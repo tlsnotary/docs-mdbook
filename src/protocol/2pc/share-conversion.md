@@ -35,8 +35,8 @@ with input $b \in \mathcal{F}$
 1. Set $v_i = t_i^{b_i}$ (from OT)
 2. Compute new share: $y = \sum v_i$
 
-### Adding malicious security
-Our goal is to add malicious security to our share conversion protocols. This
+### Adding covert security
+Our goal is to add covert security to our share conversion protocols. This
 means that we want an honest receiver to be able to detect a malicious sender,
 who is then able to abort the protocol.
 
@@ -44,7 +44,7 @@ who is then able to abort the protocol.
 Note that in our protocol it is not possible to have a malicious receiver, since
 he does not contribute any input. Even when this protocol is embedded into an
 outer protocol, where at some point the receiver opens a forged output $y'$ or some
-computation involving it, this would be equivalent to change his input from $b
+computation involving it, this would be equivalent to changing his input from $b
 \rightarrow b'$.
 
 #### Malicious sender
@@ -71,7 +71,7 @@ now reconstruct from $R$ and $A$, i.e. that $T_i^{b_i} == t_i^{b_i}$.
 
 **Using this replay protocol the sender at some point leaks all his secrets
 because he sends his rng seed and protocol input to the receiver. This means
-that we can only use maliciously-secure share conversion with replay as a
+that we can only use covertly secure share conversion with replay as a
 sub-protocol if it is acceptable for the outer protocol, that the input to
 share-conversion becomes public at some later point.**
 
