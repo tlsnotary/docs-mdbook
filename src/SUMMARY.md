@@ -18,3 +18,4 @@
     - [Oblivious Transfer]()
     - [Paillier]()
     - [MAC](./protocol/2pc/mac.md)
+    - [Finite-Field Arithmetic](./protocol/2pc/ff-arithmetic.md)
