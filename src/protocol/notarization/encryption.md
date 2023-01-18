@@ -26,8 +26,6 @@ Our protocol assures _no leakage_ of the plaintext to the Notary during both enc
 
 During the entirety of the TLS session the User performs the role of the garbled circuit generator, thus ensuring that a malicious Notary can not corrupt or otherwise compromise the integrity of messages sent to/from the Server.
 
-There is one exception to the above, and that is during the transmission of the first encrypted handshake messages in which The Notary has the opportunity to pick a different value for their keyshare. The result of this would simply be a corrupt payload. Either the User or Server would detect this immediately and subsequently abort the connection prior to the transmission of any application data. Past this stage the Notary is committed to using the same keyshare for the rest of the session and thus has no opportunity to introduce a malicious input.
-
 ### Notation
 
 * $p$ is one block of plaintext
