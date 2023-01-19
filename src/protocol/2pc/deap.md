@@ -49,7 +49,7 @@ The protocol can be thought of as three distinct phases: The setup phase, execut
 1. Alice creates a garbled circuit $G_A$ with corresponding input labels $([X]_A, [Y]_A)$, and output label commitment $\mathsf{com}_{[V]_A}$.
 2. Bob creates a garbled circuit $G_B$ with corresponding input labels $([X]_B, [Y]_B)$.
 3. For committed OT, Bob picks a seed $\rho$ and uses it to generate all random-tape for his OTs with $\mathsf{PRG}(\rho)$. Bob sends $\mathsf{com}_{\rho}$ to Alice.
-4. Alice retrieves her active input labels $[x]_B$ from Bob using OT[^1].
+4. Alice retrieves her active input labels $[x]_B$ from Bob using OT.
 5. Bob retrieves his active input labels $[y]_A$ from Alice using OT.
 6. Alice sends $G_A$, $[x]_A$, $d_A$ and $\mathsf{com}_{[V]_A}$ to Bob.
 7. Bob sends $G_B$, $[y]_B$, and $d_B$ to Alice.
