@@ -7,7 +7,7 @@ title = "tlsn-docs"
 
 [output.html]
 default-theme = "ayu"
-additional-css = ["src/css/katex.css"]
+additional-css = ["src/css/katex.css", "src/css/global.css"]
 
 [output.katex]
 
