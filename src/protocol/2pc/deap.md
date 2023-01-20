@@ -83,12 +83,12 @@ Alice, if honest, has learned the correct output $v$ thanks to the authenticity 
 
 ### Equality Check
 
-1. Bob opens his garbled circuit and OT by sending $\Delta_B$, $y$ and $\rho$ to Alice.
-2. Alice, can now derive the _purported_ input labels to Bob's garbled circuit $([X]^{\\*}_B, [Y]^{\\*}_B)$.
-3. Alice uses $\rho$ to open all of Bob's OTs for $[x]_B$ and verifies that they were performed honestly. Otherwise she aborts.
-4. Alice verifies that $G_B$ was garbled honestly by checking $\mathsf{Gb}([X]^{\\*}_B, [Y]^{\\*}_B) == G_B$. Otherwise she aborts.
-5. Alice now opens $\mathsf{com}_{\mathsf{check}_A}$ by sending $\mathsf{check}_A$ and $r$ to Bob.
-6. Bob verifies $\mathsf{com}_{\mathsf{check}_A}$ then asserts $\mathsf{check}_A == \mathsf{check}_B$, aborting otherwise.
+17. Bob opens his garbled circuit and OT by sending $\Delta_B$, $y$ and $\rho$ to Alice.
+18. Alice, can now derive the _purported_ input labels to Bob's garbled circuit $([X]^{\\*}_B, [Y]^{\\*}_B)$.
+19. Alice uses $\rho$ to open all of Bob's OTs for $[x]_B$ and verifies that they were performed honestly. Otherwise she aborts.
+20. Alice verifies that $G_B$ was garbled honestly by checking $\mathsf{Gb}([X]^{\\*}_B, [Y]^{\\*}_B) == G_B$. Otherwise she aborts.
+21. Alice now opens $\mathsf{com}_{\mathsf{check}_A}$ by sending $\mathsf{check}_A$ and $r$ to Bob.
+22. Bob verifies $\mathsf{com}_{\mathsf{check}_A}$ then asserts $\mathsf{check}_A == \mathsf{check}_B$, aborting otherwise.
 
 Bob is now convinced that $v^A$ is correct, ie $f(x, y) = v^A$. Bob is also assured that Alice only learned up to k bits of his input prior to revealing, with a probability of $2^{-k}$ of it being undetected.
 
