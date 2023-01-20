@@ -31,6 +31,7 @@ During the entirety of the TLS session the User performs the role of the garbled
 * $p$ is one block of plaintext
 * $c$ is the corresponding block of ciphertext, ie $c = \mathsf{Enc}(k, ctr) \oplus p$
 * $k$ is the cipher key
+* $ctr$ is the counter block
 * $k_U$ and $k_N$ denote the User and Notary cipher keyshares, respectively, where $k = k_U \oplus k_N$
 * $z$ is a mask randomly selected by the User
 * $ectr$ is the encrypted counter-block, ie $ectr = \mathsf{Enc}(k, ctr)$
@@ -40,11 +41,11 @@ During the entirety of the TLS session the User performs the role of the garbled
 
 ## Encryption Protocol
 
-The encryption protocol uses [DEAP](../2pc/deap.md) without any special variations. The User and Notary directly compute the ciphertext for each block of a message the User wishes to send to the Notary:
+The encryption protocol uses [DEAP](../2pc/deap.md) without any special variations. The User and Notary directly compute the ciphertext for each block of a message the User wishes to send to the Server:
 
 $$f(k_U, k_N, ctr, p) = \mathsf{Enc}(k_U \oplus k_N, ctr) \oplus p = c$$
 
-The User creates a commitment $\mathsf{Com}([p]_N, r) = \mathsf{com}_{[p]_N}$ where $r$ is a random key known only to the User. The User sends this commitment to the Notary to be used in the authdecode protocol later. It's critical that the User commits to $[p]_N$ prior to the Notary revealing $\Delta$ in the final phase of DEAP. This ensures that if $\mathsf{com}_{[p]_N}$ is a commitment to valid labels, then it must be a valid commitment to the plaintext $p$. This is because learning the complementary wire label for any bit of $p$ prior to learning $\Delta$ is virtually impossible.
+The User creates a commitment to the plaintext active labels for the Notary's circuit $\mathsf{Com}([p]_N, r) = \mathsf{com}_{[p]_N}$ where $r$ is a random key known only to the User. The User sends this commitment to the Notary to be used in the authdecode protocol later. It's critical that the User commits to $[p]_N$ prior to the Notary revealing $\Delta$ in the final phase of DEAP. This ensures that if $\mathsf{com}_{[p]_N}$ is a commitment to valid labels, then it must be a valid commitment to the plaintext $p$. This is because learning the complementary wire label for any bit of $p$ prior to learning $\Delta$ is virtually impossible.
 
 ## Decryption Protocol
 

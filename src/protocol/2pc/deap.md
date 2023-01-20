@@ -2,9 +2,9 @@
 
 ## Introduction
 
-Malicious secure 2-party computation with garbled circuits typically comes at the expense of dramatically lower efficiency compared to execution in the semi-honest model. One technique, called [Dual Execution [MF06]](https://www.iacr.org/archive/pkc2006/39580468/39580468.pdf), achieves malicious security with a minimal 2x overhead. However, it comes with the concession that a malicious adversary may learn $k$ bits of the other's input with probability $2^{-k}$.
+Malicious secure 2-party computation with garbled circuits typically comes at the expense of dramatically lower efficiency compared to execution in the semi-honest model. One technique, called Dual Execution [[MF06]](https://www.iacr.org/archive/pkc2006/39580468/39580468.pdf) [[HKE12]](https://www.cs.umd.edu/~jkatz/papers/SP12.pdf), achieves malicious security with a minimal 2x overhead. However, it comes with the concession that a malicious adversary may learn $k$ bits of the other's input with probability $2^{-k}$.
 
-We present a variant of Dual Execution which provides different trade-offs. Our variant ensures no leakage _for one party_, by sacrificing privacy entirely for the other. Hence the name, Dual Execution with Asymmetric Privacy (DEAP). This variant has similarities to zero-knowledge protocols, but nevertheless is distinct. During the execution phase of the protocol both parties have private inputs. In the final stage of the protocol, prior to an equality check, one party reveals their private input which then resembles the zero-knowledge setting.
+We present a variant of Dual Execution which provides different trade-offs. Our variant ensures complete privacy _for one party_, by sacrificing privacy entirely for the other. Hence the name, Dual Execution with Asymmetric Privacy (DEAP). During the execution phase of the protocol both parties have private inputs. The party with complete privacy learns the authentic output prior to the final stage of the protocol. In the final stage, prior to the equality check, one party reveals their private input. This allows a series of consistency checks to be performed which guarantees that the equality check can not cause leakage.
 
 Similarly to standard DualEx, our variant ensures output correctness and detects leakage (of the revealing parties input) with probability $1 - 2^{-k}$ where $k$ is the number of bits leaked.
 
@@ -34,7 +34,7 @@ In the last phase of our protocol Bob must open all oblivious transfers he sent 
 * $\mathsf{com}_x$ denotes a binding commitment to $x$
 * $G$ denotes a garbled circuit for computing $f(x, y) = v$, where:
   *  $\mathsf{Gb}([X], [Y]) = G$
-  *  $\mathsf{Ev}([x], [y]) = [v]$.
+  *  $\mathsf{Ev}(G, [x], [y]) = [v]$.
 * $d$ denotes output decoding information where $\mathsf{De}(d, [v]) = v$
 * $\Delta$ denotes the global offset of a garbled circuit where $\forall i: [x]^{1}_i = [x]^{0}_i \oplus \Delta$
 * $\mathsf{PRG}$ denotes a secure pseudo-random generator
@@ -79,7 +79,7 @@ Bob, even if malicious, has learned nothing except the purported output $v^A$ an
 
 Alice, if honest, has learned the correct output $v$ thanks to the authenticity property of garbled circuits. Alice, if malicious, has potentially learned Bob's entire input $y$.
 
-[^1]: This is a significant deviation from standard DualEx protocols such as [MF06](https://www.iacr.org/archive/pkc2006/39580468/39580468.pdf). Typically the output labels are _not_ returned to the Generator, instead, output authenticity is established during a secure equality check at the end. See the [section below](#malicious-alice) for more detail.
+[^1]: This is a significant deviation from standard DualEx protocols such as [[HKE12]](https://www.cs.umd.edu/~jkatz/papers/SP12.pdf). Typically the output labels are _not_ returned to the Generator, instead, output authenticity is established during a secure equality check at the end. See the [section below](#malicious-alice) for more detail.
 
 ### Equality Check
 
@@ -102,7 +102,7 @@ During the first execution, Alice has some degrees of freedom in how she garbles
 
 Recall that our scheme assumes Bob's input is an ephemeral secret which can be revealed at the end. For this reason, we are entirely unconcerned about the detectable variety. Simply providing Bob with the output labels commitment $\mathsf{com}_{[V]_A}$ is sufficient to detect these types of corruptions. In this context, our primary concern is regarding the _correctness_ of the output of $G_A$.
 
-[DPB18] shows that any undetectable corruption made to $G_A$ is constrained to the arbitrary insertion of NOT gates into the circuit, such that $G_A$ computes $f_A$ instead of $f$. Note that any corruption of $d_A$ has an equivalent effect. [DPB18] also shows that Alice's ability to exploit this is constrained by the topology of the circuit.
+[DPB18] shows that any undetectable corruption made to $G_A$ is constrained to the arbitrary insertion or removal of NOT gates in the circuit, such that $G_A$ computes $f_A$ instead of $f$. Note that any corruption of $d_A$ has an equivalent effect. [DPB18] also shows that Alice's ability to exploit this is constrained by the topology of the circuit.
 
 Recall that in the final stage of our protocol Bob checks that the output of $G_A$ matches the output of $G_B$, or more specifically:
 
