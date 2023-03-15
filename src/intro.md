@@ -1,6 +1,6 @@
 # Introduction
 
-TLSNotary is a protocol, which allows users to export data from any website in a
+TLSNotary is a protocol which allows users to export data from any website in a
 credible way. This way they can verify the authenticity of parts of a
 TLS-encrypted web session without compromising on privacy.
 
@@ -17,7 +17,7 @@ prove that
 
 - you have received a money transfer using your online banking account, without
   revealing your login credentials or sensitive financial information.
-- you have access to an account on some online community.
+- you have access to an account in some online community.
 - a website showed some specific content on a certain date.
 
 Overall, the TLSNotary protocol can be used in any scenario where a client needs
