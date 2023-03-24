@@ -4,10 +4,10 @@ TLSNotary is a protocol which allows users to export data from any website in a
 credible way. This way they can verify the authenticity of parts of a
 TLS-encrypted web session without compromising on privacy.
 
-It works by adding a third party, the Notary, to the usual client/server
-communication. The User forwards the encrypted TLS traffic to the Notary
-which checks that it has not been tampered with and notarizes the whole TLS
-session by signing a transcript of it.
+It works by adding a third party, the Notary, to the usual TLS connection
+between the User and a web server. The User forwards the encrypted TLS traffic
+to the Notary which checks that it has not been tampered with and notarizes the
+whole TLS session by signing a transcript of it.
 
 The User can now use this transcript and disclose parts of it to another
 party, which we call Verifier. The Verifier only needs to trust the Notary
