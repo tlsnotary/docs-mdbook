@@ -10,7 +10,7 @@ to the Notary which checks that it has not been tampered with and notarizes the
 whole TLS session by signing a transcript of it.
 
 The User can now use this transcript and disclose parts of it to another
-party, which we call Verifier. The Verifier only needs to trust the Notary
+party, which we call the Verifier. The Verifier only needs to trust the Notary
 in order to accept proofs from many different users. This way, TLSNotary
 can be used for a variety of purposes. For example you can use TLSNotary to
 prove that
