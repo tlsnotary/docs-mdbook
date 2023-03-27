@@ -138,6 +138,37 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+<p>TLSNotary is a protocol which allows users to export data from any website in a
+credible way. This way they can verify the authenticity of parts of a
+TLS-encrypted web session without compromising on privacy.</p>
+<p>It works by adding a third party, the Notary, to the usual TLS connection
+between the User and a web server. The User forwards the encrypted TLS traffic
+to the Notary which checks that it has not been tampered with and notarizes the
+whole TLS session by signing a transcript of it.</p>
+<p>The User can now use this transcript and disclose parts of it to another
+party, which we call the Verifier. The Verifier only needs to trust the Notary
+in order to accept proofs from many different users. This way, TLSNotary
+can be used for a variety of purposes. For example you can use TLSNotary to
+prove that</p>
+<ul>
+<li>you have received a money transfer using your online banking account, without
+revealing your login credentials or sensitive financial information.</li>
+<li>you have access to an account on a web platform.</li>
+<li>a website showed some specific content on a certain date.</li>
+</ul>
+<p>Overall, the TLSNotary protocol can be used in any scenario where you need to
+prove to a third party facts about the content of a TLS connection.</p>
+<p>Some interesting aspects of TLSNotary are:</p>
+<ul>
+<li>The protocol is transparent to the web server, because it is not aware of the
+notarization process. For the server it just looks like normal browsing.</li>
+<li>Data is kept private from the Notary. The Notary only sees the ciphertext and
+never has access to the plaintext.</li>
+<li>No modifications to the TLS protocol are needed. You can use it without any
+changes to web servers.</li>
+<li>The Notary and the Verifier can be the same entity. That means if you as a
+Verifier do not want to trust some Notary server, you can run one yourself.</li>
+</ul>
 
                     </main>
 
