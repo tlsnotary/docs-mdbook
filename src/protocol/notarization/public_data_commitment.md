@@ -1,6 +1,8 @@
+# Commitment to public data
+
 We describe an interactive protocol between the User `U` and the Notary `N`, whereby `U` can convert the authenticated AES ciphertext into a hash commitment to Garbled Circuits wire labels.
 
-### ---- Creating the new commitment
+## Creating the new commitment
 
 0. At the end of the TLSNotary session, both `U` and `N` know the authenticated AES `ciphertext`. 
 
@@ -20,7 +22,7 @@ We describe an interactive protocol between the User `U` and the Notary `N`, whe
 
 > Now, (`seed` + `commitment to IWLs`) become `U`'s new commitment to `p`.
 
-### ---- Verifying the commitment
+## Verifying the commitment
 
 Verifier performs the following steps:
 
@@ -35,7 +37,7 @@ Verifier performs the following steps:
 5. Accepts `p` as authentic.
 
 
-### ---- Dynamic commitment using a Merkle tree
+## Dynamic commitment using a Merkle tree
 
 In situations where `U` does not know in advance which subset of the public data she will be revealing later to the Verifier, `U` can commit to the Merkle tree of all her input wire labels (from Step 4 above). 
 Later, `U` can reveal only those Merkle leaves which she wants to make public to the Verifier. 

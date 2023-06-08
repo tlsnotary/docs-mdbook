@@ -1,3 +1,5 @@
+# Commitment
+
 At the end of the TLSNotary protocol, the User has the authenticated AES ciphertext which can be thought of as a commitment to the plaintext. This form of commitment is not amenable to use cases when the User wants to make part of the plaintext public while keeping another part private. Naively, the User's option is to prove the decryption of the ciphertext in zero-knowledge which is computationally expensive.
 
 We describe two less computationally heavy approaches for converting the AES ciphertext commitments. 
