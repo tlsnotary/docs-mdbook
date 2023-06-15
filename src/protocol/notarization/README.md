@@ -1,20 +1,20 @@
 # Notarization Phase
 
-During the Notarization Phase the `Requester`, otherwise referred to as the `User`, and the `Notary` work together to generate an authenticated `Transcript` of a TLS session with a `Server`.
+During the Notarization Phase the `User` (otherwise referred to as the `Requester` or `Prover`) and the `Notary` work together to generate an authenticated `Transcript` of a TLS session with a `Server`.
 
 Listed below are some key points regarding this process:
 
- - The identity of the `Server` is not revealed to the `Notary`, but the `Requester` is capable of proving the `Server` identity to a `Verifier` later.
+ - The identity of the `Server` is not revealed to the `Notary`, but the `User` is capable of proving the `Server` identity to a `Verifier` later.
  - The `Notary` only ever sees the *encrypted* application data of the TLS session.
- - The protocol guarantees that the `Requester` is not solely capable of constructing requests, nor can they forge responses from the `Server`.
+ - The protocol guarantees that the `User` is not solely capable of constructing requests, nor can they forge responses from the `Server`.
 
-## Requester
+## User
 
-The `Requester` is the party which runs the TLS connection with the `Server`. The `Requester` constructs application payloads, eg. HTTP requests, and coordinates with the `Notary` to encrypt them with the TLS session keys prior to sending them. Subsequently, the `Requester` works with the `Notary` to decrypt responses from the `Server`. The plaintext of the application data is only ever revealed to the `Requester`.
+The `User` is the party which runs the TLS connection with the `Server`. The `User` constructs application payloads, eg. HTTP requests, and coordinates with the `Notary` to encrypt them with the TLS session keys prior to sending them. Subsequently, the `User` works with the `Notary` to decrypt responses from the `Server`. The plaintext of the application data is only ever revealed to the `User`.
 
 ## Notary
 
-The `Notary` is the party of which the authenticity of the `Transcript` relies on. During the session the `Notary` withholds its' shares of the TLS keys and participates in a series of secure 2-party computation protocols with the `Requester` to operate the TLS connection.
+The `Notary` is the party of which the authenticity of the `Transcript` relies on. During the session the `Notary` withholds its' shares of the TLS keys and participates in a series of secure 2-party computation protocols with the `User` to operate the TLS connection.
 
 ## Server
 

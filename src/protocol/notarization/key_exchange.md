@@ -1,6 +1,6 @@
 # Key Exchange
 
-In TLS, the first step towards obtaining TLS session keys is to compute a shared secret between the client and the server by running the [ECDH protocol](https://en.wikipedia.org/wiki/Elliptic-curve_Diffie–Hellman). The resulting shared secret in TLS terms is called the pre-master secret `PMS`.
+In TLS, the first step towards obtaining TLS session keys is to compute a shared secret between the user and the server by running the [ECDH protocol](https://en.wikipedia.org/wiki/Elliptic-curve_Diffie–Hellman). The resulting shared secret in TLS terms is called the pre-master secret `PMS`.
 
 <img src="https://raw.githubusercontent.com/tlsnotary/docs-assets/main/diagrams/key_exchange.png" width="800">
 
@@ -22,7 +22,7 @@ in such a way that
 1. Neither party learns the other party's $x$ value
 2. Neither party learns $x_r$, only their respective shares of $x_r$.
 
-We will use two maliciously secure protocols described on p.25 in the paper [Eﬃcient Secure Two-Party Exponentiation](https://www.cs.umd.edu/~fenghao/paper/modexp.pdf):
+We will use two maliciously secure protocols described on p.25 in the paper [Efficient Secure Two-Party Exponentiation](https://www.cs.umd.edu/~fenghao/paper/modexp.pdf):
 
 - `A2M` protocol, which converts additive shares into multiplicative shares, i.e. given shares `a` and `b` such that `a + b = c`, it converts them into shares `d` and `e` such that `d * e = c`    
 - `M2A` protocol, which converts multiplicative shares into additive shares
