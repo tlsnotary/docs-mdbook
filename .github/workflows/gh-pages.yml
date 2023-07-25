@@ -5,6 +5,11 @@ on:
     branches:
       - main
 
+# Lookup compatible version numbers at: https://github.com/lzanini/mdbook-katex/releases
+env:
+  mdbook-version: 'v0.4.32'
+  katex-version: 'v0.5.5'
+
 jobs:
   deploy:
     runs-on: ubuntu-20.04
@@ -17,17 +22,17 @@ jobs:
         uses: dsaltares/fetch-gh-release-asset@master
         with:
           repo: lzanini/mdbook-katex
-          version: tags/v0.2.17
-          file: "mdbook-katex-v0.2.17-x86_64-unknown-linux-gnu.tar.gz"
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          version: tags/${{env.katex-version}}
+          file: "mdbook-katex-${{env.katex-version}}-x86_64-unknown-linux-gnu.tar.gz"
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install mdbook-katex
-        run: tar -xvf mdbook-katex-v0.2.17-x86_64-unknown-linux-gnu.tar.gz -C /usr/local/bin
+        run: tar -xvf mdbook-katex-${{env.katex-version}}-x86_64-unknown-linux-gnu.tar.gz -C /usr/local/bin
 
       - name: Setup mdBook
         uses: peaceiris/actions-mdbook@v1
         with:
-          mdbook-version: "0.4.21"
+          mdbook-version: ${{env.mdbook-version}}
 
       - run: mdbook build
 
