@@ -38,15 +38,15 @@ Notice that in each step the key, in this case `PMS`, is constant. Thus both the
 Below is the description of the all the steps to compute the `PRF` both inside and outside the 2PC circuit.
 
 
-## ---- Computing the master secret
+## Computing the master secret
 
-### -- Inside the circuit
+### Inside the circuit
 
 1. To evaluate the circuit, the parties input their `PMS` shares. The circuit outputs:
  - H(PMS ⊕ opad) called `PMS` `outer hash state` to `N` and
  - H(PMS ⊕ ipad) called `PMS` `inner hash state` to `U`
 
-### -- Outside the circuit
+### Outside the circuit
 
 2. `U` computes H((PMS ⊕ ipad) || a0) called `inner hash` of `a1` and passes it to `N`.
 
@@ -63,12 +63,12 @@ Below is the description of the all the steps to compute the `PRF` both inside a
 
 8. `U` computes the `inner hash` of `p1`.
 
-### -- Inside the circuit
+### Inside the circuit
 
 9. To evaluate the circuit, `N` inputs the `PMS outer hash state` and `U` inputs `p2` and the `inner hash` of `p1`. The circuit computes the master secret (`MS`).
 
 
-## ---- Computing the expanded keys
+## Computing the expanded keys
 
 The parties proceed to compute the `expanded keys`. The corresponding python code is:
 
@@ -86,13 +86,13 @@ client_write_IV = ek[32:36]
 server_write_IV = ek[36:40]
 ```
 
-### -- Inside the circuit
+### Inside the circuit
 
 10. Having computed `MS`, the circuit outputs:
  - H(MS ⊕ opad) called the `MS outer hash state` to `N` and
  - H(MS ⊕ ipad) called the `MS inner hash state` to `U`
 
-### -- Outside the circuit
+### Outside the circuit
 
 11. `U` computes the `inner hash` of `a1` and sends it to `N`.
 
@@ -104,18 +104,18 @@ server_write_IV = ek[36:40]
 
 15. `U` computes the `inner hash state` of `p1` and the `inner hash state` of `p2`.
 
-### -- Inside the circuit
+### Inside the circuit
 
 16. To evaluate the circuit, `N` inputs `MS outer hash state` (from Step 10) and `U` inputs `inner hash state` of `p1` and `inner hash state` of `p2`. The circuit computes `p1` and `p2`. The circuit outputs xor shares of the `expanded keys` to each party.
 
 
-## ---- Computing the encrypted Client_Finished
+## Computing the encrypted Client_Finished
 
-### -- Inside the circuit
+### Inside the circuit
 
 17. To evaluate the circuit, the parties input their shares of the `expanded keys`. The circuit outputs data needed to encrypt and authenticate the `Client_Finished` (`CF`) message.
 
-### -- Outside the circuit
+### Outside the circuit
 
 The parties proceed to compute `verify_data` for the `CF` message. The corresponding python code is:
 
@@ -140,7 +140,7 @@ verify_data = p1[:12]
 
 Using the data from Step 17, `U` proceeds to encrypt and authenticate `CF` and sends it to the webserver.
 
-## ---- Verifying the Server_Finished
+## Verifying the Server_Finished
 
 Upon `U`'s receiving the encrypted `Server_Finished` (`SF`) from the webserver, the parties proceed to compute `verify_data` for `SF`, to enable `U` to check that the received `SF` is correct. The corresponding python code is:
 
@@ -153,7 +153,7 @@ p1 = hmac.new(ms, a1+seed, hashlib.sha256).digest()
 verify_data = p1[:12]
 ```
 
-### -- Outside the circuit
+### Outside the circuit
 
 22. `U` computes `inner hash` of `a1` and sends it to `N`.
 
@@ -161,7 +161,7 @@ verify_data = p1[:12]
 
 24. `U` computes `inner hash` of `p1`.
 
-### -- Inside the circuit
+### Inside the circuit
 
 25. To evaluate the circuit, `N` inputs `MS` `outer hash state` (from Step 10) and `U` inputs `inner hash` of `p1`. The circuit outputs `verify_data` for `SF` to `U`.
 

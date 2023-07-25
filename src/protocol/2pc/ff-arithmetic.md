@@ -13,7 +13,7 @@ For this reason we require that the adversary cannot do anything which would
 give him a better chance than guessing the private input at random, which is  
 guessing $k$ bits with a probability of $2^{-k}$ for not being detected.
 
-In the following we want to have closer look at how the sender and receiver can
+In the following we want to have a closer look at how the sender and receiver can
 deviate from the protocol.
 
 #### Malicious receiver
