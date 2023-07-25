@@ -9,6 +9,5 @@ title = "tlsn-docs"
 default-theme = "ayu"
 additional-css = ["src/css/katex.css", "src/css/global.css"]
 
-[output.katex]
-
 [preprocessor.katex]
+after = ["links"]
