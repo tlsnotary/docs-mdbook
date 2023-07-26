@@ -1,7 +1,7 @@
 # Summary
 
 [Introduction](./intro.md)
- [Protocol](./protocol/README.md)
+[Protocol](./protocol/README.md)
   - [Overview](./overview.md)
   - [Notarization](./protocol/notarization/README.md)
       - [TLS Handshake](./protocol/notarization/handshake.md)
@@ -21,3 +21,5 @@
     - [Encodings](./building_blocks/encodings.md)
     - [Key Exchange](./protocol/notarization/key_exchange.md)
     - [ECtF](./building_blocks/ectf.md)
+
+[Glossary](./glossary.md)
