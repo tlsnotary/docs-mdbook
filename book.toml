@@ -10,5 +10,9 @@ default-theme = "ayu"
 additional-css = ["src/css/katex.css", "src/css/global.css"]
 use-site-url-as-root = true
 
+[output.linkcheck]
+# Ignore warnings because of the many false-postives in katex formulas
+warning-policy = "ignore"
+
 [preprocessor.katex]
 after = ["links"]
