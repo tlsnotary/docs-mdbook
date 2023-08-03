@@ -5,9 +5,9 @@ During the TLS handshake the TLS Client and the TLS Server compute the session k
 In TLSNotary protocol `User` and `Notary` jointly play the role of the TLS Client. They use MPC to compute the session keys in such a way that neither party ever learns the full keys but each has their share of the keys.
 
 
-First they compute their shares of the TLS Client's ECDH secret using [this protocol](/mpc/key_exchange.md). Since an ECDH secret is an EC point, the parties have their shares of that point.
+First they compute their shares of the TLS Client's ECDH secret using [this protocol](./key_exchange.md). Since an ECDH secret is an EC point, the parties have their shares of that point.
 
-Then they compute their shares of the pre-master secret (PMS) using an MPC protocol described [here](/mpc/ectf.md).
+Then they compute their shares of the pre-master secret (PMS) using an MPC protocol described [here](./ectf.md).
 
 Then the parties input their PMS shares as private inputs to the [DEAP](/mpc/deap.md) protocol (along with some other public data). They perform the following in MPC: 
 

@@ -6,11 +6,11 @@ This section explains how the `User` and `Notary` use MPC to encrypt data for th
 
 To encrypt the plaintext, both parties input their key shares as private inputs to the [MPC](/mpc/deap.md) protocol, along with some other public data. Additionally, the `User` inputs her plaintext as a private input.
 
-Both parties see the resulting ciphertext and execute the [2PC MAC](/protocol/2pc/mac.md) protocol to compute the MAC for the ciphertext.
+Both parties see the resulting ciphertext and execute the [2PC MAC](../../mpc/mac.md) protocol to compute the MAC for the ciphertext.
 
 The `User` then dispatches the ciphertext and the MAC to the server.
 
-As explained in the [Commitment section](/protocol/notarization/commitment2.md), the `User` creates a commitment to the plaintext (her private input to DEAP).
+As explained in the [Commitment section](commitment.md), the `User` creates a commitment to the plaintext (her private input to DEAP).
 
 ## Decryption
 
