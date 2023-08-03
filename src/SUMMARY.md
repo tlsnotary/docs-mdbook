@@ -1,7 +1,9 @@
 # Summary
 
 [Introduction](./intro.md)
-[Protocol]()
+
+# Protocol
+
 1. [Overview](./overview.md)
 2. [Notarization](./protocol/notarization/README.md)
     - [TLS Handshake](./protocol/notarization/handshake.md)
@@ -10,7 +12,9 @@
     - [Signing](./protocol/notarization/signing.md)
 3. [Verification](./protocol/verification.md)
 4. [Selective Disclosure]()
-[MPC]()
+
+# MPC
+
 - [Garbled Circuits](./mpc/garbled_circuits.md)
 - [Dual Execution with Asymmetric Privacy](./mpc/deap.md)
 - [Oblivious Transfer]()
