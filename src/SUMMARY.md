@@ -23,3 +23,4 @@
 - [Encryption](./mpc/encryption.md)
 - [TLS handhsake](./mpc/tls_handshake.md)
 
++[Glossary](./glossary.md)
