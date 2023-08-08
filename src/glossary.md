@@ -17,5 +17,6 @@
 | RSA   | Rivest–Shamir–Adleman (public-key cryptosystem) |
 | PMS   | Pre master secret (TLS)                         |
 | PRF   | Pseudo Random Function                          |
+| PRG   | pseudorandom generator                          |
 | PSE   | Privacy and Scaling Exploration                 |
 | TLS   | transport layer security                        |
