@@ -183,13 +183,13 @@
 <p>The <code>Notary</code> is the party of which the authenticity of the <code>Transcript</code> relies on. During the session the <code>Notary</code> withholds its' shares of the TLS keys and participates in a series of secure 2-party computation protocols with the <code>Requester</code> to operate the TLS connection.</p>
 <h2 id="server"><a class="header" href="#server">Server</a></h2>
 <p>The <code>Server</code> can be any server which supports TLS. The TLSNotary protocol is entirely transparent to the <code>Server</code>, thus it can not be censored nor does it have to support any additional functionality.</p>
-<img src="https://raw.githubusercontent.com/tlsnotary/docs-assets/main/diagrams/tls12-multiround.png">
+<img src="../../png-diagrams/tls12-multiround.png">
 <h2 id="transcript"><a class="header" href="#transcript">Transcript</a></h2>
 <p>The primary artifact generated from this phase is called the <code>Transcript</code>. It contains session meta-data, handshake data, and commitments to all the requests and responses. Typically the <code>Transcript</code> is signed by the <code>Notary</code>, however that is not necessary in the case where the <code>Notary</code> will also act as the <code>Verifier</code> in the selective disclosure phase.</p>
 <blockquote>
 <p>Note that the server ephemeral key does not reveal the identity of the server to the <code>Notary</code>.</p>
 </blockquote>
-<img src="https://raw.githubusercontent.com/tlsnotary/docs-assets/main/diagrams/transcript.png">
+<img src="../../png-diagrams/transcript.png">
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
