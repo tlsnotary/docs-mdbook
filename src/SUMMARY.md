@@ -28,5 +28,8 @@
 - [TLS handhsake](./mpc/tls_handshake.md)
 - [Committed Oblivious Transfer](./mpc/committed_ot.md)
 
+# Specification
+
+- [Notarized session](./spec/notarized_session.md)
 
 +[Glossary](./glossary.md)
