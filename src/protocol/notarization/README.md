@@ -20,7 +20,7 @@ The `Notary` is the party of which the authenticity of the `Transcript` relies o
 
 The `Server` can be any server which supports TLS. The TLSNotary protocol is entirely transparent to the `Server`, thus it can not be censored nor does it have to support any additional functionality.
 
-<img src="https://raw.githubusercontent.com/tlsnotary/docs-assets/main/diagrams/tls12-multiround.png">
+<img src="../../png-diagrams/tls12-multiround.png">
 
 ## Transcript
 
@@ -29,4 +29,4 @@ The primary artifact generated from this phase is called the `Transcript`. It co
 > Note that the server ephemeral key does not reveal the identity of the server to the `Notary`.
 
 
-<img src="https://raw.githubusercontent.com/tlsnotary/docs-assets/main/diagrams/transcript.png">
+<img src="../../png-diagrams/transcript.png">

@@ -43,7 +43,7 @@ Ideal functionality for ONESHOTENC:
 We now describe the protocol at a high level. It is based on Figure 1 of the [Dual-Execution (DualEx) technique](https://www.cs.virginia.edu/~evans/pubs/oakland2012/quidproquotocols.pdf) with a relaxation (see Step 3 below). We overcome DualEx's inherent leakage by introducing a consistency check which the User performs on the Notary, thus removing the ability to leak the User's input. It is still possible for a malicious User to leak the Notary's input (i.e. the AES key share), but it gives her no meaningful advantage as per the first observation above.
 ### Part 1
 
-To set up for dual-execution, the parties set up the OTs. Because we have a privacy-free step later, the Notary's OT needs to be opened up later, so we have the notary do a "committed OT" (see section 2 of [JKO13](https://eprint.iacr.org/2013/073)), so that he can be forced to open the labels later on.
+To set up for dual-execution, the parties set up the OTs. Because we have a privacy-free step later, the Notary's OT needs to be opened up later, so we have the notary do a "committed OT" (see section 2 of \[JKO13\](https://eprint.iacr.org/2013/073)), so that he can be forced to open the labels later on.
 
 In the first step of the protocol, the User has to get her AES ciphertext from the Notary. The User does not trust the Notary (for privacy or integrity), and the User's data is far more sensitive to leakage than the Notary's. So the parties do an ordinary DualEx:
 
