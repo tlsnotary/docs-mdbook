@@ -1,16 +1,11 @@
-# Signing the session header.
+# Signing the Session Header
 
-The `Notary` signs the following artifacts called the `Session Header` which are required for the `User` to prove to a third-party `Verifier` the authenticity of the plaintext from the TLS session.
-We emphasize that throughout the whole TLSNotary protocol, the `Notary` never learns the plaintext neither learns what domain the `User` communicates with.
+At the end of the TLSNotary protocol, the `Notary` signs an artifact known as a `Session Header`, thereby attesting to the authenticity of the plaintext from a TLS session. A `Session Header` contains a `User`'s commitment to the plaintext and a `User`'s commitment to TLS-specific data which uniquely identifies the server.
 
-// taken from tlsn/tlsn-core/src/session/header.rs
+The `User` can later use the signed `Session Header` to prove data provenance to a third-party `Verifier`.
 
-// TODO: will explain the meaning of each
+It's important to highlight that throughout the entire TLSNotary protocol, including this signing stage, the `Notary` does not gain knowledge of either the plaintext or the identity of the server with which the `User` communicated.
 
-- encoder_seed:  
-- merkle_root
-- sent_len
-- recv_len
-- time
-- server_public_key
-- handshake_commitment
+
+
+
