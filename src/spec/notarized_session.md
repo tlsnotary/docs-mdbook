@@ -16,7 +16,7 @@ Since the `Notary` remains unaware of the signature or the certificate, the serv
 
 ### Plaintext Encodings
 
-These are the [encodings](../../mpc/encodings.md) employed by the Notary to encode the plaintext.
+These are the [encodings](/mpc/encodings.md) employed by the Notary to encode the plaintext.
 
 Again, note that the `Notary` does not gain knowledge of the actual plaintext. The `Notary` transmits these encodings to the `User` using [Oblivious Transfer](/mpc/oblivious_transfer.md).
 
