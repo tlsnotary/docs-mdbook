@@ -1,6 +1,8 @@
 # Summary
 
-[Introduction](./intro.md)
+- [Introduction](./intro.md)
+
+- [Quick Start](./developers/quick_start.md)
 
 # Protocol
 
@@ -29,9 +31,7 @@
 - [Committed Oblivious Transfer](./mpc/committed_ot.md)
 - [Oblivious Transfer](./mpc/oblivious_transfer.md)
 
+# Developer resources
 
-# Specification
-
-- [Notarized session](./spec/notarized_session.md)
 
 +[Glossary](./glossary.md)
