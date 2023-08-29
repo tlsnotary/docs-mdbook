@@ -1,8 +1,8 @@
 # Summary
 
-- [Introduction](./intro.md)
-
-- [Quick Start](./developers/quick_start.md)
+[Introduction](./intro.md)
+[Motivation](./motivation.md)
+[Quick Start](./developers/quick_start.md)
 
 # Protocol
 
