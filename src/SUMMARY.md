@@ -28,8 +28,8 @@
 - [Commitment scheme](./mpc/commitment_scheme.md)
 - [Encryption](./mpc/encryption.md)
 - [TLS handhsake](./mpc/tls_handshake.md)
-- [Committed Oblivious Transfer](./mpc/committed_ot.md)
-- [Oblivious Transfer](./mpc/oblivious_transfer.md)
+- [Committed Oblivious Transfer]() <!-- (./mpc/committed_ot.md) -->
+- [Oblivious Transfer]() <!-- (./mpc/oblivious_transfer.md) -->
 
 # Developer resources
 

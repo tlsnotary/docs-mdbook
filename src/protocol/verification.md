@@ -2,7 +2,7 @@
 
 A `Verifier`` receives the following from the `User`:
 
-// TODO will explain each
+<!-- TODO will explain each -->
 
 - domain name (e.g. "tlsnotary.org")
 - signed `Session Header`
