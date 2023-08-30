@@ -14,7 +14,7 @@ A `Verifier`` receives the following from the `User`:
 
 and performs the following steps to verify the commitments:
 
-// you can see these steps in tlsn/tlsn-core/tests/api.rs
+<!-- // you can see these steps in tlsn/tlsn-core/tests/api.rs -->
 
 - verify that `Session Header` was signed by the Notary
 - verify handshake_data against handshake_commitment
@@ -28,4 +28,4 @@ and performs the following steps to verify the commitments:
 
 To summarize: the `Verifier` will only learn those portions of the TLS session transcript which the `User` chose to reveal. The portions which were not revealed (`User`'s private data) will appear to the `Verifier` as redacted. Here is an example of what the `Verifier` output may look like:
 
-// paste here a picture of an HTTP request with redacted fields
+<!-- // paste here a picture of an HTTP request with redacted fields -->

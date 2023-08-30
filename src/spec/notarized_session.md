@@ -45,7 +45,7 @@ The total amount of application data bytes that the `User` sent to and received 
 
 ## Session Data
 
-// (can be seen in tlsn-core/src/session/data.rs)
+<!-- // (can be seen in tlsn-core/src/session/data.rs) -->
 
 - `handshake_data_decommitment` contains `HandshakeData` which the `User` committed to (with salt)
 `HandshakeData` contains various TLS-specific details:
