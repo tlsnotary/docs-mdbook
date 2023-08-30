@@ -367,7 +367,7 @@ They then use their shares of the keys to finish the TLS handshake.</p>
 <li>client and server random</li>
 </ul>
 <p>and performs the following steps to verify the commitments:</p>
-<p>// you can see these steps in tlsn/tlsn-core/tests/api.rs</p>
+<!-- // you can see these steps in tlsn/tlsn-core/tests/api.rs -->
 <ul>
 <li>
 <p>verify that <code>Session Header</code> was signed by the Notary</p>
@@ -390,8 +390,7 @@ They then use their shares of the keys to finish the TLS handshake.</p>
 </li>
 </ul>
 <p>To summarize: the <code>Verifier</code> will only learn those portions of the TLS session transcript which the <code>User</code> chose to reveal. The portions which were not revealed (<code>User</code>'s private data) will appear to the <code>Verifier</code> as redacted. Here is an example of what the <code>Verifier</code> output may look like:</p>
-<p>// paste here a picture of an HTTP request with redacted fields</p>
-<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<!-- // paste here a picture of an HTTP request with redacted fields --><div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="secure-2-party-computation"><a class="header" href="#secure-2-party-computation">Secure 2-Party Computation</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="dual-execution-with-asymmetric-privacy"><a class="header" href="#dual-execution-with-asymmetric-privacy">Dual Execution with Asymmetric Privacy</a></h1>
