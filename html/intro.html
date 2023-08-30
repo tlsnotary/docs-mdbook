@@ -1,0 +1,271 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js ayu">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Introduction - tlsn-docs</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="src/css/katex.css">
+        <link rel="stylesheet" href="src/css/global.css">
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "ayu";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('ayu')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html" class="active">Introduction</a></li><li class="chapter-item expanded affix "><a href="motivation.html">Motivation</a></li><li class="chapter-item expanded affix "><a href="developers/quick_start.html">Quick Start</a></li><li class="chapter-item expanded affix "><li class="part-title">Protocol</li><li class="chapter-item expanded "><a href="overview.html"><strong aria-hidden="true">1.</strong> Overview</a></li><li class="chapter-item expanded "><a href="protocol/notarization/index.html"><strong aria-hidden="true">2.</strong> Notarization</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="protocol/notarization/handshake.html"><strong aria-hidden="true">2.1.</strong> TLS Handshake</a></li><li class="chapter-item expanded "><a href="protocol/notarization/encryption.html"><strong aria-hidden="true">2.2.</strong> Encryption and Decryption</a></li><li class="chapter-item expanded "><a href="protocol/notarization/commitment.html"><strong aria-hidden="true">2.3.</strong> Commitment</a></li><li class="chapter-item expanded "><a href="protocol/notarization/signing.html"><strong aria-hidden="true">2.4.</strong> Signing</a></li></ol></li><li class="chapter-item expanded "><a href="protocol/verification.html"><strong aria-hidden="true">3.</strong> Verification</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Selective Disclosure</div></li><li class="chapter-item expanded affix "><li class="part-title">MPC</li><li class="chapter-item expanded "><a href="mpc/garbled_circuits.html"><strong aria-hidden="true">5.</strong> Garbled Circuits</a></li><li class="chapter-item expanded "><a href="mpc/deap.html"><strong aria-hidden="true">6.</strong> Dual Execution with Asymmetric Privacy</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> Oblivious Transfer</div></li><li class="chapter-item expanded "><a href="mpc/mac.html"><strong aria-hidden="true">8.</strong> MAC</a></li><li class="chapter-item expanded "><a href="mpc/ff-arithmetic.html"><strong aria-hidden="true">9.</strong> Finite-Field Arithmetic</a></li><li class="chapter-item expanded "><a href="mpc/encodings.html"><strong aria-hidden="true">10.</strong> Encodings</a></li><li class="chapter-item expanded "><a href="mpc/key_exchange.html"><strong aria-hidden="true">11.</strong> Key Exchange</a></li><li class="chapter-item expanded "><a href="mpc/ectf.html"><strong aria-hidden="true">12.</strong> ECtF</a></li><li class="chapter-item expanded "><a href="mpc/commitment_scheme.html"><strong aria-hidden="true">13.</strong> Commitment scheme</a></li><li class="chapter-item expanded "><a href="mpc/encryption.html"><strong aria-hidden="true">14.</strong> Encryption</a></li><li class="chapter-item expanded "><a href="mpc/tls_handshake.html"><strong aria-hidden="true">15.</strong> TLS handhsake</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">16.</strong> Committed Oblivious Transfer</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">17.</strong> Oblivious Transfer</div></li><li class="chapter-item expanded affix "><li class="part-title">Developer resources</li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">tlsn-docs</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/tlsnotary/docs-mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/tlsnotary/docs-mdbook/edit/main/src/intro.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+<h2 id="data-provenance-without-compromising-privacy-that-is-why"><a class="header" href="#data-provenance-without-compromising-privacy-that-is-why">Data Provenance without Compromising Privacy, That is Why!</a></h2>
+<p>The Internet currently lacks effective, privacy-preserving <strong>Data Provenance</strong>. <a href="https://en.wikipedia.org/wiki/Transport_Layer_Security">TLS</a>, also known as the &quot;s&quot; in &quot;https&quot; 🔐 to the general public, ensures that data can be securely communicated between a server and a user. But how can this user credibly share this data with another user or server without compromising security, privacy, and control?</p>
+<p>Enter TLSNotary: a protocol enabling users to export data securely from any website. Using Zero Knowledge Proof (ZKP) technology, this data can be selectively shared with others in a cryptographically verifiable manner.</p>
+<p>TLSNotary makes data truly portable and allows users to share it with others as they see fit.</p>
+<h2 id="how-does-the-tlsnotary-protocol-work"><a class="header" href="#how-does-the-tlsnotary-protocol-work">How Does the TLSNotary Protocol Work?</a></h2>
+<p>The TLSNotary protocol consists of 4 steps:</p>
+<ol>
+<li>The <code>User</code> <strong>requests</strong> the data from the <code>Server</code> privately and securely.</li>
+<li>The <code>Notary</code> <strong>checks</strong> for data tampering and <strong>signs</strong> the data.</li>
+<li>The <code>User</code> <strong>selectively discloses</strong> the data to the <code>Verifier</code>.</li>
+<li>The <code>Verifier</code> <strong>verifies</strong> the data.</li>
+</ol>
+<p><img src="./png-diagrams/overview3.png" alt="" /></p>
+<h3 id="①-multi-party-tls-request"><a class="header" href="#①-multi-party-tls-request">① Multi-party TLS Request</a></h3>
+<p>TLSNotary works by adding a third party, the <code>Notary</code>, to the usual TLS connection between the <code>User</code> and a <code>Server</code>. This <code>Notary</code> is <strong>not &quot;<a href="https://en.wikipedia.org/wiki/Man-in-the-middle_attack">a man in the middle</a>&quot;</strong>. Instead, the <code>Notary</code> participates in a <strong>secure multi-party computation</strong> (MPC) to jointly operate the TLS connection without ever seeing the data in plain text; the <code>Notary</code> only sees encrypted data. Given that the <code>Notary</code> only sees the temporary key of the <code>Server</code>, the <code>Notary</code> does not know which <code>Server</code> the <code>User</code> is communicating with. The TLSNotary protocol is transparent to the <code>Server</code>. From the <code>Server</code>'s perspective, the User's connection is a standard TLS connection.</p>
+<!-- - Transport Layer Security (TLS)
+    - Encryption: hides data from third parties
+    - Authentication: ensures that the parties exchanging information are who they claim to be
+    - Integrity: verifies that data has not been forged or tampered with -->
+<h3 id="②-notarization"><a class="header" href="#②-notarization">② Notarization</a></h3>
+<p>By participating in the <strong>secure multi-party computation</strong> (MPC) for TLS communication, the <code>Notary</code> can validate the authenticity and integrity of the communication with the <code>Server</code>. If the <code>User</code> has not cheated, the <code>Notary</code> <strong>signs</strong> the transcript of the entire TLS session. Since the <code>Notary</code> only checks encrypted data, this process is referred to as &quot;blind signing&quot;.</p>
+<h3 id="③-selective-disclosure"><a class="header" href="#③-selective-disclosure">③ Selective Disclosure</a></h3>
+<p>The TLSNotary protocol provides a means for the <code>User</code> to selectively prove the authenticity of arbitrary sections of the transcript to a <code>Verifier</code>. In this context, the <code>User</code> is often referred to as the <code>Prover</code>.</p>
+<p>Due to the manner in which the <code>Notary</code> signs the transcript, the <code>User</code> can <strong>redact sections</strong>, thereby removing sensitive data. This capability can be paired with Zero-Knowledge Proofs to prove properties of the redacted data without revealing the data itself.</p>
+<h3 id="④-verification"><a class="header" href="#④-verification">④ Verification</a></h3>
+<p>A <code>Verifier</code> validates the proof received from the <code>User</code>. By comparing the signature against the <code>Notary</code>'s public key, the <code>Verifier</code> ensures that the <code>User</code> did not tamper with the data.<br />
+The data's origin can be verified by inspecting the <code>Server</code> certificate through trusted certificate authorities (CAs).</p>
+<h3 id="trust-assumptions"><a class="header" href="#trust-assumptions">Trust Assumptions</a></h3>
+<p>TLSNotary requires a trust assumption. A <code>Verifier</code> of a proof must trust that the <code>Notary</code> did not collude with the <code>User</code> to forge it. This trust can be minimized by requiring multiple proofs, each signed by a different notary.</p>
+<p>In certain applications, the <code>Verifier</code> might also function as the <code>Notary</code>, leading to <strong>fully trustless proofs</strong>.</p>
+<h2 id="what-can-tlsnotary-do"><a class="header" href="#what-can-tlsnotary-do">What Can TLSNotary Do?</a></h2>
+<p>TLSNotary can be used for various purposes. For example, you can use TLSNotary to prove that:</p>
+<ul>
+<li>you have access to an account on a web platform</li>
+<li>a website showed specific content on a certain date</li>
+<li>you have private information about yourself (address, birth date, health, etc.)</li>
+<li>you have received a money transfer using your online banking account without revealing your login credentials or sensitive financial information</li>
+<li>you received a private message from someone</li>
+<li>you were blocked from using an app</li>
+<li>you earned professional certificates</li>
+</ul>
+<p>While TLSNotary can notarize publicly available data, it does not solve the &quot;<a href="https://ethereum.org/en/developers/docs/oracles/">oracle problem</a>&quot;. For this use case, existing oracle solutions are more suitable.</p>
+<h2 id="who-is-behind-tlsnotary"><a class="header" href="#who-is-behind-tlsnotary">Who is behind TLSNotary?</a></h2>
+<p>TLSNotary is developed by the Privacy and Scaling Exploration (PSE) research lab of the Ethereum Foundation. The PSE team is committed to conceptualizing and testing use cases for cryptographic primitives.</p>
+<p>TLSNotary is not a new project; in fact, it has been around for <a href="https://bitcointalk.org/index.php?topic=173220.0">more than a decade</a>.</p>
+<p>In 2022, TLSNotary was rebuilt from the ground up in <a href="https://www.rust-lang.org/">Rust</a> incorporating state-of-the-art cryptographic protocols. This renewed version of the TLSNotary protocol offers enhanced security, privacy, and performance.</p>
+<p>Older versions of TLSNotary, including PageSigner, have been archived due to a security vulnerability.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+                            <a rel="next" href="motivation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+                    <a rel="next" href="motivation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
