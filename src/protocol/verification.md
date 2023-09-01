@@ -1,6 +1,6 @@
 # Verification
 
-A `Verifier`` receives the following from the `User`:
+A `Verifier` receives the following from the `User`:
 
 <!-- TODO will explain each -->
 

@@ -31,7 +31,4 @@
 - [Committed Oblivious Transfer]() <!-- (./mpc/committed_ot.md) -->
 - [Oblivious Transfer]() <!-- (./mpc/oblivious_transfer.md) -->
 
-# Developer resources
-
-
 +[Glossary](./glossary.md)
