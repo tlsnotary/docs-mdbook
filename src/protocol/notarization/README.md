@@ -14,11 +14,11 @@ The `Requester` is the party which runs the TLS connection with the `Server`. Th
 
 ## Notary
 
-The `Notary` is the party of which the authenticity of the `Transcript` relies on. During the session the `Notary` withholds its' shares of the TLS keys and participates in a series of secure 2-party computation protocols with the `Requester` to operate the TLS connection.
+The `Notary` is the party of which the authenticity of the `Transcript` relies on. During the session the `Notary` withholds its' shares of the TLS keys and participates in a series of secure MPC protocols with the `Requester` to operate the TLS connection.
 
 ## Server
 
-The `Server` can be any server which supports TLS. The TLSNotary protocol is entirely transparent to the `Server`, thus it can not be censored nor does it have to support any additional functionality.
+The `Server` can be any server which supports TLS. The TLSNotary protocol is entirely transparent to the `Server`, thus it cannot be censored nor does it have to support any additional functionality.
 
 <img src="../../png-diagrams/tls12-multiround.png">
 

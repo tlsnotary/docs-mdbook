@@ -20,7 +20,7 @@ The TLSNotary protocol consists of 4 steps:
 
 ### ① Multi-party TLS Request
 
-TLSNotary works by adding a third party, the `Notary`, to the usual TLS connection between the `User` and a `Server`. This `Notary` is **not "[a man in the middle](https://en.wikipedia.org/wiki/Man-in-the-middle_attack)"**. Instead, the `Notary` participates in a **secure multi-party computation** (MPC) to jointly operate the TLS connection without ever seeing the data in plain text; the `Notary` only sees encrypted data. Given that the `Notary` only sees the temporary key of the `Server`, the `Notary` does not know which `Server` the `User` is communicating with. The TLSNotary protocol is transparent to the `Server`. From the `Server`'s perspective, the User's connection is a standard TLS connection.
+TLSNotary works by adding a third party, the `Notary`, to the usual TLS connection between the `User` and a `Server`. This `Notary` is **not "[a man in the middle](https://en.wikipedia.org/wiki/Man-in-the-middle_attack)"**. Instead, the `Notary` participates in a **secure multi-party computation** (MPC) to jointly operate the TLS connection without ever seeing the data in plain text; the `Notary` only sees encrypted data. Given that the `Notary` only sees the temporary key of the `Server`, the `Notary` does not know which `Server` the `User` is communicating with. The TLSNotary protocol is transparent to the `Server`. From the `Server`'s perspective, the `User`'s connection is a standard TLS connection.
 
 <!-- - Transport Layer Security (TLS)
     - Encryption: hides data from third parties
@@ -28,18 +28,18 @@ TLSNotary works by adding a third party, the `Notary`, to the usual TLS connecti
     - Integrity: verifies that data has not been forged or tampered with -->
 ### ② Notarization
 
-By participating in the **secure multi-party computation** (MPC) for TLS communication, the `Notary` can validate the authenticity and integrity of the communication with the `Server`. If the `User` has not cheated, the `Notary` **signs** the transcript of the entire TLS session. Since the `Notary` only checks encrypted data, this process is referred to as "blind signing".
+By participating in the **secure multi-party computation** (MPC) for TLS communication, the `Notary` can validate the authenticity and integrity of the `User`'s communication with the `Server`. If the `User` was honest, the `Notary` **signs** the transcript of the entire TLS session. Since the `Notary` only validates encrypted data, this process is referred to as "blind signing".
 
 ### ③ Selective Disclosure
 
 The TLSNotary protocol provides a means for the `User` to selectively prove the authenticity of arbitrary sections of the transcript to a `Verifier`. In this context, the `User` is often referred to as the `Prover`.
 
-Due to the manner in which the `Notary` signs the transcript, the `User` can **redact sections**, thereby removing sensitive data. This capability can be paired with Zero-Knowledge Proofs to prove properties of the redacted data without revealing the data itself.
+The `User` can **redact sections** of the transcript, thereby not disclosing sensitive data to the `Verifier`. This capability can be paired with Zero-Knowledge Proofs to prove properties of the redacted data without revealing the data itself.
 
 ### ④ Verification
 
 A `Verifier` validates the proof received from the `User`. By comparing the signature against the `Notary`'s public key, the `Verifier` ensures that the `User` did not tamper with the data.  
-The data's origin can be verified by inspecting the `Server` certificate through trusted certificate authorities (CAs).
+The data origin can be verified by inspecting the `Server` certificate through trusted certificate authorities (CAs).
 
 ### Trust Assumptions
 
@@ -62,7 +62,7 @@ While TLSNotary can notarize publicly available data, it does not solve the "[or
 
 ## Who is behind TLSNotary?
 
-TLSNotary is developed by the Privacy and Scaling Exploration (PSE) research lab of the Ethereum Foundation. The PSE team is committed to conceptualizing and testing use cases for cryptographic primitives.
+TLSNotary is developed by the [Privacy and Scaling Exploration (PSE)](https://pse.dev) research lab of the Ethereum Foundation. The PSE team is committed to conceptualizing and testing use cases for cryptographic primitives.
 
 TLSNotary is not a new project; in fact, it has been around for [more than a decade](https://bitcointalk.org/index.php?topic=173220.0).
 
