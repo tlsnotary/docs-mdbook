@@ -176,26 +176,14 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="notarization-phase"><a class="header" href="#notarization-phase">Notarization Phase</a></h1>
-<p>During the Notarization Phase the <code>Requester</code>, otherwise referred to as the <code>User</code>, and the <code>Notary</code> work together to generate an authenticated <code>Transcript</code> of a TLS session with a <code>Server</code>.</p>
+<p>During the Notarization Phase the <code>Prover</code>, otherwise referred to as the <code>User</code>, and the <code>Notary</code> work together to generate an authenticated <code>Transcript</code> of a TLS session with a <code>Server</code>.</p>
 <p>Listed below are some key points regarding this process:</p>
 <ul>
-<li>The identity of the <code>Server</code> is not revealed to the <code>Notary</code>, but the <code>Requester</code> is capable of proving the <code>Server</code> identity to a <code>Verifier</code> later.</li>
+<li>The identity of the <code>Server</code> is not revealed to the <code>Notary</code>, but the <code>Prover</code> is capable of proving the <code>Server</code> identity to a <code>Verifier</code> later.</li>
 <li>The <code>Notary</code> only ever sees the <em>encrypted</em> application data of the TLS session.</li>
-<li>The protocol guarantees that the <code>Requester</code> is not solely capable of constructing requests, nor can they forge responses from the <code>Server</code>.</li>
+<li>The protocol guarantees that the <code>Prover</code> is not solely capable of constructing requests, nor can they forge responses from the <code>Server</code>.</li>
 </ul>
-<h2 id="requester"><a class="header" href="#requester">Requester</a></h2>
-<p>The <code>Requester</code> is the party which runs the TLS connection with the <code>Server</code>. The <code>Requester</code> constructs application payloads, eg. HTTP requests, and coordinates with the <code>Notary</code> to encrypt them with the TLS session keys prior to sending them. Subsequently, the <code>Requester</code> works with the <code>Notary</code> to decrypt responses from the <code>Server</code>. The plaintext of the application data is only ever revealed to the <code>Requester</code>.</p>
-<h2 id="notary"><a class="header" href="#notary">Notary</a></h2>
-<p>The <code>Notary</code> is the party of which the authenticity of the <code>Transcript</code> relies on. During the session the <code>Notary</code> withholds its' shares of the TLS keys and participates in a series of secure MPC protocols with the <code>Requester</code> to operate the TLS connection.</p>
-<h2 id="server"><a class="header" href="#server">Server</a></h2>
-<p>The <code>Server</code> can be any server which supports TLS. The TLSNotary protocol is entirely transparent to the <code>Server</code>, thus it cannot be censored nor does it have to support any additional functionality.</p>
-<img src="../../png-diagrams/tls12-multiround.png">
-<h2 id="transcript"><a class="header" href="#transcript">Transcript</a></h2>
-<p>The primary artifact generated from this phase is called the <code>Transcript</code>. It contains session meta-data, handshake data, and commitments to all the requests and responses. Typically the <code>Transcript</code> is signed by the <code>Notary</code>, however that is not necessary in the case where the <code>Notary</code> will also act as the <code>Verifier</code> in the selective disclosure phase.</p>
-<blockquote>
-<p>Note that the server ephemeral key does not reveal the identity of the server to the <code>Notary</code>.</p>
-</blockquote>
-<img src="../../png-diagrams/transcript.png">
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
