@@ -1,6 +1,6 @@
 # TLS Handshake
 
-A TLS handshake is the first step in establishing a TLS connection with a server. In TLSNotary the `User` is the one who starts the TLS handshake and physically communicates with the server but all cryptographic TLS operations are performed together with the `Notary` using MPC.
+A TLS handshake is the first step in establishing a TLS connection between a `User` and a `Server`. In TLSNotary the `User` is the one who starts the TLS handshake and physically communicates with the `Server`, but all cryptographic TLS operations are performed together with the `Notary` using MPC.
 
 The `User` and `Notary` use a series of MPC protocols to compute the TLS session key in such a way that each of them only has their share of the key and never learns the full key. The parties then proceed to complete the TLS handshake using their shares of the key.
 
