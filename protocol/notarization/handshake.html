@@ -176,12 +176,13 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="tls-handshake"><a class="header" href="#tls-handshake">TLS Handshake</a></h1>
-<p>During the TLS handshake, the TLS Client and the TLS Server compute the session keys needed for the encryption and decryption of data.</p>
-<p>In TLSNotary protocol the <code>User</code> and <code>Notary</code> jointly play the role of the TLS Client. The <code>User</code> is the one who physically communicates with the server but all cryptographic TLS operations are performed using MPC.</p>
-<p>The parties use MPC to compute the session keys in such a way that each party only has their share of the keys and never learns the full keys. The parties proceed to complete the TLS handshake using their shares of the keys.</p>
-<p>To a third party observing the <code>User</code>'s connection to the server, the connection appears like a regular TLS connection. The <code>User</code> maintains all the security guarantees of a standard TLS connection against a third-party bad actor.</p>
-<p>However, the <code>User</code>'s TLS connection does not maintain the normal TLS security against the <code>Notary</code>. Instead, the <code>User</code> relies on the security which the underlying MPC protocols provide.</p>
-<p>With the shares of the session keys computed, the parties now proceed to the next MPC protocol where they use their session key shares to jointly encrypt requests to and decrypt responses from the server while keeping the plaintext of the request/response private from the <code>Notary</code>.</p>
+<p>A TLS handshake is the first step in establishing a TLS connection between a <code>User</code> and a <code>Server</code>. In TLSNotary the <code>User</code> is the one who starts the TLS handshake and physically communicates with the <code>Server</code>, but all cryptographic TLS operations are performed together with the <code>Notary</code> using MPC.</p>
+<p>The <code>User</code> and <code>Notary</code> use a series of MPC protocols to compute the TLS session key in such a way that both only have their share of the key and never learn the full key. Both parties then proceed to complete the TLS handshake using their shares of the key.</p>
+<p>With the shares of the session key computed and the TLS handshake completed, the parties now proceed to the next MPC protocol where they use their session key shares to jointly generate encrypted requests and decrypt server responses while keeping the plaintext of both the requests and responses private from the <code>Notary</code>.</p>
+<blockquote>
+<p>Note: to a third party observer, the <code>User</code>'s connection to the server appears like a regular TLS connection and the security guaranteed by TLS remains intact for the <code>User</code>.</p>
+<p>The only exception is that since the <code>Notary</code> is a party to the MPC TLS, the security for the <code>User</code> against a malicious <code>Notary</code> is guaranteed by the underlying MPC protocols and not by the TLS.</p>
+</blockquote>
 
                     </main>
 

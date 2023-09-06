@@ -176,9 +176,9 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="encryption-decryption-and-mac-computation"><a class="header" href="#encryption-decryption-and-mac-computation">Encryption, Decryption, and MAC Computation</a></h1>
-<p>This section explains how the <code>User</code> and <code>Notary</code> use MPC to encrypt data for the server, decrypt data received from the server, and compute the MAC for the ciphertext in MPC.</p>
+<p>This section explains how the <code>User</code> and <code>Notary</code> use MPC to encrypt data for the server, decrypt data received from the server, and compute the MAC for the ciphertext using MPC.</p>
 <h2 id="encryption"><a class="header" href="#encryption">Encryption</a></h2>
-<p>To encrypt the plaintext, both parties input their key shares as private inputs to the <a href="/mpc/deap.html">MPC</a> protocol, along with some other public data. Additionally, the <code>User</code> inputs her plaintext as a private input.</p>
+<p>To encrypt the plaintext, both parties input their TLS key shares as private inputs to the <a href="/mpc/deap.html">MPC</a> protocol, along with some other public data. Additionally, the <code>User</code> inputs her plaintext as a private input.</p>
 <p>Both parties see the resulting ciphertext and execute the <a href="../../mpc/mac.html">2PC MAC</a> protocol to compute the MAC for the ciphertext.</p>
 <p>The <code>User</code> then dispatches the ciphertext and the MAC to the server.</p>
 <p>As explained in the <a href="commitment.html">Commitment section</a>, the <code>User</code> creates a commitment to the plaintext (her private input to MPC).</p>
