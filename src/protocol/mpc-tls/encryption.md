@@ -20,7 +20,7 @@ Next, the parties decrypt the ciphertext by providing their key shares as privat
 
 The resulting plaintext is revealed ONLY to the `User`.
 
-As discussed in the [Commitment section](/protocol/notarization/commitment.md), the `User` creates a commitment to the plaintext.
+As discussed in the [Commitment section](/protocol/mpc-tls/commitment.md), the `User` creates a commitment to the plaintext.
 
 Please note, the actual low-level implementation details of `Decryption` are more nuanced than what we have described here. For more information, please consult [Low-level Decryption details](/mpc/encryption.md).
 

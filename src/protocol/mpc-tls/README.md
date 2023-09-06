@@ -1,6 +1,6 @@
-# Notarization Phase
+# MPC-TLS
 
-During the Notarization Phase the `Prover`, otherwise referred to as the `User`, and the `Notary` work together to generate an authenticated `Transcript` of a TLS session with a `Server`.
+During the MPC-TLS Phase the `Prover` and the `Notary` work together to generate an authenticated `Transcript` of a TLS session with a `Server`.
 
 Listed below are some key points regarding this process:
 
