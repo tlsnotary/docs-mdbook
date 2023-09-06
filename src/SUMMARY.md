@@ -6,13 +6,12 @@
 
 # Protocol
 
-1. [MPC-TLS](./protocol/mpc-tls/README.md)
+- [MPC-TLS](./protocol/mpc-tls/README.md)
     - [TLS Handshake](./protocol/mpc-tls/handshake.md)
     - [Encryption and Decryption](./protocol/mpc-tls/encryption.md)
-    - [Commitment](./protocol/mpc-tls/commitment.md)
-    - [Signing](./protocol/mpc-tls/signing.md)
-2. [Verification](./protocol/verification.md)
-3. [Selective Disclosure]()
+- [Notarization](./protocol/notarization.md)
+- [Verification](./protocol/verification.md)
+- [Selective Disclosure]()
 
 # MPC
 
