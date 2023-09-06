@@ -7,7 +7,7 @@
 # Protocol
 
 - [MPC-TLS](./protocol/mpc-tls/README.md)
-    - [TLS Handshake](./protocol/mpc-tls/handshake.md)
+    - [Handshake](./protocol/mpc-tls/handshake.md)
     - [Encryption and Decryption](./protocol/mpc-tls/encryption.md)
 - [Notarization](./protocol/notarization.md)
 - [Verification](./protocol/verification.md)
