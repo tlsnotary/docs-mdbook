@@ -2,10 +2,10 @@
 
 TLSNotary uses the `DEAP` protocol described below to ensure malicious security during the Encryption and Decryption steps.
 
-When using DEAP in TLSNotary, the `User` plays the role of Alice and has full privacy and the `Notary` plays the role of Bob and reveals all of his private inputs after the TLS session with the server is over. (The Notary's private inputs are his TLS session key shares).
+When using `DEAP` in TLSNotary, the `User` plays the role of Alice and has full privacy and the `Notary` plays the role of Bob and reveals all of his private inputs after the TLS session with the server is over. (The `Notary`'s private inputs are his TLS session key shares).
 
 The parties run the `Setup` and `Execution` steps of `DEAP` but they defer the `Equality Check`.
-Since during the `Equality Check` all of the Notary's secrets are revealed to User, it must be deferred until after the TLS session with the server is over, otherwise the User would learn the full TLS session keys and be able to forge the TLS transcript.
+Since during the `Equality Check` all of the `Notary`'s secrets are revealed to the `User`, it must be deferred until after the TLS session with the server is over, otherwise the `User` would learn the full TLS session keys and be able to forge the TLS transcript.
 
 ## Introduction
 
