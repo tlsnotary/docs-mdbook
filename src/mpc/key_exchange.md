@@ -4,16 +4,16 @@ In TLS, the first step towards obtaining TLS session keys is to compute a shared
 
 <div class="aligncenter"><img src="../../png-diagrams/key_exchange.png" width="800"></div>
 
-Below we will denote:
+## ECDH
+
+We will denote:
 
 - $P$ as the `Prover`
 - $V$ as the `Verifier`
 - $S$ as the `Server`
 - $\mathbb{pms}$ as the TLS pre-master secret.
 
-## ECDH
-
-Using the notation from Wikipedia, below is the 3-party ECDH protocol between $S$, $P$ and $V$, enabling $P$ and $V$ to arrive at shares of $\mathbb{pms}$.
+Below is the 3-party ECDH protocol between $S$, $P$ and $V$, enabling $P$ and $V$ to arrive at shares of $\mathbb{pms}$.
 
 
 1. $S$ sends its public key $Q_b$ to $P$, and $P$ forwards it to $V$
