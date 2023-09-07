@@ -6,7 +6,7 @@ The Internet currently lacks effective, privacy-preserving **Data Provenance**. 
 
 Enter TLSNotary: a protocol enabling users to export data securely from any website. Using Zero Knowledge Proof (ZKP) technology, this data can be selectively shared with others in a cryptographically verifiable manner.
 
-TLSNotary makes data truly portable and allows a user, the `Prover` to share it with a `Verifier` as they see fit.
+TLSNotary makes data truly portable and allows a user, the `Prover`, to share it with another user, the `Verifier`, as they see fit.
 
 ## How Does the TLSNotary Protocol Work?
 
@@ -26,21 +26,19 @@ TLSNotary works by adding a second party, the `Verifier`, to the usual TLS conne
     - Authentication: ensures that the parties exchanging information are who they claim to be
     - Integrity: verifies that data has not been forged or tampered with -->
 ### ② Selective Disclosure
-By participating in the **secure multi-party computation** (MPC) for TLS communication, the `Verifier` can validate the authenticity and integrity of the communication with the `Server`. If the `Prover` has not cheated, the `Verifier` **blindly** accepts the transcript of the entire TLS session, which provides a means for the `Prover` to selectively prove the authenticity of arbitrary sections of this transcript to the `Verifier`.
-
-Due to the fact that until now the `Verifier` does not know anything about the content of the transcript, the `Prover` can **redact sections**, thereby removing sensitive data and send a proof to the `Verifier` only containing a redacted transcript. This capability can be paired with Zero-Knowledge Proofs to prove properties of the redacted data without revealing the data itself.
+By participating in MPC for TLS communication, the `Verifier` can validate the authenticity and integrity of the communication with the `Server`. If the `Prover` has not cheated, the `Verifier` accepts the encrypted transcript of the entire TLS session, which provides a means for the `Prover` to selectively prove the authenticity of arbitrary cleartext sections of this transcript to the `Verifier`. During this **selective disclosure** the `Prover` can **redact sections**, thereby removing sensitive data and send a proof to the `Verifier` only containing a redacted transcript. This capability can be paired with Zero-Knowledge Proofs to prove properties of the redacted data without revealing the data itself.
 
 ### ③ Verification
 
-The `Verifier` now validates the proof received from the `Prover`. The data's origin can now be verified by inspecting the `Server` certificate through trusted certificate authorities (CAs). He can now make assertions about the non-redacted content of the transcript.
+The `Verifier` now validates the proof received from the `Prover`. The data's origin can be verified by inspecting the `Server` certificate through trusted certificate authorities (CAs). The `Verifier` can now make assertions about the non-redacted content of the transcript.
 
-### General-purpose verifier
+### General-purpose TLS verifier
 
-Since the validation of the TLS traffic does neither reveal anything about the cleartext of the TLS session, nor about the `Server`, it is possible to outsource the traffic validation to a general-purpose verifier, which we call `Notary`, who signs the transcript and thus makes it portable. The `Prover` can now take this signed transcript, and selectively disclose sections to an application-specific verifier for the disclosure.
+Since the validation of the TLS traffic does neither reveal anything about the cleartext of the TLS session, nor about the `Server`, it is possible to outsource the traffic validation part, i.e. the MPC, to a general-purpose TLS verifier, which we call `Notary`, who signs the transcript and thus makes it portable. The `Prover` can now take this signed transcript, and selectively disclose sections to an application-specific verifier.
 
 ![](./png-diagrams/overview3.png)
 
-So in this setting the `Verifier` has been split into a **blind** TLS traffic verifier, the `Notary`, and an application-specific `Verifier` for the disclosure part. The `Notary` can now engage in MPC for the notarization of many different applications and the application-specific disclosure part. In this case the `Notary` would cryptographically sign a transcript, which the `Prover` can use to generate a proof and then send both the transcript and the proof containing the selective disclosure to the `Verifier`. Note that this setup comes with the trust assumption that the `Verifier` has to trust the `Notary` that he did not collude with the `Prover`.
+So in this setting the original `Verifier` has been split into a TLS verifier, the `Notary`, and an application-specific `Verifier` for the disclosure part. The `Notary` can now engage in MPC for the notarization of transcripts for several different applications. In this case the `Notary` would cryptographically sign a transcript, which the `Prover` can use to generate a proof and then send both the transcript and the proof containing the selective disclosure to the `Verifier`. Note that this setup comes with the trust assumption for the `Verifier` that the `Notary` did not collude with the `Prover`.
 
 ## What Can TLSNotary Do?
 
