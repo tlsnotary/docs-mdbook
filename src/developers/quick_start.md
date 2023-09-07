@@ -1,11 +1,13 @@
-This guide will take you through the steps of:
+# Quick Start
+
+In this guide we will set up a general-purpose TLS verifier, the `Notary`, so that a `Prover` can notarize some TLS data and generate a proof which he then shows to a `Verifier` for selective disclosure.
+
+So this guide will take you through the steps of:
 - starting a `Notary` server
 - running a `Prover` to notarize some web data
 - running a `Verifier` to verify the notarized data
 
-Note that the TLSNotary protocol assumes that the `Notary` is trusted by the `Verifier`. To minimize the trust, the `Verifier` itself can act as a `Notary`.
-
-# Preliminaries
+## Preliminaries
 
 ### Install rust
 
@@ -14,7 +16,7 @@ If you don't have `rust` installed yet, install it with [rustup](https://rustup.
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
-# Guide
+## Guide
 
 ### Start a Notary server:
 
