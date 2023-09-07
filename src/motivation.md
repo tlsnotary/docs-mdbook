@@ -32,11 +32,13 @@ It's worth noting that in many instances, OAuth is not even presented as an opti
 
 ![](diagrams/data_provenance_tlsn.svg)
 
-TLSNotary operates by introducing a third party, the `Notary`, into the usual TLS connection between the `User` and a `Server`. This `Notary` is **not an intermediary**. Instead, the `Notary` participates in a **secure multi-party computation** (MPC) to jointly manage the TLS connection without ever viewing the data in plain text; the `Notary` only has access to encrypted data. Furthermore, as the `Notary` only possesses the ephemeral keys of the `Server`, it remains unaware of which `Server` the `User` is communicating with.
+TLSNotary operates by executing the TLS communication using **multi-party computation** (MPC). MPC allows User A and User B to jointly manage the TLS connection.
+With TLSNotary, User A can selectively prove the authenticity of arbitrary portions of the data to User B. Since User B participated in the MPC-TLS communication, User B is guaranteed that the data is authentic.
 
-The TLSNotary protocol is **transparent** to the `Server`. From the `Server`'s perspective, the TLS connection is indistinguishable from all other connections. As such, **no modifications to the TLS protocol are necessary**.
+The TLSNotary protocol is **transparent** to the `Server`. From the `Server`'s perspective, the TLS connection appears just like any other connection, meaning **no modifications to the TLS protocol are necessary**.
 
-The TLSNotary protocol enables the `User` to selectively prove the authenticity of arbitrary portions of the data to a `Verifier` as long as the `Verifier` trusts the `Notary` who signed the data.
+TLSNotary can also separate the TLS-MPC verification from the data verification. When an independent **Notary** handles the TLS verification, the user receives signed, or notarized, data from the notary, which she can store or carry around. This equates to full data portability. It is worth noting that in this setup, User B (the data verifier) needs to trust the notary.
+
 
 ## Make your data portable with TLSNotary!
 
