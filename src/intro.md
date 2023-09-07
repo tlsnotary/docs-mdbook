@@ -26,11 +26,11 @@ TLSNotary works by adding a second party, the `Verifier`, to the usual TLS conne
     - Authentication: ensures that the parties exchanging information are who they claim to be
     - Integrity: verifies that data has not been forged or tampered with -->
 ### ② Selective Disclosure
-By participating in MPC for TLS communication, the `Verifier` can validate the authenticity and integrity of the communication with the `Server`. If the `Prover` has not cheated, the `Verifier` accepts the encrypted transcript of the entire TLS session, which provides a means for the `Prover` to selectively prove the authenticity of arbitrary plain text sections of this transcript to the `Verifier`. In this **selective disclosure** the `Prover` can **redact sections**, thereby removing sensitive data and send a proof to the `Verifier` only containing a redacted transcript. This capability can be paired with Zero-Knowledge Proofs to prove properties of the redacted data without revealing the data itself.
+By participating in MPC for TLS communication, the `Verifier` can validate the authenticity and integrity of the `Prover`'s `communication with the `Server`. If the `Prover` was honest, the `Verifier` accepts the encrypted transcript of the entire TLS session, which provides a means for the `Prover` to selectively prove the authenticity of arbitrary plain text sections of this transcript to the `Verifier`. In this **selective disclosure** the `Prover` can **redact sections**, thereby removing sensitive data and send a proof to the `Verifier` only containing a redacted transcript. This capability can be paired with Zero-Knowledge Proofs to prove properties of the redacted data without revealing the data itself.
 
 ### ③ Verification
 
-The `Verifier` now validates the proof received from the `Prover`. The data's origin can be verified by inspecting the `Server` certificate through trusted certificate authorities (CAs). The `Verifier` can now make assertions about the non-redacted content of the transcript.
+The `Verifier` now validates the proof received from the `Prover`. The data origin can be verified by inspecting the `Server` certificate through trusted certificate authorities (CAs). The `Verifier` can now make assertions about the non-redacted content of the transcript.
 
 ### General-purpose TLS verifier
 
@@ -55,7 +55,7 @@ While TLSNotary can notarize publicly available data, it does not solve the "[or
 
 ## Who is behind TLSNotary?
 
-TLSNotary is developed by the Privacy and Scaling Exploration (PSE) research lab of the Ethereum Foundation. The PSE team is committed to conceptualizing and testing use cases for cryptographic primitives.
+TLSNotary is developed by the [Privacy and Scaling Exploration (PSE)](https://pse.dev) research lab of the Ethereum Foundation. The PSE team is committed to conceptualizing and testing use cases for cryptographic primitives.
 
 TLSNotary is not a new project; in fact, it has been around for [more than a decade](https://bitcointalk.org/index.php?topic=173220.0).
 
