@@ -35,11 +35,14 @@ The `Verifier` now validates the proof received from the `Prover`. The data orig
 
 ## TLS verification with a general-purpose Notary
 
-Since the validation of the TLS traffic does neither reveal anything about the plain text of the TLS session, nor about the `Server`, it is possible to outsource the MPC TLS verification to a general-purpose TLS verifier ①, which we call a `Notary`. This `Notary` can sign, or *notarize* ②, the data and thus make it portable. The `Prover` can now take this signed transcript, and selectively disclose ③ sections to an application-specific verifier which verifies the data ④.
+Since the validation of the TLS traffic neither reveals anything about the plain text of the TLS session nor about the `Server`, it is possible to outsource the MPC-TLS verification to a general-purpose TLS verifier ①, which we term a `Notary`. This `Notary` can sign (aka *notarize*) ② the data, making it portable. The `Prover` can then take this signed data and selectively disclose ③ sections to an application-specific verifier, which then verifies the data ④.
 
 ![](./png-diagrams/overview3.png)
 
-In this setting the original `Verifier` has been split into a TLS verifier, the `Notary`, and an application-specific `Verifier` for the disclosure part. The `Notary` can now engage in MPC for the notarization of data for several different applications. In this case the `Notary` cryptographically signs the data from the Server. Next, the `Prover` can selectively disclose the data to a application specific `Verifier`. Note that this setup comes with the trust assumption for the `Verifier` that the `Notary` did not collude with the `Prover`.
+In this setup, the `Notary` cryptographically signs commitments to the data and the server's identity. The `Prover` can store this signed data, redact it, and share it with any data `Verifier` as they see fit, making the signed data both reusable and portable.
+
+Data verifiers will only accept the signed data if they deem the `Notary` trustworthy. A verifier can also require signed data from multiple Notaries to rule out collusion between the `Prover` and a `Notary`.
+
 
 ## What Can TLSNotary Do?
 
