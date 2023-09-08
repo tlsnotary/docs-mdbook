@@ -1,6 +1,6 @@
 # Quick Start
 
-In this guide we will set up a general-purpose TLS verifier, the `Notary`, so that a `Prover` can notarize some TLS data and generate a proof which he then shows to a `Verifier` for selective disclosure.
+In this guide we will set up a general-purpose TLS verifier ( a.k.a. the `Notary`), so that a `Prover` can notarize some TLS data and generate a proof which he then shows to a `Verifier` for selective disclosure.
 
 So this guide will take you through the steps of:
 - starting a `Notary` server
