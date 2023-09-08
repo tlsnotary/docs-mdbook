@@ -11,7 +11,7 @@ TLSNotary makes data truly portable and allows a user, the `Prover`, to share it
 ## How Does the TLSNotary Protocol Work?
 
 The TLSNotary protocol consists of 3 steps:
-1. The `Prover` **requests** the data from the `Server`. The `Verifier` participates with secure and privacy-preserving *multi party computation (MPC)*.
+1. The `Prover` **requests** data from a `Server`. The `Verifier` participates with secure and privacy-preserving *multi party computation (MPC)*.
 2. The `Prover` **selectively discloses** the data to the `Verifier`.
 3. The `Verifier` **verifies** the data.
 
