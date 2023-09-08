@@ -6,7 +6,7 @@ The Internet currently lacks effective, privacy-preserving **Data Provenance**. 
 
 Enter TLSNotary: a protocol enabling users to export data securely from any website. Using Zero Knowledge Proof (ZKP) technology, this data can be selectively shared with others in a cryptographically verifiable manner.
 
-TLSNotary makes data truly portable and allows a user, the `Prover`, to share it with another user, the `Verifier`, as they see fit.
+TLSNotary makes data truly portable and allows a user, the `Prover`, to share it with another party, the `Verifier`, as they see fit.
 
 ## How Does the TLSNotary Protocol Work?
 
