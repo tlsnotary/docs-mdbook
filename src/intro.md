@@ -19,7 +19,7 @@ The TLSNotary protocol consists of 3 steps:
 
 ### ① Multi-party TLS Request
 
-TLSNotary works by including the `Verifier` in the usual TLS communication between the `Prover` and a `Server`. This `Verifier` is **not "[a man in the middle](https://en.wikipedia.org/wiki/Man-in-the-middle_attack)"**. Instead, the `Verifier` participates in a **secure multi-party computation** (MPC) to jointly operate the TLS connection without seeing the data in plain text. By participating in the MPC, the `Verifier` can validate the authenticity and integrity of the data the `Prover` received from the `Server`.
+TLSNotary works by adding a third party, a `Verifier`, to the usual TLS connection between the `Prover` and a `Server`. This `Verifier` is **not "[a man in the middle](https://en.wikipedia.org/wiki/Man-in-the-middle_attack)"**. Instead, the `Verifier` participates in a **secure multi-party computation** (MPC) to jointly operate the TLS connection without seeing the data in plain text. By participating in the MPC, the `Verifier` can validate the authenticity and integrity of the data the `Prover` received from the `Server`.
 
 The TLSNotary protocol is transparent to the `Server`. From the `Server`'s perspective, the `Prover`'s connection is a standard TLS connection.
 
