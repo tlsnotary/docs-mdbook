@@ -25,7 +25,7 @@ The TLSNotary protocol is transparent to the `Server`. From the `Server`'s persp
 
 ### ② Selective Disclosure
 
-The TLSNotary protocol allows the `Prover` to selectively prove the authenticity of arbitrary parts of the data to the `Verifier`. In this **selective disclosure** phase, the `Prover` can **redact sections** from the plain text, thereby removing sensitive data. Next, the `Prover` sends the redacted data to the `Verifier`.
+The TLSNotary protocol allows the `Prover` to selectively prove the authenticity of arbitrary parts of the data to a `Verifier`. In this **selective disclosure** phase, the `Prover` can **redact** sensitive information from the data prior to sharing it with the `Verifier`.
 
 This capability can be paired with Zero-Knowledge Proofs to prove properties of the redacted data without revealing the data itself.
 
