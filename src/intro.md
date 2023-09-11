@@ -11,11 +11,11 @@ TLSNotary makes data truly portable and allows a user, the `Prover`, to share it
 ## How Does the TLSNotary Protocol Work?
 
 The TLSNotary protocol consists of 3 steps:
-1. The `Prover` **requests** data from a `Server`. The `Verifier` participates with secure and privacy-preserving *multi party computation (MPC)*.
+1. The `Prover` **requests** data from a `Server` over TLS while cooperating with the `Verifier` in secure and privacy-preserving *multi-party computation (MPC)*.
 2. The `Prover` **selectively discloses** the data to the `Verifier`.
 3. The `Verifier` **verifies** the data.
 
-![](./diagrams/overview4.svg)
+![](./png-diagrams/overview_prover_verifier.png)
 
 ### ① Multi-party TLS Request
 
@@ -25,7 +25,7 @@ The TLSNotary protocol is transparent to the `Server`. From the `Server`'s persp
 
 ### ② Selective Disclosure
 
-The TLSNotary protocol allows the `Prover` to selectively prove the authenticity of arbitrary parts of the data to a `Verifier`. In this **selective disclosure** phase, the `Prover` can **redact** sensitive information from the data prior to sharing it with the `Verifier`.
+The TLSNotary protocol enables the `Prover` to selectively prove the authenticity of arbitrary parts of the data to a `Verifier`. In this **selective disclosure** phase, the `Prover` can **redact** sensitive information from the data prior to sharing it with the `Verifier`.
 
 This capability can be paired with Zero-Knowledge Proofs to prove properties of the redacted data without revealing the data itself.
 
@@ -35,13 +35,13 @@ The `Verifier` now validates the proof received from the `Prover`. The data orig
 
 ## TLS verification with a general-purpose Notary
 
-Since the validation of the TLS traffic neither reveals anything about the plain text of the TLS session nor about the `Server`, it is possible to outsource the MPC-TLS verification to a general-purpose TLS verifier ①, which we term a `Notary`. This `Notary` can sign (aka *notarize*) ② the data, making it portable. The `Prover` can then take this signed data and selectively disclose ③ sections to an application-specific verifier, which then verifies the data ④.
+Since the validation of the TLS traffic neither reveals anything about the plaintext of the TLS session nor about the `Server`, it is possible to outsource the MPC-TLS verification to a general-purpose TLS verifier ①, which we term a `Notary`. This `Notary` can sign (aka *notarize*) ② the data, making it portable. The `Prover` can then take this signed data and selectively disclose ③ sections to an application-specific verifier, who then verifies the data ④.
 
 ![](./png-diagrams/overview3.png)
 
 In this setup, the `Notary` cryptographically signs commitments to the data and the server's identity. The `Prover` can store this signed data, redact it, and share it with any data `Verifier` as they see fit, making the signed data both reusable and portable.
 
-Data verifiers will only accept the signed data if they deem the `Notary` trustworthy. A verifier can also require signed data from multiple Notaries to rule out collusion between the `Prover` and a `Notary`.
+Data verifiers will only accept the signed data if they trust the `Notary`. A verifier can also require signed data from multiple `Notaries` to rule out collusion between the `Prover` and a `Notary`.
 
 
 ## What Can TLSNotary Do?
