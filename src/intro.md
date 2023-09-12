@@ -16,7 +16,7 @@ The TLSNotary protocol consists of 4 steps:
 3. The `User` **selectively discloses** the data to the `Verifier`.
 4. The `Verifier` **verifies** the data.
 
-![](./png-diagrams/overview3.png)
+![](./diagrams/overview3.svg)
 
 ### ① Multi-party TLS Request
 
