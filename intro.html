@@ -188,7 +188,7 @@
 <li>The <code>User</code> <strong>selectively discloses</strong> the data to the <code>Verifier</code>.</li>
 <li>The <code>Verifier</code> <strong>verifies</strong> the data.</li>
 </ol>
-<p><img src="./png-diagrams/overview3.png" alt="" /></p>
+<p><img src="./diagrams/overview3.svg" alt="" /></p>
 <h3 id="①-multi-party-tls-request"><a class="header" href="#①-multi-party-tls-request">① Multi-party TLS Request</a></h3>
 <p>TLSNotary works by adding a third party, the <code>Notary</code>, to the usual TLS connection between the <code>User</code> and a <code>Server</code>. This <code>Notary</code> is <strong>not &quot;<a href="https://en.wikipedia.org/wiki/Man-in-the-middle_attack">a man in the middle</a>&quot;</strong>. Instead, the <code>Notary</code> participates in a <strong>secure multi-party computation</strong> (MPC) to jointly operate the TLS connection without ever seeing the data in plain text; the <code>Notary</code> only sees encrypted data. Given that the <code>Notary</code> only sees the temporary key of the <code>Server</code>, the <code>Notary</code> does not know which <code>Server</code> the <code>User</code> is communicating with. The TLSNotary protocol is transparent to the <code>Server</code>. From the <code>Server</code>'s perspective, the <code>User</code>'s connection is a standard TLS connection.</p>
 <!-- - Transport Layer Security (TLS)
