@@ -1,8 +1,10 @@
 #!/bin/bash
 
+FORMAT="svg"
+
 # Convert all diagrams in the diagrams folder to pngs in the mdbook src/png-diagrams folder
 SOURCE_DIR=$(dirname "$0")
-TARGET_DIR=$(realpath "$(dirname "$0")/../src/png-diagrams/")
+TARGET_DIR=$(realpath "$(dirname "$0")/../src/diagrams/")
 
 OS=$(uname)
 case "$OS" in
@@ -21,6 +23,13 @@ fi
 
 pushd "$SOURCE_DIR" >/dev/null
 for file in *.drawio; do
-    "$DRAW_IO" -x -f png --scale 2.5 -o "${TARGET_DIR}/${file%.drawio}.png" "$file"
+    SOURCE="$file"
+    TARGET="${TARGET_DIR}/${file%.drawio}.${FORMAT}"
+    # Only convert if the source is more recent than the target
+    if [[ "$SOURCE" -nt "${TARGET}" ]]; then
+        "$DRAW_IO" --export --format ${FORMAT} --scale 2.5 -o "${TARGET}" "$SOURCE"
+        # add styling for dark mode (https://github.com/jgraph/drawio-github/blob/master/DARK-MODE.md)
+        sed -i -e "s$<defs/>$<defs><style type=\"text/css\"> @media (prefers-color-scheme: dark) { svg { filter: invert(93%) hue-rotate(180deg); background-color: transparent !important; } image { filter: invert(100%) hue-rotate(180deg) saturate(1.25); } } </style></defs>$" "${TARGET}"
+    fi
 done
 popd >/dev/null

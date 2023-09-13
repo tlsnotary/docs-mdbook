@@ -8,7 +8,7 @@ Data provenance will make data truly portable, empowering users to share it with
 
 ## Non-repudiation: TLS is not enough
 
-![](png-diagrams/data_provenance_none.png)
+![](diagrams/data_provenance_none.svg)
 
 Transport Layer Security (TLS) plays a crucial role in digital security. TLS protects communication against eavesdropping and tampering. It ensures that the data received by the `User` indeed originated from the `Server` and was not changed. The `Server`'s identity is verified by the `User` through trusted Certificate Authorities (CAs). Data integrity is maintained by transmitting a cryptographic hash (called Message Authentication Code or MAC in TLS) alongside the data, which safeguards against deliberate alterations.
 
@@ -20,7 +20,7 @@ While the concept seems straightforward, enabling servers to sign data is not a 
 
 ## Status Quo: delegate access
 
-![](png-diagrams/data_provenance_oauth.png)
+![](diagrams/data_provenance_oauth.svg)
 
 Currently, when a `User` wants to share data from a `Server` with another party, OAuth can be used to facilitate this if the application supports it. In this way, the other party receives the data directly from the `Server`, ensuring authentic and unchanged data. However, applications often do not provide fine-grained control over which data to share, leading to the other party gaining access to more information than strictly necessary.
 
@@ -30,7 +30,7 @@ It's worth noting that in many instances, OAuth is not even presented as an opti
 
 ## TLSNotary: data provenance and privacy with secure multi-party computation
 
-![](png-diagrams/data_provenance_tlsn.png)
+![](diagrams/data_provenance_tlsn.svg)
 
 TLSNotary operates by introducing a third party, the `Notary`, into the usual TLS connection between the `User` and a `Server`. This `Notary` is **not an intermediary**. Instead, the `Notary` participates in a **secure multi-party computation** (MPC) to jointly manage the TLS connection without ever viewing the data in plain text; the `Notary` only has access to encrypted data. Furthermore, as the `Notary` only possesses the ephemeral keys of the `Server`, it remains unaware of which `Server` the `User` is communicating with.
 
