@@ -35,7 +35,7 @@ The `Verifier` now validates the proof received from the `Prover`. The data orig
 
 ## TLS verification with a general-purpose Notary
 
-Since the validation of the TLS traffic neither reveals anything about the plaintext of the TLS session nor about the `Server`, it is possible to outsource the MPC-TLS verification to a general-purpose TLS verifier ①, which we term a `Notary`. This `Notary` can sign (aka *notarize*) ② the data, making it portable. The `Prover` can then take this signed data and selectively disclose ③ sections to an application-specific `Verifier`, who then verifies the data ④.
+Since the validation of the TLS traffic neither reveals anything about the plaintext of the TLS session nor about the `Server`, it is possible to outsource the MPC-TLS verification ① to a general-purpose TLS verifier, which we term a `Notary`. This `Notary` can sign (aka *notarize*) ② the data, making it portable. The `Prover` can then take this signed data and selectively disclose ③ sections to an application-specific `Verifier`, who then verifies the data ④.
 
 ![](./diagrams/overview_notary.svg)
 
