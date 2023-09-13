@@ -22,4 +22,6 @@
 - [Encryption](./mpc/encryption.md)
 - [MAC](./mpc/mac.md)
 
+<!-- [Verification Steps](./spec/verification_steps.md) -->
+
 +[Glossary](./glossary.md)
