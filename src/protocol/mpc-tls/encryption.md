@@ -6,7 +6,7 @@ This section explains how the `Prover` and `Verifier` use MPC to encrypt data se
 
 To encrypt the plaintext, both parties input their TLS key shares as private inputs to the [MPC](/mpc/deap.md) protocol, along with some other public data. Additionally, the `Prover` inputs her plaintext as a private input.
 
-![Encryption](../../png-diagrams/mpc-encryption.png)
+![Encryption](../../diagrams/mpc-encryption.svg)
 
 Both parties see the resulting ciphertext and execute the [2PC MAC](../../mpc/mac.md) protocol to compute the MAC for the ciphertext.
 
@@ -18,7 +18,7 @@ Once the `Prover` receives the ciphertext and its associated MAC from the server
 
 Next, the parties decrypt the ciphertext by providing their key shares as private inputs to the [MPC](/mpc/deap.md) protocol, along with the ciphertext and some other public data.
 
-![Decryption](../../png-diagrams/mpc-decryption.png)
+![Decryption](../../diagrams/mpc-decryption.svg)
 
 The resulting plaintext is revealed ONLY to the `Prover`.
 
