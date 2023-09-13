@@ -15,7 +15,7 @@ The TLSNotary protocol consists of 3 steps:
 2. The `Prover` **selectively discloses** the data to the `Verifier`.
 3. The `Verifier` **verifies** the data.
 
-![](./png-diagrams/overview_prover_verifier.png)
+![](./diagrams/overview_prover_verifier.svg)
 
 ### ① Multi-party TLS Request
 
@@ -35,13 +35,13 @@ The `Verifier` now validates the proof received from the `Prover`. The data orig
 
 ## TLS verification with a general-purpose Notary
 
-Since the validation of the TLS traffic neither reveals anything about the plaintext of the TLS session nor about the `Server`, it is possible to outsource the MPC-TLS verification to a general-purpose TLS verifier ①, which we term a `Notary`. This `Notary` can sign (aka *notarize*) ② the data, making it portable. The `Prover` can then take this signed data and selectively disclose ③ sections to an application-specific `Data verifier`, who then verifies the data ④.
+Since the validation of the TLS traffic neither reveals anything about the plaintext of the TLS session nor about the `Server`, it is possible to outsource the MPC-TLS verification to a general-purpose TLS verifier ①, which we term a `Notary`. This `Notary` can sign (aka *notarize*) ② the data, making it portable. The `Prover` can then take this signed data and selectively disclose ③ sections to an application-specific `Verifier`, who then verifies the data ④.
 
-![](./png-diagrams/overview_notary.png)
+![](./diagrams/overview_notary.svg)
 
-In this setup, the `Notary` cryptographically signs commitments to the data and the server's identity. The `Prover` can store this signed data, redact it, and share it with any data `Verifier` as they see fit, making the signed data both reusable and portable.
+In this setup, the `Notary` cryptographically signs commitments to the data and the server's identity. The `Prover` can store this signed data, redact it, and share it with any `Verifier` as they see fit, making the signed data both reusable and portable.
 
-Data `Verifiers` will only accept the signed data if they trust the `Notary`. A data `Verifier` can also require signed data from multiple `Notaries` to rule out collusion between the `Prover` and a `Notary`.
+`Verifiers` will only accept the signed data if they trust the `Notary`. A data `Verifier` can also require signed data from multiple `Notaries` to rule out collusion between the `Prover` and a `Notary`.
 
 
 ## What Can TLSNotary Do?
