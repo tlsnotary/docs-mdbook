@@ -25,7 +25,7 @@
                         <mxPoint x="460" y="310" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="HxEEL8P-OPklS3m3PPNj-6" value="TLS" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="HxEEL8P-OPklS3m3PPNj-4" vertex="1" connectable="0">
+                <mxCell id="HxEEL8P-OPklS3m3PPNj-6" value="TLS" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;" parent="HxEEL8P-OPklS3m3PPNj-4" vertex="1" connectable="0">
                     <mxGeometry x="-0.1464" y="-1" relative="1" as="geometry">
                         <mxPoint y="-11" as="offset"/>
                     </mxGeometry>

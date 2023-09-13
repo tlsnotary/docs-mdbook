@@ -19,7 +19,7 @@
                 <mxCell id="HxEEL8P-OPklS3m3PPNj-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="HxEEL8P-OPklS3m3PPNj-39" target="HxEEL8P-OPklS3m3PPNj-40" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="HxEEL8P-OPklS3m3PPNj-49" value="ZKP" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="HxEEL8P-OPklS3m3PPNj-38" vertex="1" connectable="0">
+                <mxCell id="HxEEL8P-OPklS3m3PPNj-49" value="ZKP" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;" parent="HxEEL8P-OPklS3m3PPNj-38" vertex="1" connectable="0">
                     <mxGeometry x="-0.2352" y="1" relative="1" as="geometry">
                         <mxPoint x="12" y="-9" as="offset"/>
                     </mxGeometry>
@@ -30,7 +30,7 @@
                         <mxPoint x="460" y="480" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="HxEEL8P-OPklS3m3PPNj-42" value="Improved TLS" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="HxEEL8P-OPklS3m3PPNj-41" vertex="1" connectable="0">
+                <mxCell id="HxEEL8P-OPklS3m3PPNj-42" value="Improved TLS" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;" parent="HxEEL8P-OPklS3m3PPNj-41" vertex="1" connectable="0">
                     <mxGeometry x="-0.1464" y="-1" relative="1" as="geometry">
                         <mxPoint x="7" y="-11" as="offset"/>
                     </mxGeometry>
