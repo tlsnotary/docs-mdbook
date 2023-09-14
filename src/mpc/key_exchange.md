@@ -1,6 +1,6 @@
 # Key Exchange
 
-In TLS, the first step towards obtaining TLS session keys is to compute a shared secret between the `Prover` and the `Server` by running the [ECDH protocol](https://en.wikipedia.org/wiki/Elliptic-curve_Diffie–Hellman). The resulting shared secret in TLS terms is **called the pre-master secret `PMS`**.
+In TLS, the first step towards obtaining TLS session keys is to compute a shared secret between the client and the server by running the [ECDH protocol](https://en.wikipedia.org/wiki/Elliptic-curve_Diffie–Hellman). The resulting shared secret in TLS terms is **called the pre-master secret `PMS`**.
 
 With TLSNotary, at the end of the key exchange, the `Server` gets the `PMS` as usual. The `Prover` and the `Verifier` only have a share of the `PMS`. This allows the `Verifier` to check the `Prover` is honest.
 
