@@ -1,31 +1,18 @@
 # Verification
 
-A `Verifier` receives the following from the `User`:
+To prove data provenance to a third-party `Verifier`, the `Prover` provides the following information:
+- [`Session Header`](/protocol/mpc-tls/signing.md) signed by the `Verifier`
+- `opening` to the plaintext commitment
+- `TLS-specific data` which uniquely identifies the server
+- `identity` of the server
 
-<!-- TODO will explain each -->
+The `Verifier` performs the following verification steps:
+- verifies that the `opening` corresponds to the commitment in the `Session Header`
+- verifies that the `TLS-specific data` corresponds to the commitment in the `Session Header`
+- verifies the `identity` of the server against `TLS-specific data`
 
-- domain name (e.g. "tlsnotary.org")
-- signed `Session Header`
-- openings to the commitments (the plaintext which the User committed to)
-- handshake_data which consists of:
- - server certificate
- - key exchange details
- - client and server random
+Next, the `Verifier` parses the `opening` with an application-specific parser (e.g. HTTP or JSON) to get the final output. Since the `Prover` is allowed to selectively disclose the data, that data which was not disclosed by the `Prover` will appear to the `Verifier` as redacted. 
 
-and performs the following steps to verify the commitments:
+Below is an example of a verification output for an HTTP 1.1 request and response. Note that since the `Prover` chose not to disclose some sensitive information like their HTTP session token and address, that information will be withheld from the `Verifier` and will appear to him as redacted (in red).
 
-<!-- // you can see these steps in tlsn/tlsn-core/tests/api.rs -->
-
-- verify that `Session Header` was signed by the Notary
-- verify handshake_data against handshake_commitment
-- verify validity of `server certificate` for the `domian name`
-- verify that `key exchange details` were signed by `server certificate`
-
-- use encoder_seed to re-generate encodings and re-create a commitment for the opening plaintext 
-(maybe this step needs to be spelled out in more detail)
-- use `merkle_root` to check that this re-created commitment is in the Merkle tree
-
-
-To summarize: the `Verifier` will only learn those portions of the TLS session transcript which the `User` chose to reveal. The portions which were not revealed (`User`'s private data) will appear to the `Verifier` as redacted. Here is an example of what the `Verifier` output may look like:
-
-<!-- // paste here a picture of an HTTP request with redacted fields -->
+![Verification example](/diagrams/verification_example.svg)
