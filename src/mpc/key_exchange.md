@@ -1,18 +1,20 @@
 # Key Exchange
 
-In TLS, the first step towards obtaining TLS session keys is to compute a shared secret between the client and the server by running the [ECDH protocol](https://en.wikipedia.org/wiki/Elliptic-curve_Diffie–Hellman). The resulting shared secret in TLS terms is called the pre-master secret `PMS`.
+In TLS, the first step towards obtaining TLS session keys is to compute a shared secret between the `Prover` and the `Server` by running the [ECDH protocol](https://en.wikipedia.org/wiki/Elliptic-curve_Diffie–Hellman). The resulting shared secret in TLS terms is **called the pre-master secret `PMS`**.
+
+With TLSNotary, at the end of the key exchange, the `Server` gets the `PMS` as usual. The `Prover` and the `Verifier` only have a share of the `PMS`. This allows the `Verifier` to check the `Prover` is honest.
 
 <img src="../../diagrams/key_exchange.svg" width="800">
 
-Using the notation from Wikipedia, below is the 3-party ECDH protocol between the `Server` the `Requester` and the `Notary`, enabling the `Requester` and the `Notary` to arrive at shares of `PMS`.
+The 3-party ECDH protocol between the `Server` the `Prover` and the `Verifier` works as follows:
 
 
-1. `Server` sends its public key $Q_b$ to `Requester`, and `Requester` forwards it to `Notary`
-2. `Requester` picks a random private key share $d_c$ and computes a public key share $Q_c = d_c * G$
-3. `Notary` picks a random private key share $d_n$ and computes a public key share $Q_n = d_n * G$
-4. `Notary` sends $Q_n$ to `Requester` who computes $Q_a = Q_c + Q_n $ and sends $Q_a$ to `Server`
-5. `Requester` computes an EC point $(x_p, y_p) = d_c * Q_b$
-6. `Notary` computes an EC point $(x_q, y_q) = d_n * Q_b$
+1. `Server` sends its public key $Q_b$ to `Prover`, and `Prover` forwards it to `Verifier`
+2. `Prover` picks a random private key share $d_c$ and computes a public key share $Q_c = d_c * G$
+3. `Verifier` picks a random private key share $d_n$ and computes a public key share $Q_n = d_n * G$
+4. `Verifier` sends $Q_n$ to `Prover` who computes $Q_a = Q_c + Q_n $ and sends $Q_a$ to `Server`
+5. `Prover` computes an EC point $(x_p, y_p) = d_c * Q_b$
+6. `Verifier` computes an EC point $(x_q, y_q) = d_n * Q_b$
 7. Addition of points $(x_p, y_p)$ and $(x_q, y_q)$ results in the coordinate $x_r$, which is `PMS`. (The coordinate $y_r$ is not used in TLS)
 
 
