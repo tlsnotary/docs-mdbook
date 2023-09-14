@@ -9,7 +9,7 @@ Listed below are some key points regarding this process:
 
 When TLSNotary is used in a setup with a general-purpose `Verifier` (a.k.a a `Notary`) to verify the TLS session, the identity of the `Server` can be hidden from this `Verifier`. This makes the data portable to other, application-specific verifiers.
 
-The MPC-TLS consists of following steps:
+The MPC-TLS consists of the following steps:
 
 1. **Handshake**  
 A TLS handshake is the first step in establishing a TLS connection between the `Prover`/`Verifier` and the `Server`. The result of this handshake is a *Pre Master Secret (PMS)*, a symmetrical key that will be used for further encrypted communication. The server has the full key; the `Prover` and the `Verifier` only have their share of this key.

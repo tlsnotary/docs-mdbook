@@ -2,7 +2,7 @@
 
 | Term  | Explanation                                     |
 | ----- | ----------------------------------------------- |
-| 2PC   | Two-party computation                           |
+| 2PC   | Secure Two-party computation                    |
 | A2M   | Addition-to-Multiplication                      |
 | AES   | Advanced Encryption Standard                    |
 | DEAP  | Dual Execution with Asymmetric Privacy          |
@@ -14,7 +14,7 @@
 | HMAC  | Hash-based Message Authentication Code          |
 | M2a   | Multiplication-to-Addition                      |
 | MAC   | Message Authentication Code                     |
-| MPC   | Multi-party computation                         |
+| MPC   | Secure Multi-party computation                  |
 | OT    | oblivious transfer                              |
 | PMS   | Pre master secret (TLS)                         |
 | PRF   | Pseudo Random Function                          |

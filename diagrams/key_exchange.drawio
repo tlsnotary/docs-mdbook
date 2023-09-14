@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="kcIGn_kX_1L25iIxUXLg" name="Page-1">
-        <mxGraphModel dx="829" dy="548" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1757" dy="548" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -59,7 +59,7 @@
                         <mxPoint x="439.88" y="329.26" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="EZAqd18MQriHtEKbU3QA-26" value="Notary&lt;br&gt;Public Key" style="sketch=0;pointerEvents=1;shadow=1;dashed=0;html=1;strokeColor=default;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.security.key_permissions;fillColor=#3333FF;" parent="1" vertex="1">
+                <mxCell id="EZAqd18MQriHtEKbU3QA-26" value="Verifier&lt;br&gt;Public Key" style="sketch=0;pointerEvents=1;shadow=1;dashed=0;html=1;strokeColor=default;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.security.key_permissions;fillColor=#3333FF;" parent="1" vertex="1">
                     <mxGeometry x="544.88" y="300" width="25" height="53" as="geometry"/>
                 </mxCell>
                 <mxCell id="EZAqd18MQriHtEKbU3QA-37" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" edge="1">
@@ -68,7 +68,7 @@
                         <mxPoint x="200.13" y="329.26" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="EZAqd18MQriHtEKbU3QA-38" value="Notary&lt;br&gt;Public Key" style="sketch=0;pointerEvents=1;shadow=1;dashed=0;html=1;strokeColor=default;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.security.key_permissions;fillColor=#3333FF;" parent="1" vertex="1">
+                <mxCell id="EZAqd18MQriHtEKbU3QA-38" value="Verifier&lt;br&gt;Public Key" style="sketch=0;pointerEvents=1;shadow=1;dashed=0;html=1;strokeColor=default;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.security.key_permissions;fillColor=#3333FF;" parent="1" vertex="1">
                     <mxGeometry x="259.88" y="300" width="25" height="53" as="geometry"/>
                 </mxCell>
                 <mxCell id="EZAqd18MQriHtEKbU3QA-39" value="Prover Public &lt;br&gt;Key" style="sketch=0;pointerEvents=1;shadow=1;dashed=0;html=1;strokeColor=default;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.security.key_permissions;fillColor=#FF3333;" parent="1" vertex="1">
@@ -93,11 +93,8 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="EZAqd18MQriHtEKbU3QA-44" value="" style="rounded=0;whiteSpace=wrap;html=1;shadow=1;sketch=0;strokeColor=#000000;fillColor=#99CCFF;" parent="1" vertex="1">
+                <mxCell id="EZAqd18MQriHtEKbU3QA-44" value="Secure 2PC" style="rounded=0;whiteSpace=wrap;html=1;shadow=1;sketch=0;strokeColor=#000000;fillColor=#99CCFF;" parent="1" vertex="1">
                     <mxGeometry x="512" y="510" width="100" height="110" as="geometry"/>
-                </mxCell>
-                <mxCell id="EZAqd18MQriHtEKbU3QA-45" value="Secure 2PC" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=0;" parent="1" vertex="1">
-                    <mxGeometry x="517" y="520" width="90" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="EZAqd18MQriHtEKbU3QA-46" value="" style="endArrow=classic;html=1;rounded=0;entryX=1.01;entryY=0.458;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="EZAqd18MQriHtEKbU3QA-44" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -117,10 +114,10 @@
                 <mxCell id="EZAqd18MQriHtEKbU3QA-51" value="PMS Key Share" style="sketch=0;pointerEvents=1;shadow=1;dashed=0;html=1;strokeColor=default;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.security.key_permissions;fillColor=#FFFF00;" parent="1" vertex="1">
                     <mxGeometry x="615" y="660" width="25" height="53" as="geometry"/>
                 </mxCell>
-                <mxCell id="EZAqd18MQriHtEKbU3QA-53" value="Requester&lt;br&gt;Private Key" style="sketch=0;pointerEvents=1;shadow=1;dashed=0;html=1;strokeColor=default;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.security.key_permissions;fillColor=#FF3333;opacity=50;" parent="1" vertex="1">
+                <mxCell id="EZAqd18MQriHtEKbU3QA-53" value="Prover&lt;br&gt;Private Key" style="sketch=0;pointerEvents=1;shadow=1;dashed=0;html=1;strokeColor=default;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.security.key_permissions;fillColor=#FF3333;opacity=50;" parent="1" vertex="1">
                     <mxGeometry x="462.5" y="529.5" width="25" height="53" as="geometry"/>
                 </mxCell>
-                <mxCell id="EZAqd18MQriHtEKbU3QA-52" value="Notary&lt;br&gt;Private Key" style="sketch=0;pointerEvents=1;shadow=1;dashed=0;html=1;strokeColor=default;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.security.key_permissions;fillColor=#3333FF;opacity=50;" parent="1" vertex="1">
+                <mxCell id="EZAqd18MQriHtEKbU3QA-52" value="Verifier&lt;br&gt;Private Key" style="sketch=0;pointerEvents=1;shadow=1;dashed=0;html=1;strokeColor=default;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.security.key_permissions;fillColor=#3333FF;opacity=50;" parent="1" vertex="1">
                     <mxGeometry x="634" y="529.5" width="25" height="53" as="geometry"/>
                 </mxCell>
                 <mxCell id="EZAqd18MQriHtEKbU3QA-55" value="" style="sketch=0;pointerEvents=1;shadow=1;dashed=0;html=1;strokeColor=default;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.security.key_permissions;fillColor=#7FBA42;container=1;opacity=50;" parent="1" vertex="1">
