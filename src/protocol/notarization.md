@@ -1,6 +1,6 @@
 # Notarization
 
-As part of the TLSNotary protocol, the `Prover` can create authenticated commitments to the plaintext and have the `Verifier` sign them without ever seeing the plaintext. This offers a way for the `Prover` to selectively prove the authenticity of arbitrary portions of the plaintext to a different `Verifier`. 
+As part of the TLSNotary protocol, the `Prover` can create authenticated commitments to the plaintext and have the `Notary` sign them without ever seeing the plaintext. This offers a way for the `Prover` to selectively prove the authenticity of arbitrary portions of the plaintext to a different `Verifier` later. 
 
 A naive approach of creating such authenticated commitments is to extend the `Encryption and Decryption` steps to also compute a commitment (e.g. BLAKE3 hash) to the plaintext using MPC and have the `Notary` sign that commitment. Unfortunately, such an approach is too resource-intensive, prompting us to provide a more lightweight commitment scheme.
 
