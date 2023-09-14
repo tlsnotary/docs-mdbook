@@ -37,7 +37,7 @@ With TLSNotary, Alice can selectively prove the authenticity of arbitrary portio
 
 The TLSNotary protocol is **transparent** to the `Server`. From the `Server`'s perspective, the TLS connection appears just like any other connection, meaning **no modifications to the TLS protocol are necessary**.
 
-<!-- TLSNotary can also separate the TLS-MPC verification from the data verification. When an independent **Notary** handles the TLS verification, the user receives signed, or notarized, data from the notary, which she can store or carry around. This equates to full data portability. It is worth noting that in this setup, BoB (the data verifier) needs to trust the notary. -->
+<!-- TLSNotary can also separate the TLS-MPC verification from the data verification. When an independent **Notary** handles the TLS verification, the user receives signed, or notarized, data from the notary, which she can store or carry around. This equates to full data portability. It is worth noting that in this setup, Bob (the data verifier) needs to trust the notary. -->
 
 
 ## Make your data portable with TLSNotary!
