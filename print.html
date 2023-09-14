@@ -335,42 +335,23 @@ user-agent: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 <p>It's important to highlight that throughout the entire TLSNotary protocol, including this signing stage, the <code>Notary</code> does not gain knowledge of either the plaintext or the identity of the server with which the <code>User</code> communicated.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="verification"><a class="header" href="#verification">Verification</a></h1>
-<p>A <code>Verifier</code> receives the following from the <code>User</code>:</p>
-<!-- TODO will explain each -->
+<p>To prove data provenance to a third-party <code>Verifier</code>, the <code>Prover</code> provides the following information:</p>
 <ul>
-<li>domain name (e.g. &quot;tlsnotary.org&quot;)</li>
-<li>signed <code>Session Header</code></li>
-<li>openings to the commitments (the plaintext which the User committed to)</li>
-<li>handshake_data which consists of:</li>
-<li>server certificate</li>
-<li>key exchange details</li>
-<li>client and server random</li>
+<li><a href="protocol//protocol/mpc-tls/signing.html"><code>Session Header</code></a> signed by the <code>Verifier</code></li>
+<li><code>opening</code> to the plaintext commitment</li>
+<li><code>TLS-specific data</code> which uniquely identifies the server</li>
+<li><code>identity</code> of the server</li>
 </ul>
-<p>and performs the following steps to verify the commitments:</p>
-<!-- // you can see these steps in tlsn/tlsn-core/tests/api.rs -->
+<p>The <code>Verifier</code> performs the following verification steps:</p>
 <ul>
-<li>
-<p>verify that <code>Session Header</code> was signed by the Notary</p>
-</li>
-<li>
-<p>verify handshake_data against handshake_commitment</p>
-</li>
-<li>
-<p>verify validity of <code>server certificate</code> for the <code>domian name</code></p>
-</li>
-<li>
-<p>verify that <code>key exchange details</code> were signed by <code>server certificate</code></p>
-</li>
-<li>
-<p>use encoder_seed to re-generate encodings and re-create a commitment for the opening plaintext 
-(maybe this step needs to be spelled out in more detail)</p>
-</li>
-<li>
-<p>use <code>merkle_root</code> to check that this re-created commitment is in the Merkle tree</p>
-</li>
+<li>verifies that the <code>opening</code> corresponds to the commitment in the <code>Session Header</code></li>
+<li>verifies that the <code>TLS-specific data</code> corresponds to the commitment in the <code>Session Header</code></li>
+<li>verifies the <code>identity</code> of the server against <code>TLS-specific data</code></li>
 </ul>
-<p>To summarize: the <code>Verifier</code> will only learn those portions of the TLS session transcript which the <code>User</code> chose to reveal. The portions which were not revealed (<code>User</code>'s private data) will appear to the <code>Verifier</code> as redacted. Here is an example of what the <code>Verifier</code> output may look like:</p>
-<!-- // paste here a picture of an HTTP request with redacted fields --><div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<p>Next, the <code>Verifier</code> parses the <code>opening</code> with an application-specific parser (e.g. HTTP or JSON) to get the final output. Since the <code>Prover</code> is allowed to selectively disclose the data, that data which was not disclosed by the <code>Prover</code> will appear to the <code>Verifier</code> as redacted. </p>
+<p>Below is an example of a verification output for an HTTP 1.1 request and response. Note that since the <code>Prover</code> chose not to disclose some sensitive information like their HTTP session token and address, that information will be withheld from the <code>Verifier</code> and will appear to him as redacted (in red).</p>
+<p><img src="protocol//diagrams/verification_example.svg" alt="Verification example" /></p>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="key-exchange"><a class="header" href="#key-exchange">Key Exchange</a></h1>
 <p>In TLS, the first step towards obtaining TLS session keys is to compute a shared secret between the client and the server by running the <a href="https://en.wikipedia.org/wiki/Elliptic-curve_Diffie%E2%80%93Hellman">ECDH protocol</a>. The resulting shared secret in TLS terms is called the pre-master secret <code>PMS</code>.</p>
 <img src="mpc/../../diagrams/key_exchange.svg" width="800">
