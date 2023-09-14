@@ -4,7 +4,7 @@ As part of the TLSNotary protocol, the `Prover` can create authenticated commitm
 
 A naive approach of creating such authenticated commitments is to extend the `Encryption and Decryption` steps to also compute a commitment (e.g. BLAKE3 hash) to the plaintext using MPC and have the `Notary` sign that commitment. Unfortunately, such an approach is too resource-intensive, prompting us to provide a more lightweight commitment scheme.
 
-The high-level idea is that the `Prover` creates a commitment to the encodings from the MPC protocol used for `Encryption and Decryption`. Since those encodings are chosen by the `Verifier` and are not known to the `Prover` at the time when she makes a commitment, they can be thought of as *"authenticated plaintext"*.
+The high-level idea is that the `Prover` creates a commitment to the encodings from the MPC protocol used for `Encryption and Decryption`. Since those encodings are chosen by the `Notary` and are not known to the `Prover` at the time when she makes a commitment, they can be thought of as *"authenticated plaintext"*.
 
 ## Signing the Session Header
 
