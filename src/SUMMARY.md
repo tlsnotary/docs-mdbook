@@ -10,7 +10,7 @@
     - [Handshake](./protocol/mpc-tls/handshake.md)
     - [Encryption and Decryption](./protocol/mpc-tls/encryption.md)
 - [Notarization](./protocol/notarization.md)
-- [Verification]()
+- [Verification](./protocol/verification.md)
 - [Selective Disclosure]()
 
 # MPC
