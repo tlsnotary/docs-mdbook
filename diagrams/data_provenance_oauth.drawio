@@ -33,7 +33,7 @@
                         <mxPoint x="450" y="665" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="HxEEL8P-OPklS3m3PPNj-30" value="grant access&lt;br&gt;to User B" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;" parent="HxEEL8P-OPklS3m3PPNj-29" vertex="1" connectable="0">
+                <mxCell id="HxEEL8P-OPklS3m3PPNj-30" value="grant access&lt;br&gt;to Bob" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;" parent="HxEEL8P-OPklS3m3PPNj-29" vertex="1" connectable="0">
                     <mxGeometry x="-0.0036" y="-1" relative="1" as="geometry">
                         <mxPoint y="-19" as="offset"/>
                     </mxGeometry>
