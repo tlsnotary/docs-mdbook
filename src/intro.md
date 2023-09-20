@@ -15,7 +15,7 @@ The TLSNotary protocol consists of 3 steps:
 2. The `Prover` **selectively discloses** the data to the `Verifier`.
 3. The `Verifier` **verifies** the data.
 
-![](./diagrams/overview_prover_verifier.svg)
+{{#include ./diagrams/overview_prover_verifier.svg}}
 
 ### ① Multi-party TLS Request
 
@@ -37,7 +37,7 @@ The `Verifier` now validates the proof received from the `Prover`. The data orig
 
 Since the validation of the TLS traffic neither reveals anything about the plaintext of the TLS session nor about the `Server`, it is possible to outsource the MPC-TLS verification ① to a general-purpose TLS verifier, which we term a `Notary`. This `Notary` can sign (aka *notarize*) ② the data, making it portable. The `Prover` can then take this signed data and selectively disclose ③ sections to an application-specific `Verifier`, who then verifies the data ④.
 
-![](./diagrams/overview_notary.svg)
+{{#include ./diagrams/overview_notary.svg}}
 
 In this setup, the `Notary` cryptographically signs commitments to the data and the server's identity. The `Prover` can store this signed data, redact it, and share it with any `Verifier` as they see fit, making the signed data both reusable and portable.
 
