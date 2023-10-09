@@ -29,7 +29,11 @@ for file in *.drawio; do
     if [[ "$SOURCE" -nt "${TARGET}" ]]; then
         "$DRAW_IO" --export --format ${FORMAT} --scale 2.5 -o "${TARGET}" "$SOURCE"
         # add styling for dark mode (https://github.com/jgraph/drawio-github/blob/master/DARK-MODE.md)
-        sed -i -e "s$<defs/>$<defs><style type=\"text/css\"> @media (prefers-color-scheme: dark) { svg { filter: invert(93%) hue-rotate(180deg); background-color: transparent !important; } image { filter: invert(100%) hue-rotate(180deg) saturate(1.25); } } </style></defs>$" "${TARGET}"
+        if grep -q "<defs/>" "$TARGET"; then
+            sed -i -e "s$<defs/>$<defs><style type=\"text/css\"> @media not print { svg { filter: invert(93%) hue-rotate(180deg); background-color: transparent !important; } image { filter: invert(100%) hue-rotate(180deg) saturate(1.25); } } </style></defs>$" "${TARGET}"
+        else
+            sed -i -e "s$<defs>$<defs><style type=\"text/css\"> @media not print { svg { filter: invert(93%) hue-rotate(180deg); background-color: transparent !important; } image { filter: invert(100%) hue-rotate(180deg) saturate(1.25); } } </style>$" "${TARGET}"
+        fi
     fi
 done
 popd >/dev/null
