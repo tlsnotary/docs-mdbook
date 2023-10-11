@@ -79,8 +79,8 @@ At this stage, if Bob is malicious, Alice could detect that $v^A \ne v^B$. Howev
 
 13. Evaluates $G_A$ using $[x]_A$ and $[y]_A$ to acquire $[v]_A$. He checks $[v]_A$ against the commitment $\mathsf{com}_{[V]_A}$ which Alice sent earlier, aborting if it is invalid.
 14. Decodes $[v]_A$ to $v^A$ using $d_A$ which he received earlier. He computes $\mathsf{H}([v]_A, [v^A]_B)$ which we'll call $\mathsf{check}_B$, and stores it for the equality check later.
-15. Sends $[v]_A$ to Alice[^1].
-16. Receives $\mathsf{com}_{\mathsf{check}_A}$ from Alice and stores it for the equality check later.
+15. Receives $\mathsf{com}_{\mathsf{check}_A}$ from Alice and stores it for the equality check later.
+16. Sends $[v]_A$ to Alice[^1].
 
 Bob, even if malicious, has learned nothing except the purported output $v^A$ and is not convinced it is correct. In the next phase Alice will attempt to convince Bob that it is.
 
