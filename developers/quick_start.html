@@ -193,20 +193,20 @@
 <pre><code class="language-shell">curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 </code></pre>
 <h2 id="guide"><a class="header" href="#guide">Guide</a></h2>
-<h3 id="start-a-notary-server"><a class="header" href="#start-a-notary-server">Start a Notary server:</a></h3>
-<pre><code class="language-shell">git clone https://github.com/tlsnotary/notary-server
-cd notary-server
-cargo run --release
+<p>Clone this repository first</p>
+<pre><code class="language-shell">git clone https://github.com/tlsnotary/tlsn
+</code></pre>
+<h3 id="start-a-simple-notary-server"><a class="header" href="#start-a-simple-notary-server">Start a simple Notary server:</a></h3>
+<pre><code class="language-shell">cd tlsn/tlsn/examples/simple
+cargo run --release --example simple_notary
 </code></pre>
 <p>The <code>Notary</code> server will now be running in the background waiting for connections from a <code>Prover</code>. You can switch to another console to run the <code>Prover</code>.</p>
-<p>For more information on how to configure the <code>Notary</code> server, please refer to <a href="https://github.com/tlsnotary/notary-server#running-the-server">this</a>.</p>
+<p>P/S: The notary server used in this example is less functional compared to its <a href="https://github.com/tlsnotary/tlsn/tree/dev/notary-server">advanced version</a>. This simple version is easier to integrate with from prover perspective, whereas the advanced version provides additional features like TLS connection with prover, WebSocket endpoint, API endpoints for further customisation etc.</p>
 <h3 id="run-a-simple-prover"><a class="header" href="#run-a-simple-prover">Run a simple Prover:</a></h3>
-<pre><code class="language-shell">git clone https://github.com/tlsnotary/tlsn
-cd tlsn/tlsn/examples
-cargo run --release --example simple_prover
+<pre><code class="language-shell">RUST_LOG=DEBUG,yamux=INFO cargo run --release --example simple_prover
 </code></pre>
 <p>The notarization session usually takes a few moments and the resulting proof will be written to the &quot;proof.json&quot; file. The proof can then be passed on to the <code>Verifier</code> for verification.</p>
-<p>The <code>simple_prover</code> notarizes <a href="https://example.com">https://example.com</a> and redacts the <code>USER_AGENT</code> HTTP header from the proof for the <code>Verifier</code>. You can change the code in <code>tlsn/tlsn/examples/simple_prover.rs</code> to meet your needs:</p>
+<p>The <code>simple_prover</code> notarizes <a href="https://example.com">https://example.com</a> and redacts the <code>USER_AGENT</code> HTTP header from the proof for the <code>Verifier</code>. You can change the code in <code>tlsn/tlsn/examples/simple/simple_prover.rs</code> to meet your needs:</p>
 <ul>
 <li>change which server the <code>Prover</code> connects to</li>
 <li>add or remove HTTP request headers</li>
