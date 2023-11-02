@@ -295,12 +295,12 @@ user-agent: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="mpc-tls"><a class="header" href="#mpc-tls">MPC-TLS</a></h1>
-<p>During the MPC-TLS phase the <code>Prover</code> and the <code>Verifier</code> work together to generate an authenticated <code>Transcript</code><sup class="footnote-reference"><a href="#transcript">1</a></sup> of a TLS session with a <code>Server</code>.</p>
-<p>Listed below are some key points regarding this process:</p>
+<p>During the MPC-TLS phase the <code>Prover</code> and the <code>Verifier</code> run an MPC protocol enabling the <code>Prover</code> to connect to, and exchange data with, a TLS-enabled <code>Server</code>. </p>
+<p>Listed below are some key points regarding this protocol:</p>
 <ul>
-<li>The <code>Verifier</code> only ever sees the <em>encrypted</em> application data of the TLS session.</li>
-<li>The protocol guarantees that the <code>Prover</code> is not solely capable of constructing requests, nor can they forge responses from the <code>Server</code>.</li>
-<li>When the <code>Verifier</code> is a <code>Notary</code> (see section on <a href="protocol/mpc-tls/../notarization.html">Notarization</a>), the identity of the <code>Server</code> is hidden and can be proven to another application-specific verifier later.</li>
+<li>The <code>Verifier</code> only learns the <em>encrypted</em> application data of the TLS session.</li>
+<li>The <code>Prover</code> is not solely capable of constructing requests, nor can they forge responses from the <code>Server</code>.</li>
+<li>The protocol enables the <code>Prover</code> to prove the authenticity of the exchanged data to the <code>Verifier</code>. </li>
 </ul>
 <!-- The MPC-TLS protocol consists of the following steps:
 
@@ -308,11 +308,7 @@ user-agent: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 A TLS handshake is the first step in establishing a TLS connection between the `Prover`/`Verifier` and the `Server`. The result of this handshake is a *Pre Master Secret (PMS)*, a symmetrical key that will be used for further encrypted communication. The server has the full key; the `Prover` and the `Verifier` only have their share of this key.
 2. **Encryption, Decryption, and MAC Computation**  
 Next, the `Prover` and `Verifier` use MPC to encrypt, and decrypt, data sent to, and received from, the `Server`. They also compute a *Message Authentication Code (MAC)* 
-for the data that ensures untampered communication. -->
-<div class="footnote-definition" id="transcript"><sup class="footnote-definition-label">1</sup>
-<p>A transcript is the application level data that is send to and received from the <code>Server</code></p>
-</div>
-<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+for the data that ensures untampered communication. --><div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="handshake"><a class="header" href="#handshake">Handshake</a></h1>
 <img src="protocol/mpc-tls/../../diagrams/key_exchange.svg">
 <p>A TLS handshake is the first step in establishing a TLS connection between a <code>Prover</code> and a <code>Server</code>. In TLSNotary the <code>Prover</code> is the one who starts the TLS handshake and physically communicates with the <code>Server</code>, but all cryptographic TLS operations are performed together with the <code>Verifier</code> using MPC.</p>
