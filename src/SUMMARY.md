@@ -20,6 +20,7 @@
 - [Dual Execution with Asymmetric Privacy](./mpc/deap.md)
 - [Encryption](./mpc/encryption.md)
 - [MAC](./mpc/mac.md)
+- [Commitments](./mpc/commitments.md)
 
 <!-- [Verification Steps](./spec/verification_steps.md) -->
 
