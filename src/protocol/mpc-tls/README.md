@@ -1,6 +1,6 @@
 # MPC-TLS
 
-During the MPC-TLS phase the `Prover` and the `Verifier` run an MPC protocol enabling the `Prover` to connect to and exchange data with a TLS-enabled `Server`. 
+During the MPC-TLS phase the `Prover` and the `Verifier` run an MPC protocol enabling the `Prover` to connect to, and exchange data with, a TLS-enabled `Server`. 
 
 
 Listed below are some key points regarding this protocol:
