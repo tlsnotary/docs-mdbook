@@ -68,3 +68,8 @@ accept-encoding: identity
 connection: close
 user-agent: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
+
+
+## ProgCrypto workshop
+
+On November 17th 2023 we organized a TLSNotary workshop at [ProgCrypto](https://progcrypto.org/). This workshop has more examples for you to explore at <https://github.com/tlsnotary/progcrypto_workshop>
