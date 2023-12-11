@@ -3,6 +3,7 @@
 [Introduction](./intro.md)
 [Motivation](./motivation.md)
 [Quick Start](./developers/quick_start.md)
+[Run a Notary Server](./developers/notary_server.md)
 
 # Protocol
 
