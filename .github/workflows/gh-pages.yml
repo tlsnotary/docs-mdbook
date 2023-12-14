@@ -5,8 +5,8 @@ on:
 
 # Lookup compatible version numbers at: https://github.com/lzanini/mdbook-katex/releases
 env:
-  mdbook-version: '0.4.32'
-  katex-version: '0.5.5'
+  mdbook-version: '0.4.36'
+  katex-version: '0.5.9'
   linkcheck-version: '0.7.7'
 
 jobs:
