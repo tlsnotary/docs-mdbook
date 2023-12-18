@@ -9,10 +9,10 @@ All the following settings can be configured in the [config file](https://github
 
     | File | Purpose | File Type | Compulsory to change |
      ----- | ------- | ------------------ | -------------------- |
-    | TLS private key | The private key used for the notary server's TLS certificate to establish TLS connections with provers | Compatible TLS private key in PEM format | Yes unless TLS is turned off |
-    | TLS certificate | The notary server's TLS certificate to establish TLS connections with provers | Compatible TLS certificate in PEM format | Yes unless TLS is turned off |
+    | TLS private key | The private key used for the notary server's TLS certificate to establish TLS connections with provers | TLS private key in PEM format | Yes unless TLS is turned off |
+    | TLS certificate | The notary server's TLS certificate to establish TLS connections with provers | TLS certificate in PEM format | Yes unless TLS is turned off |
     | Notary signature private key | The private key used for the notary server's signature on the generated transcript of the TLS sessions with provers | A P256 elliptic curve private key in PEM format | Yes |
-    | Notary signature public key | The public key used for the notary server's signature on the generated transcript of the TLS sessions with provers | A matching public key (in PEM format) | Yes |
+    | Notary signature public key | The public key used for the notary server's signature on the generated transcript of the TLS sessions with provers | A matching public key in PEM format | Yes |
 2. Expose the notary server port (specified in the config file) on your server networking setting
 3. Optionally one can turn on [authorization](https://github.com/tlsnotary/tlsn/tree/dev/notary-server#authorization), or turn off [TLS](https://github.com/tlsnotary/tlsn/tree/dev/notary-server#optional-tls) if TLS is handled by an external setup
 
