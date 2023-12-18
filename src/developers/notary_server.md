@@ -3,7 +3,7 @@
 This guide shows you how to run a [notary server](https://github.com/tlsnotary/tlsn/tree/dev/notary-server) in an Ubuntu server instance.
 
 ## Configure Server Setting
-All the following setting can be configured in the [config file](https://github.com/tlsnotary/tlsn/blob/dev/notary-server/config/config.yaml).
+All the following settings can be configured in the [config file](https://github.com/tlsnotary/tlsn/blob/dev/notary-server/config/config.yaml).
 
 1. One *MUST* change the path of the following files, as by default dummy fixtures are used which is not secured at all
 
