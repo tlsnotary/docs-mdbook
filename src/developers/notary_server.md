@@ -2,6 +2,21 @@
 
 This guide shows you how to run a [notary server](https://github.com/tlsnotary/tlsn/tree/dev/notary-server) in an Ubuntu server instance.
 
+## Configure Server Setting
+All the following setting can be configured in the [config file](https://github.com/tlsnotary/tlsn/blob/dev/notary-server/config/config.yaml).
+
+1. One *MUST* change the path of the following files, as by default dummy fixtures are used which is not secured at all
+
+    | File | Purpose | File Type | Compulsory to change |
+     ----- | ------- | ------------------ | -------------------- |
+    | TLS private key | Private key used for notary server's TLS certificate to establish TLS connection with prover | Compatible TLS private key in PEM format | Yes unless TLS is turned off |
+    | TLS certificate | Notary server's TLS certificate to establish TLS connection with prover | Compatible TLS certificate in PEM format | Yes unless TLS is turned off |
+    | Notary signature private key | Private key used for notary server's signature on the generated transcript of the TLS session with prover | A P256 elliptic curve private key in PEM format | Yes |
+    | Notary signature public key | Public key used for notary server's signature on the generated transcript of the TLS session with prover | A public key (in PEM format) that corresponds to the private key above | Yes |
+2. Expose the notary server port (specified in the config file) on your server networking setting
+3. Optionally one can turn on [authorization](https://github.com/tlsnotary/tlsn/tree/dev/notary-server#authorization), or turn off [TLS](https://github.com/tlsnotary/tlsn/tree/dev/notary-server#optional-tls) if TLS is handled by an external setup
+
+
 ## Using Cargo
 
 1. Install required system dependencies
@@ -34,10 +49,3 @@ cargo run --release
 ```bash
 docker run --init -p 127.0.0.1:7047:7047 ghcr.io/tlsnotary/notary-server:latest
 ```
-
-## Configure Server Setting
-All the following setting can be configured in the [config file](https://github.com/tlsnotary/tlsn/blob/dev/notary-server/config/config.yaml).
-
-1. *REMEMBER* to change the path of the TLS private key, TLS certificate, notary signature private key, and notary signature public key to point to the actual ones (by default dummy fixture keys/certs are used)
-2. Expose the notary server port (specified in the config file) on your server networking setting
-3. Optionally one can turn on [authorization](https://github.com/tlsnotary/tlsn/tree/dev/notary-server#authorization), or turn off [TLS](https://github.com/tlsnotary/tlsn/tree/dev/notary-server#optional-tls) if TLS is handled by an external setup
