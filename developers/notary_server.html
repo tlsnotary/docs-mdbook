@@ -4,7 +4,7 @@
 <head>
     <!-- Book generated using mdBook -->
     <meta charset="UTF-8">
-    <title>Commitments - tlsn-docs</title>
+    <title>Run a Notary Server - tlsn-docs</title>
 
 
     <!-- Custom HTML head -->
@@ -87,7 +87,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../intro.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="../motivation.html">Motivation</a></li><li class="chapter-item expanded affix "><a href="../developers/quick_start.html">Quick Start</a></li><li class="chapter-item expanded affix "><a href="../developers/notary_server.html">Run a Notary Server</a></li><li class="chapter-item expanded affix "><li class="part-title">Protocol</li><li class="chapter-item expanded "><a href="../protocol/mpc-tls/index.html"><strong aria-hidden="true">1.</strong> MPC-TLS</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../protocol/mpc-tls/handshake.html"><strong aria-hidden="true">1.1.</strong> Handshake</a></li><li class="chapter-item expanded "><a href="../protocol/mpc-tls/encryption.html"><strong aria-hidden="true">1.2.</strong> Encryption and Decryption</a></li></ol></li><li class="chapter-item expanded "><a href="../protocol/notarization.html"><strong aria-hidden="true">2.</strong> Notarization</a></li><li class="chapter-item expanded "><a href="../protocol/verification.html"><strong aria-hidden="true">3.</strong> Verification</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Selective Disclosure</div></li><li class="chapter-item expanded affix "><li class="part-title">MPC</li><li class="chapter-item expanded "><a href="../mpc/key_exchange.html"><strong aria-hidden="true">5.</strong> Key Exchange</a></li><li class="chapter-item expanded "><a href="../mpc/ff-arithmetic.html"><strong aria-hidden="true">6.</strong> Finite-Field Arithmetic</a></li><li class="chapter-item expanded "><a href="../mpc/deap.html"><strong aria-hidden="true">7.</strong> Dual Execution with Asymmetric Privacy</a></li><li class="chapter-item expanded "><a href="../mpc/encryption.html"><strong aria-hidden="true">8.</strong> Encryption</a></li><li class="chapter-item expanded "><a href="../mpc/mac.html"><strong aria-hidden="true">9.</strong> MAC</a></li><li class="chapter-item expanded "><a href="../mpc/commitments.html" class="active"><strong aria-hidden="true">10.</strong> Commitments</a></li><li class="chapter-item expanded affix "><a href="../glossary.html">Glossary</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../intro.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="../motivation.html">Motivation</a></li><li class="chapter-item expanded affix "><a href="../developers/quick_start.html">Quick Start</a></li><li class="chapter-item expanded affix "><a href="../developers/notary_server.html" class="active">Run a Notary Server</a></li><li class="chapter-item expanded affix "><li class="part-title">Protocol</li><li class="chapter-item expanded "><a href="../protocol/mpc-tls/index.html"><strong aria-hidden="true">1.</strong> MPC-TLS</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../protocol/mpc-tls/handshake.html"><strong aria-hidden="true">1.1.</strong> Handshake</a></li><li class="chapter-item expanded "><a href="../protocol/mpc-tls/encryption.html"><strong aria-hidden="true">1.2.</strong> Encryption and Decryption</a></li></ol></li><li class="chapter-item expanded "><a href="../protocol/notarization.html"><strong aria-hidden="true">2.</strong> Notarization</a></li><li class="chapter-item expanded "><a href="../protocol/verification.html"><strong aria-hidden="true">3.</strong> Verification</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Selective Disclosure</div></li><li class="chapter-item expanded affix "><li class="part-title">MPC</li><li class="chapter-item expanded "><a href="../mpc/key_exchange.html"><strong aria-hidden="true">5.</strong> Key Exchange</a></li><li class="chapter-item expanded "><a href="../mpc/ff-arithmetic.html"><strong aria-hidden="true">6.</strong> Finite-Field Arithmetic</a></li><li class="chapter-item expanded "><a href="../mpc/deap.html"><strong aria-hidden="true">7.</strong> Dual Execution with Asymmetric Privacy</a></li><li class="chapter-item expanded "><a href="../mpc/encryption.html"><strong aria-hidden="true">8.</strong> Encryption</a></li><li class="chapter-item expanded "><a href="../mpc/mac.html"><strong aria-hidden="true">9.</strong> MAC</a></li><li class="chapter-item expanded "><a href="../mpc/commitments.html"><strong aria-hidden="true">10.</strong> Commitments</a></li><li class="chapter-item expanded affix "><a href="../glossary.html">Glossary</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -148,7 +148,7 @@
                         <a href="https://github.com/tlsnotary/docs-mdbook" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/tlsnotary/docs-mdbook/edit/main/src/mpc/commitments.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/tlsnotary/docs-mdbook/edit/main/src/developers/notary_server.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -179,23 +179,72 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
-<h1 id="commitments"><a class="header" href="#commitments">Commitments</a></h1>
-<p>Here we illustrate the commitment scheme used to create authenticated commitments to the plaintext in scenarios where a general-purpose <a href="/intro.html#tls-verification-with-a-general-purpose-notary"><code>Notary</code></a> is used. (Note that this scheme is not used when the <code>Prover</code> proves directly to the <code>Verifier</code>)</p>
-<p>A naive approach of extending the <a href="/protocol/mpc-tls/encryption.html"><code>Encryption and Decryption</code></a> steps to also compute a commitment (e.g. BLAKE3 hash) using MPC is too resource-intensive, prompting us to provide a more lightweight commitment scheme.</p>
-<p>The high-level idea is that the <code>Prover</code> creates a commitment to the active plaintext encoding from the MPC protocol used for <a href="/protocol/mpc-tls/encryption.html"><code>Encryption and Decryption</code></a>. </p>
-<p>We also hide the amount of commitments (to preserve <code>Prover</code> privacy) by having the <code>Prover</code> commit to the Merkle tree of commitments.</p>
-<p><img src="/diagrams/encoding_commitment.svg" alt="Commitment" /></p>
+<h1 id="run-a-notary-server"><a class="header" href="#run-a-notary-server">Run a Notary Server</a></h1>
+<p>This guide shows you how to run a <a href="https://github.com/tlsnotary/tlsn/tree/dev/notary-server">notary server</a> in an Ubuntu server instance.</p>
+<h2 id="configure-server-setting"><a class="header" href="#configure-server-setting">Configure Server Setting</a></h2>
+<p>All the following settings can be configured in the <a href="https://github.com/tlsnotary/tlsn/blob/dev/notary-server/config/config.yaml">config file</a>.</p>
+<ol>
+<li>
+<p>Before running a notary server you need the following files. The default dummy fixtures are for testing only and should never be used in production.</p>
+<div class="table-wrapper"><table><thead><tr><th>File</th><th>Purpose</th><th>File Type</th><th>Compulsory to change</th></tr></thead><tbody>
+<tr><td>TLS private key</td><td>The private key used for the notary server's TLS certificate to establish TLS connections with provers</td><td>TLS private key in PEM format</td><td>Yes unless TLS is turned off</td></tr>
+<tr><td>TLS certificate</td><td>The notary server's TLS certificate to establish TLS connections with provers</td><td>TLS certificate in PEM format</td><td>Yes unless TLS is turned off</td></tr>
+<tr><td>Notary signature private key</td><td>The private key used for the notary server's signature on the generated transcript of the TLS sessions with provers</td><td>A P256 elliptic curve private key in PEM format</td><td>Yes</td></tr>
+<tr><td>Notary signature public key</td><td>The public key used for the notary server's signature on the generated transcript of the TLS sessions with provers</td><td>A matching public key in PEM format</td><td>Yes</td></tr>
+</tbody></table>
+</div></li>
+<li>
+<p>Expose the notary server port (specified in the config file) on your server networking setting</p>
+</li>
+<li>
+<p>Optionally one can turn on <a href="https://github.com/tlsnotary/tlsn/tree/dev/notary-server#authorization">authorization</a>, or turn off <a href="https://github.com/tlsnotary/tlsn/tree/dev/notary-server#optional-tls">TLS</a> if TLS is handled by an external setup</p>
+</li>
+</ol>
+<h2 id="using-cargo"><a class="header" href="#using-cargo">Using Cargo</a></h2>
+<ol>
+<li>Install required system dependencies</li>
+</ol>
+<pre><code class="language-bash">sudo apt-get update &amp;&amp; sudo apt-get upgrade
+sudo apt-get install libclang-dev pkg-config build-essential libssl-dev
+</code></pre>
+<ol start="2">
+<li>Install rust</li>
+</ol>
+<pre><code class="language-bash">curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source ~/.cargo/env
+</code></pre>
+<ol start="3">
+<li>Download notary server source code</li>
+</ol>
+<pre><code class="language-bash"> mkdir ~/src; cd ~/src
+ git clone https://github.com/tlsnotary/tlsn.git
+</code></pre>
+<ol start="4">
+<li>To configure the <a href="#configure-server-setting">server setting</a>, please refer to the <code>Using Cargo</code> section in the repo's <a href="https://github.com/tlsnotary/tlsn/blob/dev/notary-server/README.md#using-cargo">readme</a></li>
+<li>Run the server</li>
+</ol>
+<pre><code class="language-bash">cd tlsn/notary-server
+cargo run --release
+</code></pre>
+<h2 id="using-docker"><a class="header" href="#using-docker">Using Docker</a></h2>
+<ol>
+<li>Install docker following your preferred method <a href="https://docs.docker.com/engine/install/ubuntu/">here</a></li>
+<li>To configure the <a href="#configure-server-setting">server setting</a>, please refer to the <code>Using Docker</code> section in the repo's <a href="https://github.com/tlsnotary/tlsn/blob/dev/notary-server/README.md#using-docker">readme</a></li>
+<li>Run the notary server docker image</li>
+</ol>
+<pre><code class="language-bash">docker run --init -p 127.0.0.1:7047:7047 ghcr.io/tlsnotary/notary-server:latest
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        <a rel="prev" href="../mpc/mac.html" class="mobile-nav-chapters previous"
+                        <a rel="prev" href="../developers/quick_start.html" class="mobile-nav-chapters previous"
                             title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                             <i class="fa fa-angle-left"></i>
                         </a>
 
-                        <a rel="next" href="../glossary.html" class="mobile-nav-chapters next"
+                        <a rel="next" href="../protocol/mpc-tls/index.html" class="mobile-nav-chapters next"
                             title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                             <i class="fa fa-angle-right"></i>
                         </a>
@@ -206,12 +255,12 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                <a rel="prev" href="../mpc/mac.html" class="nav-chapters previous" title="Previous chapter"
+                <a rel="prev" href="../developers/quick_start.html" class="nav-chapters previous" title="Previous chapter"
                     aria-label="Previous chapter" aria-keyshortcuts="Left">
                     <i class="fa fa-angle-left"></i>
                 </a>
 
-                <a rel="next" href="../glossary.html" class="nav-chapters next" title="Next chapter"
+                <a rel="next" href="../protocol/mpc-tls/index.html" class="nav-chapters next" title="Next chapter"
                     aria-label="Next chapter" aria-keyshortcuts="Right">
                     <i class="fa fa-angle-right"></i>
                 </a>
