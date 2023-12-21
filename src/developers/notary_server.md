@@ -34,8 +34,12 @@ source ~/.cargo/env
  mkdir ~/src; cd ~/src
  git clone https://github.com/tlsnotary/tlsn.git
 ```
-4. To configure the [server setting](#configure-server-setting), please refer to the `Using Cargo` section in the repo's [readme](https://github.com/tlsnotary/tlsn/blob/dev/notary-server/README.md#using-cargo)
-5. Run the server
+4. Switch to your desired [released version](https://github.com/tlsnotary/tlsn/releases), or stay in the `dev` branch to use the latest code, e.g.
+```bash
+git checkout tags/<version>
+```
+5. To configure the [server setting](#configure-server-setting), please refer to the `Using Cargo` section in the repo's [readme](https://github.com/tlsnotary/tlsn/blob/dev/notary-server/README.md#using-cargo)
+6. Run the server
 ```bash
 cd tlsn/notary-server
 cargo run --release
@@ -45,7 +49,7 @@ cargo run --release
 
 1. Install docker following your preferred method [here](https://docs.docker.com/engine/install/ubuntu/)
 2. To configure the [server setting](#configure-server-setting), please refer to the `Using Docker` section in the repo's [readme](https://github.com/tlsnotary/tlsn/blob/dev/notary-server/README.md#using-docker)
-3. Run the notary server docker image
+3. Run the notary server docker image of your desired version
 ```bash
-docker run --init -p 127.0.0.1:7047:7047 ghcr.io/tlsnotary/notary-server:latest
+docker run --init -p 127.0.0.1:7047:7047 ghcr.io/tlsnotary/tlsn/notary-server:<version>
 ```
