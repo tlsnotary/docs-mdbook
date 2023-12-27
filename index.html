@@ -1,41 +1,39 @@
 <!DOCTYPE HTML>
-<html lang="en" class="sidebar-visible no-js ayu">
+<html lang="en" class="ayu" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Introduction - tlsn-docs</title>
 
-<head>
-    <!-- Book generated using mdBook -->
-    <meta charset="UTF-8">
-    <title>Introduction - tlsn-docs</title>
 
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
 
-    <!-- Custom HTML head -->
-    
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#ffffff" />
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
 
-    <link rel="icon" href="favicon.svg">
-    <link rel="shortcut icon" href="favicon.png">
-    <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/general.css">
-    <link rel="stylesheet" href="css/chrome.css">
-    <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
 
-    <!-- Fonts -->
-    <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-    <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
 
-    <!-- Highlight.js Stylesheets -->
-    <link rel="stylesheet" href="highlight.css">
-    <link rel="stylesheet" href="tomorrow-night.css">
-    <link rel="stylesheet" href="ayu-highlight.css">
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="src/css/katex.css">
+        <link rel="stylesheet" href="src/css/global.css">
 
-    <!-- Custom theme stylesheets -->
-    <link rel="stylesheet" href="src/css/katex.css">
-    <link rel="stylesheet" href="src/css/global.css">
-
-</head>
-
-<body>
+    </head>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
         <!-- Provide site root to javascript -->
         <script>
@@ -62,40 +60,47 @@
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
             var theme;
-            try { theme = localStorage.getItem('mdbook-theme'); } catch (e) { }
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             var html = document.querySelector('html');
-            html.classList.remove('no-js')
             html.classList.remove('ayu')
             html.classList.add(theme);
-            html.classList.add('js');
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var html = document.querySelector('html');
+            var body = document.querySelector('body');
             var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
-                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch (e) { }
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
             }
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
                 <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html" class="active">Introduction</a></li><li class="chapter-item expanded affix "><a href="motivation.html">Motivation</a></li><li class="chapter-item expanded affix "><a href="developers/quick_start.html">Quick Start</a></li><li class="chapter-item expanded affix "><a href="developers/notary_server.html">Run a Notary Server</a></li><li class="chapter-item expanded affix "><li class="part-title">Protocol</li><li class="chapter-item expanded "><a href="protocol/mpc-tls/index.html"><strong aria-hidden="true">1.</strong> MPC-TLS</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="protocol/mpc-tls/handshake.html"><strong aria-hidden="true">1.1.</strong> Handshake</a></li><li class="chapter-item expanded "><a href="protocol/mpc-tls/encryption.html"><strong aria-hidden="true">1.2.</strong> Encryption and Decryption</a></li></ol></li><li class="chapter-item expanded "><a href="protocol/notarization.html"><strong aria-hidden="true">2.</strong> Notarization</a></li><li class="chapter-item expanded "><a href="protocol/verification.html"><strong aria-hidden="true">3.</strong> Verification</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Selective Disclosure</div></li><li class="chapter-item expanded affix "><li class="part-title">MPC</li><li class="chapter-item expanded "><a href="mpc/key_exchange.html"><strong aria-hidden="true">5.</strong> Key Exchange</a></li><li class="chapter-item expanded "><a href="mpc/ff-arithmetic.html"><strong aria-hidden="true">6.</strong> Finite-Field Arithmetic</a></li><li class="chapter-item expanded "><a href="mpc/deap.html"><strong aria-hidden="true">7.</strong> Dual Execution with Asymmetric Privacy</a></li><li class="chapter-item expanded "><a href="mpc/encryption.html"><strong aria-hidden="true">8.</strong> Encryption</a></li><li class="chapter-item expanded "><a href="mpc/mac.html"><strong aria-hidden="true">9.</strong> MAC</a></li><li class="chapter-item expanded "><a href="mpc/commitments.html"><strong aria-hidden="true">10.</strong> Commitments</a></li><li class="chapter-item expanded affix "><a href="glossary.html">Glossary</a></li></ol>
             </div>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
         </nav>
 
         <!-- Track and set sidebar scroll position -->
         <script>
             var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function (e) {
+            sidebarScrollbox.addEventListener('click', function(e) {
                 if (e.target.tagName === 'A') {
                     sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
                 }
@@ -120,21 +125,16 @@
                                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents"
-                            aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
                             <i class="fa fa-bars"></i>
-                        </button>
-                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme"
-                            aria-label="Change theme" aria-haspopup="true" aria-expanded="false"
-                            aria-controls="theme-list">
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)"
-                            aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S"
-                            aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -157,8 +157,7 @@
 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..."
-                            aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -171,7 +170,7 @@
                 <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
-                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function (link) {
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
                         link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
                     });
                 </script>
@@ -229,10 +228,9 @@
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
 
-                        <a rel="next" href="motivation.html" class="mobile-nav-chapters next"
-                            title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                            <i class="fa fa-angle-right"></i>
-                        </a>
+                            <a rel="next prefetch" href="motivation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -241,10 +239,9 @@
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
 
-                <a rel="next" href="motivation.html" class="nav-chapters next" title="Next chapter"
-                    aria-label="Next chapter" aria-keyshortcuts="Right">
-                    <i class="fa fa-angle-right"></i>
-                </a>
+                    <a rel="next prefetch" href="motivation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
             </nav>
 
         </div>
@@ -269,6 +266,5 @@
 
 
     </div>
-</body>
-
+    </body>
 </html>
