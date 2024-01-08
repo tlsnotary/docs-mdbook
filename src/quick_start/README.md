@@ -1,6 +1,6 @@
 # Quick Start
 
-This workshop will help you get started with TLSNotary, both in native [Rust](rust.md) and in the [browser](browser_extension.md).
+This quick start will help you get started with TLSNotary, both in native [Rust](rust.md) and in the [browser](browser_extension.md).
 
 1. [Most Basic Example: Proving and Verifying Public Data (Rust)](rust.md#rust-simple)
 2. [Proving and Verifying a Private Discord DM (Rust)](rust.md#rust-discord)

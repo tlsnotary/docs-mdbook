@@ -20,9 +20,9 @@ fn main() -> io::Result<()> {
     );
 
     let response = blocking::get(&url)
-        .expect("Failed fetch template file")
+        .expect("fetching template file")
         .text()
-        .expect("Failed fetch template file");
+        .expect("getting text from template fetch");
 
     // filter unwanted themes: only keep ayu
     let filtered_content = response
