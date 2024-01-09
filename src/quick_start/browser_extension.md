@@ -2,25 +2,10 @@
 
 In this Quick Start we will prove ownership of a Twitter account with TLSNotary's browser extension.
 
-## Run Notary Server
-
-1. Edit the notary server config [file](./notary/config/config.yaml) to turn off TLS so that the browser extension can connect to the local notary server without requiring extra steps to accept self-signed certificates in the browser.
-   ```yaml
-   tls-signature:
-      enabled: false
-   ```
-2. Run the notary server:
-   ```shell
-   cd notary-server
-   cargo run --release
-   ```
-
-The notary server will now be running in the background waiting for connections.
-
 ## Install Browser Extension (Chrome/Brave)
 
 1. Download the browser extension from
-<https://github.com/tlsnotary/tlsn-extension/releases/download/0.0.1/tlsn-extension-0.0.1.zip>
+<https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.3/tlsn-extension-0.1.0.3.zip>
 
 2. Unzip  
    ⚠️ This is a flat zip file, so be careful if you unzip from the command line, this zip file contains many file at the top level
@@ -49,15 +34,56 @@ docker run -it --rm -p 55688:80 novnc/websockify 80 api.twitter.com:443
 ```
 Note the `api.twitter.com:443` argument on the last line.
 
+The browser extension uses `ws://localhost:55688` as proxy API by default, so you do not need to update this setting.
+
 ### Hosted proxy
 
-Or, you can simply use remote proxy at `ws://notary.efprivacyscaling.org:55688`
+Or, you can simply use the remote proxy at `wss://notary.pse.dev/proxy`
 
 1. Open the extension
-2. Click "Option"
-3. Update proxy URL and click "Save"
+2. Click **Options**
+3. Update proxy API and click **Save**
+
+## Notary Server
+
+To create a TLSNotary proof, the browser extension needs a TLSNotary notary server. In a real world scenario, this server should be run by a neutral party, or by the verifier of the proofs. In this quick start, you can either run the server yourself or use the test server from the TLSNotary team. Running a local server is the fastest option.
+
+To use the TLSNotary team notary server:
+1. Open the extension
+2. Click **Options**
+3. Update Notary API to: `wss://notary.pse.dev/proxy`
+4. Click **Save**
+
+
+If you plan to run a local notary server:
+1. Open the extension
+2. Click **Options**
+3. Update Notary API to: `ws://localhost:7047`
+4. Click **Save**
 
 <img width="478"  src="images/extension_proxy.png">
+
+### Run a local Notary Server
+
+1. Clone the TLSNotary repository:
+   ```shell
+   git clone https://github.com/tlsnotary/tlsn.git
+   ```
+2. Edit the notary server config file (`notary-server/config/config.yaml`) to turn off TLS so that the browser extension can connect to the local notary server without requiring extra steps to accept self-signed certificates in the browser.
+   ```yaml
+   tls-signature:
+      enabled: false
+   ```
+3. Run the notary server:
+   ```shell
+   cd notary-server
+   cargo run --release
+   ```
+
+The notary server will now be running in the background waiting for connections.
+
+
+
 
 ## Notarize Twitter Account Access
 
