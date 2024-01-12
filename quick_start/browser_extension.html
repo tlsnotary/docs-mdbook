@@ -1,0 +1,333 @@
+<!DOCTYPE HTML>
+<html lang="en" class="ayu" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Browser Extension - tlsn-docs</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../src/css/katex.css">
+        <link rel="stylesheet" href="../src/css/global.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "ayu";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('ayu')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../intro.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="../motivation.html">Motivation</a></li><li class="chapter-item expanded affix "><li class="part-title">Getting Started</li><li class="chapter-item expanded "><a href="../quick_start/index.html"><strong aria-hidden="true">1.</strong> Quick Start</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../quick_start/rust.html"><strong aria-hidden="true">1.1.</strong> Rust</a></li><li class="chapter-item expanded "><a href="../quick_start/browser_extension.html" class="active"><strong aria-hidden="true">1.2.</strong> Browser Extension</a></li></ol></li><li class="chapter-item expanded "><a href="../developers/notary_server.html"><strong aria-hidden="true">2.</strong> Run a Notary Server</a></li><li class="chapter-item expanded affix "><li class="part-title">Protocol</li><li class="chapter-item expanded "><a href="../protocol/mpc-tls/index.html"><strong aria-hidden="true">3.</strong> MPC-TLS</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../protocol/mpc-tls/handshake.html"><strong aria-hidden="true">3.1.</strong> Handshake</a></li><li class="chapter-item expanded "><a href="../protocol/mpc-tls/encryption.html"><strong aria-hidden="true">3.2.</strong> Encryption and Decryption</a></li></ol></li><li class="chapter-item expanded "><a href="../protocol/notarization.html"><strong aria-hidden="true">4.</strong> Notarization</a></li><li class="chapter-item expanded "><a href="../protocol/verification.html"><strong aria-hidden="true">5.</strong> Verification</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> Selective Disclosure</div></li><li class="chapter-item expanded affix "><li class="part-title">MPC</li><li class="chapter-item expanded "><a href="../mpc/key_exchange.html"><strong aria-hidden="true">7.</strong> Key Exchange</a></li><li class="chapter-item expanded "><a href="../mpc/ff-arithmetic.html"><strong aria-hidden="true">8.</strong> Finite-Field Arithmetic</a></li><li class="chapter-item expanded "><a href="../mpc/deap.html"><strong aria-hidden="true">9.</strong> Dual Execution with Asymmetric Privacy</a></li><li class="chapter-item expanded "><a href="../mpc/encryption.html"><strong aria-hidden="true">10.</strong> Encryption</a></li><li class="chapter-item expanded "><a href="../mpc/mac.html"><strong aria-hidden="true">11.</strong> MAC</a></li><li class="chapter-item expanded "><a href="../mpc/commitments.html"><strong aria-hidden="true">12.</strong> Commitments</a></li><li class="chapter-item expanded affix "><a href="../glossary.html">Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">tlsn-docs</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/tlsnotary/docs-mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/tlsnotary/docs-mdbook/edit/main/src/quick_start/browser_extension.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="tlsnotary-browser-extension"><a class="header" href="#tlsnotary-browser-extension">TLSNotary Browser Extension <a name="browser"></a></a></h1>
+<p>In this Quick Start we will prove ownership of a Twitter account with TLSNotary's browser extension.
+First we need to <a href="#instal">install</a> and configure a <a href="#proxy">websocket proxy</a> and a <a href="#notary-server">notary server</a>.</p>
+<h2 id="install-browser-extension-chromebrave"><a class="header" href="#install-browser-extension-chromebrave">Install Browser Extension (Chrome/Brave) <a name="install"></a></a></h2>
+<ol>
+<li>Download the browser extension from <a href="https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.3/tlsn-extension-0.1.0.3.zip">https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.3/tlsn-extension-0.1.0.3.zip</a></li>
+<li>Unzip<br />
+⚠️ This is a flat zip file, so be careful if you unzip from the command line, this zip file contains many file at the top level</li>
+<li>Open <strong>Manage Extensions</strong>: <a href="chrome://extensions/">chrome://extensions/</a></li>
+<li>Enable <code>Developer mode</code></li>
+<li>Click the <strong>Load unpacked</strong> button</li>
+<li>Select the unzipped folder</li>
+</ol>
+<p><img src="images/extension_install.png" alt="" /></p>
+<p>(Optional:) Pin the extension, so that it is easier to find in the next steps:</p>
+<p><img src="images/extension_pin.png" alt="" /></p>
+<h2 id="websocket-proxy"><a class="header" href="#websocket-proxy">Websocket Proxy <a name="proxy"></a></a></h2>
+<p>Since a web browser doesn't have the ability to make TCP connection, we need to use a websocket proxy server. You can either run one yourself, or use a TLSNotary hosted proxy.</p>
+<p>To use the TLSnotary hosted proxy:</p>
+<ol>
+<li>Open the extension</li>
+<li>Click <strong>Options</strong></li>
+<li>Enter <code>wss://notary.pse.dev/proxy</code> as <strong>proxy API</strong></li>
+<li>Click <strong>Save</strong></li>
+</ol>
+<p>To run your own websockify proxy <strong>locally</strong>, run:</p>
+<pre><code class="language-sh">git clone https://github.com/novnc/websockify &amp;&amp; cd websockify
+./docker/build.sh
+docker run -it --rm -p 55688:80 novnc/websockify 80 api.twitter.com:443
+</code></pre>
+<p>Note the <code>api.twitter.com:443</code> argument on the last line.</p>
+<p>Next use  <code>ws://localhost:55688</code> as <strong>proxy API</strong> in Step 3 above.</p>
+<h2 id="notary-server"><a class="header" href="#notary-server">Notary Server <a name="notary-server"></a></a></h2>
+<p>To create a TLSNotary proof, the browser extension needs a TLSNotary notary server. In a real world scenario, this server should be run by a neutral party, or by the verifier of the proofs. In this quick start, you can either run the server yourself or use the test server from the TLSNotary team. Notarizing TLS with Multi Party Computation involves a lot of communication between the extension and notary server, so running a local server is the fastest option. </p>
+<p>To use the TLSNotary team notary server:</p>
+<ol>
+<li>Open the extension</li>
+<li>Click <strong>Options</strong></li>
+<li>Update Notary API to: <code>https://notary.pse.dev/proxy</code></li>
+<li>Click <strong>Save</strong></li>
+<li>Skip the next section and <a href="#notarize">continue with the notarization step</a></li>
+</ol>
+<p>If you plan to run a local notary server:</p>
+<ol>
+<li>Open the extension</li>
+<li>Click <strong>Options</strong></li>
+<li>Update Notary API to: <code>http://localhost:7047</code></li>
+<li>Click <strong>Save</strong></li>
+<li>Run a local notary server (see below)</li>
+</ol>
+<img width="478"  src="images/extension_proxy.png">
+<h3 id="run-a-local-notary-server"><a class="header" href="#run-a-local-notary-server">Run a local Notary Server</a></h3>
+<ol>
+<li>Clone the TLSNotary repository:
+<pre><code class="language-shell">git clone https://github.com/tlsnotary/tlsn.git
+</code></pre>
+</li>
+<li>Edit the notary server config file (<code>notary-server/config/config.yaml</code>) to turn off TLS so that the browser extension can connect to the local notary server without requiring extra steps to accept self-signed certificates in the browser.
+<pre><code class="language-yaml">tls-signature:
+   enabled: false
+</code></pre>
+</li>
+<li>Run the notary server:
+<pre><code class="language-shell">cd notary-server
+cargo run --release
+</code></pre>
+</li>
+</ol>
+<p>The notary server will now be running in the background waiting for connections.</p>
+<h2 id="notarize-twitter-account-access"><a class="header" href="#notarize-twitter-account-access">Notarize Twitter Account Access <a name="notarize"></a></a></h2>
+<ol>
+<li>Open Twitter <a href="https://twitter.com">https://twitter.com</a> and login if you haven't yet.</li>
+<li>Open the extension, you should see requests being recorded:<br />
+<img width="477" src="images/extension_requests.png"></li>
+<li>Click on <strong>Requests</strong> </li>
+<li>Enter the text <code>setting</code> in search box<br />
+<img width="479" src="images/extension_request.png"></li>
+<li>Select the <code>GET xmlhttprequest /1.1/account/settings.json</code> request, and then click on <strong>Notarize</strong><br />
+<img width="477" src="images/extension_headers.png"></li>
+<li>Select any headers that you would like to reveal.<br />
+<img width="479"  src="images/extension_headers_reveal.png"></li>
+<li>Highlight the text that you want to make public to hide everything else.
+<img width="479"  src="images/extension_text_reveal.png"></li>
+</ol>
+<ul>
+<li>Click <strong>Notarize</strong>, you should see your notarization being processed:
+<img width="477"  src="images/extension_process.png"></li>
+</ul>
+<p>If you use the hosted notary server, notarization will take multiple seconds. You can track progress by opening the <em>offscreen console</em>:</p>
+<ul>
+<li>Open: <a href="chrome://extensions">chrome://extensions</a> ▸ <strong>TLSN Extension</strong> ▸ <strong>Details</strong> ▸ <strong>offscreen.html</strong></li>
+</ul>
+<h2 id="verify"><a class="header" href="#verify">Verify</a></h2>
+<p>When the notarization is ready, you can click <strong>View Proof</strong>. If you did close the UI, you can find the proof by clicking <strong>History</strong> and <strong>View Proof</strong>.<br />
+<img width="477" src="images/extension_history.png"></p>
+<p>You also have the option to download the proof. You can view this proof later by using the <strong>Verify</strong> button or via <a href="https://tlsnotary.github.io/proof_viz/">https://tlsnotary.github.io/proof_viz/</a>.</p>
+<h2 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h2>
+<ul>
+<li><code>Requests(0): no requests in the Browser extension</code> ➡ restart the TLSN browser extension in <a href="chrome://extensions/">chrome://extensions/</a> and reload the Twitter page.</li>
+<li>Are you using a local notary server? ➡ Check notary server's console log.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../quick_start/rust.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../developers/notary_server.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../quick_start/rust.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../developers/notary_server.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

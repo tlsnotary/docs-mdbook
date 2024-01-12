@@ -90,7 +90,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../intro.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="../motivation.html">Motivation</a></li><li class="chapter-item expanded affix "><a href="../developers/quick_start.html" class="active">Quick Start</a></li><li class="chapter-item expanded affix "><a href="../developers/notary_server.html">Run a Notary Server</a></li><li class="chapter-item expanded affix "><li class="part-title">Protocol</li><li class="chapter-item expanded "><a href="../protocol/mpc-tls/index.html"><strong aria-hidden="true">1.</strong> MPC-TLS</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../protocol/mpc-tls/handshake.html"><strong aria-hidden="true">1.1.</strong> Handshake</a></li><li class="chapter-item expanded "><a href="../protocol/mpc-tls/encryption.html"><strong aria-hidden="true">1.2.</strong> Encryption and Decryption</a></li></ol></li><li class="chapter-item expanded "><a href="../protocol/notarization.html"><strong aria-hidden="true">2.</strong> Notarization</a></li><li class="chapter-item expanded "><a href="../protocol/verification.html"><strong aria-hidden="true">3.</strong> Verification</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Selective Disclosure</div></li><li class="chapter-item expanded affix "><li class="part-title">MPC</li><li class="chapter-item expanded "><a href="../mpc/key_exchange.html"><strong aria-hidden="true">5.</strong> Key Exchange</a></li><li class="chapter-item expanded "><a href="../mpc/ff-arithmetic.html"><strong aria-hidden="true">6.</strong> Finite-Field Arithmetic</a></li><li class="chapter-item expanded "><a href="../mpc/deap.html"><strong aria-hidden="true">7.</strong> Dual Execution with Asymmetric Privacy</a></li><li class="chapter-item expanded "><a href="../mpc/encryption.html"><strong aria-hidden="true">8.</strong> Encryption</a></li><li class="chapter-item expanded "><a href="../mpc/mac.html"><strong aria-hidden="true">9.</strong> MAC</a></li><li class="chapter-item expanded "><a href="../mpc/commitments.html"><strong aria-hidden="true">10.</strong> Commitments</a></li><li class="chapter-item expanded affix "><a href="../glossary.html">Glossary</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../intro.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="../motivation.html">Motivation</a></li><li class="chapter-item expanded affix "><li class="part-title">Getting Started</li><li class="chapter-item expanded "><a href="../quick_start/index.html" class="active"><strong aria-hidden="true">1.</strong> Quick Start</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../quick_start/rust.html"><strong aria-hidden="true">1.1.</strong> Rust</a></li><li class="chapter-item expanded "><a href="../quick_start/browser_extension.html"><strong aria-hidden="true">1.2.</strong> Browser Extension</a></li></ol></li><li class="chapter-item expanded "><a href="../developers/notary_server.html"><strong aria-hidden="true">2.</strong> Run a Notary Server</a></li><li class="chapter-item expanded affix "><li class="part-title">Protocol</li><li class="chapter-item expanded "><a href="../protocol/mpc-tls/index.html"><strong aria-hidden="true">3.</strong> MPC-TLS</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../protocol/mpc-tls/handshake.html"><strong aria-hidden="true">3.1.</strong> Handshake</a></li><li class="chapter-item expanded "><a href="../protocol/mpc-tls/encryption.html"><strong aria-hidden="true">3.2.</strong> Encryption and Decryption</a></li></ol></li><li class="chapter-item expanded "><a href="../protocol/notarization.html"><strong aria-hidden="true">4.</strong> Notarization</a></li><li class="chapter-item expanded "><a href="../protocol/verification.html"><strong aria-hidden="true">5.</strong> Verification</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> Selective Disclosure</div></li><li class="chapter-item expanded affix "><li class="part-title">MPC</li><li class="chapter-item expanded "><a href="../mpc/key_exchange.html"><strong aria-hidden="true">7.</strong> Key Exchange</a></li><li class="chapter-item expanded "><a href="../mpc/ff-arithmetic.html"><strong aria-hidden="true">8.</strong> Finite-Field Arithmetic</a></li><li class="chapter-item expanded "><a href="../mpc/deap.html"><strong aria-hidden="true">9.</strong> Dual Execution with Asymmetric Privacy</a></li><li class="chapter-item expanded "><a href="../mpc/encryption.html"><strong aria-hidden="true">10.</strong> Encryption</a></li><li class="chapter-item expanded "><a href="../mpc/mac.html"><strong aria-hidden="true">11.</strong> MAC</a></li><li class="chapter-item expanded "><a href="../mpc/commitments.html"><strong aria-hidden="true">12.</strong> Commitments</a></li><li class="chapter-item expanded affix "><a href="../glossary.html">Glossary</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -148,7 +148,7 @@
                         <a href="https://github.com/tlsnotary/docs-mdbook" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/tlsnotary/docs-mdbook/edit/main/src/developers/quick_start.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/tlsnotary/docs-mdbook/edit/main/src/quick_start/README.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -179,53 +179,18 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="quick-start"><a class="header" href="#quick-start">Quick Start</a></h1>
-<p>In this guide we will set up a general-purpose TLS verifier ( a.k.a. the <code>Notary</code>), so that a <code>Prover</code> can notarize some TLS data and generate a proof which he then shows to a <code>Verifier</code> for selective disclosure.</p>
-<p>So this guide will take you through the steps of:</p>
+<p>This quick start will help you get started with TLSNotary, both in native <a href="rust.html">Rust</a> and in the <a href="browser_extension.html">browser</a>.</p>
+<ol>
+<li><a href="rust.html#rust-simple">Most Basic Example: Proving and Verifying Public Data (Rust)</a></li>
+<li><a href="rust.html#rust-discord">Proving and Verifying a Private Discord DM (Rust)</a></li>
+<li><a href="browser_extension.html#browser">Proving and Verifying ownership of a Twitter account (Browser)</a></li>
+</ol>
+<p>Objectives of this quick start:</p>
 <ul>
-<li>starting a <code>Notary</code> server</li>
-<li>running a <code>Prover</code> to notarize some web data</li>
-<li>running a <code>Verifier</code> to verify the notarized data</li>
+<li>Gain a better understanding of what you can do with TLSNotary</li>
+<li>Learn the basics of how to prove and verify data using TLSNotary</li>
 </ul>
-<h2 id="preliminaries"><a class="header" href="#preliminaries">Preliminaries</a></h2>
-<h3 id="install-rust"><a class="header" href="#install-rust">Install rust</a></h3>
-<p>If you don't have <code>rust</code> installed yet, install it with <a href="https://rustup.rs/">rustup</a>:</p>
-<pre><code class="language-shell">curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-</code></pre>
-<h2 id="guide"><a class="header" href="#guide">Guide</a></h2>
-<p>Clone this repository first</p>
-<pre><code class="language-shell">git clone https://github.com/tlsnotary/tlsn
-</code></pre>
-<h3 id="start-a-simple-notary-server"><a class="header" href="#start-a-simple-notary-server">Start a simple Notary server:</a></h3>
-<pre><code class="language-shell">cd tlsn/tlsn/examples/simple
-cargo run --release --example simple_notary
-</code></pre>
-<p>The <code>Notary</code> server will now be running in the background waiting for connections from a <code>Prover</code>. You can switch to another console to run the <code>Prover</code>.</p>
-<p>P/S: The notary server used in this example is less functional compared to its <a href="https://github.com/tlsnotary/tlsn/tree/dev/notary-server">advanced version</a>. This simple version is easier to integrate with from prover perspective, whereas the advanced version provides additional features like TLS connection with prover, WebSocket endpoint, API endpoints for further customisation etc.</p>
-<h3 id="run-a-simple-prover"><a class="header" href="#run-a-simple-prover">Run a simple Prover:</a></h3>
-<pre><code class="language-shell">RUST_LOG=DEBUG,yamux=INFO cargo run --release --example simple_prover
-</code></pre>
-<p>The notarization session usually takes a few moments and the resulting proof will be written to the &quot;proof.json&quot; file. The proof can then be passed on to the <code>Verifier</code> for verification.</p>
-<p>The <code>simple_prover</code> notarizes <a href="https://example.com">https://example.com</a> and redacts the <code>USER_AGENT</code> HTTP header from the proof for the <code>Verifier</code>. You can change the code in <code>tlsn/tlsn/examples/simple/simple_prover.rs</code> to meet your needs:</p>
-<ul>
-<li>change which server the <code>Prover</code> connects to</li>
-<li>add or remove HTTP request headers</li>
-<li>redact other strings in the request or the response</li>
-</ul>
-<p>⚠️ Please note that by default the <code>Notary</code> server expects that the cumulative size of the request and the server response is not more than 16KB.</p>
-<h3 id="run-a-simple-verifier"><a class="header" href="#run-a-simple-verifier">Run a simple Verifier:</a></h3>
-<pre><code class="language-shell">cargo run --release --example simple_verifier
-</code></pre>
-<p>This will verify the proof from the <code>simple_prover</code> (<code>proof.json</code>) and output the result to the console.</p>
-<p>Note how the parts which the prover chose not to disclose will be shown as &quot;X&quot;:</p>
-<pre><code class="language-plaintext">GET / HTTP/1.1
-host: example.com
-accept: */*
-accept-encoding: identity
-connection: close
-user-agent: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-</code></pre>
-<h2 id="progcrypto-workshop"><a class="header" href="#progcrypto-workshop">ProgCrypto workshop</a></h2>
-<p>On November 17th 2023 we organized a TLSNotary workshop at <a href="https://progcrypto.org/">ProgCrypto</a>. This workshop has more examples for you to explore at <a href="https://github.com/tlsnotary/progcrypto_workshop">https://github.com/tlsnotary/progcrypto_workshop</a></p>
+<p><a href="rust.html">Start</a></p>
 
                     </main>
 
@@ -235,7 +200,7 @@ user-agent: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../developers/notary_server.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../quick_start/rust.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -249,7 +214,7 @@ user-agent: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../developers/notary_server.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../quick_start/rust.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

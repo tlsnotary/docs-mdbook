@@ -1,0 +1,385 @@
+<!DOCTYPE HTML>
+<html lang="en" class="ayu" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Rust - tlsn-docs</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../src/css/katex.css">
+        <link rel="stylesheet" href="../src/css/global.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "ayu";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('ayu')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../intro.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="../motivation.html">Motivation</a></li><li class="chapter-item expanded affix "><li class="part-title">Getting Started</li><li class="chapter-item expanded "><a href="../quick_start/index.html"><strong aria-hidden="true">1.</strong> Quick Start</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../quick_start/rust.html" class="active"><strong aria-hidden="true">1.1.</strong> Rust</a></li><li class="chapter-item expanded "><a href="../quick_start/browser_extension.html"><strong aria-hidden="true">1.2.</strong> Browser Extension</a></li></ol></li><li class="chapter-item expanded "><a href="../developers/notary_server.html"><strong aria-hidden="true">2.</strong> Run a Notary Server</a></li><li class="chapter-item expanded affix "><li class="part-title">Protocol</li><li class="chapter-item expanded "><a href="../protocol/mpc-tls/index.html"><strong aria-hidden="true">3.</strong> MPC-TLS</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../protocol/mpc-tls/handshake.html"><strong aria-hidden="true">3.1.</strong> Handshake</a></li><li class="chapter-item expanded "><a href="../protocol/mpc-tls/encryption.html"><strong aria-hidden="true">3.2.</strong> Encryption and Decryption</a></li></ol></li><li class="chapter-item expanded "><a href="../protocol/notarization.html"><strong aria-hidden="true">4.</strong> Notarization</a></li><li class="chapter-item expanded "><a href="../protocol/verification.html"><strong aria-hidden="true">5.</strong> Verification</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> Selective Disclosure</div></li><li class="chapter-item expanded affix "><li class="part-title">MPC</li><li class="chapter-item expanded "><a href="../mpc/key_exchange.html"><strong aria-hidden="true">7.</strong> Key Exchange</a></li><li class="chapter-item expanded "><a href="../mpc/ff-arithmetic.html"><strong aria-hidden="true">8.</strong> Finite-Field Arithmetic</a></li><li class="chapter-item expanded "><a href="../mpc/deap.html"><strong aria-hidden="true">9.</strong> Dual Execution with Asymmetric Privacy</a></li><li class="chapter-item expanded "><a href="../mpc/encryption.html"><strong aria-hidden="true">10.</strong> Encryption</a></li><li class="chapter-item expanded "><a href="../mpc/mac.html"><strong aria-hidden="true">11.</strong> MAC</a></li><li class="chapter-item expanded "><a href="../mpc/commitments.html"><strong aria-hidden="true">12.</strong> Commitments</a></li><li class="chapter-item expanded affix "><a href="../glossary.html">Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">tlsn-docs</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/tlsnotary/docs-mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/tlsnotary/docs-mdbook/edit/main/src/quick_start/rust.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="rust-quick-start"><a class="header" href="#rust-quick-start">Rust Quick Start</a></h1>
+<p>This Quick Start will show you how to use TLSNotary in a native Rust application.</p>
+<h2 id="requirements"><a class="header" href="#requirements">Requirements</a></h2>
+<p>Before we start, make sure you have cloned the <code>tlsn</code> repository and have a recent version of Rust installed.</p>
+<h3 id="clone-the-tlsnotary-repository"><a class="header" href="#clone-the-tlsnotary-repository">Clone the TLSNotary Repository</a></h3>
+<p>Clone the <code>tlsn</code> repository:</p>
+<pre><code class="language-shell">git clone https://github.com/tlsnotary/tlsn.git
+</code></pre>
+<p>Next open the <code>tlsn</code> folder in your favorite IDE.</p>
+<h3 id="install-rust"><a class="header" href="#install-rust">Install Rust</a></h3>
+<p>If you don't have Rust installed yet, you can install it using <a href="https://rustup.rs/">rustup</a>:</p>
+<pre><code class="language-shell">curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+</code></pre>
+<p>To configure your current shell, run:</p>
+<pre><code class="language-shell">source &quot;$HOME/.cargo/env&quot;
+</code></pre>
+<h2 id="simple-example-notarizing-public-data-from-examplecom"><a class="header" href="#simple-example-notarizing-public-data-from-examplecom">Simple Example: Notarizing Public Data from example.com <a name="rust-simple"></a></a></h2>
+<p>We will start with the simplest possible use case for TLSNotary:</p>
+<ol>
+<li>Notarize: Fetch <a href="https://example.com/">https://example.com/</a> and create a proof of its content.</li>
+<li>Verify the proof.</li>
+<li>Redact the <code>USER_AGENT</code> and titles.</li>
+<li>Verify the redacted proof.</li>
+</ol>
+<h3 id="1-notarize-httpsexamplecom"><a class="header" href="#1-notarize-httpsexamplecom">1. Notarize <a href="https://example.com/">https://example.com/</a></a></h3>
+<p>Run a simple prover:</p>
+<pre><code class="language-shell">cd tlsn/examples/simple
+cargo run --release --example simple_prover
+</code></pre>
+<p>If the notarization was successful, you should see this output in the console:</p>
+<pre><code class="language-log">Starting an MPC TLS connection with the server
+Got a response from the server
+Notarization completed successfully!
+The proof has been written to `simple_proof.json`
+</code></pre>
+<p>If you want to see more details, you can run the prover with extra logging:</p>
+<pre><code class="language-shell">RUST_LOG=DEBUG,yamux=INFO cargo run --release --example simple_prover
+</code></pre>
+<h3 id="2-verify-the-proof"><a class="header" href="#2-verify-the-proof">2. Verify the Proof</a></h3>
+<p>When you open <code>simple_proof.json</code> in an editor, you will see a JSON file with lots of non-human-readable byte arrays. You can decode this file by running:</p>
+<pre><code class="language-shell">cargo run --release --example simple_verifier
+</code></pre>
+<p>This will output the TLS-transaction in clear text:</p>
+<pre><code class="language-log">Successfully verified that the bytes below came from a session with Dns(&quot;example.com&quot;) at 2023-11-03 08:48:20 UTC.
+Note that the bytes which the Prover chose not to disclose are shown as X.
+
+Bytes sent:
+...
+</code></pre>
+<h3 id="3-redact-information"><a class="header" href="#3-redact-information">3. Redact Information</a></h3>
+<p>Open <code>tlsn/examples/simple/simple_prover.rs</code> and locate the line with:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let redact = false;
+<span class="boring">}</span></code></pre></pre>
+<p>and change it to:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let redact = true;
+<span class="boring">}</span></code></pre></pre>
+<p>Next, if you run the <code>simple_prover</code> and <code>simple_verifier</code> again, you'll notice redacted <code>X</code>'s in the output:</p>
+<pre><code class="language-shell">cargo run --release --example simple_prover
+cargo run --release --example simple_verifier
+</code></pre>
+<pre><code class="language-log">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;XXXXXXXXXXXXXX&lt;/title&gt;
+...
+</code></pre>
+<p>You can also use <a href="https://tlsnotary.github.io/proof_viz/">https://tlsnotary.github.io/proof_viz/</a> to inspect your proofs. Open <a href="https://tlsnotary.github.io/proof_viz/">https://tlsnotary.github.io/proof_viz/</a> and drag and drop <code>simple_proof.json</code> from your file explorer into the drop zone.</p>
+<p><img src="images/proof_viz.png" alt="Proof Visualization" /></p>
+<p>Redacted bytes are marked with <span style="color:red">red █ characters</span>.</p>
+<h3 id="optional-extra-experiments"><a class="header" href="#optional-extra-experiments">(Optional) Extra Experiments</a></h3>
+<p>Feel free to try these extra challenges:</p>
+<ul>
+<li><input disabled="" type="checkbox"/>
+Modify the <code>server_name</code> (or any other data) in <code>simple_proof.json</code> and verify that the proof is no longer valid.</li>
+<li><input disabled="" type="checkbox"/>
+Modify the <code>build_proof_with_redactions</code> function in <code>simple_prover.rs</code> to redact more or different data.</li>
+</ul>
+<h2 id="notarizing-private-information-discord-message"><a class="header" href="#notarizing-private-information-discord-message">Notarizing Private Information: Discord Message<a name="rust-discord"></a></a></h2>
+<p>Next, we will use TLSNotary to generate a proof of private information: a private Discord DM.</p>
+<p>We will also use an explicit (locally hosted) notary server this time.</p>
+<h3 id="1-start-a-local-notary-server"><a class="header" href="#1-start-a-local-notary-server">1. Start a Local Notary Server</a></h3>
+<p>The notary server used in this example is more functional compared to the (implicit) simple notary service used in the example above. This notary server should actually be run by the Verifier or a neutral party. To make things simple, we run everything on the same machine.</p>
+<pre><code class="language-shell">cd notary-server
+cargo run --release
+</code></pre>
+<p>The notary server will now be running in the background waiting for connections.</p>
+<p>Keep it running and open a new terminal.</p>
+<h3 id="2-get-authorization-token-and-channel-id"><a class="header" href="#2-get-authorization-token-and-channel-id">2. Get Authorization Token and Channel ID</a></h3>
+<p>Before we can notarize a Discord message, we need some parameters in a <code>.env</code> file.</p>
+<p>In the <code>tlsn/examples/discord</code> folder, copy the <code>.env.example</code> file and name it <code>.env</code>.</p>
+<p>In this <code>.env</code>, we will input the <code>USER_AGENT</code>, <code>AUTHORIZATION</code> token, and <code>CHANNEL_ID</code>.</p>
+<div class="table-wrapper"><table><thead><tr><th>Name</th><th>Example</th><th>Location</th></tr></thead><tbody>
+<tr><td>USER_AGENT</td><td><code>&quot;Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/116.0&quot;</code></td><td>Look for <code>User-Agent</code> in request headers</td></tr>
+<tr><td>AUTHORIZATION</td><td><code>&quot;MTE1NDe1Otg4N6NxNjczOTM2OA.GYbUBf.aDtcMUKDOmg6C2kxxFtlFSN1pgdMMBtpHgBBEs&quot;</code></td><td>Look for <code>Authorization</code> in request headers</td></tr>
+<tr><td>CHANNEL_ID</td><td><code>&quot;1154750485639745567&quot;</code></td><td>URL</td></tr>
+</tbody></table>
+</div>
+<p>You can obtain these parameters by opening <a href="https://discord.com/channels/@me">Discord</a> in your browser and accessing the message history you want to notarize.</p>
+<blockquote>
+<p><strong><em>NOTE:</em></strong> ⚠️ Please note that notarizing only works for short transcripts at the moment, so choose a contact with a short history.</p>
+</blockquote>
+<p>Next, open the <strong>Developer Tools</strong>, go to the <strong>Network</strong> tab, and refresh the page. Then, click on <strong>Search</strong> and type <code>/api</code> to filter results to Discord API requests. From there, you can copy the needed information into your <code>.env</code> as indicated above.</p>
+<p>You can find the <code>CHANNEL_ID</code> directly in the URL:</p>
+<p><code>https://discord.com/channels/@me/{CHANNEL_ID)</code></p>
+<p><img src="./images/discord_authentication_token.png" alt="Discord Authentication Token" /></p>
+<h3 id="3-create-the-proof"><a class="header" href="#3-create-the-proof">3. Create the proof</a></h3>
+<p>Next, run the <code>discord_dm</code> example to generate a proof:</p>
+<pre><code class="language-shell">cd tlsn/tlsn/examples/discord
+RUST_LOG=debug,yamux=info cargo run --release --example discord_dm
+</code></pre>
+<p>If everything goes well, you should see this output:</p>
+<pre><code class="language-log">...
+2023-11-03T15:53:51.147732Z DEBUG discord_dm: Notarization complete!
+</code></pre>
+<p>The Notary server should log:</p>
+<pre><code class="language-log">2023-11-03T15:53:46.540247Z DEBUG                 main ThreadId(01) run_server: notary_server::server: Received a prover's TCP connection prover_address=127.0.0.1:56631
+...
+2023-11-03T15:53:46.542261Z DEBUG tokio-runtime-worker ThreadId(10) notary_server::service: Starting notarization... session_id=&quot;006b3293-8fba-44ac-8692-41daa47e4a9a&quot;
+...
+2023-11-03T15:53:51.147074Z  INFO tokio-runtime-worker ThreadId(10) notary_server::service::tcp: Successful notarization using tcp! session_id=&quot;006b3293-8fba-44ac-8692-41daa47e4a9a&quot;
+</code></pre>
+<p>If the transcript was too long, you may encounter the following error. This occurs because there is a default limit of notarization size to 16kB:</p>
+<pre><code class="language-log">thread 'tokio-runtime-worker' panicked at 'called `Result::unwrap()` on an `Err` value: IOError(Custom { kind: InvalidData, error: BackendError(DecryptionError(&quot;Other: KOSReceiverActor is not setup&quot;)) })', /Users/heeckhau/tlsnotary/tlsn/tlsn/tlsn-prover/src/lib.rs:173:50
+</code></pre>
+<p>The Discord example code redacts the <code>auth_token</code>, but feel free to change the redacted regions.</p>
+<p>The proof is written to <code>discord_dm_proof.json</code>.</p>
+<h3 id="verify"><a class="header" href="#verify">Verify</a></h3>
+<p>Verify the proof by dropping the JSON file into <a href="https://tlsnotary.github.io/proof_viz/">https://tlsnotary.github.io/proof_viz/</a> or by running:</p>
+<pre><code class="language-shell">cargo run --release --example discord_dm_verifier
+</code></pre>
+<p>🍾 Great job! You have successfully used TLSNotary in Rust.</p>
+<h3 id="optional-notarize-more-private-data"><a class="header" href="#optional-notarize-more-private-data">(Optional) Notarize More Private Data</a></h3>
+<p>If the examples above were too easy for you, try to notarize data from other websites such as:</p>
+<ul>
+<li><input disabled="" type="checkbox"/>
+Amazon purchase</li>
+<li><input disabled="" type="checkbox"/>
+Twitter DM (see <a href="https://github.com/tlsnotary/tlsn/blob/dev/tlsn/examples/twitter/README.md">https://github.com/tlsnotary/tlsn/blob/dev/tlsn/examples/twitter/README.md</a>)</li>
+<li><input disabled="" type="checkbox"/>
+LinkedIn skill</li>
+<li><input disabled="" type="checkbox"/>
+Steam accomplishment</li>
+<li><input disabled="" type="checkbox"/>
+Garmin Connect achievement</li>
+<li><input disabled="" type="checkbox"/>
+AirBnB score</li>
+<li><input disabled="" type="checkbox"/>
+Tesla ownership</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../quick_start/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../quick_start/browser_extension.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../quick_start/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../quick_start/browser_extension.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
