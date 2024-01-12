@@ -2,8 +2,14 @@
 
 [Introduction](./intro.md)
 [Motivation](./motivation.md)
-[Quick Start](./developers/quick_start.md)
-[Run a Notary Server](./developers/notary_server.md)
+
+# Getting Started
+
+- [Quick Start](./quick_start/README.md)
+  - [Rust](./quick_start/rust.md)
+  - [Browser Extension](./quick_start/browser_extension.md)
+- [Run a Notary Server](./developers/notary_server.md)
+
 
 # Protocol
 
