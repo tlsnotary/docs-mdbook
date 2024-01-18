@@ -58,6 +58,10 @@ TLSNotary can be used for various purposes. For example, you can use TLSNotary t
 
 While TLSNotary can notarize publicly available data, it does not solve the "[oracle problem](https://ethereum.org/en/developers/docs/oracles/)". For this use case, existing oracle solutions are more suitable.
 
+## What TLS version does TLSNotary support?
+
+TLSNotary currently supports TLS 1.2. TLS 1.3 support will be added in 2024.
+
 ## Who is behind TLSNotary?
 
 TLSNotary is developed by the [Privacy and Scaling Exploration (PSE)](https://pse.dev) research lab of the Ethereum Foundation. The PSE team is committed to conceptualizing and testing use cases for cryptographic primitives.
