@@ -10,4 +10,4 @@ Objectives of this quick start:
 * Gain a better understanding of what you can do with TLSNotary
 * Learn the basics of how to prove and verify data using TLSNotary
 
-[Start](rust.md)
+Let's [start](rust.md)!

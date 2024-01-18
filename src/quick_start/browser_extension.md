@@ -1,7 +1,7 @@
 # TLSNotary Browser Extension <a name="browser"></a>
 
 In this Quick Start we will prove ownership of a Twitter account with TLSNotary's browser extension.
-First we need to [install](#instal) and configure a [websocket proxy](#proxy) and a [notary server](#notary-server).
+First we need to [install](#install) and configure a [websocket proxy](#proxy) and a [notary server](#notary-server).
 
 ## Install Browser Extension (Chrome/Brave) <a name="install"></a>
 
@@ -46,7 +46,7 @@ To create a TLSNotary proof, the browser extension needs a TLSNotary notary serv
 To use the TLSNotary team notary server:
 1. Open the extension
 2. Click **Options**
-3. Update Notary API to: `https://notary.pse.dev/proxy`
+3. Update Notary API to: `https://notary.pse.dev`
 4. Click **Save**
 5. Skip the next section and [continue with the notarization step](#notarize)
 
@@ -55,11 +55,11 @@ If you plan to run a local notary server:
 2. Click **Options**
 3. Update Notary API to: `http://localhost:7047`
 4. Click **Save**
-5. Run a local notary server (see below)
+5. Run a local notary server (see [below](#local-notary))
 
 <img width="478"  src="images/extension_proxy.png">
 
-### Run a local Notary Server
+### Run a Local Notary Server  <a name="local-notary"></a>
 
 1. Clone the TLSNotary repository:
    ```shell
