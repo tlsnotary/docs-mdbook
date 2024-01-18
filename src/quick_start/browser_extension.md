@@ -59,7 +59,7 @@ If you plan to run a local notary server:
 
 <img width="478"  src="images/extension_proxy.png">
 
-### Run a Local Notary Server  <a name="local-notary"></a>
+### Run a Local Notary Server <a name="local-notary"></a>
 
 1. Clone the TLSNotary repository:
    ```shell
