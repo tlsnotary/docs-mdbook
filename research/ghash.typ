@@ -137,14 +137,15 @@ powers of $H$.
 
 
 === Beaver Protocol
-
-==== Protocol $Pi_"Beaver"$
 This protocol is nearly identical to the original GHASH construction from
 #link("https://eprint.iacr.org/2023/964")[XYWY23]. It only addresses the leakage
 of $H_(1"/"2)$ in the presence of a malicious adversary using $0$ as an input
 for $cal(F)_"OLE"$. Instead of using $cal(F)_"OLE"$ , we sample $r = r_1 + r_2$
 randomly and compute the higher powers of additive shares with
 $cal(F)_"Beaver"$. This protocol does not suffer from the 0 issue.
+
+
+==== Protocol $Pi_"Beaver"$
 
 + Both parties sample a random field element. $P_A$ samples $r_1 arrow.l
   "GF"(2^128)$ and $P_B$ samples $r_1 arrow.l "GF"(2^128)$.
