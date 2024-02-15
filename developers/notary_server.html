@@ -185,18 +185,18 @@
 <ol>
 <li>
 <p>Before running a notary server you need the following files. The default dummy fixtures are for testing only and should never be used in production.</p>
-<div class="table-wrapper"><table><thead><tr><th>File</th><th>Purpose</th><th>File Type</th><th>Compulsory to change</th></tr></thead><tbody>
-<tr><td>TLS private key</td><td>The private key used for the notary server's TLS certificate to establish TLS connections with provers</td><td>TLS private key in PEM format</td><td>Yes unless TLS is turned off</td></tr>
-<tr><td>TLS certificate</td><td>The notary server's TLS certificate to establish TLS connections with provers</td><td>TLS certificate in PEM format</td><td>Yes unless TLS is turned off</td></tr>
-<tr><td>Notary signature private key</td><td>The private key used for the notary server's signature on the generated transcript of the TLS sessions with provers</td><td>A P256 elliptic curve private key in PEM format</td><td>Yes</td></tr>
-<tr><td>Notary signature public key</td><td>The public key used for the notary server's signature on the generated transcript of the TLS sessions with provers</td><td>A matching public key in PEM format</td><td>Yes</td></tr>
+<div class="table-wrapper"><table><thead><tr><th>File</th><th>Purpose</th><th>File Type</th><th>Compulsory to change</th><th>Sample Command</th></tr></thead><tbody>
+<tr><td>TLS private key</td><td>The private key used for the notary server's TLS certificate to establish TLS connections with provers</td><td>TLS private key in PEM format</td><td>Yes unless TLS is turned off</td><td>&lt;Generated when creating CSR for your Certificate Authority, e.g. using <a href="https://certbot.eff.org/">Certbot</a>&gt;</td></tr>
+<tr><td>TLS certificate</td><td>The notary server's TLS certificate to establish TLS connections with provers</td><td>TLS certificate in PEM format</td><td>Yes unless TLS is turned off</td><td>&lt;Obtained from your Certificate Authority, e.g. <a href="https://letsencrypt.org/">Let's Encrypt</a>&gt;</td></tr>
+<tr><td>Notary signature private key</td><td>The private key used for the notary server's signature on the generated transcript of the TLS sessions with provers</td><td>A P256 elliptic curve private key in PKCS#8 PEM format</td><td>Yes</td><td><code>openssl genpkey -algorithm EC -out eckey.pem -pkeyopt ec_paramgen_curve:P-256 -pkeyopt ec_param_enc:named_curve</code></td></tr>
+<tr><td>Notary signature public key</td><td>The public key used for the notary server's signature on the generated transcript of the TLS sessions with provers</td><td>A matching public key in PEM format</td><td>Yes</td><td><code>openssl ec -in eckey.pem -pubout -out eckey.pub</code></td></tr>
 </tbody></table>
 </div></li>
 <li>
 <p>Expose the notary server port (specified in the config file) on your server networking setting</p>
 </li>
 <li>
-<p>Optionally one can turn on <a href="https://github.com/tlsnotary/tlsn/tree/dev/notary-server#authorization">authorization</a>, or turn off <a href="https://github.com/tlsnotary/tlsn/tree/dev/notary-server#optional-tls">TLS</a> if TLS is handled by an external setup</p>
+<p>Optionally one can turn on <a href="https://github.com/tlsnotary/tlsn/tree/dev/notary-server#authorization">authorization</a>, or turn off <a href="https://github.com/tlsnotary/tlsn/tree/dev/notary-server#optional-tls">TLS</a> if TLS is handled by an external setup, e.g. reverse proxy, cloud setup</p>
 </li>
 </ol>
 <h2 id="using-cargo"><a class="header" href="#using-cargo">Using Cargo</a></h2>
@@ -219,7 +219,7 @@ source ~/.cargo/env
  git clone https://github.com/tlsnotary/tlsn.git
 </code></pre>
 <ol start="4">
-<li>Switch to your desired <a href="https://github.com/tlsnotary/tlsn/releases">released version</a>, or stay in the <code>dev</code> branch to use the latest code, e.g.</li>
+<li>Switch to your desired <a href="https://github.com/tlsnotary/tlsn/releases">released version</a>, or stay in the <code>dev</code> branch to use the latest code (⚠️ only prover of the same version is supported for now)</li>
 </ol>
 <pre><code class="language-bash">git checkout tags/&lt;version&gt;
 </code></pre>
@@ -234,10 +234,12 @@ cargo run --release
 <ol>
 <li>Install docker following your preferred method <a href="https://docs.docker.com/engine/install/ubuntu/">here</a></li>
 <li>To configure the <a href="#configure-server-setting">server setting</a>, please refer to the <code>Using Docker</code> section in the repo's <a href="https://github.com/tlsnotary/tlsn/blob/dev/notary-server/README.md#using-docker">readme</a></li>
-<li>Run the notary server docker image of your desired version</li>
+<li>Run the notary server docker image of your desired version (⚠️ only prover of the same version is supported for now)</li>
 </ol>
 <pre><code class="language-bash">docker run --init -p 127.0.0.1:7047:7047 ghcr.io/tlsnotary/tlsn/notary-server:&lt;version&gt;
 </code></pre>
+<h2 id="api-endpoints"><a class="header" href="#api-endpoints">API Endpoints</a></h2>
+<p>Please refer to the list of all API endpoints <a href="https://github.com/tlsnotary/tlsn/tree/dev/notary-server#api">here</a>.</p>
 
                     </main>
 
