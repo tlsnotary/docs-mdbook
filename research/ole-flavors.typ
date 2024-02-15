@@ -21,42 +21,26 @@ Define the functionality $cal(F)_"ROT"$:
 
 == Random OLE
 === Functionality $cal(F)_"ROLE"$
-Define the functionality $cal(F)_"ROLE"$ which maintains a counter $k$ and
-which allows to call an $"Extend"_k$ command multiple times.
-- When calling $"Initialize"$ set up the functionality for subsequent calls to
-  $"Extend"_k$.
-- When calling $"Extend"_k$: $P_A$ receives $(a_k, x_k)$ and $P_B$ receives
-  $(b_k, y_k)$.
-
-such that $ y_k = a_k dot b_k + x_k$
+Define the functionality $cal(F)_"ROLE"$ where
+- $P_A$ receives $(a, x)$
+- $P_B$ receives $(b, y)$
+such that $ y = a dot b + x$
 
 === Protocol $Pi_"ROLE"$
-+ Initialization:
-  - $P_B$ randomly samples $f arrow.l bb(F)$.
-  - Both parties call $cal(F)_"ROT" (f)$, so $P_A$ knows
-    $t_0^i, t_1^i$ and $P_B$ knows $t_(f_i)$.
-  - With some PRF define: $s_(i,0)^k := "PRF"(t^i_0, k)$, $s_(i,1)^k :=
-    "PRF"(t^i_1, k)$
-  - $P_A$ randomly samples $e_1 arrow.l bb(F)$ and $P_B$ randomly
-    samples $e_2 arrow.l bb(F)$.
-  - $P_A$ sends $e_1$ to $P_B$ and $P_B$ sends $e_2$ to $P_A$ using a
-    commit-reveal scheme.
-  - Both parties define $e_k = "PRF"(e_1 xor e_2, k)$.
-  
-+ $"Extend"_k$: This can be batched or/and repeated several times.
-  - $P_A$ samples randomly $c_k arrow.l bb(F)$.
-  - $P_B$ samples randomly $d_k arrow.l bb(F)$.
-  - $P_A$ sends $u_i^k = s_(i,0)^k - s_(i,1)^k + c_k$ to $P_B$.
-  - $P_B$ defines $b_k = e_k + f$ and sends $d_k$ to $P_A$.
-  - $P_A$ defines $a_k = c_k + d_k$ and outputs
-    $x_k = sum 2^i s_(i,0)^k - a_k dot e_k$
-  - $P_B$ computes $ y^k_i 
-    &= f_i (u^k_i + d_k) + s_(i,f_i)^k \
-    &= f_i (s_(i,0)^k - s_(i,1)^k + c_k + d_k) + s_(i,f_i)^k \
-    &= f_i dot a_k + s_(i,0)^k $
-    and outputs $y_k = 2^i y^k_i$
-
-+ Now it holds that $y_k = a_k dot b_k + x_k$.
++ $P_B$ randomly samples $d arrow.l bb(F)$ and $f arrow.l bb(F)$.
++ $P_A$ randomly samples $c arrow.l bb(F)$ and $e arrow.l bb(F)$.
++ For each $i = 1, ... , l$  where $l = |f|$: Both parties call
+  $cal(F)_"ROT" (f)$, so $P_A$ knows $t_0^i, t_1^i$ and $P_B$ knows $t_(f_i)$.
++ $P_A$ sends $e$ and $u_i = t_(i,0) - t_(i,1) + c$ to $P_B$.
++ $P_B$ defines $b = e + f$ and sends $d$ to $P_A$.
++ $P_A$ defines $a = c + d$ and outputs
+  $x = sum 2^i t_(i,0) - a dot e$
++ $P_B$ computes $ y_i 
+  &= f_i (u_i + d) + t_(i,f_i) \
+  &= f_i (t_(i,0) - t_(i,1) + c + d) + t_(i,f_i) \
+  &= f_i dot a + t_(i,0) $
+  and outputs $y = 2^i y_i$
++ Now it holds that $y = a dot b + x$.
 
 == Vector OLE
 === Functionality $cal(F)_"VOLE"$
