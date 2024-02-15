@@ -235,14 +235,14 @@ docker run -it --rm -p 55688:80 novnc/websockify 80 api.twitter.com:443
 <pre><code class="language-shell">git clone https://github.com/tlsnotary/tlsn.git
 </code></pre>
 </li>
+<li>Switch to version <code>v0.1.0-alpha.3</code>
+<pre><code class="language-bash">git checkout tags/v0.1.0-alpha.3
+</code></pre>
+</li>
 <li>Edit the notary server config file (<code>notary-server/config/config.yaml</code>) to turn off TLS so that the browser extension can connect to the local notary server without requiring extra steps to accept self-signed certificates in the browser.
 <pre><code class="language-yaml"> tls:
      enabled: false
      ...
-</code></pre>
-</li>
-<li>Switch to version <code>v0.1.0-alpha.3</code>
-<pre><code class="language-bash">git checkout tags/v0.1.0-alpha.3
 </code></pre>
 </li>
 <li>Run the notary server:
