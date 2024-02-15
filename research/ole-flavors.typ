@@ -37,11 +37,16 @@ such that $ y_k = a_k dot b_k + x_k$
     $t_0^i, t_1^i$ and $P_B$ knows $t_(f_i)$.
   - With some PRF define: $s_(i,0)^k := "PRF"(t^i_0, k)$, $s_(i,1)^k :=
     "PRF"(t^i_1, k)$
+  - $P_A$ randomly samples $e_1 arrow.l bb(F)$ and $P_B$ randomly
+    samples $e_2 arrow.l bb(F)$.
+  - $P_A$ sends $e_1$ to $P_B$ and $P_B$ sends $e_2$ to $P_A$ using a
+    commit-reveal scheme.
+  - Both parties define $e_k = "PRF"(e_1 xor e_2, k)$.
   
 + $"Extend"_k$: This can be batched or/and repeated several times.
-  - $P_A$ samples randomly $c_k arrow.l bb(F)$ and $e_k arrow.l bb(F)$
+  - $P_A$ samples randomly $c_k arrow.l bb(F)$.
   - $P_B$ samples randomly $d_k arrow.l bb(F)$.
-  - $P_A$ sends $e_k$ and $u_i^k = s_(i,0)^k - s_(i,1)^k + c_k$ to $P_B$.
+  - $P_A$ sends $u_i^k = s_(i,0)^k - s_(i,1)^k + c_k$ to $P_B$.
   - $P_B$ defines $b_k = e_k + f$ and sends $d_k$ to $P_A$.
   - $P_A$ defines $a_k = c_k + d_k$ and outputs
     $x_k = sum 2^i s_(i,0)^k - a_k dot e_k$
@@ -52,7 +57,6 @@ such that $ y_k = a_k dot b_k + x_k$
     and outputs $y_k = 2^i y^k_i$
 
 + Now it holds that $y_k = a_k dot b_k + x_k$.
-#pagebreak()
 
 == Vector OLE
 === Functionality $cal(F)_"VOLE"$
