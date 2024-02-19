@@ -29,9 +29,9 @@ to compute is a compile-time constant, so that it does not complicate protocol
 and performance analysis.
 
 The following table gives an overview about the different protocols. For
-computing bandwidth costs and round counts of the protocols, we ignore setup
-costs of functionality $cal(F)_"ROLE"$ because it is used in every protocol
-either directly or indirectly via $cal(F)_"OLE"$.
+computing bandwidth costs of the protocols, we ignore the bandwidth costs of
+random OTs for the functionality $cal(F)_"ROLE"$ because we already start with
+a sufficient number of pre-distributed random OTs from an OT extension. 
 
 #align(center)[
   #table(
@@ -97,7 +97,7 @@ H_"2,k")$ for $k = 2...l$.
 ==== Performance Analysis
 The protocol has no offline communication, everything takes place online with 3
 rounds (steps 2, 3, 6). The bandwidth of the protocol is
-$1026 dot (128 + 128^2) + 1026 * 128 + 128 approx 2.1 "MB"$.
+$1026 dot (128 + 128^2) + 1026 dot 128 + 128 approx 2.1 "MB"$.
 
 
 === ROLE + OLE Protocol
@@ -126,6 +126,18 @@ powers of $H$.
   and outputs $H_(1,k) = f_k (r_(1,k))$ and $P_B$ locally evaluates and outputs 
   $H_(2,k) = f_k (r_(2,k))$ for $k = 1...l$.
 
+==== Analysis of 0 issue
+The OLEs of step 4 are still vulnerable to the 0 issue. This allows a malicious
+$P_A$ to learn all the $r_(2,k), k = 2...l$ and by that also all the $H_(2,k)$.
+$P_A$ can then output some arbitrary $s_k in bb(F)$ in step 6, which allows him to
+completely set all the $H^k$ for $k = 2...l$.
+
+However, he will not be able to set $r_(2,1)$, which means he cannot set $H^1$. He
+is also not able to remove it from $"MAC" = sum_(k=1)^l H^k dot b_k$, if for example
+some $b_k = b_(k')$, because he would need to know $r_(2,1)$ for that. So in
+other words if $"MAC" = "MAC"_1 + "MAC"_2$, then $"MAC"_2$ always contains some private,
+uncontrollable mask $H_2 dot b_2$, which prevents $P_A$ from completely
+controlling the $"MAC"$. Thus, removing the 0 issue is optional.
 
 ==== Performance Analysis
 
@@ -145,7 +157,7 @@ randomly and compute the higher powers of additive shares with
 $cal(F)_"Beaver"$. This protocol does not suffer from the 0 issue.
 
 
-==== Protocol $Pi_"Beaver"$
+==== Protocol $Pi_"Beaver"^l$
 
 + Both parties sample a random field element. $P_A$ samples $r_1 arrow.l
   "GF"(2^128)$ and $P_B$ samples $r_1 arrow.l "GF"(2^128)$.
