@@ -55,7 +55,7 @@ In this demo, we will request JSON data from the Star Wars API at <https://swapi
 
 ## Run a local notary server and websocket proxy <a name="local"></a> (Optional)
 
-The instructions above, use the [PSE](https://pse.dev) hosted notary server and websocket proxy. This is easier for this Quick Start because it requires less setup. If you develop your own applicatinos with `tlsn-js`, development will be easier with locally hosted services. This section explains how.
+The instructions above, use the [PSE](https://pse.dev) hosted notary server and websocket proxy. This is easier for this Quick Start because it requires less setup. If you develop your own applications with `tlsn-js`, development will be easier with locally hosted services. This section explains how.
 
 ### Websocket Proxy <a name="proxy"></a>
 
