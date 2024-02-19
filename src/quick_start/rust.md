@@ -11,7 +11,7 @@ Before we start, make sure you have cloned the `tlsn` repository and have a rece
 Clone the `tlsn` repository:
 
 ```shell
-git clone https://github.com/tlsnotary/tlsn.git
+git clone https://github.com/tlsnotary/tlsn.git --branch "v0.1.0-alpha.4"
 ```
 
 Next open the `tlsn` folder in your favorite IDE.
