@@ -32,7 +32,7 @@ Note that these executions can be batched.
   $k = 1...(2l + 1)$. 
 + $P_A$ computes $ s = sum_(k = 0)^l - x_k dot a_k^(-1) + sum_(k = l + 1)^(2l +
   1) - x_k$ and sends $s$ to $P_B$.
-+ $P_B$ checks that $sum_(k = 0)^l y_k  = s + sum_(k = l + 1)^(2l + 1) y_k $. If
++ $P_B$ checks that $sum_(k = 0)^l b_k  = s + sum_(k = l + 1)^(2l + 1) y_k $. If
   this does not hold $P_B$ aborts.
 
 === Intuition
