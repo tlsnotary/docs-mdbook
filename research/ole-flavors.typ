@@ -114,7 +114,7 @@ such that $ y_k = a_k dot b + x_k$
 == OLE from random OLE
 === Functionality $cal(F)_"OLE"$
 Define the functionality $cal(F)_"OLE"$. After getting input $a$ from $P_A$ and $b$
-from $P_B$ return $x$ to $P_A$ and $y$ to $P_B$ such that $x + y = a dot b$.
+from $P_B$ return $x$ to $P_A$ and $y$ to $P_B$ such that $y = a dot b + x$.
 
 === Protocol $Pi_"OLE"$
 Both parties have access to a functionality $cal(F)_"ROLE"$, and call
