@@ -44,7 +44,7 @@ a sufficient number of pre-distributed random OTs from an OT extension.
     "yes",
     [
       Off:  0\
-      On: 3\
+      On: 1.5\
     ],
     [
       Off:  0\
@@ -54,8 +54,8 @@ a sufficient number of pre-distributed random OTs from an OT extension.
     $Pi_"ROLE + OLE"$,
     "yes",
     [
-      Off:  2\
-      On: 1\
+      Off:  1\
+      On: 0.5\
     ],
     [
       Off:  2.1 MB\
@@ -65,8 +65,8 @@ a sufficient number of pre-distributed random OTs from an OT extension.
     $Pi_"ROLE + OLE + Zero"$,
     "no",
     [
-      Off:  2\
-      On: 1\
+      Off:  1\
+      On: 0.5\
     ],
     [
       Off:  6.3 MB\
@@ -76,8 +76,8 @@ a sufficient number of pre-distributed random OTs from an OT extension.
     $Pi_"Beaver"$,
     "no",
     [
-      Off: 4\
-      On: 1\
+      Off: 2\
+      On: 0.5\
     ],
     [
       Off:  4.2 MB\
@@ -106,9 +106,9 @@ H_"2,k")$ for $k = 2...l$.
 
 
 ==== Performance Analysis
-The protocol has no offline communication, everything takes place online with 3
-rounds (steps 2, 3, 6). The bandwidth of the protocol is
-$1026 dot (128 + 128^2) + 1026 dot 128 + 128 approx 2.1 "MB"$.
+The protocol has no offline communication, all the communication takes place
+online with 1.5 rounds (steps 2, 3, 6). The bandwidth of the protocol is $1026
+dot (128 + 128^2) + 1026 dot 128 + 128 approx 2.1 "MB"$.
 
 
 === ROLE + OLE Protocol
@@ -152,8 +152,8 @@ controlling the $"MAC"$. Thus, fixing the 0 issue is optional.
 
 ==== Performance Analysis
 
-- The protocol only needs 2 offline rounds (steps 1 and 4) and 1 online round
-  (step 5). This should hold even if the zero-check is applied.
+- The protocol only needs 1 offline round (steps 1 and 4) and 0.5 online round
+  (step 5). This holds even if the zero-check is applied.
 - The protocol has an upload/download size of 
   - *Offline*: 
     - *Without zero-check*: $1026 dot (128 + 128^2) + 1025 dot 128 approx 2.1 "MB"$
@@ -189,7 +189,7 @@ $cal(F)_"Beaver"$. This protocol does not suffer from the 0 issue.
 ==== Performance Analysis
 
 - By using free-squaring in $"GF"(2^128)$ and batching calls to $cal(F)_"Beaver"$
-  the protocol needs 4 offline rounds (repeatedly step 2) and 1 online round
+  the protocol needs 2 offline rounds (repeatedly step 2) and 0.5 online round
   (step 3).
 - The protocol has an upload/download size of 
   - *Offline*: $1025 dot (128 + 128^2) + 1025 dot 128 approx 2.1 "MB"$
