@@ -62,6 +62,17 @@ a sufficient number of pre-distributed random OTs from an OT extension.
       On: 128 bit\
     ],
 
+    $Pi_"ROLE + OLE + Zero"$,
+    "no",
+    [
+      Off:  2\
+      On: 1\
+    ],
+    [
+      Off:  6.3 MB\
+      On: 256 bit\
+    ],
+
     $Pi_"Beaver"$,
     "no",
     [
@@ -107,7 +118,7 @@ of $H_(1"/"2)$ in the presence of a malicious adversary using $0$ as an input
 for $cal(F)_"OLE"$. Instead of using $cal(F)_"OLE"$ for all powers $k = 1...l$,
 we replace the first invocation of $cal(F)_"OLE"$ with $cal(F)_"ROLE"$ and then
 only use $cal(F)_"OLE"$ for $k = 2...l$. The 0 issue is still present for higher
-powers of $H$.
+powers of $H$, but it can be fixed with the zero check.
 
 
 ==== Protocol $Pi_"ROLE + OLE"^l$
@@ -142,10 +153,14 @@ controlling the $"MAC"$. Thus, fixing the 0 issue is optional.
 ==== Performance Analysis
 
 - The protocol only needs 2 offline rounds (steps 1 and 4) and 1 online round
-  (step 5).
+  (step 5). This should hold even if the zero-check is applied.
 - The protocol has an upload/download size of 
-  - *Offline*: $1026 dot (128 + 128^2) + 1025 dot 128 approx 2.1 "MB"$
-  - *Online*: $128 "bit"$
+  - *Offline*: 
+    - *Without zero-check*: $1026 dot (128 + 128^2) + 1025 dot 128 approx 2.1 "MB"$
+    - *With zero-check*: Approximately 2-times overhead, so $approx 6.3 "MB"$
+  - *Online*: 
+    - *Without zero-check*: $128 "bit"$
+    - *With zero-check*: $256 "bit"$
 
 
 === Beaver Protocol
@@ -177,7 +192,7 @@ $cal(F)_"Beaver"$. This protocol does not suffer from the 0 issue.
   the protocol needs 4 offline rounds (repeatedly step 2) and 1 online round
   (step 3).
 - The protocol has an upload/download size of 
-  - *Offline*: $2050 dot (128 + 128^2) approx 4.2 "MB"$
+  - *Offline*: $1025 dot (128 + 128^2) + 1025 dot 128 approx 2.1 "MB"$
   - *Online*: $128 "bit"$
 
 
