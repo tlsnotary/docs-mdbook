@@ -111,10 +111,10 @@ powers of $H$.
 
 
 ==== Protocol $Pi_"ROLE + OLE"^l$
-+ Both parties initialize $cal(F)_"ROLE"$ and call $"Extend"_k$, l-times, so that 
-  $P_A$ gets $(a_k, x_k)$ and $P_B$ gets $(b_k, y_k)$.
-+ $P_A$ defines $(r_A, r_1) := (a_0, x_0)$ and $P_B$ defines
-  $(r_B, r_2) := (b_0, y_0)$.
++ Both parties call $cal(F)_"ROLE"$, so that $P_A$ gets $(a_1, x_1)$ and $P_B$
+  gets $(b_1, y_1)$.
++ $P_A$ defines $(r_A, r_1) := (a_1, x_1)$ and $P_B$ defines
+  $(r_B, r_2) := (b_1, y_1)$.
 + $P_A$ locally computes $r_A^k$ and $P_B$ locally computes $r_B^k$, for
   $k=2...l$.
 + Both parties call $cal(F)_"OLE" (r_A^k, r_B^k) arrow.r (r_(1,k), r_(2,k))$, so
@@ -136,13 +136,13 @@ However, he will not be able to set $r_(2,1)$, which means he cannot set $H^1$. 
 is also not able to remove it from $"MAC" = sum_(k=1)^l H^k dot b_k$, if for example
 some $b_k = b_(k')$, because he would need to know $r_(2,1)$ for that. So in
 other words if $"MAC" = "MAC"_1 + "MAC"_2$, then $"MAC"_2$ always contains some private,
-uncontrollable mask $H_2 dot b_2$, which prevents $P_A$ from completely
-controlling the $"MAC"$. Thus, removing the 0 issue is optional.
+uncontrollable mask $H_2^1 dot b_1$, which prevents $P_A$ from completely
+controlling the $"MAC"$. Thus, fixing the 0 issue is optional.
 
 ==== Performance Analysis
 
-- The protocol only needs 2 offline rounds (steps 2 and 5) and 1 online round
-  (step 6).
+- The protocol only needs 2 offline rounds (steps 1 and 4) and 1 online round
+  (step 5).
 - The protocol has an upload/download size of 
   - *Offline*: $1026 dot (128 + 128^2) + 1025 dot 128 approx 2.1 "MB"$
   - *Online*: $128 "bit"$
