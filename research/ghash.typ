@@ -44,7 +44,7 @@ a sufficient number of pre-distributed random OTs from an OT extension.
     "yes",
     [
       Off:  0\
-      On: 3\
+      On: 1.5\
     ],
     [
       Off:  0\
@@ -54,19 +54,30 @@ a sufficient number of pre-distributed random OTs from an OT extension.
     $Pi_"ROLE + OLE"$,
     "yes",
     [
-      Off:  2\
-      On: 1\
+      Off:  1\
+      On: 0.5\
     ],
     [
       Off:  2.1 MB\
       On: 128 bit\
     ],
 
+    $Pi_"ROLE + OLE + Zero"$,
+    "no",
+    [
+      Off:  1\
+      On: 0.5\
+    ],
+    [
+      Off:  6.3 MB\
+      On: 256 bit\
+    ],
+
     $Pi_"Beaver"$,
     "no",
     [
-      Off: 4\
-      On: 1\
+      Off: 2\
+      On: 0.5\
     ],
     [
       Off:  4.2 MB\
@@ -95,9 +106,9 @@ H_"2,k")$ for $k = 2...l$.
 
 
 ==== Performance Analysis
-The protocol has no offline communication, everything takes place online with 3
-rounds (steps 2, 3, 6). The bandwidth of the protocol is
-$1026 dot (128 + 128^2) + 1026 dot 128 + 128 approx 2.1 "MB"$.
+The protocol has no offline communication, all the communication takes place
+online with 1.5 rounds (steps 2, 3, 6). The bandwidth of the protocol is $1026
+dot (128 + 128^2) + 1026 dot 128 + 128 approx 2.1 "MB"$.
 
 
 === ROLE + OLE Protocol
@@ -107,14 +118,14 @@ of $H_(1"/"2)$ in the presence of a malicious adversary using $0$ as an input
 for $cal(F)_"OLE"$. Instead of using $cal(F)_"OLE"$ for all powers $k = 1...l$,
 we replace the first invocation of $cal(F)_"OLE"$ with $cal(F)_"ROLE"$ and then
 only use $cal(F)_"OLE"$ for $k = 2...l$. The 0 issue is still present for higher
-powers of $H$.
+powers of $H$, but it can be fixed with the zero check.
 
 
 ==== Protocol $Pi_"ROLE + OLE"^l$
-+ Both parties initialize $cal(F)_"ROLE"$ and call $"Extend"_k$, l-times, so that 
-  $P_A$ gets $(a_k, x_k)$ and $P_B$ gets $(b_k, y_k)$.
-+ $P_A$ defines $(r_A, r_1) := (a_0, x_0)$ and $P_B$ defines
-  $(r_B, r_2) := (b_0, y_0)$.
++ Both parties call $cal(F)_"ROLE"$, so that $P_A$ gets $(a_1, x_1)$ and $P_B$
+  gets $(b_1, y_1)$.
++ $P_A$ defines $(r_A, r_1) := (a_1, x_1)$ and $P_B$ defines
+  $(r_B, r_2) := (b_1, y_1)$.
 + $P_A$ locally computes $r_A^k$ and $P_B$ locally computes $r_B^k$, for
   $k=2...l$.
 + Both parties call $cal(F)_"OLE" (r_A^k, r_B^k) arrow.r (r_(1,k), r_(2,k))$, so
@@ -136,16 +147,20 @@ However, he will not be able to set $r_(2,1)$, which means he cannot set $H^1$. 
 is also not able to remove it from $"MAC" = sum_(k=1)^l H^k dot b_k$, if for example
 some $b_k = b_(k')$, because he would need to know $r_(2,1)$ for that. So in
 other words if $"MAC" = "MAC"_1 + "MAC"_2$, then $"MAC"_2$ always contains some private,
-uncontrollable mask $H_2 dot b_2$, which prevents $P_A$ from completely
-controlling the $"MAC"$. Thus, removing the 0 issue is optional.
+uncontrollable mask $H_2^1 dot b_1$, which prevents $P_A$ from completely
+controlling the $"MAC"$. Thus, fixing the 0 issue is optional.
 
 ==== Performance Analysis
 
-- The protocol only needs 2 offline rounds (steps 2 and 5) and 1 online round
-  (step 6).
+- The protocol only needs 1 offline round (steps 1 and 4) and 0.5 online round
+  (step 5). This holds even if the zero-check is applied.
 - The protocol has an upload/download size of 
-  - *Offline*: $1026 dot (128 + 128^2) + 1025 dot 128 approx 2.1 "MB"$
-  - *Online*: $128 "bit"$
+  - *Offline*: 
+    - *Without zero-check*: $1026 dot (128 + 128^2) + 1025 dot 128 approx 2.1 "MB"$
+    - *With zero-check*: Approximately 2-times overhead, so $approx 6.3 "MB"$
+  - *Online*: 
+    - *Without zero-check*: $128 "bit"$
+    - *With zero-check*: $256 "bit"$
 
 
 === Beaver Protocol
@@ -174,10 +189,10 @@ $cal(F)_"Beaver"$. This protocol does not suffer from the 0 issue.
 ==== Performance Analysis
 
 - By using free-squaring in $"GF"(2^128)$ and batching calls to $cal(F)_"Beaver"$
-  the protocol needs 4 offline rounds (repeatedly step 2) and 1 online round
+  the protocol needs 2 offline rounds (repeatedly step 2) and 0.5 online round
   (step 3).
 - The protocol has an upload/download size of 
-  - *Offline*: $2050 dot (128 + 128^2) approx 4.2 "MB"$
+  - *Offline*: $1025 dot (128 + 128^2) + 1025 dot 128 approx 2.1 "MB"$
   - *Online*: $128 "bit"$
 
 
