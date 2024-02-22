@@ -28,11 +28,14 @@ We will assume that $l$, which determines the highest power $H^l$ both parties w
 to compute is a compile-time constant, so that it does not complicate protocol
 and performance analysis.
 
-The following table gives an overview about the different protocols. For
-computing bandwidth costs of the protocols, we ignore the bandwidth costs of
-random OTs for the functionality $cal(F)_"ROLE"$ because we already start with
-a sufficient number of pre-distributed random OTs from an OT extension. 
+When computing bandwidths of protocols, we assume that both parties have access
+to a sufficient number of pre-distributed random OTs. In order to simplify the
+computation of rounds, we assume that there is a sufficient number of
+pre-distributed ROLEs available. This means we ignore rounds for setting up
+ROLEs, because this can be batched and is needed for every protocol discussed
+here.
 
+The following table gives an overview about the different protocols:
 #align(center)[
   #table(
     columns: (auto, auto, auto, auto),
@@ -54,7 +57,7 @@ a sufficient number of pre-distributed random OTs from an OT extension.
     $Pi_"ROLE + OLE"$,
     "yes",
     [
-      Off:  1\
+      Off:  0.5\
       On: 0.5\
     ],
     [
@@ -65,7 +68,7 @@ a sufficient number of pre-distributed random OTs from an OT extension.
     $Pi_"ROLE + OLE + Zero"$,
     "no",
     [
-      Off:  1\
+      Off:  0.5\
       On: 0.5\
     ],
     [
@@ -152,7 +155,7 @@ controlling the $"MAC"$. Thus, fixing the 0 issue is optional.
 
 ==== Performance Analysis
 
-- The protocol only needs 1 offline round (steps 1 and 4) and 0.5 online round
+- The protocol only needs 0.5 offline round (step 4) and 0.5 online round
   (step 5). This holds even if the zero-check is applied.
 - The protocol has an upload/download size of 
   - *Offline*: 
