@@ -5,7 +5,7 @@ First we need to [install](#install) and configure a [websocket proxy](#proxy) a
 
 ## Install Browser Extension (Chrome/Brave) <a name="install"></a>
 
-1. Download the browser extension from <https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.4-rc.1/tlsn-extension-0.1.0.4.zip>
+1. Download the browser extension from <https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.4/tlsn-extension-0.1.0.4.zip>
 2. Unzip  
    ⚠️ This is a flat zip file, so be careful if you unzip from the command line, this zip file contains many file at the top level
 3. Open **Manage Extensions**: <chrome://extensions/>
