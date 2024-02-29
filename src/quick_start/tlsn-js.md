@@ -1,4 +1,4 @@
-# TLSNotary Browser Extension <a name="browser"></a>
+# TLSNotary in React/Typescript with `tlsn-js`<a name="browser"></a>
 
 In this Quick Start you will learn how to use TLSNotary in React/Typescript with [`tlsn-js`](https://github.com/tlsnotary/) NPM module in the browser.
 
