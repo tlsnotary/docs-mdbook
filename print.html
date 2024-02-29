@@ -91,7 +91,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="motivation.html">Motivation</a></li><li class="chapter-item expanded affix "><li class="part-title">Getting Started</li><li class="chapter-item expanded "><a href="quick_start/index.html"><strong aria-hidden="true">1.</strong> Quick Start</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="quick_start/rust.html"><strong aria-hidden="true">1.1.</strong> Rust</a></li><li class="chapter-item expanded "><a href="quick_start/browser_extension.html"><strong aria-hidden="true">1.2.</strong> Browser Extension</a></li></ol></li><li class="chapter-item expanded "><a href="developers/notary_server.html"><strong aria-hidden="true">2.</strong> Run a Notary Server</a></li><li class="chapter-item expanded affix "><li class="part-title">Protocol</li><li class="chapter-item expanded "><a href="protocol/mpc-tls/index.html"><strong aria-hidden="true">3.</strong> MPC-TLS</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="protocol/mpc-tls/handshake.html"><strong aria-hidden="true">3.1.</strong> Handshake</a></li><li class="chapter-item expanded "><a href="protocol/mpc-tls/encryption.html"><strong aria-hidden="true">3.2.</strong> Encryption and Decryption</a></li></ol></li><li class="chapter-item expanded "><a href="protocol/notarization.html"><strong aria-hidden="true">4.</strong> Notarization</a></li><li class="chapter-item expanded "><a href="protocol/verification.html"><strong aria-hidden="true">5.</strong> Verification</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> Selective Disclosure</div></li><li class="chapter-item expanded affix "><li class="part-title">MPC</li><li class="chapter-item expanded "><a href="mpc/key_exchange.html"><strong aria-hidden="true">7.</strong> Key Exchange</a></li><li class="chapter-item expanded "><a href="mpc/ff-arithmetic.html"><strong aria-hidden="true">8.</strong> Finite-Field Arithmetic</a></li><li class="chapter-item expanded "><a href="mpc/deap.html"><strong aria-hidden="true">9.</strong> Dual Execution with Asymmetric Privacy</a></li><li class="chapter-item expanded "><a href="mpc/encryption.html"><strong aria-hidden="true">10.</strong> Encryption</a></li><li class="chapter-item expanded "><a href="mpc/mac.html"><strong aria-hidden="true">11.</strong> MAC</a></li><li class="chapter-item expanded "><a href="mpc/commitments.html"><strong aria-hidden="true">12.</strong> Commitments</a></li><li class="chapter-item expanded affix "><a href="glossary.html">Glossary</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="motivation.html">Motivation</a></li><li class="chapter-item expanded affix "><li class="part-title">Getting Started</li><li class="chapter-item expanded "><a href="quick_start/index.html"><strong aria-hidden="true">1.</strong> Quick Start</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="quick_start/rust.html"><strong aria-hidden="true">1.1.</strong> Rust</a></li><li class="chapter-item expanded "><a href="quick_start/tlsn-js.html"><strong aria-hidden="true">1.2.</strong> Browser</a></li><li class="chapter-item expanded "><a href="quick_start/browser_extension.html"><strong aria-hidden="true">1.3.</strong> Browser Extension</a></li></ol></li><li class="chapter-item expanded "><a href="developers/notary_server.html"><strong aria-hidden="true">2.</strong> Run a Notary Server</a></li><li class="chapter-item expanded affix "><li class="part-title">Protocol</li><li class="chapter-item expanded "><a href="protocol/mpc-tls/index.html"><strong aria-hidden="true">3.</strong> MPC-TLS</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="protocol/mpc-tls/handshake.html"><strong aria-hidden="true">3.1.</strong> Handshake</a></li><li class="chapter-item expanded "><a href="protocol/mpc-tls/encryption.html"><strong aria-hidden="true">3.2.</strong> Encryption and Decryption</a></li></ol></li><li class="chapter-item expanded "><a href="protocol/notarization.html"><strong aria-hidden="true">4.</strong> Notarization</a></li><li class="chapter-item expanded "><a href="protocol/verification.html"><strong aria-hidden="true">5.</strong> Verification</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> Selective Disclosure</div></li><li class="chapter-item expanded affix "><li class="part-title">MPC</li><li class="chapter-item expanded "><a href="mpc/key_exchange.html"><strong aria-hidden="true">7.</strong> Key Exchange</a></li><li class="chapter-item expanded "><a href="mpc/ff-arithmetic.html"><strong aria-hidden="true">8.</strong> Finite-Field Arithmetic</a></li><li class="chapter-item expanded "><a href="mpc/deap.html"><strong aria-hidden="true">9.</strong> Dual Execution with Asymmetric Privacy</a></li><li class="chapter-item expanded "><a href="mpc/encryption.html"><strong aria-hidden="true">10.</strong> Encryption</a></li><li class="chapter-item expanded "><a href="mpc/mac.html"><strong aria-hidden="true">11.</strong> MAC</a></li><li class="chapter-item expanded "><a href="mpc/commitments.html"><strong aria-hidden="true">12.</strong> Commitments</a></li><li class="chapter-item expanded affix "><a href="glossary.html">Glossary</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -253,6 +253,7 @@ With TLSNotary, Alice can selectively prove the authenticity of arbitrary portio
 <ol>
 <li><a href="quick_start/rust.html#rust-simple">Most Basic Example: Proving and Verifying Public Data (Rust)</a></li>
 <li><a href="quick_start/rust.html#rust-discord">Proving and Verifying a Private Discord DM (Rust)</a></li>
+<li><a href="quick_start/tlsn-js.html#browser">Proving and Verifying data in a React/Typescript app</a></li>
 <li><a href="quick_start/browser_extension.html#browser">Proving and Verifying ownership of a Twitter account (Browser)</a></li>
 </ol>
 <p>Objectives of this quick start:</p>
@@ -416,12 +417,92 @@ AirBnB score</li>
 Tesla ownership</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="tlsnotary-in-reacttypescript-with-tlsn-js"><a class="header" href="#tlsnotary-in-reacttypescript-with-tlsn-js">TLSNotary in React/Typescript with <code>tlsn-js</code><a name="browser"></a></a></h1>
+<p>In this Quick Start you will learn how to use TLSNotary in React/Typescript with <a href="https://github.com/tlsnotary/"><code>tlsn-js</code></a> NPM module in the browser.</p>
+<p>This Quick Start uses the react/typescript <a href="https://github.com/tlsnotary/tlsn-js/tree/main/demo/react-ts-webpack">demo app in <code>tlsn-js</code></a>. The directory contains a webpack configuration file that allows you to quickly bootstrap a webpack app using <code>tlsn-js</code>.</p>
+<h2 id="tlsn-js-in-a-reacttypescript-app"><a class="header" href="#tlsn-js-in-a-reacttypescript-app"><code>tlsn-js</code> in a React/Typescript app</a></h2>
+<p>In this demo, we will request JSON data from the Star Wars API at <a href="https://swapi.dev">https://swapi.dev</a>. We will use <code>tlsn-js</code> to notarize the TLS request with TLSNotary and store the result in a <em>proof</em>. Then, we will use <code>tlsn-js</code> again to verify this <em>proof</em>.</p>
+<blockquote>
+<p><strong><em>NOTE:</em></strong> ℹ️ This demo uses TLSNotary to notarize <strong>public</strong> data to simplify the Quick Start for everyone. For real-world applications, TLSNotary is particularly valuable for notarizing private and sensitive data.</p>
+</blockquote>
+<ol>
+<li>Clone the repository
+<pre><code class="language-sh">git clone https://github.com/tlsnotary/tlsn-js    
+</code></pre>
+</li>
+<li>Navigate to the demo directory:
+<pre><code class="language-sh">cd tlsn-js/demo/react-ts-webpack
+</code></pre>
+</li>
+<li>Checkout the version of this Quick Start:
+<pre><code class="language-sh">git checkout 1415792f9ea3
+</code></pre>
+</li>
+<li>If you want to use a local TLSNotary server: <a href="quick_start/tlsn-js.html#local">Run a local notary server and websocket proxy</a>, otherwise:
+<ol>
+<li>Open <code>app.tsx</code> in your favorite editor.</li>
+<li>Replace <code>notaryUrl: 'http://localhost:7047',</code> with:
+<pre><code class="language-ts">   notaryUrl: 'https://notary.pse.dev',
+</code></pre>
+This makes this webpage use the <a href="https://pse.dev">PSE</a> notary server to notarize the API request. Feel free to use different or <a href="quick_start/tlsn-js.html#local">local notary</a>; a local server will be faster because it removes the bandwidth constraints between the user and the notary.</li>
+<li>Replace <code>websocketProxyUrl: 'ws://localhost:55688',</code> with:
+<pre><code class="language-ts">    websocketProxyUrl: 'wss://notary.pse.dev/proxy?token=swapi.dev',
+</code></pre>
+Because a web browser doesn't have the ability to make TCP connection, we need to use a websocket proxy server. This uses a proxy hosted by <a href="https://pse.dev">PSE</a>. Feel free to use different or <a href="quick_start/tlsn-js.html#local">local notary</a> proxy.</li>
+<li>In <code>package.json</code>: replace <code>&quot;tlsn-js&quot;: &quot;../../../tlsn-js&quot;</code> with:
+<pre><code class="language-json">    &quot;tlsn-js&quot;: &quot;v0.1.0-alpha.4&quot;
+</code></pre>
+</li>
+</ol>
+</li>
+<li>Install dependencies
+<pre><code class="language-sh">npm i
+</code></pre>
+</li>
+<li>Start Webpack Dev Server:
+<pre><code class="language-sh">npm run dev
+</code></pre>
+</li>
+<li>Open <code>http://localhost:8080</code> in your browser</li>
+<li>Click the <strong>Start demo</strong> button</li>
+<li>Open <strong>Developer Tools</strong> and monitor the console logs</li>
+</ol>
+<h2 id="run-a-local-notary-server-and-websocket-proxy--optional"><a class="header" href="#run-a-local-notary-server-and-websocket-proxy--optional">Run a local notary server and websocket proxy <a name="local"></a> (Optional)</a></h2>
+<p>The instructions above, use the <a href="https://pse.dev">PSE</a> hosted notary server and websocket proxy. This is easier for this Quick Start because it requires less setup. If you develop your own applications with <code>tlsn-js</code>, development will be easier with locally hosted services. This section explains how.</p>
+<h3 id="websocket-proxy"><a class="header" href="#websocket-proxy">Websocket Proxy <a name="proxy"></a></a></h3>
+<p>Since a web browser doesn't have the ability to make TCP connection, we need to use a websocket proxy server.</p>
+<p>Run your own websockify proxy <strong>locally</strong>:</p>
+<pre><code class="language-sh">git clone https://github.com/novnc/websockify &amp;&amp; cd websockify
+./docker/build.sh
+docker run -it --rm -p 55688:80 novnc/websockify 80 swapi.dev:443
+</code></pre>
+<p>Note the <code>swapi.dev:443</code> argument on the last line, this is the server we will use in this quick start.</p>
+<h3 id="run-a-local-notary-server"><a class="header" href="#run-a-local-notary-server">Run a Local Notary Server <a name="local-notary"></a></a></h3>
+<p>For this demo, we also need to run a local notary server.</p>
+<ol>
+<li>Clone the TLSNotary repository:
+<pre><code class="language-sh">git clone https://github.com/tlsnotary/tlsn.git --branch &quot;v0.1.0-alpha.4&quot;
+</code></pre>
+</li>
+<li>Edit the notary server config file (<code>notary-server/config/config.yaml</code>) to turn off TLS so that the browser extension can connect to the local notary server without requiring extra steps to accept self-signed certificates in the browser.
+<pre><code class="language-yaml">tls:
+   enabled: false
+</code></pre>
+</li>
+<li>Run the notary server:
+<pre><code class="language-sh">cd notary-server
+cargo run --release
+</code></pre>
+</li>
+</ol>
+<p>The notary server will now be running in the background waiting for connections.</p>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="tlsnotary-browser-extension"><a class="header" href="#tlsnotary-browser-extension">TLSNotary Browser Extension <a name="browser"></a></a></h1>
 <p>In this Quick Start we will prove ownership of a Twitter account with TLSNotary's browser extension.
 First we need to <a href="quick_start/browser_extension.html#install">install</a> and configure a <a href="quick_start/browser_extension.html#proxy">websocket proxy</a> and a <a href="quick_start/browser_extension.html#notary-server">notary server</a>.</p>
 <h2 id="install-browser-extension-chromebrave"><a class="header" href="#install-browser-extension-chromebrave">Install Browser Extension (Chrome/Brave) <a name="install"></a></a></h2>
 <ol>
-<li>Download the browser extension from <a href="https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.4-rc.1/tlsn-extension-0.1.0.4.zip">https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.4-rc.1/tlsn-extension-0.1.0.4.zip</a></li>
+<li>Download the browser extension from <a href="https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.4/tlsn-extension-0.1.0.4.zip">https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.4/tlsn-extension-0.1.0.4.zip</a></li>
 <li>Unzip<br />
 ⚠️ This is a flat zip file, so be careful if you unzip from the command line, this zip file contains many file at the top level</li>
 <li>Open <strong>Manage Extensions</strong>: <a href="chrome://extensions/">chrome://extensions/</a></li>
@@ -432,7 +513,7 @@ First we need to <a href="quick_start/browser_extension.html#install">install</a
 <p><img src="quick_start/images/extension_install.png" alt="" /></p>
 <p>(Optional:) Pin the extension, so that it is easier to find in the next steps:</p>
 <p><img src="quick_start/images/extension_pin.png" alt="" /></p>
-<h2 id="websocket-proxy"><a class="header" href="#websocket-proxy">Websocket Proxy <a name="proxy"></a></a></h2>
+<h2 id="websocket-proxy-1"><a class="header" href="#websocket-proxy-1">Websocket Proxy <a name="proxy"></a></a></h2>
 <p>Since a web browser doesn't have the ability to make TCP connection, we need to use a websocket proxy server. You can either run one yourself, or use a TLSNotary hosted proxy.</p>
 <p>To use the TLSnotary hosted proxy:</p>
 <ol>
@@ -467,7 +548,7 @@ docker run -it --rm -p 55688:80 novnc/websockify 80 api.twitter.com:443
 <li>Run a local notary server (see <a href="quick_start/browser_extension.html#local-notary">below</a>)</li>
 </ol>
 <img width="478"  src="quick_start/images/extension_proxy.png">
-<h3 id="run-a-local-notary-server"><a class="header" href="#run-a-local-notary-server">Run a Local Notary Server <a name="local-notary"></a></a></h3>
+<h3 id="run-a-local-notary-server-1"><a class="header" href="#run-a-local-notary-server-1">Run a Local Notary Server <a name="local-notary"></a></a></h3>
 <ol>
 <li>Clone the TLSNotary repository (&quot;v0.1.0-alpha.4&quot;):
 <pre><code class="language-shell">   git clone https://github.com/tlsnotary/tlsn.git --branch &quot;v0.1.0-alpha.4&quot;
