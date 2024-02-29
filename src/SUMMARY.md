@@ -7,6 +7,7 @@
 
 - [Quick Start](./quick_start/README.md)
   - [Rust](./quick_start/rust.md)
+  - [Browser](./quick_start/tlsn-js.md)
   - [Browser Extension](./quick_start/browser_extension.md)
 - [Run a Notary Server](./developers/notary_server.md)
 
