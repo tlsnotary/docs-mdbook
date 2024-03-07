@@ -10,26 +10,36 @@ TLSNotary makes data truly portable and allows a user, the `Prover`, to share it
 
 ## How Does the TLSNotary Protocol Work?
 
-The TLSNotary protocol consists of 3 steps:
+The TLSNotary protocol consists of 4 steps:
 1. The `Prover` **requests** data from a `Server` over TLS while cooperating with the `Verifier` in secure and privacy-preserving *multi-party computation (MPC)*.
-2. The `Prover` **selectively discloses** the data to the `Verifier`.
-3. The `Verifier` **verifies** the data.
+2. After the `Prover` commits to the encrypted TLS-data, the `Verifier` discloses its *encoder seed* to the `Prover`. This allows the `Prover` to decrypt the data, and blocks the `Prover` from changing the data.
+3. The `Prover` **selectively discloses** the data to the `Verifier`.
+4. The `Verifier` **verifies** the data.
 
 ![](./diagrams/overview_prover_verifier.svg)
 
 ### ① Multi-party TLS Request
 
-TLSNotary works by adding a third party, a `Verifier`, to the usual TLS connection between the `Prover` and a `Server`. This `Verifier` is **not "[a man in the middle](https://en.wikipedia.org/wiki/Man-in-the-middle_attack)"**. Instead, the `Verifier` participates in a **secure multi-party computation** (MPC) to jointly operate the TLS connection without seeing the data in plain text. By participating in the MPC, the `Verifier` can validate the authenticity of the data the `Prover` received from the `Server`.
+TLSNotary works by adding a third party, a `Verifier`, to the usual TLS connection between the `Prover` and a `Server`. This `Verifier` is **not "[a man in the middle](https://en.wikipedia.org/wiki/Man-in-the-middle_attack)"**. Instead, the `Verifier` participates in a **secure multi-party computation** (MPC) to jointly operate the TLS connection while seeing only encrypted data. By participating in the MPC, the `Verifier` can validate the authenticity of the data the `Prover` received from the `Server`.
 
 The TLSNotary protocol is transparent to the `Server`. From the `Server`'s perspective, the `Prover`'s connection is a standard TLS connection.
 
-### ② Selective Disclosure
+### ② Commit and Reveal
+
+In the Multi-Party Computation (MPC) process, the Verifier generates codes (MACs) for each bit of the TLS transcript. To compute these MACs, the Verifier uses an *encoder seed*, which is unknown to the Prover. The Prover commits to the MAC for each bit using Oblivious Transfer (OT).
+
+The Prover then constructs a Merkle tree from these MAC commitments and forwards the root to the Verifier. After the Verifier has received this commitment root, it reveals the encoder seed to the Prover, enabling the Prover to decrypt the data.
+
+Because of this **commit and reveal** scheme, the Verifier is assured that the Prover did not alter the server's data.
+
+### ③ Selective Disclosure
+
 
 The TLSNotary protocol enables the `Prover` to selectively prove the authenticity of arbitrary parts of the data to a `Verifier`. In this **selective disclosure** phase, the `Prover` can **redact** sensitive information from the data prior to sharing it with the `Verifier`.
 
 This capability can be paired with Zero-Knowledge Proofs to prove properties of the redacted data without revealing the data itself.
 
-### ③ Data Verification
+### ⓸ Data Verification
 
 The `Verifier` now validates the proof received from the `Prover`. The data origin can be verified by inspecting the `Server` certificate through trusted certificate authorities (CAs). The `Verifier` can now make assertions about the non-redacted content of the transcript.
 
