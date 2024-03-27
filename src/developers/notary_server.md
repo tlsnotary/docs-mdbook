@@ -55,4 +55,4 @@ docker run --init -p 127.0.0.1:7047:7047 ghcr.io/tlsnotary/tlsn/notary-server:<v
 ```
 
 ## API Endpoints
-Please refer to the list of all API endpoints [here](https://github.com/tlsnotary/tlsn/tree/dev/notary-server#api).
+Please refer to the list of all API endpoints [here](https://editor.swagger.io/?url=https://raw.githubusercontent.com/tlsnotary/tlsn/main/notary-server/openapi.yaml#/).
