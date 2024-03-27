@@ -216,7 +216,7 @@ cargo run --release --example discord_dm_verifier
 If the examples above were too easy for you, try to notarize data from other websites such as:
 
 - [ ] Amazon purchase
-- [ ] Twitter DM (see <https://github.com/tlsnotary/tlsn/blob/dev/tlsn/examples/twitter/README.md>)
+- [ ] Twitter DM (see <https://github.com/tlsnotary/tlsn/blob/main/tlsn/examples/twitter/README.md>)
 - [ ] LinkedIn skill
 - [ ] Steam accomplishment
 - [ ] Garmin Connect achievement
