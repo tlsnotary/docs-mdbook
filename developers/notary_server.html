@@ -179,9 +179,9 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="run-a-notary-server"><a class="header" href="#run-a-notary-server">Run a Notary Server</a></h1>
-<p>This guide shows you how to run a <a href="https://github.com/tlsnotary/tlsn/tree/dev/notary-server">notary server</a> in an Ubuntu server instance.</p>
+<p>This guide shows you how to run a <a href="https://github.com/tlsnotary/tlsn/tree/main/notary-server">notary server</a> in an Ubuntu server instance.</p>
 <h2 id="configure-server-setting"><a class="header" href="#configure-server-setting">Configure Server Setting</a></h2>
-<p>All the following settings can be configured in the <a href="https://github.com/tlsnotary/tlsn/blob/dev/notary-server/config/config.yaml">config file</a>.</p>
+<p>All the following settings can be configured in the <a href="https://github.com/tlsnotary/tlsn/blob/main/notary-server/config/config.yaml">config file</a>.</p>
 <ol>
 <li>
 <p>Before running a notary server you need the following files. The default dummy fixtures are for testing only and should never be used in production.</p>
@@ -196,7 +196,7 @@
 <p>Expose the notary server port (specified in the config file) on your server networking setting</p>
 </li>
 <li>
-<p>Optionally one can turn on <a href="https://github.com/tlsnotary/tlsn/tree/dev/notary-server#authorization">authorization</a>, or turn off <a href="https://github.com/tlsnotary/tlsn/tree/dev/notary-server#optional-tls">TLS</a> if TLS is handled by an external setup, e.g. reverse proxy, cloud setup</p>
+<p>Optionally one can turn on <a href="https://github.com/tlsnotary/tlsn/tree/main/notary-server#authorization">authorization</a>, or turn off <a href="https://github.com/tlsnotary/tlsn/tree/main/notary-server#optional-tls">TLS</a> if TLS is handled by an external setup, e.g. reverse proxy, cloud setup</p>
 </li>
 </ol>
 <h2 id="using-cargo"><a class="header" href="#using-cargo">Using Cargo</a></h2>
@@ -224,7 +224,7 @@ source ~/.cargo/env
 <pre><code class="language-bash">git checkout tags/&lt;version&gt;
 </code></pre>
 <ol start="5">
-<li>To configure the <a href="#configure-server-setting">server setting</a>, please refer to the <code>Using Cargo</code> section in the repo's <a href="https://github.com/tlsnotary/tlsn/blob/dev/notary-server/README.md#using-cargo">readme</a></li>
+<li>To configure the <a href="#configure-server-setting">server setting</a>, please refer to the <code>Using Cargo</code> section in the repo's <a href="https://github.com/tlsnotary/tlsn/blob/main/notary-server/README.md#using-cargo">readme</a></li>
 <li>Run the server</li>
 </ol>
 <pre><code class="language-bash">cd tlsn/notary-server
@@ -233,13 +233,13 @@ cargo run --release
 <h2 id="using-docker"><a class="header" href="#using-docker">Using Docker</a></h2>
 <ol>
 <li>Install docker following your preferred method <a href="https://docs.docker.com/engine/install/ubuntu/">here</a></li>
-<li>To configure the <a href="#configure-server-setting">server setting</a>, please refer to the <code>Using Docker</code> section in the repo's <a href="https://github.com/tlsnotary/tlsn/blob/dev/notary-server/README.md#using-docker">readme</a></li>
+<li>To configure the <a href="#configure-server-setting">server setting</a>, please refer to the <code>Using Docker</code> section in the repo's <a href="https://github.com/tlsnotary/tlsn/blob/main/notary-server/README.md#using-docker">readme</a></li>
 <li>Run the notary server docker image of your desired version (⚠️ only prover of the same version is supported for now)</li>
 </ol>
 <pre><code class="language-bash">docker run --init -p 127.0.0.1:7047:7047 ghcr.io/tlsnotary/tlsn/notary-server:&lt;version&gt;
 </code></pre>
 <h2 id="api-endpoints"><a class="header" href="#api-endpoints">API Endpoints</a></h2>
-<p>Please refer to the list of all API endpoints <a href="https://github.com/tlsnotary/tlsn/tree/dev/notary-server#api">here</a>.</p>
+<p>Please refer to the list of all API endpoints <a href="https://editor.swagger.io/?url=https://raw.githubusercontent.com/tlsnotary/tlsn/main/notary-server/openapi.yaml#/">here</a>.</p>
 
                     </main>
 
