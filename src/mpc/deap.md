@@ -37,7 +37,7 @@ In the last phase of our protocol Bob must open all oblivious transfers he sent 
 
 * $x$ and $y$ are Alice and Bob's inputs, respectively.
 * $[X]_A$ denotes an encoding of $x$ chosen by Alice.
-* $[x]$ and $[y]$ are Alice and Bob's encoded _active_ inputs, respectively, ie $\mathsf{Enc}(x, [X]) = [x]$.
+* $[x]$ and $[y]$ are Alice and Bob's encoded _active_ inputs, respectively, ie $\mathsf{Encode}(x, [X]) = [x]$.
 * $\mathsf{com}_x$ denotes a binding commitment to $x$
 * $G$ denotes a garbled circuit for computing $f(x, y) = v$, where:
   *  $\mathsf{Gb}([X], [Y]) = G$
