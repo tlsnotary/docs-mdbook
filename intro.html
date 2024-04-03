@@ -180,7 +180,7 @@
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
 <h2 id="data-provenance-without-compromising-privacy-that-is-why"><a class="header" href="#data-provenance-without-compromising-privacy-that-is-why">Data Provenance without Compromising Privacy, That is Why!</a></h2>
-<p>The Internet currently lacks effective, privacy-preserving <strong>Data Provenance</strong>. <a href="https://en.wikipedia.org/wiki/Transport_Layer_Security">TLS</a>, also known as the &quot;s&quot; in &quot;https&quot; 🔐 to the general public, ensures that data can be securely communicated between a server and a user. But how can this user credibly share this data with another user or server without compromising security, privacy, and control?</p>
+<p>The Internet currently lacks effective, privacy-preserving <strong>Data Provenance</strong>. <a href="https://en.wikipedia.org/wiki/Transport_Layer_Security">TLS</a>, also known as the "s" in "https" 🔐 to the general public, ensures that data can be securely communicated between a server and a user. But how can this user credibly share this data with another user or server without compromising security, privacy, and control?</p>
 <p>Enter TLSNotary: a protocol enabling users to export data securely from any website. Using Zero Knowledge Proof (ZKP) technology, this data can be selectively shared with others in a cryptographically verifiable manner.</p>
 <p>TLSNotary makes data truly portable and allows a user, the <code>Prover</code>, to share it with another party, the <code>Verifier</code>, as they see fit.</p>
 <h2 id="how-does-the-tlsnotary-protocol-work"><a class="header" href="#how-does-the-tlsnotary-protocol-work">How Does the TLSNotary Protocol Work?</a></h2>
@@ -192,7 +192,7 @@
 </ol>
 <p><img src="./diagrams/overview_prover_verifier.svg" alt="" /></p>
 <h3 id="①-multi-party-tls-request"><a class="header" href="#①-multi-party-tls-request">① Multi-party TLS Request</a></h3>
-<p>TLSNotary works by adding a third party, a <code>Verifier</code>, to the usual TLS connection between the <code>Prover</code> and a <code>Server</code>. This <code>Verifier</code> is <strong>not &quot;<a href="https://en.wikipedia.org/wiki/Man-in-the-middle_attack">a man in the middle</a>&quot;</strong>. Instead, the <code>Verifier</code> participates in a <strong>secure multi-party computation</strong> (MPC) to jointly operate the TLS connection without seeing the data in plain text. By participating in the MPC, the <code>Verifier</code> can validate the authenticity of the data the <code>Prover</code> received from the <code>Server</code>.</p>
+<p>TLSNotary works by adding a third party, a <code>Verifier</code>, to the usual TLS connection between the <code>Prover</code> and a <code>Server</code>. This <code>Verifier</code> is <strong>not "<a href="https://en.wikipedia.org/wiki/Man-in-the-middle_attack">a man in the middle</a>"</strong>. Instead, the <code>Verifier</code> participates in a <strong>secure multi-party computation</strong> (MPC) to jointly operate the TLS connection without seeing the data in plain text. By participating in the MPC, the <code>Verifier</code> can validate the authenticity of the data the <code>Prover</code> received from the <code>Server</code>.</p>
 <p>The TLSNotary protocol is transparent to the <code>Server</code>. From the <code>Server</code>'s perspective, the <code>Prover</code>'s connection is a standard TLS connection.</p>
 <h3 id="②-selective-disclosure"><a class="header" href="#②-selective-disclosure">② Selective Disclosure</a></h3>
 <p>The TLSNotary protocol enables the <code>Prover</code> to selectively prove the authenticity of arbitrary parts of the data to a <code>Verifier</code>. In this <strong>selective disclosure</strong> phase, the <code>Prover</code> can <strong>redact</strong> sensitive information from the data prior to sharing it with the <code>Verifier</code>.</p>
@@ -216,7 +216,7 @@
 <li>you were blocked from using an app</li>
 <li>you earned professional certificates</li>
 </ul>
-<p>While TLSNotary can notarize publicly available data, it does not solve the &quot;<a href="https://ethereum.org/en/developers/docs/oracles/">oracle problem</a>&quot;. For this use case, existing oracle solutions are more suitable.</p>
+<p>While TLSNotary can notarize publicly available data, it does not solve the "<a href="https://ethereum.org/en/developers/docs/oracles/">oracle problem</a>". For this use case, existing oracle solutions are more suitable.</p>
 <h2 id="what-tls-version-does-tlsnotary-support"><a class="header" href="#what-tls-version-does-tlsnotary-support">What TLS version does TLSNotary support?</a></h2>
 <p>TLSNotary currently supports TLS 1.2. TLS 1.3 support will be added in 2024.</p>
 <h2 id="who-is-behind-tlsnotary"><a class="header" href="#who-is-behind-tlsnotary">Who is behind TLSNotary?</a></h2>

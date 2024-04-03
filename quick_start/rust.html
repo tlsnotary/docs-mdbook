@@ -184,7 +184,7 @@
 <p>Before we start, make sure you have cloned the <code>tlsn</code> repository and have a recent version of Rust installed.</p>
 <h3 id="clone-the-tlsnotary-repository"><a class="header" href="#clone-the-tlsnotary-repository">Clone the TLSNotary Repository</a></h3>
 <p>Clone the <code>tlsn</code> repository:</p>
-<pre><code class="language-shell">git clone https://github.com/tlsnotary/tlsn.git --branch &quot;v0.1.0-alpha.4&quot;
+<pre><code class="language-shell">git clone https://github.com/tlsnotary/tlsn.git --branch "v0.1.0-alpha.4"
 </code></pre>
 <p>Next open the <code>tlsn</code> folder in your favorite IDE.</p>
 <h3 id="install-rust"><a class="header" href="#install-rust">Install Rust</a></h3>
@@ -192,7 +192,7 @@
 <pre><code class="language-shell">curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 </code></pre>
 <p>To configure your current shell, run:</p>
-<pre><code class="language-shell">source &quot;$HOME/.cargo/env&quot;
+<pre><code class="language-shell">source "$HOME/.cargo/env"
 </code></pre>
 <h2 id="simple-example-notarizing-public-data-from-examplecom"><a class="header" href="#simple-example-notarizing-public-data-from-examplecom">Simple Example: Notarizing Public Data from example.com <a name="rust-simple"></a></a></h2>
 <p>We will start with the simplest possible use case for TLSNotary:</p>
@@ -221,7 +221,7 @@ The proof has been written to `simple_proof.json`
 <pre><code class="language-shell">cargo run --release --example simple_verifier
 </code></pre>
 <p>This will output the TLS-transaction in clear text:</p>
-<pre><code class="language-log">Successfully verified that the bytes below came from a session with Dns(&quot;example.com&quot;) at 2023-11-03 08:48:20 UTC.
+<pre><code class="language-log">Successfully verified that the bytes below came from a session with Dns("example.com") at 2023-11-03 08:48:20 UTC.
 Note that the bytes which the Prover chose not to disclose are shown as X.
 
 Bytes sent:
@@ -274,9 +274,9 @@ cargo run --release
 <p>In the <code>tlsn/examples/discord</code> folder, copy the <code>.env.example</code> file and name it <code>.env</code>.</p>
 <p>In this <code>.env</code>, we will input the <code>USER_AGENT</code>, <code>AUTHORIZATION</code> token, and <code>CHANNEL_ID</code>.</p>
 <div class="table-wrapper"><table><thead><tr><th>Name</th><th>Example</th><th>Location</th></tr></thead><tbody>
-<tr><td>USER_AGENT</td><td><code>&quot;Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/116.0&quot;</code></td><td>Look for <code>User-Agent</code> in request headers</td></tr>
-<tr><td>AUTHORIZATION</td><td><code>&quot;MTE1NDe1Otg4N6NxNjczOTM2OA.GYbUBf.aDtcMUKDOmg6C2kxxFtlFSN1pgdMMBtpHgBBEs&quot;</code></td><td>Look for <code>Authorization</code> in request headers</td></tr>
-<tr><td>CHANNEL_ID</td><td><code>&quot;1154750485639745567&quot;</code></td><td>URL</td></tr>
+<tr><td>USER_AGENT</td><td><code>"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/116.0"</code></td><td>Look for <code>User-Agent</code> in request headers</td></tr>
+<tr><td>AUTHORIZATION</td><td><code>"MTE1NDe1Otg4N6NxNjczOTM2OA.GYbUBf.aDtcMUKDOmg6C2kxxFtlFSN1pgdMMBtpHgBBEs"</code></td><td>Look for <code>Authorization</code> in request headers</td></tr>
+<tr><td>CHANNEL_ID</td><td><code>"1154750485639745567"</code></td><td>URL</td></tr>
 </tbody></table>
 </div>
 <p>You can obtain these parameters by opening <a href="https://discord.com/channels/@me">Discord</a> in your browser and accessing the message history you want to notarize.</p>
@@ -299,12 +299,12 @@ RUST_LOG=debug,yamux=info cargo run --release --example discord_dm
 <p>The Notary server should log:</p>
 <pre><code class="language-log">2023-11-03T15:53:46.540247Z DEBUG                 main ThreadId(01) run_server: notary_server::server: Received a prover's TCP connection prover_address=127.0.0.1:56631
 ...
-2023-11-03T15:53:46.542261Z DEBUG tokio-runtime-worker ThreadId(10) notary_server::service: Starting notarization... session_id=&quot;006b3293-8fba-44ac-8692-41daa47e4a9a&quot;
+2023-11-03T15:53:46.542261Z DEBUG tokio-runtime-worker ThreadId(10) notary_server::service: Starting notarization... session_id="006b3293-8fba-44ac-8692-41daa47e4a9a"
 ...
-2023-11-03T15:53:51.147074Z  INFO tokio-runtime-worker ThreadId(10) notary_server::service::tcp: Successful notarization using tcp! session_id=&quot;006b3293-8fba-44ac-8692-41daa47e4a9a&quot;
+2023-11-03T15:53:51.147074Z  INFO tokio-runtime-worker ThreadId(10) notary_server::service::tcp: Successful notarization using tcp! session_id="006b3293-8fba-44ac-8692-41daa47e4a9a"
 </code></pre>
 <p>If the transcript was too long, you may encounter the following error. This occurs because there is a default limit of notarization size to 16kB:</p>
-<pre><code class="language-log">thread 'tokio-runtime-worker' panicked at 'called `Result::unwrap()` on an `Err` value: IOError(Custom { kind: InvalidData, error: BackendError(DecryptionError(&quot;Other: KOSReceiverActor is not setup&quot;)) })', /Users/heeckhau/tlsnotary/tlsn/tlsn/tlsn-prover/src/lib.rs:173:50
+<pre><code class="language-log">thread 'tokio-runtime-worker' panicked at 'called `Result::unwrap()` on an `Err` value: IOError(Custom { kind: InvalidData, error: BackendError(DecryptionError("Other: KOSReceiverActor is not setup")) })', /Users/heeckhau/tlsnotary/tlsn/tlsn/tlsn-prover/src/lib.rs:173:50
 </code></pre>
 <p>The Discord example code redacts the <code>auth_token</code>, but feel free to change the redacted regions.</p>
 <p>The proof is written to <code>discord_dm_proof.json</code>.</p>

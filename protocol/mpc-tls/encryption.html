@@ -179,7 +179,7 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="encryption-decryption-and-mac-computation"><a class="header" href="#encryption-decryption-and-mac-computation">Encryption, Decryption, and MAC Computation</a></h1>
-<p>This section explains how the <code>Prover</code> and <code>Verifier</code> use MPC to encrypt data sent to the server, decrypt data received from the server, and compute the MAC for the ciphertext using MPC. It shows how the <code>Prover</code> and <code>Verifier</code> collaborate to encrypt and decrypt data. The <code>Verifier</code> performs these tasks &quot;blindly&quot;, without acquiring knowledge of the plaintext.</p>
+<p>This section explains how the <code>Prover</code> and <code>Verifier</code> use MPC to encrypt data sent to the server, decrypt data received from the server, and compute the MAC for the ciphertext using MPC. It shows how the <code>Prover</code> and <code>Verifier</code> collaborate to encrypt and decrypt data. The <code>Verifier</code> performs these tasks "blindly", without acquiring knowledge of the plaintext.</p>
 <h2 id="encryption"><a class="header" href="#encryption">Encryption</a></h2>
 <p>To encrypt the plaintext, both parties input their TLS key shares as private inputs to the <a href="/mpc/deap.html">MPC</a> protocol, along with some other public data. Additionally, the <code>Prover</code> inputs her plaintext as a private input.</p>
 <p><img src="../../diagrams/mpc-encryption.svg" alt="Encryption" /></p>
