@@ -77,7 +77,7 @@ For more details on the deployment, refer to this [GitHub Action](https://github
 To check the status of the notary server, visit the `healthcheck` endpoint at:
 `https://notary.pse.dev/<version>/healthcheck`
 
-### Webproxy Server
+### Websocket Proxy Server
 
 The TLSNotary team also hosts a public websocket proxy server, which can be used to access whitelisted domains.
 
