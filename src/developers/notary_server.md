@@ -79,7 +79,7 @@ To check the status of the notary server, visit the `healthcheck` endpoint at:
 
 ### Webproxy Server
 
-The TLSNotary team also hosts a public webproxy server, which can be used to access whitelisted domains.
+The TLSNotary team also hosts a public websocket proxy server, which can be used to access whitelisted domains.
 
 Use it with the following syntax:
 
