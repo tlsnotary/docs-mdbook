@@ -77,24 +77,22 @@ For more details on the deployment, refer to this [GitHub Action](https://github
 To check the status of the notary server, visit the `healthcheck` endpoint at:
 `https://notary.pse.dev/<version>/healthcheck`
 
-### Websocket Proxy Server
+### WebSocket Proxy Server
 
-The TLSNotary team also hosts a public websocket proxy server, which can be used to access whitelisted domains.
+Because web browsers don't have the ability to make TCP connections directly, TLSNotary requires a WebSocket proxy to set up TCP connections when it is used in a browser. To facilitate the exploration of TLSNotary and to run the examples easily, the TLSNotary team hosts a public WebSocket proxy server. This server can be used to access the following whitelisted domains:
 
-Use it with the following syntax:
+```
+api.twitter.com:443
+twitter.com:443
+gateway.reddit.com:443
+reddit.com:443
+swapi.dev:443
+```
+
+You can utilize this WebSocket proxy with the following syntax:
 
 ```
 wss://notary.pse.dev/proxy?token=<domain>
 ```
 
-Replace `<domain>` with the domain you wish to access (e.g., `swapi.dev`).
-
-Current whitelist:
-
-```
-api.twitter.com: api.twitter.com:443
-twitter.com: twitter.com:443
-gateway.reddit.com: gateway.reddit.com:443
-reddit.com: reddit.com:443
-swapi.dev: swapi.dev:443
-```
+Replace `<domain>` with the domain you wish to access (for example, `swapi.dev`).
