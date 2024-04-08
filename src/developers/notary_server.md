@@ -56,3 +56,43 @@ docker run --init -p 127.0.0.1:7047:7047 ghcr.io/tlsnotary/tlsn/notary-server:<v
 
 ## API Endpoints
 Please refer to the list of all API endpoints [here](https://editor.swagger.io/?url=https://raw.githubusercontent.com/tlsnotary/tlsn/main/notary-server/openapi.yaml#/).
+
+## PSE Development Notary Server
+
+> **_⚠️ WARNING:_** notary.pse.dev is hosted for development purposes only. You are welcome to use it for exploration and development; however, please refrain from building your business on it. Use it at your own risk.
+
+The TLSNotary team hosts a public notary server for development, experimentation, and demonstration purposes. The server is currently open to everyone, provided that it is used fairly.
+
+We host multiple versions of the notary server:
+
+| Version       | Notary URL                            | Info/Status                                                                                                    | GitHub                                                                                     | Note                                          |
+|---------------|---------------------------------------|----------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|-----------------------------------------------|
+| latest        | https://notary.pse.dev                | [info](https://notary.pse.dev/info)/[health](https://notary.pse.dev/healthcheck)                               | [main](https://github.com/tlsnotary/tlsn/tree/main/notary-server)                          | Currently the same as v0.1.0-alpha.4           |
+| v0.1.0-alpha.4 | https://notary.pse.dev/v0.1.0-alpha.4 | [info](https://notary.pse.dev/v0.1.0-alpha.4/info)/[health](https://notary.pse.dev/v0.1.0-alpha.4/healthcheck) | [v0.1.0-alpha.4](https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.4/notary-server)       | [Release notes](https://github.com/tlsnotary/tlsn/releases/tag/v0.1.0-alpha.4) |
+| v0.1.0-alpha.3 | https://notary.pse.dev/v0.1.0-alpha.3 | [info](https://notary.pse.dev/v0.1.0-alpha.3/info)/[health](https://notary.pse.dev/v0.1.0-alpha.3/healthcheck) | [v0.1.0-alpha.3](https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.3/notary-server)       | [Release notes](https://github.com/tlsnotary/tlsn/releases/tag/v0.1.0-alpha.3) |
+| nightly       | https://notary.pse.dev/nightly        | [info](https://notary.pse.dev/nightly/info)/[health](https://notary.pse.dev/nightly/healthcheck)               | [dev](https://github.com/tlsnotary/tlsn/tree/dev/notary-server)                            |                                                |
+
+For more details on the deployment, refer to this [GitHub Action](https://github.com/tlsnotary/tlsn/blob/main/.github/workflows/cd-server.yml).
+
+To check the status of the notary server, visit the `healthcheck` endpoint at:
+`https://notary.pse.dev/<version>/healthcheck`
+
+### WebSocket Proxy Server
+
+Because web browsers don't have the ability to make TCP connections directly, TLSNotary requires a WebSocket proxy to set up TCP connections when it is used in a browser. To facilitate the exploration of TLSNotary and to run the examples easily, the TLSNotary team hosts a public WebSocket proxy server. This server can be used to access the following whitelisted domains:
+
+```
+api.twitter.com:443
+twitter.com:443
+gateway.reddit.com:443
+reddit.com:443
+swapi.dev:443
+```
+
+You can utilize this WebSocket proxy with the following syntax:
+
+```
+wss://notary.pse.dev/proxy?token=<domain>
+```
+
+Replace `<domain>` with the domain you wish to access (for example, `swapi.dev`).
