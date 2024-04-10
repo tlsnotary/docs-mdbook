@@ -268,8 +268,8 @@ With TLSNotary, Alice can selectively prove the authenticity of arbitrary portio
 <h2 id="requirements"><a class="header" href="#requirements">Requirements</a></h2>
 <p>Before we start, make sure you have cloned the <code>tlsn</code> repository and have a recent version of Rust installed.</p>
 <h3 id="clone-the-tlsnotary-repository"><a class="header" href="#clone-the-tlsnotary-repository">Clone the TLSNotary Repository</a></h3>
-<p>Clone the <code>tlsn</code> repository:</p>
-<pre><code class="language-shell">git clone https://github.com/tlsnotary/tlsn.git --branch "v0.1.0-alpha.4"
+<p>Clone the <code>tlsn</code> repository (defaults to the <code>main</code> branch, which points to the latest release):</p>
+<pre><code class="language-shell">git clone https://github.com/tlsnotary/tlsn.git"
 </code></pre>
 <p>Next open the <code>tlsn</code> folder in your favorite IDE.</p>
 <h3 id="install-rust"><a class="header" href="#install-rust">Install Rust</a></h3>
@@ -418,7 +418,7 @@ Tesla ownership</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <h1 id="tlsnotary-in-reacttypescript-with-tlsn-js"><a class="header" href="#tlsnotary-in-reacttypescript-with-tlsn-js">TLSNotary in React/Typescript with <code>tlsn-js</code><a name="browser"></a></a></h1>
-<p>In this Quick Start you will learn how to use TLSNotary in React/Typescript with <a href="https://github.com/tlsnotary/"><code>tlsn-js</code></a> NPM module in the browser.</p>
+<p>In this Quick Start you will learn how to use TLSNotary in React/Typescript with <a href="https://github.com/tlsnotary/tlsn-js"><code>tlsn-js</code></a> NPM module in the browser.</p>
 <p>This Quick Start uses the react/typescript <a href="https://github.com/tlsnotary/tlsn-js/tree/main/demo/react-ts-webpack">demo app in <code>tlsn-js</code></a>. The directory contains a webpack configuration file that allows you to quickly bootstrap a webpack app using <code>tlsn-js</code>.</p>
 <h2 id="tlsn-js-in-a-reacttypescript-app"><a class="header" href="#tlsn-js-in-a-reacttypescript-app"><code>tlsn-js</code> in a React/Typescript app</a></h2>
 <p>In this demo, we will request JSON data from the Star Wars API at <a href="https://swapi.dev">https://swapi.dev</a>. We will use <code>tlsn-js</code> to notarize the TLS request with TLSNotary and store the result in a <em>proof</em>. Then, we will use <code>tlsn-js</code> again to verify this <em>proof</em>.</p>
@@ -442,15 +442,15 @@ Tesla ownership</li>
 <ol>
 <li>Open <code>app.tsx</code> in your favorite editor.</li>
 <li>Replace <code>notaryUrl: 'http://localhost:7047',</code> with:
-<pre><code class="language-ts">   notaryUrl: 'https://notary.pse.dev',
+<pre><code class="language-ts">   notaryUrl: 'https://notary.pse.dev/v0.1.0-alpha.5',
 </code></pre>
 This makes this webpage use the <a href="https://pse.dev">PSE</a> notary server to notarize the API request. Feel free to use different or <a href="quick_start/tlsn-js.html#local">local notary</a>; a local server will be faster because it removes the bandwidth constraints between the user and the notary.</li>
 <li>Replace <code>websocketProxyUrl: 'ws://localhost:55688',</code> with:
 <pre><code class="language-ts">    websocketProxyUrl: 'wss://notary.pse.dev/proxy?token=swapi.dev',
 </code></pre>
 Because a web browser doesn't have the ability to make TCP connection, we need to use a websocket proxy server. This uses a proxy hosted by <a href="https://pse.dev">PSE</a>. Feel free to use different or <a href="quick_start/tlsn-js.html#local">local notary</a> proxy.</li>
-<li>In <code>package.json</code>: replace <code>"tlsn-js": "../../../tlsn-js"</code> with:
-<pre><code class="language-json">    "tlsn-js": "v0.1.0-alpha.4"
+<li>In <code>package.json</code>: check the version number:
+<pre><code class="language-json">    "tlsn-js": "v0.1.0-alpha.5.0"
 </code></pre>
 </li>
 </ol>
@@ -480,8 +480,8 @@ docker run -it --rm -p 55688:80 novnc/websockify 80 swapi.dev:443
 <h3 id="run-a-local-notary-server"><a class="header" href="#run-a-local-notary-server">Run a Local Notary Server <a name="local-notary"></a></a></h3>
 <p>For this demo, we also need to run a local notary server.</p>
 <ol>
-<li>Clone the TLSNotary repository:
-<pre><code class="language-sh">git clone https://github.com/tlsnotary/tlsn.git --branch "v0.1.0-alpha.4"
+<li>Clone the TLSNotary repository  (defaults to the <code>main</code> branch, which points to the latest release):
+<pre><code class="language-sh">git clone https://github.com/tlsnotary/tlsn.git
 </code></pre>
 </li>
 <li>Edit the notary server config file (<code>notary-server/config/config.yaml</code>) to turn off TLS so that the browser extension can connect to the local notary server without requiring extra steps to accept self-signed certificates in the browser.
@@ -502,7 +502,7 @@ cargo run --release
 First we need to <a href="quick_start/browser_extension.html#install">install</a> and configure a <a href="quick_start/browser_extension.html#proxy">websocket proxy</a> and a <a href="quick_start/browser_extension.html#notary-server">notary server</a>.</p>
 <h2 id="install-browser-extension-chromebrave"><a class="header" href="#install-browser-extension-chromebrave">Install Browser Extension (Chrome/Brave) <a name="install"></a></a></h2>
 <ol>
-<li>Download the browser extension from <a href="https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.4/tlsn-extension-0.1.0.4.zip">https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.4/tlsn-extension-0.1.0.4.zip</a></li>
+<li>Download the browser extension from <a href="https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.5/tlsn-extension-0.1.0.5.zip">https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.5/tlsn-extension-0.1.0.5.zip</a></li>
 <li>Unzip<br />
 ⚠️ This is a flat zip file, so be careful if you unzip from the command line, this zip file contains many file at the top level</li>
 <li>Open <strong>Manage Extensions</strong>: <a href="chrome://extensions/">chrome://extensions/</a></li>
@@ -535,7 +535,7 @@ docker run -it --rm -p 55688:80 novnc/websockify 80 api.twitter.com:443
 <ol>
 <li>Open the extension</li>
 <li>Click <strong>Options</strong></li>
-<li>Update Notary API to: <code>https://notary.pse.dev</code></li>
+<li>Update Notary API to: <code>https://notary.pse.dev/v0.1.0-alpha.5</code></li>
 <li>Click <strong>Save</strong></li>
 <li>Skip the next section and <a href="quick_start/browser_extension.html#notarize">continue with the notarization step</a></li>
 </ol>
@@ -550,8 +550,8 @@ docker run -it --rm -p 55688:80 novnc/websockify 80 api.twitter.com:443
 <img width="478"  src="quick_start/images/extension_proxy.png">
 <h3 id="run-a-local-notary-server-1"><a class="header" href="#run-a-local-notary-server-1">Run a Local Notary Server <a name="local-notary"></a></a></h3>
 <ol>
-<li>Clone the TLSNotary repository ("v0.1.0-alpha.4"):
-<pre><code class="language-shell">   git clone https://github.com/tlsnotary/tlsn.git --branch "v0.1.0-alpha.4"
+<li>Clone the TLSNotary repository  (defaults to the <code>main</code> branch, which points to the latest release):
+<pre><code class="language-shell">   git clone https://github.com/tlsnotary/tlsn.git
 </code></pre>
 </li>
 <li>Edit the notary server config file (<code>notary-server/config/config.yaml</code>) to turn off TLS so that the browser extension can connect to the local notary server without requiring extra steps to accept self-signed certificates in the browser.
@@ -669,7 +669,8 @@ cargo run --release
 <p>The TLSNotary team hosts a public notary server for development, experimentation, and demonstration purposes. The server is currently open to everyone, provided that it is used fairly.</p>
 <p>We host multiple versions of the notary server:</p>
 <div class="table-wrapper"><table><thead><tr><th>Version</th><th>Notary URL</th><th>Info/Status</th><th>GitHub</th><th>Note</th></tr></thead><tbody>
-<tr><td>latest</td><td>https://notary.pse.dev</td><td><a href="https://notary.pse.dev/info">info</a>/<a href="https://notary.pse.dev/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/main/notary-server">main</a></td><td>Currently the same as v0.1.0-alpha.4</td></tr>
+<tr><td>v0.1.0-alpha.5</td><td>https://notary.pse.dev/v0.1.0-alpha.5</td><td><a href="https://notary.pse.dev/v0.1.0-alpha.5/info">info</a>/<a href="https://notary.pse.dev/v0.1.0-alpha.5/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.5/notary-server">v0.1.0-alpha.5</a></td><td><a href="https://github.com/tlsnotary/tlsn/releases/tag/v0.1.0-alpha.5">Release notes</a></td></tr>
+<tr><td>(deprecated)</td><td>https://notary.pse.dev</td><td><a href="https://notary.pse.dev/info">info</a>/<a href="https://notary.pse.dev/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.4/notary-server">v0.1.0-alpha.4</a></td><td>This url will be removed when alpha.6 is released</td></tr>
 <tr><td>v0.1.0-alpha.4</td><td>https://notary.pse.dev/v0.1.0-alpha.4</td><td><a href="https://notary.pse.dev/v0.1.0-alpha.4/info">info</a>/<a href="https://notary.pse.dev/v0.1.0-alpha.4/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.4/notary-server">v0.1.0-alpha.4</a></td><td><a href="https://github.com/tlsnotary/tlsn/releases/tag/v0.1.0-alpha.4">Release notes</a></td></tr>
 <tr><td>v0.1.0-alpha.3</td><td>https://notary.pse.dev/v0.1.0-alpha.3</td><td><a href="https://notary.pse.dev/v0.1.0-alpha.3/info">info</a>/<a href="https://notary.pse.dev/v0.1.0-alpha.3/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.3/notary-server">v0.1.0-alpha.3</a></td><td><a href="https://github.com/tlsnotary/tlsn/releases/tag/v0.1.0-alpha.3">Release notes</a></td></tr>
 <tr><td>nightly</td><td>https://notary.pse.dev/nightly</td><td><a href="https://notary.pse.dev/nightly/info">info</a>/<a href="https://notary.pse.dev/nightly/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/dev/notary-server">dev</a></td><td></td></tr>
