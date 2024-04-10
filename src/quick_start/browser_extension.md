@@ -5,7 +5,7 @@ First we need to [install](#install) and configure a [websocket proxy](#proxy) a
 
 ## Install Browser Extension (Chrome/Brave) <a name="install"></a>
 
-1. Download the browser extension from <https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.4/tlsn-extension-0.1.0.4.zip>
+1. Download the browser extension from <https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.5/tlsn-extension-0.1.0.5.zip>
 2. Unzip  
    ⚠️ This is a flat zip file, so be careful if you unzip from the command line, this zip file contains many file at the top level
 3. Open **Manage Extensions**: <chrome://extensions/>
@@ -46,7 +46,7 @@ To create a TLSNotary proof, the browser extension needs a TLSNotary notary serv
 To use the TLSNotary team notary server:
 1. Open the extension
 2. Click **Options**
-3. Update Notary API to: `https://notary.pse.dev`
+3. Update Notary API to: `https://notary.pse.dev/v0.1.0-alpha.5`
 4. Click **Save**
 5. Skip the next section and [continue with the notarization step](#notarize)
 
@@ -61,9 +61,9 @@ If you plan to run a local notary server:
 
 ### Run a Local Notary Server <a name="local-notary"></a>
 
-1. Clone the TLSNotary repository ("v0.1.0-alpha.4"):
+1. Clone the TLSNotary repository  (defaults to the `main` branch, which points to the latest release):
    ```shell
-      git clone https://github.com/tlsnotary/tlsn.git --branch "v0.1.0-alpha.4"
+      git clone https://github.com/tlsnotary/tlsn.git
    ```
 3. Edit the notary server config file (`notary-server/config/config.yaml`) to turn off TLS so that the browser extension can connect to the local notary server without requiring extra steps to accept self-signed certificates in the browser.
    ```yaml

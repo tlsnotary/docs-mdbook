@@ -8,10 +8,10 @@ Before we start, make sure you have cloned the `tlsn` repository and have a rece
 
 ###  Clone the TLSNotary Repository
 
-Clone the `tlsn` repository:
+Clone the `tlsn` repository (defaults to the `main` branch, which points to the latest release):
 
 ```shell
-git clone https://github.com/tlsnotary/tlsn.git --branch "v0.1.0-alpha.4"
+git clone https://github.com/tlsnotary/tlsn.git"
 ```
 
 Next open the `tlsn` folder in your favorite IDE.

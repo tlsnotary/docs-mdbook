@@ -1,6 +1,6 @@
 # TLSNotary in React/Typescript with `tlsn-js`<a name="browser"></a>
 
-In this Quick Start you will learn how to use TLSNotary in React/Typescript with [`tlsn-js`](https://github.com/tlsnotary/) NPM module in the browser.
+In this Quick Start you will learn how to use TLSNotary in React/Typescript with [`tlsn-js`](https://github.com/tlsnotary/tlsn-js) NPM module in the browser.
 
 This Quick Start uses the react/typescript [demo app in `tlsn-js`](https://github.com/tlsnotary/tlsn-js/tree/main/demo/react-ts-webpack). The directory contains a webpack configuration file that allows you to quickly bootstrap a webpack app using `tlsn-js`.
 
@@ -28,7 +28,7 @@ In this demo, we will request JSON data from the Star Wars API at <https://swapi
    1. Open `app.tsx` in your favorite editor.
    2. Replace `notaryUrl: 'http://localhost:7047',` with:
          ```ts
-            notaryUrl: 'https://notary.pse.dev',
+            notaryUrl: 'https://notary.pse.dev/v0.1.0-alpha.5',
          ```
       This makes this webpage use the [PSE](https://pse.dev) notary server to notarize the API request. Feel free to use different or [local notary](#local); a local server will be faster because it removes the bandwidth constraints between the user and the notary.
    3. Replace `websocketProxyUrl: 'ws://localhost:55688',` with:
@@ -36,9 +36,9 @@ In this demo, we will request JSON data from the Star Wars API at <https://swapi
             websocketProxyUrl: 'wss://notary.pse.dev/proxy?token=swapi.dev',
         ```
       Because a web browser doesn't have the ability to make TCP connection, we need to use a websocket proxy server. This uses a proxy hosted by [PSE](https://pse.dev). Feel free to use different or [local notary](#local) proxy.
-   4. In `package.json`: replace `"tlsn-js": "../../../tlsn-js"` with:
+   4. In `package.json`: check the version number:
         ```json
-            "tlsn-js": "v0.1.0-alpha.4"
+            "tlsn-js": "v0.1.0-alpha.5.0"
         ```
 5. Install dependencies
     ```sh
@@ -74,9 +74,9 @@ Note the `swapi.dev:443` argument on the last line, this is the server we will u
 
 For this demo, we also need to run a local notary server.
 
-1. Clone the TLSNotary repository:
+1. Clone the TLSNotary repository  (defaults to the `main` branch, which points to the latest release):
    ```sh
-   git clone https://github.com/tlsnotary/tlsn.git --branch "v0.1.0-alpha.4"
+   git clone https://github.com/tlsnotary/tlsn.git
    ```
 2. Edit the notary server config file (`notary-server/config/config.yaml`) to turn off TLS so that the browser extension can connect to the local notary server without requiring extra steps to accept self-signed certificates in the browser.
    ```yaml
