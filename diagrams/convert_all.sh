@@ -27,13 +27,7 @@ for file in *.drawio; do
     TARGET="${TARGET_DIR}/${file%.drawio}.${FORMAT}"
     # Only convert if the source is more recent than the target
     if [[ "$SOURCE" -nt "${TARGET}" ]]; then
-        "$DRAW_IO" --export --format ${FORMAT} --scale 2.5 -o "${TARGET}" "$SOURCE"
-        # add styling for dark mode (https://github.com/jgraph/drawio-github/blob/master/DARK-MODE.md)
-        if grep -q "<defs/>" "$TARGET"; then
-            sed -i -e "s$<defs/>$<defs><style type=\"text/css\"> @media not print { svg { filter: invert(93%) hue-rotate(180deg); background-color: transparent !important; } image { filter: invert(100%) hue-rotate(180deg) saturate(1.25); } } </style></defs>$" "${TARGET}"
-        else
-            sed -i -e "s$<defs>$<defs><style type=\"text/css\"> @media not print { svg { filter: invert(93%) hue-rotate(180deg); background-color: transparent !important; } image { filter: invert(100%) hue-rotate(180deg) saturate(1.25); } } </style>$" "${TARGET}"
-        fi
+        "$DRAW_IO" --export --format ${FORMAT} --scale 2.5 --svg-theme "dark" -o "${TARGET}" "$SOURCE"
     fi
 done
 popd >/dev/null
