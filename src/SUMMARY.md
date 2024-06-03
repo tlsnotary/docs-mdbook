@@ -2,6 +2,7 @@
 
 [Introduction](./intro.md)
 [Motivation](./motivation.md)
+[FAQ](./faq.md)
 
 # Getting Started
 
