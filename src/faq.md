@@ -21,7 +21,7 @@ The `Verifier` collaborates with the `Prover` using secure multi-party computati
 
 ### What are the trust assumptions of the TLSNotary protocol? { #faq3 }
 
-The protocol does not have trust assumptions. In particular, it does not rely on secure hardware or on untamperability of the communication channel.
+The protocol does not have trust assumptions. In particular, it does not rely on secure hardware or on the untamperability of the communication channel.
 
 The protocol does not rely on participants to act honestly. Specifically, it guarantees that, on the one hand, a malicious `Prover` will not be able to convince the `Verifier` of the authenticity of false data, and, on the other hand, that a malicious `Verifier` will not be able to learn the private data of the `Prover`.
 
@@ -33,14 +33,14 @@ Just like the `Verifier` would ([see FAQ above](#faq2)), the `Notary` collaborat
 
 ### Is the Notary an essential part of the TLSNotary protocol? { #faq5 }
 
-No, it is not essential. The `Notary` is an optional role which we introduced in the `tlsn` library as a convenience mode to support `Verifiers` who may choose not to participate in the TLS connection themselves.
+No, it is not essential. The `Notary` is an optional role which we introduced in the `tlsn` library as a convenience mode for `Verifiers` who choose not to participate in the TLS connection themselves.
 
 For historical reasons, we continue to refer to the protocol between the `Prover` and the `Verifier` as the "TLSNotary" protocol, even though the `Verifier` may choose not to use a `Notary`.
 
 ### Which TLS versions are supported? { #faq6 }
 
-We support TLS 1.2 which is an almost-universally deployed version of TLS on the Internet. 
-The are no immediate plans to support TLS 1.3. Once the web starts to transition away from TLS 1.2, we will consider adding support for TLS 1.3 or newer.
+We support TLS 1.2, which is an almost-universally deployed version of TLS on the Internet. 
+There are no immediate plans to support TLS 1.3. Once the web starts to transition away from TLS 1.2, we will consider adding support for TLS 1.3 or newer.
 
 ### What is the overhead of using the TLSNotary protocol? { #faq7 }
 
