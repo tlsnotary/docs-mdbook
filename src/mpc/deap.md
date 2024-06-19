@@ -59,7 +59,7 @@ The protocol can be thought of as three distinct phases: The setup phase, execut
 4. Alice retrieves her active input labels $[x]_B$ from Bob using OT.
 5. Bob retrieves his active input labels $[y]_A$ from Alice using OT.
 6. Alice sends $G_A$, $[x]_A$, $d_A$ and $\mathsf{com}_{[V]_A}$ to Bob.
-7. Bob sends $G_B$, $[y]_B$, and $d_B$ to Alice.
+7. Bob sends $G_B$ and $[y]_B$ to Alice.
 
 ### Execution
 
@@ -68,17 +68,17 @@ Both Alice and Bob can execute this phase of the protocol in parallel as describ
 #### Alice
 
 8. Evaluates $G_B$ using $[x]_B$ and $[y]_B$ to acquire $[v]_B$.
-9. Decodes $[v]_B$ to $v^B$ using $d_B$ which she received earlier. She computes $\mathsf{H}([v^B]_A, [v]_B)$ which we will call $\mathsf{check}_A$.
+9. She computes $\mathsf{H}([v]_B)$ which we will call $\mathsf{check}_A$.
 10. Computes a commitment $\mathsf{Com}(\mathsf{check}_A, r) = \mathsf{com}_{\mathsf{check}_A}$ where $r$ is a key only known to Alice. She sends this commitment to Bob.
 11. Waits to receive $[v]_A$ from Bob[^1].
 12. Checks that $[v]_A$ is authentic, aborting if not, then decodes $[v]_A$ to $v^A$ using $d_A$.
 
-At this stage, if Bob is malicious, Alice could detect that $v^A \ne v^B$. However, Alice must not react in this case. She proceeds with the protocol regardless, having the authentic output $v^A$.
+At this stage, a malicious Bob has learned nothing and Alice has obtained the output $v^A$ which she knows to be authentic.
 
 #### Bob
 
 13. Evaluates $G_A$ using $[x]_A$ and $[y]_A$ to acquire $[v]_A$. He checks $[v]_A$ against the commitment $\mathsf{com}_{[V]_A}$ which Alice sent earlier, aborting if it is invalid.
-14. Decodes $[v]_A$ to $v^A$ using $d_A$ which he received earlier. He computes $\mathsf{H}([v]_A, [v^A]_B)$ which we'll call $\mathsf{check}_B$, and stores it for the equality check later.
+14. Decodes $[v]_A$ to $v^A$ using $d_A$ which he received earlier. He computes $\mathsf{H}([v^A]_B)$ which we'll call $\mathsf{check}_B$, and stores it for the equality check later.
 15. Sends $[v]_A$ to Alice[^1].
 16. Receives $\mathsf{com}_{\mathsf{check}_A}$ from Alice and stores it for the equality check later.
 
