@@ -68,7 +68,7 @@ Both Alice and Bob can execute this phase of the protocol in parallel as describ
 #### Alice
 
 8. Evaluates $G_B$ using $[x]_B$ and $[y]_B$ to acquire $[v]_B$.
-9. She computes $\mathsf{H}([v]_B)$ which we will call $\mathsf{check}_A$.
+9. Defines $\mathsf{check}_A = [v]_B$.
 10. Computes a commitment $\mathsf{Com}(\mathsf{check}_A, r) = \mathsf{com}_{\mathsf{check}_A}$ where $r$ is a key only known to Alice. She sends this commitment to Bob.
 11. Waits to receive $[v]_A$ from Bob[^1].
 12. Checks that $[v]_A$ is authentic, aborting if not, then decodes $[v]_A$ to $v^A$ using $d_A$.
@@ -78,7 +78,7 @@ At this stage, a malicious Bob has learned nothing and Alice has obtained the ou
 #### Bob
 
 13. Evaluates $G_A$ using $[x]_A$ and $[y]_A$ to acquire $[v]_A$. He checks $[v]_A$ against the commitment $\mathsf{com}_{[V]_A}$ which Alice sent earlier, aborting if it is invalid.
-14. Decodes $[v]_A$ to $v^A$ using $d_A$ which he received earlier. He computes $\mathsf{H}([v^A]_B)$ which we'll call $\mathsf{check}_B$, and stores it for the equality check later.
+14. Decodes $[v]_A$ to $v^A$ using $d_A$ which he received earlier. He defines $\mathsf{check}_B = [v^A]_B$ and stores it for the equality check later.
 15. Sends $[v]_A$ to Alice[^1].
 16. Receives $\mathsf{com}_{\mathsf{check}_A}$ from Alice and stores it for the equality check later.
 
