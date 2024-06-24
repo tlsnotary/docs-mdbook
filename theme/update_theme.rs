@@ -1,8 +1,8 @@
 #!/usr/bin/env cargo +nightly -Zscript
-```cargo
+---
 [dependencies]
 reqwest = { version = "0.11", features = ["blocking"] }
-```
+---
 
 // This script fetches the 'index.hbs' file from the mdBook repository and filters the
 // content to only present the 'ayu' theme.
@@ -11,7 +11,7 @@ use reqwest::blocking;
 use std::fs::File;
 use std::io::{self, Write};
 
-const MDBOOK_VERSION: &str = "0.4.37";
+const MDBOOK_VERSION: &str = "0.4.40";
 
 fn main() -> io::Result<()> {
     let url = format!(
