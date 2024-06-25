@@ -177,7 +177,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="commitments"><a class="header" href="#commitments">Commitments</a></h1>
 <p>Here we illustrate the commitment scheme used to create authenticated commitments to the plaintext in scenarios where a general-purpose <a href="/intro.html#tls-verification-with-a-general-purpose-notary"><code>Notary</code></a> is used. (Note that this scheme is not used when the <code>Prover</code> proves directly to the <code>Verifier</code>)</p>
 <p>A naive approach of extending the <a href="/protocol/mpc-tls/encryption.html"><code>Encryption and Decryption</code></a> steps to also compute a commitment (e.g. BLAKE3 hash) using MPC is too resource-intensive, prompting us to provide a more lightweight commitment scheme.</p>

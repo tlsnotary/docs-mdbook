@@ -177,7 +177,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="key-exchange"><a class="header" href="#key-exchange">Key Exchange</a></h1>
 <p>In TLS, the first step towards obtaining TLS session keys is to compute a shared secret between the client and the server by running the <a href="https://en.wikipedia.org/wiki/Elliptic-curve_Diffie%E2%80%93Hellman">ECDH protocol</a>. The resulting shared secret in TLS terms is <strong>called the pre-master secret <code>PMS</code></strong>.</p>
 <p>With TLSNotary, at the end of the key exchange, the <code>Server</code> gets the <code>PMS</code> as usual. The <code>Prover</code> and the <code>Verifier</code>, jointly operating as the TLS client, compute additive shares of the <code>PMS</code>. This prevents either party from unilaterally sending or receiving messages with the <code>Server</code>. Subsequently, the authenticity and integrity of the messages are guaranteed to both the <code>Prover</code> and <code>Verifier</code>, while also keeping the plaintext hidden from the <code>Verifier</code>.</p>

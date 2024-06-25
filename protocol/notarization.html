@@ -177,7 +177,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="notarization"><a class="header" href="#notarization">Notarization</a></h1>
 <p>Even though the <code>Prover</code> can prove data provenance directly to the <code>Verifier</code>, in some scenarios it may be beneficial for the <code>Verifier</code> to outsource the verification of the TLS session to a trusted <code>Notary</code> as explained <a href="/intro.html#tls-verification-with-a-general-purpose-notary">here</a>.</p>
 <p>As part of the TLSNotary protocol, the <code>Prover</code> creates authenticated commitments to the plaintext and has the <code>Notary</code> sign them without the <code>Notary</code> ever seeing the plaintext. This offers a way for the <code>Prover</code> to selectively prove the authenticity of arbitrary portions of the plaintext to an application-specific <code>Verifier</code> later.</p>
