@@ -131,7 +131,7 @@ We will also use an explicit (locally hosted) notary server this time.
 The notary server used in this example is more functional compared to the (implicit) simple notary service used in the example above. This notary server should actually be run by the Verifier or a neutral party. To make things simple, we run everything on the same machine.
 
 ```shell
-cd notary-server
+cd notary/server
 cargo run --release
 ```
 
