@@ -5,6 +5,11 @@ First we need to [install](#install) and configure a [websocket proxy](#proxy) a
 
 ## Install Browser Extension (Chrome/Brave) <a name="install"></a>
 
+The easiest way to install the TLSN browser extension is to use **[Chrome Web Store](https://chromewebstore.google.com/detail/gcfkkledipjbgdbimfpijgbkhajiaaph)**.
+
+![](images/chromewebstore.png)
+
+Alternatively, you can install it manually:
 1. Download the browser extension from <https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.6/tlsn-extension-0.1.0.6.zip>
 2. Unzip  
    ⚠️ This is a flat zip file, so be careful if you unzip from the command line, this zip file contains many file at the top level
@@ -33,9 +38,9 @@ To run your own websockify proxy **locally**, run:
 ```sh
 git clone https://github.com/novnc/websockify && cd websockify
 ./docker/build.sh
-docker run -it --rm -p 55688:80 novnc/websockify 80 api.twitter.com:443
+docker run -it --rm -p 55688:80 novnc/websockify 80 api.x.com:443
 ```
-Note the `api.twitter.com:443` argument on the last line.
+Note the `api.x.com:443` argument on the last line.
 
 Next use  `ws://localhost:55688` as **proxy API** in Step 3 above.
 
