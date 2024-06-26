@@ -132,7 +132,7 @@ We will also use an explicit (locally hosted) notary server this time.
 
 The notary server used in this example is more functional compared to the (implicit) simple notary service used in the example above. This notary server should actually be run by the Verifier or a neutral party. To make things simple, we run everything on the same machine.
 
-1. Edit the notary server config file (`notary/server/config/config.yaml`) to turn off TLS so that self-signed certificates can be avoided.
+1. Edit the notary server config file (`notary/server/config/config.yaml`) to turn off TLS so that the rust prover can connect to the local notary server without requiring extra steps to whitelist self-signed certificates in the code.
    ```yaml
     tls:
         enabled: false
