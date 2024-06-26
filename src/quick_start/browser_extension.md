@@ -106,7 +106,7 @@ If you use the hosted notary server, notarization will take multiple seconds. Yo
 When the notarization is ready, you can click **View Proof**. If you did close the UI, you can find the proof by clicking **History** and **View Proof**.  
   <img width="477" src="images/extension_history.png">
 
-You also have the option to download the proof. You can view this proof later by using the **Verify** button or via <https://tlsnotary.github.io/proof_viz/>.
+You also have the option to download the proof. You can view this proof later by using the **Verify** button or via <https://explorer.tlsnotary.org/>. You can get the Notary public key by visiting the Notary API specified [above](#notary-server).
 
 ## Troubleshooting
 

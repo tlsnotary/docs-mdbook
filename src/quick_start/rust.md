@@ -57,7 +57,7 @@ The proof has been written to `simple_proof.json`
 
 If you want to see more details, you can run the prover with extra logging:
 ```shell
-RUST_LOG=DEBUG,yamux=INFO cargo run --release --example simple_prover
+RUST_LOG=DEBUG,uid_mux=INFO,yamux=INFO cargo run --release --example simple_prover
 ```
 
 ### 2. Verify the Proof
@@ -107,11 +107,13 @@ cargo run --release --example simple_verifier
 ...
 ```
 
-You can also use <https://tlsnotary.github.io/proof_viz/> to inspect your proofs. Open <https://tlsnotary.github.io/proof_viz/> and drag and drop `simple_proof.json` from your file explorer into the drop zone.
+You can also use <https://explorer.tlsnotary.org/> to inspect your proofs. Open <https://explorer.tlsnotary.org/> and drag and drop `simple_proof.json` from your file explorer into the drop zone. [Notary public key](https://github.com/tlsnotary/tlsn/blob/main/notary/server/fixture/notary/notary.pub)
 
-![Proof Visualization](images/proof_viz.png)
+![Proof Visualization](images/explorer.png)
 
-Redacted bytes are marked with <span style="color:red">red █ characters</span>.
+Redacted bytes are marked with `X` characters.
+
+![Proof Redacted](images/explorer_redacted.png)
 
 ### (Optional) Extra Experiments
 
@@ -130,7 +132,7 @@ We will also use an explicit (locally hosted) notary server this time.
 
 The notary server used in this example is more functional compared to the (implicit) simple notary service used in the example above. This notary server should actually be run by the Verifier or a neutral party. To make things simple, we run everything on the same machine.
 
-1. Edit the notary server config file (`notary/server/config/config.yaml`) to turn off TLS so that the rust prover can connect to the local notary server without requiring extra steps to whitelist self-signed certificates in the code.
+1. Edit the notary server config file (`notary/server/config/config.yaml`) to turn off TLS so that self-signed certificates can be avoided.
    ```yaml
     tls:
         enabled: false
@@ -178,7 +180,7 @@ Next, run the `discord_dm` example to generate a proof:
 
 ```shell
 cd tlsn/tlsn/examples/discord
-RUST_LOG=debug,yamux=info cargo run --release --example discord_dm
+RUST_LOG=debug,uid_mux=INFO,yamux=info cargo run --release --example discord_dm
 ```
 
 If everything goes well, you should see this output:
@@ -210,7 +212,7 @@ The proof is written to `discord_dm_proof.json`.
 
 ### Verify
 
-Verify the proof by dropping the JSON file into <https://tlsnotary.github.io/proof_viz/> or by running:
+Verify the proof by dropping the JSON file into <https://explorer.tlsnotary.org/> or by running:
 
 ```shell
 cargo run --release --example discord_dm_verifier
