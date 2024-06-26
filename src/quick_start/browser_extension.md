@@ -5,7 +5,12 @@ First we need to [install](#install) and configure a [websocket proxy](#proxy) a
 
 ## Install Browser Extension (Chrome/Brave) <a name="install"></a>
 
-1. Download the browser extension from <https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.5/tlsn-extension-0.1.0.5.zip>
+The easiest way to install the TLSN browser extension is to use **[Chrome Web Store](https://chromewebstore.google.com/detail/gcfkkledipjbgdbimfpijgbkhajiaaph)**.
+
+![](images/chromewebstore.png)
+
+Alternatively, you can install it manually:
+1. Download the browser extension from <https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.6/tlsn-extension-0.1.0.6.zip>
 2. Unzip  
    ⚠️ This is a flat zip file, so be careful if you unzip from the command line, this zip file contains many file at the top level
 3. Open **Manage Extensions**: <chrome://extensions/>
@@ -33,9 +38,9 @@ To run your own websockify proxy **locally**, run:
 ```sh
 git clone https://github.com/novnc/websockify && cd websockify
 ./docker/build.sh
-docker run -it --rm -p 55688:80 novnc/websockify 80 api.twitter.com:443
+docker run -it --rm -p 55688:80 novnc/websockify 80 api.x.com:443
 ```
-Note the `api.twitter.com:443` argument on the last line.
+Note the `api.x.com:443` argument on the last line.
 
 Next use  `ws://localhost:55688` as **proxy API** in Step 3 above.
 
@@ -46,7 +51,7 @@ To create a TLSNotary proof, the browser extension needs a TLSNotary notary serv
 To use the TLSNotary team notary server:
 1. Open the extension
 2. Click **Options**
-3. Update Notary API to: `https://notary.pse.dev/v0.1.0-alpha.5`
+3. Update Notary API to: `https://notary.pse.dev/v0.1.0-alpha.6`
 4. Click **Save**
 5. Skip the next section and [continue with the notarization step](#notarize)
 
@@ -65,15 +70,15 @@ If you plan to run a local notary server:
    ```shell
       git clone https://github.com/tlsnotary/tlsn.git
    ```
-3. Edit the notary server config file (`notary-server/config/config.yaml`) to turn off TLS so that the browser extension can connect to the local notary server without requiring extra steps to accept self-signed certificates in the browser.
+2. Edit the notary server config file (`notary/server/config/config.yaml`) to turn off TLS so that the browser extension can connect to the local notary server without requiring extra steps to accept self-signed certificates in the browser.
    ```yaml
     tls:
         enabled: false
         ...
    ```
-4. Run the notary server:
+3. Run the notary server:
    ```shell
-   cd notary-server
+   cd notary/server
    cargo run --release
    ```
 
@@ -106,7 +111,7 @@ If you use the hosted notary server, notarization will take multiple seconds. Yo
 When the notarization is ready, you can click **View Proof**. If you did close the UI, you can find the proof by clicking **History** and **View Proof**.  
   <img width="477" src="images/extension_history.png">
 
-You also have the option to download the proof. You can view this proof later by using the **Verify** button or via <https://tlsnotary.github.io/proof_viz/>.
+You also have the option to download the proof. You can view this proof later by using the **Verify** button or via <https://explorer.tlsnotary.org/>. You can get the Notary public key by visiting the Notary API specified [above](#notary-server).
 
 ## Troubleshooting
 
