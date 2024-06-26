@@ -34,7 +34,7 @@ source ~/.cargo/env
  mkdir ~/src; cd ~/src
  git clone https://github.com/tlsnotary/tlsn.git
 ```
-4. Switch to your desired [released version](https://github.com/tlsnotary/tlsn/releases), or stay in the `dev` branch to use the latest code (⚠️ only prover of the same version is supported for now)
+4. Switch to your desired [released version](https://github.com/tlsnotary/tlsn/releases), or stay in the `main` branch to use the latest version (⚠️ only prover of the same version is supported for now)
 ```bash
 git checkout tags/<version>
 ```
