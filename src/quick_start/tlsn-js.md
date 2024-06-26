@@ -78,7 +78,7 @@ For this demo, we also need to run a local notary server.
    ```sh
    git clone --branch v0.1.0-alpha.5 https://github.com/tlsnotary/tlsn.git
    ```
-2. Edit the notary server config file (`notary/server/config/config.yaml`) to turn off TLS so that the browser extension can connect to the local notary server without requiring extra steps to accept self-signed certificates in the browser.
+2. Edit the notary server config file (`notary/server/config/config.yaml`) to turn off TLS so that self-signed certificates can be avoided.
    ```yaml
    tls:
       enabled: false
