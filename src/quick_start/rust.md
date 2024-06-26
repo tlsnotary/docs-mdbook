@@ -130,10 +130,17 @@ We will also use an explicit (locally hosted) notary server this time.
 
 The notary server used in this example is more functional compared to the (implicit) simple notary service used in the example above. This notary server should actually be run by the Verifier or a neutral party. To make things simple, we run everything on the same machine.
 
-```shell
-cd notary/server
-cargo run --release
-```
+1. Edit the notary server config file (`notary/server/config/config.yaml`) to turn off TLS so that the rust prover can connect to the local notary server without requiring extra steps to whitelist self-signed certificates in the code.
+   ```yaml
+    tls:
+        enabled: false
+        ...
+   ```
+2. Run the notary server:
+    ```shell
+    cd notary/server
+    cargo run --release
+    ```
 
 The notary server will now be running in the background waiting for connections.
 
@@ -191,7 +198,7 @@ The Notary server should log:
 2023-11-03T15:53:51.147074Z  INFO tokio-runtime-worker ThreadId(10) notary_server::service::tcp: Successful notarization using tcp! session_id="006b3293-8fba-44ac-8692-41daa47e4a9a"
 ```
 
-If the transcript was too long, you may encounter the following error. This occurs because there is a default limit of notarization size to 16kB:
+If the transcript was too long, you may encounter the following error. This occurs because there is a default limit of notarization size to 20KB:
 
 ```log
 thread 'tokio-runtime-worker' panicked at 'called `Result::unwrap()` on an `Err` value: IOError(Custom { kind: InvalidData, error: BackendError(DecryptionError("Other: KOSReceiverActor is not setup")) })', /Users/heeckhau/tlsnotary/tlsn/tlsn/tlsn-prover/src/lib.rs:173:50
