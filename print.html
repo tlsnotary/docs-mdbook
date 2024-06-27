@@ -333,7 +333,7 @@ Notarization completed successfully!
 The proof has been written to `simple_proof.json`
 </code></pre>
 <p>If you want to see more details, you can run the prover with extra logging:</p>
-<pre><code class="language-shell">RUST_LOG=DEBUG,yamux=INFO cargo run --release --example simple_prover
+<pre><code class="language-shell">RUST_LOG=DEBUG,uid_mux=INFO,yamux=INFO cargo run --release --example simple_prover
 </code></pre>
 <h3 id="2-verify-the-proof"><a class="header" href="#2-verify-the-proof">2. Verify the Proof</a></h3>
 <p>When you open <code>simple_proof.json</code> in an editor, you will see a JSON file with lots of non-human-readable byte arrays. You can decode this file by running:</p>
@@ -367,9 +367,10 @@ cargo run --release --example simple_verifier
     &lt;title&gt;XXXXXXXXXXXXXX&lt;/title&gt;
 ...
 </code></pre>
-<p>You can also use <a href="https://tlsnotary.github.io/proof_viz/">https://tlsnotary.github.io/proof_viz/</a> to inspect your proofs. Open <a href="https://tlsnotary.github.io/proof_viz/">https://tlsnotary.github.io/proof_viz/</a> and drag and drop <code>simple_proof.json</code> from your file explorer into the drop zone.</p>
-<p><img src="quick_start/images/proof_viz.png" alt="Proof Visualization" /></p>
-<p>Redacted bytes are marked with <span style="color:red">red █ characters</span>.</p>
+<p>You can also use <a href="https://explorer.tlsnotary.org/">https://explorer.tlsnotary.org/</a> to inspect your proofs. Open <a href="https://explorer.tlsnotary.org/">https://explorer.tlsnotary.org/</a> and drag and drop <code>simple_proof.json</code> from your file explorer into the drop zone. <a href="https://github.com/tlsnotary/tlsn/blob/main/notary/server/fixture/notary/notary.pub">Notary public key</a></p>
+<p><img src="quick_start/images/explorer.png" alt="Proof Visualization" /></p>
+<p>Redacted bytes are marked with <code>X</code> characters.</p>
+<p><img src="quick_start/images/explorer_redacted.png" alt="Proof Redacted" /></p>
 <h3 id="optional-extra-experiments"><a class="header" href="#optional-extra-experiments">(Optional) Extra Experiments</a></h3>
 <p>Feel free to try these extra challenges:</p>
 <ul>
@@ -383,9 +384,19 @@ Modify the <code>build_proof_with_redactions</code> function in <code>simple_pro
 <p>We will also use an explicit (locally hosted) notary server this time.</p>
 <h3 id="1-start-a-local-notary-server"><a class="header" href="#1-start-a-local-notary-server">1. Start a Local Notary Server</a></h3>
 <p>The notary server used in this example is more functional compared to the (implicit) simple notary service used in the example above. This notary server should actually be run by the Verifier or a neutral party. To make things simple, we run everything on the same machine.</p>
-<pre><code class="language-shell">cd notary-server
+<ol>
+<li>Edit the notary server config file (<code>notary/server/config/config.yaml</code>) to turn off TLS so that self-signed certificates can be avoided.
+<pre><code class="language-yaml"> tls:
+     enabled: false
+     ...
+</code></pre>
+</li>
+<li>Run the notary server:
+<pre><code class="language-shell">cd notary/server
 cargo run --release
 </code></pre>
+</li>
+</ol>
 <p>The notary server will now be running in the background waiting for connections.</p>
 <p>Keep it running and open a new terminal.</p>
 <h3 id="2-get-authorization-token-and-channel-id"><a class="header" href="#2-get-authorization-token-and-channel-id">2. Get Authorization Token and Channel ID</a></h3>
@@ -409,7 +420,7 @@ cargo run --release
 <h3 id="3-create-the-proof"><a class="header" href="#3-create-the-proof">3. Create the proof</a></h3>
 <p>Next, run the <code>discord_dm</code> example to generate a proof:</p>
 <pre><code class="language-shell">cd tlsn/tlsn/examples/discord
-RUST_LOG=debug,yamux=info cargo run --release --example discord_dm
+RUST_LOG=debug,uid_mux=INFO,yamux=info cargo run --release --example discord_dm
 </code></pre>
 <p>If everything goes well, you should see this output:</p>
 <pre><code class="language-log">...
@@ -422,13 +433,13 @@ RUST_LOG=debug,yamux=info cargo run --release --example discord_dm
 ...
 2023-11-03T15:53:51.147074Z  INFO tokio-runtime-worker ThreadId(10) notary_server::service::tcp: Successful notarization using tcp! session_id="006b3293-8fba-44ac-8692-41daa47e4a9a"
 </code></pre>
-<p>If the transcript was too long, you may encounter the following error. This occurs because there is a default limit of notarization size to 16kB:</p>
+<p>If the transcript was too long, you may encounter the following error. This occurs because there is a default limit of notarization size to 20KB:</p>
 <pre><code class="language-log">thread 'tokio-runtime-worker' panicked at 'called `Result::unwrap()` on an `Err` value: IOError(Custom { kind: InvalidData, error: BackendError(DecryptionError("Other: KOSReceiverActor is not setup")) })', /Users/heeckhau/tlsnotary/tlsn/tlsn/tlsn-prover/src/lib.rs:173:50
 </code></pre>
 <p>The Discord example code redacts the <code>auth_token</code>, but feel free to change the redacted regions.</p>
 <p>The proof is written to <code>discord_dm_proof.json</code>.</p>
 <h3 id="verify"><a class="header" href="#verify">Verify</a></h3>
-<p>Verify the proof by dropping the JSON file into <a href="https://tlsnotary.github.io/proof_viz/">https://tlsnotary.github.io/proof_viz/</a> or by running:</p>
+<p>Verify the proof by dropping the JSON file into <a href="https://explorer.tlsnotary.org/">https://explorer.tlsnotary.org/</a> or by running:</p>
 <pre><code class="language-shell">cargo run --release --example discord_dm_verifier
 </code></pre>
 <p>🍾 Great job! You have successfully used TLSNotary in Rust.</p>
@@ -515,10 +526,10 @@ docker run -it --rm -p 55688:80 novnc/websockify 80 swapi.dev:443
 <p>For this demo, we also need to run a local notary server.</p>
 <ol>
 <li>Clone the TLSNotary repository  (defaults to the <code>main</code> branch, which points to the latest release):
-<pre><code class="language-sh">git clone https://github.com/tlsnotary/tlsn.git
+<pre><code class="language-sh">git clone --branch v0.1.0-alpha.5 https://github.com/tlsnotary/tlsn.git
 </code></pre>
 </li>
-<li>Edit the notary server config file (<code>notary-server/config/config.yaml</code>) to turn off TLS so that the browser extension can connect to the local notary server without requiring extra steps to accept self-signed certificates in the browser.
+<li>Edit the notary server config file (<code>notary-server/config/config.yaml</code>) to turn off TLS so that self-signed certificates can be avoided.
 <pre><code class="language-yaml">tls:
    enabled: false
 </code></pre>
@@ -535,6 +546,9 @@ cargo run --release
 <p>In this Quick Start we will prove ownership of a Twitter account with TLSNotary's browser extension.
 First we need to <a href="quick_start/browser_extension.html#install">install</a> and configure a <a href="quick_start/browser_extension.html#proxy">websocket proxy</a> and a <a href="quick_start/browser_extension.html#notary-server">notary server</a>.</p>
 <h2 id="install-browser-extension-chromebrave"><a class="header" href="#install-browser-extension-chromebrave">Install Browser Extension (Chrome/Brave) <a name="install"></a></a></h2>
+<p>The easiest way to install the TLSN browser extension is to use <strong><a href="https://chromewebstore.google.com/detail/gcfkkledipjbgdbimfpijgbkhajiaaph">Chrome Web Store</a></strong>.</p>
+<p><img src="quick_start/images/chromewebstore.png" alt="" /></p>
+<p>Alternatively, you can install it manually:</p>
 <ol>
 <li>Download the browser extension from <a href="https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.5/tlsn-extension-0.1.0.5.zip">https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.5/tlsn-extension-0.1.0.5.zip</a></li>
 <li>Unzip<br />
@@ -559,9 +573,9 @@ First we need to <a href="quick_start/browser_extension.html#install">install</a
 <p>To run your own websockify proxy <strong>locally</strong>, run:</p>
 <pre><code class="language-sh">git clone https://github.com/novnc/websockify &amp;&amp; cd websockify
 ./docker/build.sh
-docker run -it --rm -p 55688:80 novnc/websockify 80 api.twitter.com:443
+docker run -it --rm -p 55688:80 novnc/websockify 80 api.x.com:443
 </code></pre>
-<p>Note the <code>api.twitter.com:443</code> argument on the last line.</p>
+<p>Note the <code>api.x.com:443</code> argument on the last line.</p>
 <p>Next use  <code>ws://localhost:55688</code> as <strong>proxy API</strong> in Step 3 above.</p>
 <h2 id="notary-server"><a class="header" href="#notary-server">Notary Server <a name="notary-server"></a></a></h2>
 <p>To create a TLSNotary proof, the browser extension needs a TLSNotary notary server. In a real world scenario, this server should be run by a neutral party, or by the verifier of the proofs. In this quick start, you can either run the server yourself or use the test server from the TLSNotary team. Notarizing TLS with Multi Party Computation involves a lot of communication between the extension and notary server, so running a local server is the fastest option.</p>
@@ -585,7 +599,7 @@ docker run -it --rm -p 55688:80 novnc/websockify 80 api.twitter.com:443
 <h3 id="run-a-local-notary-server-1"><a class="header" href="#run-a-local-notary-server-1">Run a Local Notary Server <a name="local-notary"></a></a></h3>
 <ol>
 <li>Clone the TLSNotary repository  (defaults to the <code>main</code> branch, which points to the latest release):
-<pre><code class="language-shell">   git clone https://github.com/tlsnotary/tlsn.git
+<pre><code class="language-shell">   git clone --branch v0.1.0-alpha.5 https://github.com/tlsnotary/tlsn.git
 </code></pre>
 </li>
 <li>Edit the notary server config file (<code>notary-server/config/config.yaml</code>) to turn off TLS so that the browser extension can connect to the local notary server without requiring extra steps to accept self-signed certificates in the browser.
@@ -627,7 +641,7 @@ cargo run --release
 <h2 id="verify-1"><a class="header" href="#verify-1">Verify</a></h2>
 <p>When the notarization is ready, you can click <strong>View Proof</strong>. If you did close the UI, you can find the proof by clicking <strong>History</strong> and <strong>View Proof</strong>.<br />
 <img width="477" src="quick_start/images/extension_history.png"></p>
-<p>You also have the option to download the proof. You can view this proof later by using the <strong>Verify</strong> button or via <a href="https://tlsnotary.github.io/proof_viz/">https://tlsnotary.github.io/proof_viz/</a>.</p>
+<p>You also have the option to download the proof. You can view this proof later by using the <strong>Verify</strong> button or via <a href="https://explorer.tlsnotary.org/">https://explorer.tlsnotary.org/</a>. You can get the Notary public key by visiting the Notary API specified <a href="quick_start/browser_extension.html#notary-server">above</a>.</p>
 <h2 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h2>
 <ul>
 <li><code>Requests(0): no requests in the Browser extension</code> ➡ restart the TLSN browser extension in <a href="chrome://extensions/">chrome://extensions/</a> and reload the Twitter page.</li>
@@ -635,9 +649,9 @@ cargo run --release
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="run-a-notary-server"><a class="header" href="#run-a-notary-server">Run a Notary Server</a></h1>
-<p>This guide shows you how to run a <a href="https://github.com/tlsnotary/tlsn/tree/main/notary-server">notary server</a> in an Ubuntu server instance.</p>
+<p>This guide shows you how to run a <a href="https://github.com/tlsnotary/tlsn/tree/main/notary/server">notary server</a> in an Ubuntu server instance.</p>
 <h2 id="configure-server-setting"><a class="header" href="#configure-server-setting">Configure Server Setting</a></h2>
-<p>All the following settings can be configured in the <a href="https://github.com/tlsnotary/tlsn/blob/main/notary-server/config/config.yaml">config file</a>.</p>
+<p>All the following settings can be configured in the <a href="https://github.com/tlsnotary/tlsn/blob/main/notary/server/config/config.yaml">config file</a>.</p>
 <ol>
 <li>
 <p>Before running a notary server you need the following files. The default dummy fixtures are for testing only and should never be used in production.</p>
@@ -652,7 +666,7 @@ cargo run --release
 <p>Expose the notary server port (specified in the config file) on your server networking setting</p>
 </li>
 <li>
-<p>Optionally one can turn on <a href="https://github.com/tlsnotary/tlsn/tree/main/notary-server#authorization">authorization</a>, or turn off <a href="https://github.com/tlsnotary/tlsn/tree/main/notary-server#optional-tls">TLS</a> if TLS is handled by an external setup, e.g. reverse proxy, cloud setup</p>
+<p>Optionally one can turn on <a href="https://github.com/tlsnotary/tlsn/tree/main/notary/server#authorization">authorization</a>, or turn off <a href="https://github.com/tlsnotary/tlsn/tree/main/notary/server#optional-tls">TLS</a> if TLS is handled by an external setup, e.g. reverse proxy, cloud setup</p>
 </li>
 </ol>
 <h2 id="using-cargo"><a class="header" href="#using-cargo">Using Cargo</a></h2>
@@ -675,27 +689,27 @@ source ~/.cargo/env
  git clone https://github.com/tlsnotary/tlsn.git
 </code></pre>
 <ol start="4">
-<li>Switch to your desired <a href="https://github.com/tlsnotary/tlsn/releases">released version</a>, or stay in the <code>dev</code> branch to use the latest code (⚠️ only prover of the same version is supported for now)</li>
+<li>Switch to your desired <a href="https://github.com/tlsnotary/tlsn/releases">released version</a>, or stay in the <code>main</code> branch to use the latest version (⚠️ only prover of the same version is supported for now)</li>
 </ol>
 <pre><code class="language-bash">git checkout tags/&lt;version&gt;
 </code></pre>
 <ol start="5">
-<li>To configure the <a href="developers/notary_server.html#configure-server-setting">server setting</a>, please refer to the <code>Using Cargo</code> section in the repo's <a href="https://github.com/tlsnotary/tlsn/blob/main/notary-server/README.md#using-cargo">readme</a></li>
+<li>To configure the <a href="developers/notary_server.html#configure-server-setting">server setting</a>, please refer to the <code>Using Cargo</code> section in the repo's <a href="https://github.com/tlsnotary/tlsn/blob/main/notary/server/README.md#using-cargo">readme</a></li>
 <li>Run the server</li>
 </ol>
-<pre><code class="language-bash">cd tlsn/notary-server
+<pre><code class="language-bash">cd tlsn/notary/server
 cargo run --release
 </code></pre>
 <h2 id="using-docker"><a class="header" href="#using-docker">Using Docker</a></h2>
 <ol>
 <li>Install docker following your preferred method <a href="https://docs.docker.com/engine/install/ubuntu/">here</a></li>
-<li>To configure the <a href="developers/notary_server.html#configure-server-setting">server setting</a>, please refer to the <code>Using Docker</code> section in the repo's <a href="https://github.com/tlsnotary/tlsn/blob/main/notary-server/README.md#using-docker">readme</a></li>
+<li>To configure the <a href="developers/notary_server.html#configure-server-setting">server setting</a>, please refer to the <code>Using Docker</code> section in the repo's <a href="https://github.com/tlsnotary/tlsn/blob/main/notary/server/README.md#using-docker">readme</a></li>
 <li>Run the notary server docker image of your desired version (⚠️ only prover of the same version is supported for now)</li>
 </ol>
 <pre><code class="language-bash">docker run --init -p 127.0.0.1:7047:7047 ghcr.io/tlsnotary/tlsn/notary-server:&lt;version&gt;
 </code></pre>
 <h2 id="api-endpoints"><a class="header" href="#api-endpoints">API Endpoints</a></h2>
-<p>Please refer to the list of all HTTP APIs <a href="developers/./notary_server_api.html">here</a>, and WebSocket APIs <a href="https://github.com/tlsnotary/tlsn/tree/main/notary-server#websocket-apis">here</a>.</p>
+<p>Please refer to the list of all HTTP APIs <a href="developers/./notary_server_api.html">here</a>, and WebSocket APIs <a href="https://github.com/tlsnotary/tlsn/tree/main/notary/server#websocket-apis">here</a>.</p>
 <h2 id="pse-development-notary-server"><a class="header" href="#pse-development-notary-server">PSE Development Notary Server</a></h2>
 <blockquote>
 <p><strong><em>⚠️ WARNING:</em></strong> notary.pse.dev is hosted for development purposes only. You are welcome to use it for exploration and development; however, please refrain from building your business on it. Use it at your own risk.</p>
@@ -703,11 +717,10 @@ cargo run --release
 <p>The TLSNotary team hosts a public notary server for development, experimentation, and demonstration purposes. The server is currently open to everyone, provided that it is used fairly.</p>
 <p>We host multiple versions of the notary server:</p>
 <div class="table-wrapper"><table><thead><tr><th>Version</th><th>Notary URL</th><th>Info/Status</th><th>GitHub</th><th>Note</th></tr></thead><tbody>
+<tr><td>v0.1.0-alpha.6</td><td>https://notary.pse.dev/v0.1.0-alpha.6</td><td><a href="https://notary.pse.dev/v0.1.0-alpha.6/info">info</a>/<a href="https://notary.pse.dev/v0.1.0-alpha.6/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.6/notary/server">v0.1.0-alpha.6</a></td><td><a href="https://github.com/tlsnotary/tlsn/releases/tag/v0.1.0-alpha.6">Release notes</a></td></tr>
 <tr><td>v0.1.0-alpha.5</td><td>https://notary.pse.dev/v0.1.0-alpha.5</td><td><a href="https://notary.pse.dev/v0.1.0-alpha.5/info">info</a>/<a href="https://notary.pse.dev/v0.1.0-alpha.5/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.5/notary-server">v0.1.0-alpha.5</a></td><td><a href="https://github.com/tlsnotary/tlsn/releases/tag/v0.1.0-alpha.5">Release notes</a></td></tr>
-<tr><td>(deprecated)</td><td>https://notary.pse.dev</td><td><a href="https://notary.pse.dev/info">info</a>/<a href="https://notary.pse.dev/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.4/notary-server">v0.1.0-alpha.4</a></td><td>This url will be removed when alpha.6 is released</td></tr>
 <tr><td>v0.1.0-alpha.4</td><td>https://notary.pse.dev/v0.1.0-alpha.4</td><td><a href="https://notary.pse.dev/v0.1.0-alpha.4/info">info</a>/<a href="https://notary.pse.dev/v0.1.0-alpha.4/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.4/notary-server">v0.1.0-alpha.4</a></td><td><a href="https://github.com/tlsnotary/tlsn/releases/tag/v0.1.0-alpha.4">Release notes</a></td></tr>
-<tr><td>v0.1.0-alpha.3</td><td>https://notary.pse.dev/v0.1.0-alpha.3</td><td><a href="https://notary.pse.dev/v0.1.0-alpha.3/info">info</a>/<a href="https://notary.pse.dev/v0.1.0-alpha.3/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.3/notary-server">v0.1.0-alpha.3</a></td><td><a href="https://github.com/tlsnotary/tlsn/releases/tag/v0.1.0-alpha.3">Release notes</a></td></tr>
-<tr><td>nightly</td><td>https://notary.pse.dev/nightly</td><td><a href="https://notary.pse.dev/nightly/info">info</a>/<a href="https://notary.pse.dev/nightly/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/dev/notary-server">dev</a></td><td></td></tr>
+<tr><td>nightly</td><td>https://notary.pse.dev/nightly</td><td><a href="https://notary.pse.dev/nightly/info">info</a>/<a href="https://notary.pse.dev/nightly/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/dev/notary/server">dev</a></td><td></td></tr>
 </tbody></table>
 </div>
 <p>For more details on the deployment, refer to this <a href="https://github.com/tlsnotary/tlsn/blob/main/.github/workflows/cd-server.yml">GitHub Action</a>.</p>
@@ -720,6 +733,13 @@ twitter.com:443
 gateway.reddit.com:443
 reddit.com:443
 swapi.dev:443
+api.x.com:443
+x.com:443
+discord.com:443
+connect.garmin.com:443
+uber.com:443
+riders.uber.com:443
+m.uber.com:443
 </code></pre>
 <p>You can utilize this WebSocket proxy with the following syntax:</p>
 <pre><code>wss://notary.pse.dev/proxy?token=&lt;domain&gt;

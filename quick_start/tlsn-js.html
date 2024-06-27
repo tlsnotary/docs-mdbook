@@ -242,10 +242,10 @@ docker run -it --rm -p 55688:80 novnc/websockify 80 swapi.dev:443
 <p>For this demo, we also need to run a local notary server.</p>
 <ol>
 <li>Clone the TLSNotary repository  (defaults to the <code>main</code> branch, which points to the latest release):
-<pre><code class="language-sh">git clone https://github.com/tlsnotary/tlsn.git
+<pre><code class="language-sh">git clone --branch v0.1.0-alpha.5 https://github.com/tlsnotary/tlsn.git
 </code></pre>
 </li>
-<li>Edit the notary server config file (<code>notary-server/config/config.yaml</code>) to turn off TLS so that the browser extension can connect to the local notary server without requiring extra steps to accept self-signed certificates in the browser.
+<li>Edit the notary server config file (<code>notary-server/config/config.yaml</code>) to turn off TLS so that self-signed certificates can be avoided.
 <pre><code class="language-yaml">tls:
    enabled: false
 </code></pre>

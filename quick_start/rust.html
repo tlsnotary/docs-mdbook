@@ -214,7 +214,7 @@ Notarization completed successfully!
 The proof has been written to `simple_proof.json`
 </code></pre>
 <p>If you want to see more details, you can run the prover with extra logging:</p>
-<pre><code class="language-shell">RUST_LOG=DEBUG,yamux=INFO cargo run --release --example simple_prover
+<pre><code class="language-shell">RUST_LOG=DEBUG,uid_mux=INFO,yamux=INFO cargo run --release --example simple_prover
 </code></pre>
 <h3 id="2-verify-the-proof"><a class="header" href="#2-verify-the-proof">2. Verify the Proof</a></h3>
 <p>When you open <code>simple_proof.json</code> in an editor, you will see a JSON file with lots of non-human-readable byte arrays. You can decode this file by running:</p>
@@ -248,9 +248,10 @@ cargo run --release --example simple_verifier
     &lt;title&gt;XXXXXXXXXXXXXX&lt;/title&gt;
 ...
 </code></pre>
-<p>You can also use <a href="https://tlsnotary.github.io/proof_viz/">https://tlsnotary.github.io/proof_viz/</a> to inspect your proofs. Open <a href="https://tlsnotary.github.io/proof_viz/">https://tlsnotary.github.io/proof_viz/</a> and drag and drop <code>simple_proof.json</code> from your file explorer into the drop zone.</p>
-<p><img src="images/proof_viz.png" alt="Proof Visualization" /></p>
-<p>Redacted bytes are marked with <span style="color:red">red █ characters</span>.</p>
+<p>You can also use <a href="https://explorer.tlsnotary.org/">https://explorer.tlsnotary.org/</a> to inspect your proofs. Open <a href="https://explorer.tlsnotary.org/">https://explorer.tlsnotary.org/</a> and drag and drop <code>simple_proof.json</code> from your file explorer into the drop zone. <a href="https://github.com/tlsnotary/tlsn/blob/main/notary/server/fixture/notary/notary.pub">Notary public key</a></p>
+<p><img src="images/explorer.png" alt="Proof Visualization" /></p>
+<p>Redacted bytes are marked with <code>X</code> characters.</p>
+<p><img src="images/explorer_redacted.png" alt="Proof Redacted" /></p>
 <h3 id="optional-extra-experiments"><a class="header" href="#optional-extra-experiments">(Optional) Extra Experiments</a></h3>
 <p>Feel free to try these extra challenges:</p>
 <ul>
@@ -264,9 +265,19 @@ Modify the <code>build_proof_with_redactions</code> function in <code>simple_pro
 <p>We will also use an explicit (locally hosted) notary server this time.</p>
 <h3 id="1-start-a-local-notary-server"><a class="header" href="#1-start-a-local-notary-server">1. Start a Local Notary Server</a></h3>
 <p>The notary server used in this example is more functional compared to the (implicit) simple notary service used in the example above. This notary server should actually be run by the Verifier or a neutral party. To make things simple, we run everything on the same machine.</p>
-<pre><code class="language-shell">cd notary-server
+<ol>
+<li>Edit the notary server config file (<code>notary/server/config/config.yaml</code>) to turn off TLS so that self-signed certificates can be avoided.
+<pre><code class="language-yaml"> tls:
+     enabled: false
+     ...
+</code></pre>
+</li>
+<li>Run the notary server:
+<pre><code class="language-shell">cd notary/server
 cargo run --release
 </code></pre>
+</li>
+</ol>
 <p>The notary server will now be running in the background waiting for connections.</p>
 <p>Keep it running and open a new terminal.</p>
 <h3 id="2-get-authorization-token-and-channel-id"><a class="header" href="#2-get-authorization-token-and-channel-id">2. Get Authorization Token and Channel ID</a></h3>
@@ -290,7 +301,7 @@ cargo run --release
 <h3 id="3-create-the-proof"><a class="header" href="#3-create-the-proof">3. Create the proof</a></h3>
 <p>Next, run the <code>discord_dm</code> example to generate a proof:</p>
 <pre><code class="language-shell">cd tlsn/tlsn/examples/discord
-RUST_LOG=debug,yamux=info cargo run --release --example discord_dm
+RUST_LOG=debug,uid_mux=INFO,yamux=info cargo run --release --example discord_dm
 </code></pre>
 <p>If everything goes well, you should see this output:</p>
 <pre><code class="language-log">...
@@ -303,13 +314,13 @@ RUST_LOG=debug,yamux=info cargo run --release --example discord_dm
 ...
 2023-11-03T15:53:51.147074Z  INFO tokio-runtime-worker ThreadId(10) notary_server::service::tcp: Successful notarization using tcp! session_id="006b3293-8fba-44ac-8692-41daa47e4a9a"
 </code></pre>
-<p>If the transcript was too long, you may encounter the following error. This occurs because there is a default limit of notarization size to 16kB:</p>
+<p>If the transcript was too long, you may encounter the following error. This occurs because there is a default limit of notarization size to 20KB:</p>
 <pre><code class="language-log">thread 'tokio-runtime-worker' panicked at 'called `Result::unwrap()` on an `Err` value: IOError(Custom { kind: InvalidData, error: BackendError(DecryptionError("Other: KOSReceiverActor is not setup")) })', /Users/heeckhau/tlsnotary/tlsn/tlsn/tlsn-prover/src/lib.rs:173:50
 </code></pre>
 <p>The Discord example code redacts the <code>auth_token</code>, but feel free to change the redacted regions.</p>
 <p>The proof is written to <code>discord_dm_proof.json</code>.</p>
 <h3 id="verify"><a class="header" href="#verify">Verify</a></h3>
-<p>Verify the proof by dropping the JSON file into <a href="https://tlsnotary.github.io/proof_viz/">https://tlsnotary.github.io/proof_viz/</a> or by running:</p>
+<p>Verify the proof by dropping the JSON file into <a href="https://explorer.tlsnotary.org/">https://explorer.tlsnotary.org/</a> or by running:</p>
 <pre><code class="language-shell">cargo run --release --example discord_dm_verifier
 </code></pre>
 <p>🍾 Great job! You have successfully used TLSNotary in Rust.</p>

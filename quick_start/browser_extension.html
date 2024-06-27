@@ -182,6 +182,9 @@
 <p>In this Quick Start we will prove ownership of a Twitter account with TLSNotary's browser extension.
 First we need to <a href="#install">install</a> and configure a <a href="#proxy">websocket proxy</a> and a <a href="#notary-server">notary server</a>.</p>
 <h2 id="install-browser-extension-chromebrave"><a class="header" href="#install-browser-extension-chromebrave">Install Browser Extension (Chrome/Brave) <a name="install"></a></a></h2>
+<p>The easiest way to install the TLSN browser extension is to use <strong><a href="https://chromewebstore.google.com/detail/gcfkkledipjbgdbimfpijgbkhajiaaph">Chrome Web Store</a></strong>.</p>
+<p><img src="images/chromewebstore.png" alt="" /></p>
+<p>Alternatively, you can install it manually:</p>
 <ol>
 <li>Download the browser extension from <a href="https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.5/tlsn-extension-0.1.0.5.zip">https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.5/tlsn-extension-0.1.0.5.zip</a></li>
 <li>Unzip<br />
@@ -206,9 +209,9 @@ First we need to <a href="#install">install</a> and configure a <a href="#proxy"
 <p>To run your own websockify proxy <strong>locally</strong>, run:</p>
 <pre><code class="language-sh">git clone https://github.com/novnc/websockify &amp;&amp; cd websockify
 ./docker/build.sh
-docker run -it --rm -p 55688:80 novnc/websockify 80 api.twitter.com:443
+docker run -it --rm -p 55688:80 novnc/websockify 80 api.x.com:443
 </code></pre>
-<p>Note the <code>api.twitter.com:443</code> argument on the last line.</p>
+<p>Note the <code>api.x.com:443</code> argument on the last line.</p>
 <p>Next use  <code>ws://localhost:55688</code> as <strong>proxy API</strong> in Step 3 above.</p>
 <h2 id="notary-server"><a class="header" href="#notary-server">Notary Server <a name="notary-server"></a></a></h2>
 <p>To create a TLSNotary proof, the browser extension needs a TLSNotary notary server. In a real world scenario, this server should be run by a neutral party, or by the verifier of the proofs. In this quick start, you can either run the server yourself or use the test server from the TLSNotary team. Notarizing TLS with Multi Party Computation involves a lot of communication between the extension and notary server, so running a local server is the fastest option.</p>
@@ -232,7 +235,7 @@ docker run -it --rm -p 55688:80 novnc/websockify 80 api.twitter.com:443
 <h3 id="run-a-local-notary-server"><a class="header" href="#run-a-local-notary-server">Run a Local Notary Server <a name="local-notary"></a></a></h3>
 <ol>
 <li>Clone the TLSNotary repository  (defaults to the <code>main</code> branch, which points to the latest release):
-<pre><code class="language-shell">   git clone https://github.com/tlsnotary/tlsn.git
+<pre><code class="language-shell">   git clone --branch v0.1.0-alpha.5 https://github.com/tlsnotary/tlsn.git
 </code></pre>
 </li>
 <li>Edit the notary server config file (<code>notary-server/config/config.yaml</code>) to turn off TLS so that the browser extension can connect to the local notary server without requiring extra steps to accept self-signed certificates in the browser.
@@ -274,7 +277,7 @@ cargo run --release
 <h2 id="verify"><a class="header" href="#verify">Verify</a></h2>
 <p>When the notarization is ready, you can click <strong>View Proof</strong>. If you did close the UI, you can find the proof by clicking <strong>History</strong> and <strong>View Proof</strong>.<br />
 <img width="477" src="images/extension_history.png"></p>
-<p>You also have the option to download the proof. You can view this proof later by using the <strong>Verify</strong> button or via <a href="https://tlsnotary.github.io/proof_viz/">https://tlsnotary.github.io/proof_viz/</a>.</p>
+<p>You also have the option to download the proof. You can view this proof later by using the <strong>Verify</strong> button or via <a href="https://explorer.tlsnotary.org/">https://explorer.tlsnotary.org/</a>. You can get the Notary public key by visiting the Notary API specified <a href="#notary-server">above</a>.</p>
 <h2 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h2>
 <ul>
 <li><code>Requests(0): no requests in the Browser extension</code> ➡ restart the TLSN browser extension in <a href="chrome://extensions/">chrome://extensions/</a> and reload the Twitter page.</li>
