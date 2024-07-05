@@ -5,7 +5,7 @@ This guide shows you how to run a [notary server](https://github.com/tlsnotary/t
 ## Configure Server Setting
 All the following settings can be configured in the [config file](https://github.com/tlsnotary/tlsn/blob/main/notary/server/config/config.yaml).
 
-1. Before running a notary server you need the following files. The default dummy fixtures are for testing only and should never be used in production.
+1. Before running a notary server you need the following files. ⚠️ The default dummy fixtures are for testing only and should never be used in production.
 
     | File | Purpose | File Type | Compulsory to change | Sample Command |
      ----- | ------- | ------------------ | -------------------- | ------------- |
