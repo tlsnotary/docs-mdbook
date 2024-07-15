@@ -62,7 +62,7 @@ RUST_LOG=DEBUG,uid_mux=INFO,yamux=INFO cargo run --release --example simple_prov
 
 ### 2. Verify the Proof
 
-When you open `simple_proof.json` in an editor, you will see a JSON file with lots of non-human-readable byte arrays. You can decode this file by running:
+When you open `simple_proof.json` in an editor, you will see a JSON file with lots of non-human-readable byte arrays. (Note: The plaintext is included, in byte array form. ) You can verify this file and create a human-friendly output by running:
 
 ```shell
 cargo run --release --example simple_verifier
