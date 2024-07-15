@@ -336,7 +336,7 @@ The proof has been written to `simple_proof.json`
 <pre><code class="language-shell">RUST_LOG=DEBUG,uid_mux=INFO,yamux=INFO cargo run --release --example simple_prover
 </code></pre>
 <h3 id="2-verify-the-proof"><a class="header" href="#2-verify-the-proof">2. Verify the Proof</a></h3>
-<p>When you open <code>simple_proof.json</code> in an editor, you will see a JSON file with lots of non-human-readable byte arrays. You can decode this file by running:</p>
+<p>When you open <code>simple_proof.json</code> in an editor, you will see a JSON file with lots of non-human-readable byte arrays. (Note: The plaintext is included, in byte array form. ) You can verify this file and create a human-friendly output by running:</p>
 <pre><code class="language-shell">cargo run --release --example simple_verifier
 </code></pre>
 <p>This will output the TLS-transaction in clear text:</p>
