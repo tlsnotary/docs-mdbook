@@ -1,7 +1,7 @@
 # Verification
 
 To prove data provenance to a third-party `Verifier`, the `Prover` provides the following information:
-- [`Session Header`](/protocol/notarization.md#signing-the-session-header) signed by the `Verifier`
+- [`Session Header`](/protocol/notarization.md#signing-the-session-header) signed by the `Notary`
 - `opening` to the plaintext commitment
 - `TLS-specific data` which uniquely identifies the server
 - `identity` of the server
