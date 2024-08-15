@@ -7,6 +7,7 @@
 - [Is the Notary an essential part of the TLSNotary protocol?](#faq5)
 - [Which TLS versions are supported?](#faq6)
 - [What is the overhead of using the TLSNotary protocol?](#faq7)
+- [Does TLSNotary use a proxy?](#faq8)
 
 
 ### Doesn't TLS allow a third party to verify data authenticity? { #faq1 }
@@ -48,8 +49,14 @@ Due to the nature of the underlying MPC, the protocol is bandwidth-bound. We are
 
 With the upcoming protocol upgrade planned for 2025, we expect the `Prover's` **upload** data overhead to be:
 
+
 ~25MB (a fixed cost per one TLSNotary session) + ~10 MB per every 1KB of outgoing data + ~40KB per every 1 KB of incoming data.
 
 In a concrete scenario of sending a 1KB HTTP request followed by a 100KB response, the `Prover's` overhead will be:
 
 25 + 10 + 4 = ~39 MB of **upload** data.
+
+### Does TLSNotary use a proxy? { #faq8 }
+
+A proxy is required only for the browser extension because browsers do not allow extensions to open TCP connections. Instead, our extension opens a websocket connection to a proxy (local or remote) which opens a TCP connection with the server. Our custom TLS client is then attached to this connection and the proxy only sees encrypted data.
+
