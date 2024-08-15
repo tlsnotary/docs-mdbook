@@ -58,5 +58,5 @@ In a concrete scenario of sending a 1KB HTTP request followed by a 100KB respons
 
 ### Does TLSNotary use a proxy? { #faq8 }
 
-A proxy is required only for the browser extension because browsers do not allow direct TCP connections. Instead, our extension opens a websocket connection to a websockify proxy (this can be local or remote), allowing the browser wasm to open a TCP connection with the server. We then attach our own TLS client to this connection, the proxy only sees encrypted data.
+A proxy is required only for the browser extension because browsers do not allow extensions to open TCP connections. Instead, our extension opens a websocket connection to a proxy (local or remote) which opens a TCP connection with the server. Our custom TLS client is then attached to this connection and the proxy only sees encrypted data.
 
