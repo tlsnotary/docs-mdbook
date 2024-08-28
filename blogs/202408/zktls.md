@@ -1,10 +1,11 @@
 # Does TLSNotary produce "proofs" or "attestations"? 
 
-Recently, we've seen an increasing use of the term "zkTLS" [TODO: add links to Twitter]. The "zk" prefix suggests a combination of TLS with zk-SNARKs (Zero-Knowledge Succinct Non-Interactive Argument of Knowledge), implying that the protocol would be publicly verifiable.
+Recently, we've seen an increasing use of the term ["zkTLS"](https://x.com/search?q=zktls). The "zk" prefix suggests a combination of TLS with zk-SNARKs (Zero-Knowledge Succinct Non-Interactive Argument of Knowledge), implying that the protocol would be publicly verifiable.
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">incalculable levels of public confusion caused by a catchy prefix <a href="https://t.co/2OSyWwHQqN">pic.twitter.com/2OSyWwHQqN</a></p>&mdash; sinu (@sinu_eth) <a href="https://twitter.com/sinu_eth/status/1827135565185401239?ref_src=twsrc%5Etfw">August 24, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 To avoid confusion, we want to explain how TLSNotary achieves verifiable TLS sessions. Spoiler: TLSNotary's output is not a publicly verifiable proof; it is an attestation.
 
-[TODO embed https://x.com/sinu_eth/status/1827135565185401239 here]
 
 Before we dive deeper into TLSNotary, let’s first recap TLS itself.
 
