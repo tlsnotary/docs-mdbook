@@ -1,37 +1,37 @@
-# Terminology Matters: Why We Use MPC-TLS Attestations and Not zkTLS "Proofs"
+# Does TLSNotary produce "proofs" or "attestations"? 
 
-We are seeing more and more occurrences of the term "zkTLS" [TODO: add links to Twitter]. The TLSNotary team believes this term is poorly chosen because it seems to imply that TLS sessions have all the typical properties of zero-knowledge proofs. In this blog post, we explain why we prefer the term **MPC-TLS Attestations** and choose not to use **zkTLS "Proofs."**
+Recently, we've seen an increasing use of the term "zkTLS" [TODO: add links to Twitter]. The "zk" prefix suggests a combination of TLS with zk-SNARKs (Zero-Knowledge Succinct Non-Interactive Argument of Knowledge), implying that the protocol would be publicly verifiable.
 
-## TLS and TLSNotary: A Brief Overview
+To avoid confusion, we want to explain how TLSNotary achieves verifiable TLS sessions. Spoiler: TLSNotary's output is not a publicly verifiable proof; it is an attestation.
 
-Before we dive into zkTLS vs. MPC-TLS, let’s first recap TLS and TLSNotary.
+[TODO embed https://x.com/sinu_eth/status/1827135565185401239 here]
+
+Before we dive deeper into TLSNotary, let’s first recap TLS itself.
 
 **TLS (Transport Layer Security)** is the protocol that underpins much of the secure communication on the internet. It is the “s” in https. TLS ensures that data sent between a client and server is encrypted and remains private. However, unless the data is cryptographically signed at the source, traditional TLS doesn’t offer a straightforward way to prove to a third party what data was exchanged.
 
-[TODO: add TLSNotary diagram here later]
+![Overview](./overview1.svg)
 
-**TLSNotary** is a tool designed to solve this problem by implementing an **MPC-TLS (Multi-Party Computation TLS)** protocol. In TLSNotary, two parties—a Prover and a Verifier—cooperate to establish a TLS connection and retrieve authenticated data from a server. Through this collaboration, both parties receive cryptographic guarantees about the data’s authenticity and integrity. On the server’s side, this looks like a normal TLS session.
+**TLSNotary** is a tool designed to solve this problem by implementing an **MPC-TLS (Multi-Party Computation TLS)** protocol. In TLSNotary, two parties—a Prover and a Verifier—cooperate to establish a TLS connection and retrieve authenticated data from a server. Through this collaboration, both parties receive cryptographic guarantees about the data’s authenticity and integrity. On the server’s side, this looks like a normal TLS session. TLSNotary also protects the privacy of the Prover (aka the "user"), but that is beyond the scope of this blog post.
 
-TLSNotary is gaining popularity among developers for its ability to provide verifiable evidence of interactions with a server, ensuring that the data remains trustworthy for both parties involved. TLSNotary also protects the privacy of the user, but that is beyond the scope of this blog post.
+But what if a fourth or fifth party wants to verify the TLS session? They could repeat the process above to obtain their own cryptographic guarantees. However, in many cases, it’s more practical to delegate the TLS verification to a trusted party and rely on their attestations.
 
 ## Proofs vs. Attestations
 
-When we talk about **proofs** in cryptography, we usually refer to something that is **publicly verifiable**—anyone with the proof can independently verify its validity without needing additional information. Publicly verifiable proofs are often associated with zero-knowledge proofs (ZKPs) and allow anyone to verify the proof without needing to trust any specific party. These systems are highly desirable but unfortunately not always feasible.
+When we talk about **proofs** in cryptography, we usually refer to something that is **publicly verifiable**—anyone with the proof can independently verify its validity without needing additional information. Publicly verifiable proofs are often associated with zk-SNARKs and allow anyone to verify the proof without needing to trust any specific party. These systems are highly desirable but unfortunately not always feasible.
 
 **Designated verifier** systems delegate verification to one verifier (or a coordinated group of verifiers). After successful verification, a verifier can **attest** to the data for other parties by issuing a signed **attestation**. This approach requires trust in the designated verifier’s integrity.
+
+![Overview](./overview2.svg)
 
 In the case of MPC-TLS, the Verifier knows the TLS session was authentic, so it can attest to it. However, the result is not something that everyone can independently verify without trust in the Verifier.
 
 **Remark:** In the TLSNotary source code, the lines between a proof and an attestation can seem confusing. While TLSNotary generates something that is a proof to the Verifier, to anyone else, it is an attestation.
 
-[TODO embed https://x.com/sinu_eth/status/1827135565185401239 here]
-
 ## Onchain Attestations
 
-The Verifier cannot run onchain. The Verifier must be online simultaneously with both the Prover and the Server. This means that the attestation put onchain by the Prover (or the Verifier) is not a standalone proof but an attestation. And because an attester could attest to (or sign) whatever it wants, consumers of this information need to trust the attester. TLSNotary can be used to build oracles, but it does not solve the **oracle problem**.
+The Verifier cannot operate onchain, as it must be online simultaneously with both the Prover and the Server. However, the TLSNotary result can still be utilized onchain if the Verifier signs the output as an attestation. This attestation, however, is not a publicly verifiable proof. Since a Verifier could potentially sign anything, consumers of this information must trust the Verifier. While TLSNotary can be used to build oracles, it does not solve the **oracle problem**.
 
 ## Conclusion
 
-In the end, terminology matters because it shapes our understanding and expectations of the technology we use.
-
-The term zkTLS might sound appealing, but it is confusing. The "zk" prefix in zkTLS seems to imply public verifiability, which is not the case. This is the reason we prefer **MPC-TLS Attestations** instead.
+The term zkTLS is catchy and may sound appealing, but it’s important not to jump to conclusions. The "zk" prefix in zkTLS suggests public verifiability, which is not applicable to TLS. Therefore, it’s crucial to use the term "proof" cautiously in this context; in most cases, "attestation" is the more accurate term, especially when discussing the use of TLSNotary outputs onchain.
