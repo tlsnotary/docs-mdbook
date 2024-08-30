@@ -31,6 +31,12 @@
 - [MAC](./mpc/mac.md)
 - [Commitments](./mpc/commitments.md)
 
+# Browser Extension
+
+- [Extension](./extension/extension.md)
+  - [Plugins](./extension/plugins.md)
+  - [Provider API](./extension/provider.md)
+
 <!-- [Verification Steps](./spec/verification_steps.md) -->
 
 +[Glossary](./glossary.md)
