@@ -748,6 +748,25 @@ m.uber.com:443
 <pre><code>wss://notary.pse.dev/proxy?token=&lt;domain&gt;
 </code></pre>
 <p>Replace <code>&lt;domain&gt;</code> with the domain you wish to access (for example, <code>swapi.dev</code>).</p>
+<h2 id="running-notary-server-on-windows-subsystem-for-linux-wsl"><a class="header" href="#running-notary-server-on-windows-subsystem-for-linux-wsl">Running Notary Server on Windows Subsystem for Linux (WSL)</a></h2>
+<p>When running the Notary Server and WebSocket Proxy on Windows Subsystem for Linux (WSL), you may encounter networking issues. In older versions of Windows (prior to Windows 11 22H2), WSL uses a virtual Ethernet adapter with its own IP address, which requires additional firewall configuration.</p>
+<h4 id="for-windows-versions-prior-to-11-22h2"><a class="header" href="#for-windows-versions-prior-to-11-22h2">For Windows Versions Prior to 11 22H2:</a></h4>
+<ol>
+<li>
+<p><strong>Identify the WSL IP Address</strong>:<br />
+Run the following command inside the WSL terminal:</p>
+<pre><code class="language-bash">wsl hostname -I
+</code></pre>
+</li>
+<li>
+<p><strong>Configure Port Forwarding on the Windows Host</strong>:<br />
+To forward traffic from the Windows host to the Notary Server inside WSL, set up port forwarding. Run the following PowerShell command on your Windows host, replacing <code>connectaddress</code> with the WSL IP address you retrieved in the previous step:</p>
+<pre><code class="language-powershell">netsh interface portproxy add v4tov4 listenport=7047 listenaddress=0.0.0.0 connectport=7047 connectaddress=192.168.101.100
+</code></pre>
+</li>
+</ol>
+<h4 id="for-windows-11-22h2-and-later"><a class="header" href="#for-windows-11-22h2-and-later">For Windows 11 22H2 and Later:</a></h4>
+<p>In newer versions of Windows (Windows 11 22H2 and above), networking has been simplified with the introduction of mirrored mode. This mode allows WSL instances to share the host’s network interface, eliminating the need for manual port forwarding configurations. You can enable mirrored mode as recommended by Microsoft <a href="https://learn.microsoft.com/en-us/windows/wsl/networking#mirrored-mode-networking">here</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="mpc-tls"><a class="header" href="#mpc-tls">MPC-TLS</a></h1>
 <p>During the MPC-TLS phase the <code>Prover</code> and the <code>Verifier</code> run an MPC protocol enabling the <code>Prover</code> to connect to, and exchange data with, a TLS-enabled <code>Server</code>.</p>
