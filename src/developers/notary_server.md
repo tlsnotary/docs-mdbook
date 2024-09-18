@@ -104,20 +104,24 @@ wss://notary.pse.dev/proxy?token=<domain>
 
 Replace `<domain>` with the domain you wish to access (for example, `swapi.dev`).
 
-#### Running Notary Server on WSL
+## Running Notary Server on Windows Subsystem for Linux (WSL)
 
-In versions of windows prior to 11 22H2, the windows linux subsystem had a virtual ethernet adapter with its own IP address, requiring extra steps to make networking simpler on the windows host.
+When running the Notary Server and WebSocket Proxy on Windows Subsystem for Linux (WSL), you may encounter networking issues. In older versions of Windows (prior to Windows 11 22H2), WSL uses a virtual Ethernet adapter with its own IP address, which requires additional firewall configuration.
 
-First, find the address of your wsl instance:
-```
-wsl hostname -I
-```
+#### For Windows Versions Prior to 11 22H2:
 
+1. **Identify the WSL IP Address**:  
+   Run the following command inside the WSL terminal:
+   ```bash
+   wsl hostname -I
+   ```
 
-Next, run the following command on your windows host, but replace the sample *connectaddress* with the address returned above:
+2. **Configure Port Forwarding on the Windows Host**:  
+   To forward traffic from the Windows host to the Notary Server inside WSL, set up port forwarding. Run the following PowerShell command on your Windows host, replacing `connectaddress` with the WSL IP address you retrieved in the previous step:
+   ```powershell
+   netsh interface portproxy add v4tov4 listenport=7047 listenaddress=0.0.0.0 connectport=7047 connectaddress=192.168.101.100
+   ```
 
-```powershell
-netsh interface portproxy add v4tov4 listenport=7047 listenaddress=0.0.0.0 connectport=7047 connectaddress=192.168.101.100
-```
+#### For Windows 11 22H2 and Later:
 
-On newer versions of windows, mirrored mode offers a solution, as [recommended by microsoft here](https://learn.microsoft.com/en-us/windows/wsl/networking#mirrored-mode-networking)
+In newer versions of Windows (Windows 11 22H2 and above), networking has been simplified with the introduction of mirrored mode. This mode allows WSL instances to share the host’s network interface, eliminating the need for manual port forwarding configurations. You can enable mirrored mode as recommended by Microsoft [here](https://learn.microsoft.com/en-us/windows/wsl/networking#mirrored-mode-networking).
