@@ -31,7 +31,7 @@ In the case of MPC-TLS, the Verifier knows the TLS session was authentic, so it 
 
 ## Onchain Attestations
 
-The Verifier cannot operate onchain, as it must be online simultaneously with both the Prover and the Server. However, the TLSNotary result can still be utilized onchain if the Verifier signs the output as an attestation. This attestation, however, is not a publicly verifiable proof. Since a Verifier could potentially sign anything, consumers of this information must trust the Verifier. While TLSNotary can be used to build oracles, it does not solve the **oracle problem**.
+The Verifier cannot operate onchain, as it must be online simultaneously with both the Prover and the Server. However, an attestation can still be utilized onchain. Since a Notary could potentially sign anything, consumers of this information must trust the Notary. While TLSNotary can be used to build blockchain oracles, it does not solve the **oracle problem**.
 
 ## Conclusion
 
