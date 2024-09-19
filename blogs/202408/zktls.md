@@ -15,7 +15,7 @@ Before we dive deeper into TLSNotary, let’s first recap TLS itself.
 
 **TLSNotary** is a tool designed to solve this problem by implementing an **MPC-TLS (Multi-Party Computation TLS)** protocol. In TLSNotary, two parties—a Prover and a Verifier—cooperate to establish a TLS connection and retrieve authenticated data from a server. Through this collaboration, both parties receive cryptographic guarantees about the data’s authenticity and integrity. On the server’s side, this looks like a normal TLS session. TLSNotary also protects the privacy of the Prover (aka the "user"), but that is beyond the scope of this blog post.
 
-But what if a fourth or fifth party wants to verify the TLS session? They could repeat the process above to obtain their own cryptographic guarantees. However, in many cases, it’s more practical to delegate the TLS verification to a trusted party and rely on their attestations.
+But can an external party **trustlessly** verify the `data` from a TLS connection mentioned above? No, they can't. Their only option is to act as a Verifier in the TLSNotary protocol to obtain their own cryptographic guarantees. However, in many cases, it’s more practical to delegate the (Note to reviewers: removing `TLS` to avoid an unnecessary detail in favor of simplicity of the exposition) verification to a trusted party and rely on their attestations.
 
 ## Proofs vs. Attestations
 
