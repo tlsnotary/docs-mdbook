@@ -107,7 +107,7 @@ cargo run --release --example simple_verifier
 ...
 ```
 
-You can also use <https://explorer.tlsnotary.org/> to inspect your proofs. Open <https://explorer.tlsnotary.org/> and drag and drop `simple_proof.json` from your file explorer into the drop zone. [Notary public key](https://github.com/tlsnotary/tlsn/blob/main/notary/server/fixture/notary/notary.pub)
+You can also use <https://explorer.tlsnotary.org/> to inspect your proofs. Open <https://explorer.tlsnotary.org/> and drag and drop `simple_proof.json` from your file explorer into the drop zone. [Notary public key](https://github.com/tlsnotary/tlsn/blob/main/crates/notary/server/fixture/notary/notary.pub)
 
 ![Proof Visualization](images/explorer.png)
 
@@ -132,17 +132,17 @@ We will also use an explicit (locally hosted) notary server this time.
 
 The notary server used in this example is more functional compared to the (implicit) simple notary service used in the example above. This notary server should actually be run by the Verifier or a neutral party. To make things simple, we run everything on the same machine.
 
-1. Edit the notary server config file (`notary/server/config/config.yaml`) to turn off TLS so that self-signed certificates can be avoided (⚠️ this is only for local development purposes — TLS must be used in production).
+1. Edit the notary server config file (`crates/notary/server/config/config.yaml`) to turn off TLS so that self-signed certificates can be avoided (⚠️ this is only for local development purposes — TLS must be used in production).
    ```yaml
     tls:
         enabled: false
         ...
    ```
 2. Run the notary server:
-    ```shell
-    cd notary/server
-    cargo run --release
-    ```
+   ```shell
+   cd crates/notary/server
+   cargo run --release
+   ```
 
 The notary server will now be running in the background waiting for connections.
 

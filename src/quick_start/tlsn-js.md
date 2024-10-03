@@ -28,7 +28,7 @@ In this demo, we will request JSON data from the Star Wars API at <https://swapi
    1. Open `app.tsx` in your favorite editor.
    2. Replace `notaryUrl: 'http://localhost:7047',` with:
          ```ts
-            notaryUrl: 'https://notary.pse.dev/v0.1.0-alpha.6',
+            notaryUrl: 'https://notary.pse.dev/v0.1.0-alpha.7',
          ```
       This makes this webpage use the [PSE](https://pse.dev) notary server to notarize the API request. Feel free to use different or [local notary](#local); a local server will be faster because it removes the bandwidth constraints between the user and the notary.
    3. Replace `websocketProxyUrl: 'ws://localhost:55688',` with:
@@ -78,14 +78,14 @@ For this demo, we also need to run a local notary server.
    ```sh
    git clone https://github.com/tlsnotary/tlsn.git
    ```
-2. Edit the notary server config file (`notary/server/config/config.yaml`) to turn off TLS so that self-signed certificates can be avoided (⚠️ this is only for local development purposes — TLS must be used in production).
+2. Edit the notary server config file (`crates/notary/server/config/config.yaml`) to turn off TLS so that self-signed certificates can be avoided (⚠️ this is only for local development purposes — TLS must be used in production).
    ```yaml
    tls:
       enabled: false
    ```
 3. Run the notary server:
    ```sh
-   cd notary/server
+   cd crates/notary/server
    cargo run --release
    ```
 

@@ -51,7 +51,7 @@ To create a TLSNotary proof, the browser extension needs a TLSNotary notary serv
 To use the TLSNotary team notary server:
 1. Open the extension
 2. Click **Options**
-3. Update Notary API to: `https://notary.pse.dev/v0.1.0-alpha.6`
+3. Update Notary API to: `https://notary.pse.dev/v0.1.0-alpha.7`
 4. Click **Save**
 5. Skip the next section and [continue with the notarization step](#notarize)
 
@@ -70,7 +70,7 @@ If you plan to run a local notary server:
    ```shell
       git clone https://github.com/tlsnotary/tlsn.git
    ```
-2. Edit the notary server config file (`notary/server/config/config.yaml`) to turn off TLS so that the browser extension can connect to the local notary server without requiring extra steps to accept self-signed certificates in the browser (⚠️ this is only for local development purposes — TLS must be used in production).
+2. Edit the notary server config file (`crates/notary/server/config/config.yaml`) to turn off TLS so that the browser extension can connect to the local notary server without requiring extra steps to accept self-signed certificates in the browser (⚠️ this is only for local development purposes — TLS must be used in production).
    ```yaml
     tls:
         enabled: false
@@ -78,7 +78,7 @@ If you plan to run a local notary server:
    ```
 3. Run the notary server:
    ```shell
-   cd notary/server
+   cd crates/notary/server
    cargo run --release
    ```
 
