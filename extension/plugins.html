@@ -1,0 +1,333 @@
+<!DOCTYPE HTML>
+<html lang="en" class="ayu" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Plugins - tlsn-docs</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../src/css/katex.css">
+        <link rel="stylesheet" href="../src/css/global.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "ayu";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('ayu')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../intro.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="../motivation.html">Motivation</a></li><li class="chapter-item expanded affix "><a href="../faq.html">FAQ</a></li><li class="chapter-item expanded affix "><li class="part-title">Getting Started</li><li class="chapter-item expanded "><a href="../quick_start/index.html"><strong aria-hidden="true">1.</strong> Quick Start</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../quick_start/rust.html"><strong aria-hidden="true">1.1.</strong> Rust</a></li><li class="chapter-item expanded "><a href="../quick_start/tlsn-js.html"><strong aria-hidden="true">1.2.</strong> Browser</a></li><li class="chapter-item expanded "><a href="../quick_start/browser_extension.html"><strong aria-hidden="true">1.3.</strong> Browser Extension</a></li></ol></li><li class="chapter-item expanded "><a href="../developers/notary_server.html"><strong aria-hidden="true">2.</strong> Run a Notary Server</a></li><li class="chapter-item expanded affix "><li class="part-title">Protocol</li><li class="chapter-item expanded "><a href="../protocol/mpc-tls/index.html"><strong aria-hidden="true">3.</strong> MPC-TLS</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../protocol/mpc-tls/handshake.html"><strong aria-hidden="true">3.1.</strong> Handshake</a></li><li class="chapter-item expanded "><a href="../protocol/mpc-tls/encryption.html"><strong aria-hidden="true">3.2.</strong> Encryption and Decryption</a></li></ol></li><li class="chapter-item expanded "><a href="../protocol/notarization.html"><strong aria-hidden="true">4.</strong> Notarization</a></li><li class="chapter-item expanded "><a href="../protocol/verification.html"><strong aria-hidden="true">5.</strong> Verification</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> Selective Disclosure</div></li><li class="chapter-item expanded affix "><li class="part-title">MPC</li><li class="chapter-item expanded "><a href="../mpc/key_exchange.html"><strong aria-hidden="true">7.</strong> Key Exchange</a></li><li class="chapter-item expanded "><a href="../mpc/ff-arithmetic.html"><strong aria-hidden="true">8.</strong> Finite-Field Arithmetic</a></li><li class="chapter-item expanded "><a href="../mpc/deap.html"><strong aria-hidden="true">9.</strong> Dual Execution with Asymmetric Privacy</a></li><li class="chapter-item expanded "><a href="../mpc/encryption.html"><strong aria-hidden="true">10.</strong> Encryption</a></li><li class="chapter-item expanded "><a href="../mpc/mac.html"><strong aria-hidden="true">11.</strong> MAC</a></li><li class="chapter-item expanded "><a href="../mpc/commitments.html"><strong aria-hidden="true">12.</strong> Commitments</a></li><li class="chapter-item expanded affix "><li class="part-title">Browser Extension</li><li class="chapter-item expanded "><a href="../extension/extension.html"><strong aria-hidden="true">13.</strong> Extension</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../extension/plugins.html" class="active"><strong aria-hidden="true">13.1.</strong> Plugins</a></li><li class="chapter-item expanded "><a href="../extension/provider.html"><strong aria-hidden="true">13.2.</strong> Provider API</a></li></ol></li><li class="chapter-item expanded "><a href="../glossary.html">Glossary</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">tlsn-docs</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/tlsnotary/docs-mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/tlsnotary/docs-mdbook/edit/main/src/extension/plugins.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="browser-extension-plugins"><a class="header" href="#browser-extension-plugins">Browser Extension Plugins</a></h1>
+<p>The <strong>TLSN Extension</strong> has a plugin system that allows you to safely extend its functionality. The plugin system is based on <a href="https://extism.org/docs/concepts/plug-in-system">Extism</a>, which enables you to write plugins in the programming language of your choice. This page focuses on plugins written in TypeScript.</p>
+<h2 id="what-can-you-do-with-plugins"><a class="header" href="#what-can-you-do-with-plugins">What Can You Do with Plugins?</a></h2>
+<p>Plugins can add new custom features to the extension by using built-in host functions, such as:</p>
+<ul>
+<li>Requesting private information from the browser, such as cookies and headers of one or more hostnames.</li>
+<li>Submitting a new notarization request using the <a href="https://github.com/tlsnotary/tlsn-js/blob/main/src/tlsn.ts#L48-L89">prove</a> method in <a href="https://www.npmjs.com/package/tlsn-js">tlsn-js</a>.</li>
+<li>Redirecting a browsing window.</li>
+</ul>
+<p>New features and capabilities will be added based on feedback from developers. Please reach out to us on <a href="https://discord.gg/9XwESXtcN7">Discord</a>.</p>
+<h2 id="templates-and-examples"><a class="header" href="#templates-and-examples">Templates and Examples</a></h2>
+<p>You can find a boilerplate template at <a href="https://github.com/tlsnotary/tlsn-plugin-boilerplate">tlsn-plugin-boilerplate</a>, which is a great starting point. This repository explains how to compile and test Typescript plugins.</p>
+<p>The <a href="https://github.com/tlsnotary/tlsn-plugin-boilerplate/tree/main/examples">examples folder</a> contains more examples of TLSNotary plugins.</p>
+<h2 id="configuration-json"><a class="header" href="#configuration-json">Configuration JSON</a></h2>
+<p>A plugin must include a configuration JSON file that describes its behavior and permissions.</p>
+<!-- https://github.com/tlsnotary/tlsn-extension/blob/p2p/src/utils/misc.ts#L315-L326 -->
+<pre><code class="language-ts">export type PluginConfig = {
+  title: string;           // The name of the plugin
+  description: string;     // A description of the plugin's purpose
+  icon?: string;           // A base64-encoded image string representing the plugin's icon (optional)
+  steps?: StepConfig[];    // An array describing the UI steps and behavior (see Step UI below) (optional)
+  hostFunctions?: string[];// Host functions that the plugin will have access to
+  cookies?: string[];      // Cookies the plugin will have access to, cached by the extension from specified hosts (optional)
+  headers?: string[];      // Headers the plugin will have access to, cached by the extension from specified hosts (optional)
+  requests: { method: string; url: string }[]; // List of requests that the plugin is allowed to make
+  notaryUrls?: string[];   // List of notary services that the plugin is allowed to use (optional)
+  proxyUrls?: string[];    // List of websocket proxies that the plugin is allowed to use (optional)
+};
+</code></pre>
+<h2 id="step-ui"><a class="header" href="#step-ui">Step UI</a></h2>
+<p>The plugin system allows customization of the UI and the functionality of the side panel.</p>
+<img src="images/steps_ui.png" height="640">
+<h3 id="step-configuration"><a class="header" href="#step-configuration">Step Configuration</a></h3>
+<p>The steps are declared in the JSON configuration:</p>
+<pre><code class="language-ts">type StepConfig = {
+  title: string;         // Text for the step's title
+  description?: string;  // OPTIONAL: Text for the step's description
+  cta: string;           // Text for the step's call-to-action button
+  action: string;        // The function name that this step will execute
+  prover?: boolean;      // Boolean indicating if this step outputs a notarization
+}
+</code></pre>
+<p>You need to implement the functionality of the steps in <code>src/index.ts</code>. The function names must match the corresponding step names in the JSON configuration.</p>
+<h2 id="host-functions"><a class="header" href="#host-functions">Host Functions</a></h2>
+<!-- https://github.com/tlsnotary/tlsn-extension/blob/fe56de0b6cb4e235cabb0f8b2216853de2adb47f/src/utils/plugins.tsx#L5 -->
+<p><a href="https://extism.org/docs/concepts/host-functions">Host functions</a> are specific behaviors provided by the extension that the plugin can call. Host function usage may vary depending on the language used to write the plugin.</p>
+<h3 id="redirect"><a class="header" href="#redirect"><code>redirect</code></a></h3>
+<p>Redirects the current tab to a different URL.</p>
+<p>Example in JavaScript:</p>
+<pre><code class="language-js">const { redirect } = Host.getFunctions();
+const mem = Memory.fromString('https://x.com');
+redirect(mem.offset);
+</code></pre>
+<h3 id="notarize"><a class="header" href="#notarize"><code>notarize</code></a></h3>
+<p>Notarizes a request using the <a href="https://github.com/tlsnotary/tlsn-js/blob/main/src/tlsn.ts#L48-L89">prove</a> method in <a href="https://www.npmjs.com/package/tlsn-js">tlsn-js</a>.</p>
+<p>Example in JavaScript:</p>
+<pre><code class="language-js">const { notarize } = Host.getFunctions();
+const mem = Memory.fromString(JSON.stringify({
+  url: "https://...",
+  method: "GET",
+  headers: {
+    "authorization": "Bearer xxx",
+    "cookie": "lang=en; auth_token=xxx",
+  },
+  secretHeaders: [
+    "authorization: Bearer xxx",
+    "cookie: lang=en; auth_token=xxx",
+  ],
+  getSecretBody: "parseResponse" // See redaction example below
+}));
+const idOffset = notarize(mem.offset);
+const id = Memory.find(idOffset).readString();
+Host.outputString(JSON.stringify(id)); // Outputs the notarization ID
+</code></pre>
+<h4 id="redaction"><a class="header" href="#redaction">Redaction</a></h4>
+<p>If the <code>getSecretResponse</code> field of the <code>notarize</code> host function call is set, the corresponding method will be called to parse the response of the request. Make sure to also export this function in the <code>main</code> module declaration in <code>index.d.ts</code>.</p>
+<pre><code class="language-ts">function parseResponse() {
+  const bodyString = Host.inputString();
+  const params = JSON.parse(bodyString);
+  const revealed = `"screen_name":"${params.screen_name}"`;
+  const selectionStart = bodyString.indexOf(revealed);
+  const selectionEnd = selectionStart + revealed.length;
+  const secretResps = [
+    bodyString.substring(0, selectionStart),
+    bodyString.substring(selectionEnd, bodyString.length),
+  ];
+  Host.outputString(JSON.stringify(secretResps));
+}
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../extension/extension.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../extension/provider.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../extension/extension.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../extension/provider.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+          <script>
+            var _paq = window._paq = window._paq || [];
+            _paq.push(['trackPageView']);
+            _paq.push(['enableLinkTracking']);
+            (function() {
+                var u="https://psedev.matomo.cloud/";
+                _paq.push(['setTrackerUrl', u+'matomo.php']);
+                _paq.push(['setSiteId', '16']);
+                var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+                g.async=true; g.src='//cdn.matomo.cloud/psedev.matomo.cloud/matomo.js'; s.parentNode.insertBefore(g,s);
+            })();
+        </script>
+    </body>
+</html>
