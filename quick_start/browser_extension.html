@@ -186,7 +186,7 @@ First we need to <a href="#install">install</a> and configure a <a href="#proxy"
 <p><img src="images/chromewebstore.png" alt="" /></p>
 <p>Alternatively, you can install it manually:</p>
 <ol>
-<li>Download the browser extension from <a href="https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.5/tlsn-extension-0.1.0.5.zip">https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.5/tlsn-extension-0.1.0.5.zip</a></li>
+<li>Download the browser extension from <a href="https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.700/tlsn-extension-0.1.0.700.zip">https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.700/tlsn-extension-0.1.0.700.zip</a></li>
 <li>Unzip<br />
 ⚠️ This is a flat zip file, so be careful if you unzip from the command line, this zip file contains many file at the top level</li>
 <li>Open <strong>Manage Extensions</strong>: <a href="chrome://extensions/">chrome://extensions/</a></li>
@@ -207,9 +207,8 @@ First we need to <a href="#install">install</a> and configure a <a href="#proxy"
 <li>Click <strong>Save</strong></li>
 </ol>
 <p>To run your own websockify proxy <strong>locally</strong>, run:</p>
-<pre><code class="language-sh">git clone https://github.com/novnc/websockify &amp;&amp; cd websockify
-./docker/build.sh
-docker run -it --rm -p 55688:80 novnc/websockify 80 api.x.com:443
+<pre><code class="language-sh">cargo install websocat./docker/build.sh
+websocat --binary -v ws-l:0.0.0.0:55688 tcp:api.x.com:443
 </code></pre>
 <p>Note the <code>api.x.com:443</code> argument on the last line.</p>
 <p>Next use  <code>ws://localhost:55688</code> as <strong>proxy API</strong> in Step 3 above.</p>
@@ -219,7 +218,7 @@ docker run -it --rm -p 55688:80 novnc/websockify 80 api.x.com:443
 <ol>
 <li>Open the extension</li>
 <li>Click <strong>Options</strong></li>
-<li>Update Notary API to: <code>https://notary.pse.dev/v0.1.0-alpha.5</code></li>
+<li>Update Notary API to: <code>https://notary.pse.dev/v0.1.0-alpha.7</code></li>
 <li>Click <strong>Save</strong></li>
 <li>Skip the next section and <a href="#notarize">continue with the notarization step</a></li>
 </ol>
@@ -235,17 +234,17 @@ docker run -it --rm -p 55688:80 novnc/websockify 80 api.x.com:443
 <h3 id="run-a-local-notary-server"><a class="header" href="#run-a-local-notary-server">Run a Local Notary Server <a name="local-notary"></a></a></h3>
 <ol>
 <li>Clone the TLSNotary repository  (defaults to the <code>main</code> branch, which points to the latest release):
-<pre><code class="language-shell">   git clone --branch v0.1.0-alpha.5 https://github.com/tlsnotary/tlsn.git
+<pre><code class="language-shell">   git clone https://github.com/tlsnotary/tlsn.git
 </code></pre>
 </li>
-<li>Edit the notary server config file (<code>notary-server/config/config.yaml</code>) to turn off TLS so that the browser extension can connect to the local notary server without requiring extra steps to accept self-signed certificates in the browser.
+<li>Edit the notary server config file (<code>crates/notary/server/config/config.yaml</code>) to turn off TLS so that the browser extension can connect to the local notary server without requiring extra steps to accept self-signed certificates in the browser (⚠️ this is only for local development purposes — TLS must be used in production).
 <pre><code class="language-yaml"> tls:
      enabled: false
      ...
 </code></pre>
 </li>
 <li>Run the notary server:
-<pre><code class="language-shell">cd notary-server
+<pre><code class="language-shell">cd crates/notary/server
 cargo run --release
 </code></pre>
 </li>
@@ -277,7 +276,8 @@ cargo run --release
 <h2 id="verify"><a class="header" href="#verify">Verify</a></h2>
 <p>When the notarization is ready, you can click <strong>View Proof</strong>. If you did close the UI, you can find the proof by clicking <strong>History</strong> and <strong>View Proof</strong>.<br />
 <img width="477" src="images/extension_history.png"></p>
-<p>You also have the option to download the proof. You can view this proof later by using the <strong>Verify</strong> button or via <a href="https://explorer.tlsnotary.org/">https://explorer.tlsnotary.org/</a>. You can get the Notary public key by visiting the Notary API specified <a href="#notary-server">above</a>.</p>
+<!-- TODO -->
+<!-- You also have the option to download the proof. You can view this proof later by using the **Verify** button or via <https://explorer.tlsnotary.org/>. You can get the Notary public key by visiting the Notary API specified [above](#notary-server). -->
 <h2 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h2>
 <ul>
 <li><code>Requests(0): no requests in the Browser extension</code> ➡ restart the TLSN browser extension in <a href="chrome://extensions/">chrome://extensions/</a> and reload the Twitter page.</li>

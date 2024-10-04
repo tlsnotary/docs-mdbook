@@ -196,14 +196,14 @@
 </code></pre>
 </li>
 <li>Checkout the version of this Quick Start:
-<pre><code class="language-sh">git checkout 1415792f9ea3
+<pre><code class="language-sh">git checkout v0.1.0-alpha.7
 </code></pre>
 </li>
 <li>If you want to use a local TLSNotary server: <a href="#local">Run a local notary server and websocket proxy</a>, otherwise:
 <ol>
 <li>Open <code>app.tsx</code> in your favorite editor.</li>
 <li>Replace <code>notaryUrl: 'http://localhost:7047',</code> with:
-<pre><code class="language-ts">   notaryUrl: 'https://notary.pse.dev/v0.1.0-alpha.5',
+<pre><code class="language-ts">   notaryUrl: 'https://notary.pse.dev/v0.1.0-alpha.7',
 </code></pre>
 This makes this webpage use the <a href="https://pse.dev">PSE</a> notary server to notarize the API request. Feel free to use different or <a href="#local">local notary</a>; a local server will be faster because it removes the bandwidth constraints between the user and the notary.</li>
 <li>Replace <code>websocketProxyUrl: 'ws://localhost:55688',</code> with:
@@ -211,7 +211,7 @@ This makes this webpage use the <a href="https://pse.dev">PSE</a> notary server 
 </code></pre>
 Because a web browser doesn't have the ability to make TCP connection, we need to use a websocket proxy server. This uses a proxy hosted by <a href="https://pse.dev">PSE</a>. Feel free to use different or <a href="#local">local notary</a> proxy.</li>
 <li>In <code>package.json</code>: check the version number:
-<pre><code class="language-json">    "tlsn-js": "v0.1.0-alpha.5.0"
+<pre><code class="language-json">    "tlsn-js": "v0.1.0-alpha.7"
 </code></pre>
 </li>
 </ol>
@@ -232,26 +232,31 @@ Because a web browser doesn't have the ability to make TCP connection, we need t
 <p>The instructions above, use the <a href="https://pse.dev">PSE</a> hosted notary server and websocket proxy. This is easier for this Quick Start because it requires less setup. If you develop your own applications with <code>tlsn-js</code>, development will be easier with locally hosted services. This section explains how.</p>
 <h3 id="websocket-proxy"><a class="header" href="#websocket-proxy">Websocket Proxy <a name="proxy"></a></a></h3>
 <p>Since a web browser doesn't have the ability to make TCP connection, we need to use a websocket proxy server.</p>
-<p>Run your own websockify proxy <strong>locally</strong>:</p>
-<pre><code class="language-sh">git clone https://github.com/novnc/websockify &amp;&amp; cd websockify
-./docker/build.sh
-docker run -it --rm -p 55688:80 novnc/websockify 80 swapi.dev:443
+<ol>
+<li>Install <a href="https://github.com/vi/websocat">websocat</a>:</li>
+</ol>
+<pre><code class="language-shell">cargo install websocat
+</code></pre>
+<ol start="2">
+<li>Run a websocket proxy for <code>https://swapi.dev</code>:</li>
+</ol>
+<pre><code class="language-sh">websocat --binary -v ws-l:0.0.0.0:55688 tcp:swapi.dev:443
 </code></pre>
 <p>Note the <code>swapi.dev:443</code> argument on the last line, this is the server we will use in this quick start.</p>
 <h3 id="run-a-local-notary-server"><a class="header" href="#run-a-local-notary-server">Run a Local Notary Server <a name="local-notary"></a></a></h3>
 <p>For this demo, we also need to run a local notary server.</p>
 <ol>
 <li>Clone the TLSNotary repository  (defaults to the <code>main</code> branch, which points to the latest release):
-<pre><code class="language-sh">git clone --branch v0.1.0-alpha.5 https://github.com/tlsnotary/tlsn.git
+<pre><code class="language-sh">git clone https://github.com/tlsnotary/tlsn.git
 </code></pre>
 </li>
-<li>Edit the notary server config file (<code>notary-server/config/config.yaml</code>) to turn off TLS so that self-signed certificates can be avoided.
+<li>Edit the notary server config file (<code>crates/notary/server/config/config.yaml</code>) to turn off TLS so that self-signed certificates can be avoided (⚠️ this is only for local development purposes — TLS must be used in production).
 <pre><code class="language-yaml">tls:
    enabled: false
 </code></pre>
 </li>
 <li>Run the notary server:
-<pre><code class="language-sh">cd notary-server
+<pre><code class="language-sh">cd crates/notary/server
 cargo run --release
 </code></pre>
 </li>

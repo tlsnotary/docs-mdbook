@@ -179,24 +179,24 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="run-a-notary-server"><a class="header" href="#run-a-notary-server">Run a Notary Server</a></h1>
-<p>This guide shows you how to run a <a href="https://github.com/tlsnotary/tlsn/tree/main/notary/server">notary server</a> in an Ubuntu server instance.</p>
+<p>This guide shows you how to run a <a href="https://github.com/tlsnotary/tlsn/tree/main/crates/notary/server">notary server</a> in an Ubuntu server instance.</p>
 <h2 id="configure-server-setting"><a class="header" href="#configure-server-setting">Configure Server Setting</a></h2>
-<p>All the following settings can be configured in the <a href="https://github.com/tlsnotary/tlsn/blob/main/notary/server/config/config.yaml">config file</a>.</p>
+<p>All the following settings can be configured in the <a href="https://github.com/tlsnotary/tlsn/blob/main/crates/notary/server/config/config.yaml">config file</a>.</p>
 <ol>
 <li>
-<p>Before running a notary server you need the following files. The default dummy fixtures are for testing only and should never be used in production.</p>
+<p>Before running a notary server you need the following files. ⚠️ The default dummy fixtures are for testing only and should never be used in production.</p>
 <div class="table-wrapper"><table><thead><tr><th>File</th><th>Purpose</th><th>File Type</th><th>Compulsory to change</th><th>Sample Command</th></tr></thead><tbody>
 <tr><td>TLS private key</td><td>The private key used for the notary server's TLS certificate to establish TLS connections with provers</td><td>TLS private key in PEM format</td><td>Yes unless TLS is turned off</td><td>&lt;Generated when creating CSR for your Certificate Authority, e.g. using <a href="https://certbot.eff.org/">Certbot</a>&gt;</td></tr>
 <tr><td>TLS certificate</td><td>The notary server's TLS certificate to establish TLS connections with provers</td><td>TLS certificate in PEM format</td><td>Yes unless TLS is turned off</td><td>&lt;Obtained from your Certificate Authority, e.g. <a href="https://letsencrypt.org/">Let's Encrypt</a>&gt;</td></tr>
-<tr><td>Notary signature private key</td><td>The private key used for the notary server's signature on the generated transcript of the TLS sessions with provers</td><td>A P256 elliptic curve private key in PKCS#8 PEM format</td><td>Yes</td><td><code>openssl genpkey -algorithm EC -out eckey.pem -pkeyopt ec_paramgen_curve:P-256 -pkeyopt ec_param_enc:named_curve</code></td></tr>
-<tr><td>Notary signature public key</td><td>The public key used for the notary server's signature on the generated transcript of the TLS sessions with provers</td><td>A matching public key in PEM format</td><td>Yes</td><td><code>openssl ec -in eckey.pem -pubout -out eckey.pub</code></td></tr>
+<tr><td>Notary signature private key</td><td>The private key used for the notary server's signature on the generated transcript of the TLS sessions with provers</td><td>A K256 elliptic curve private key in PKCS#8 PEM format</td><td>Yes</td><td><code>openssl genpkey -algorithm EC -out eckey.pem -pkeyopt ec_paramgen_curve:secp256k1 -pkeyopt ec_param_enc:named_curve</code></td></tr>
+<tr><td>Notary signature public key</td><td>The public key used for the notary server's signature on the generated transcript of the TLS sessions with provers</td><td>A matching public key in PEM format</td><td>Yes</td><td><code>openssl ec -in eckey.pem -conv_form compressed -pubout -out eckey.pub</code></td></tr>
 </tbody></table>
 </div></li>
 <li>
 <p>Expose the notary server port (specified in the config file) on your server networking setting</p>
 </li>
 <li>
-<p>Optionally one can turn on <a href="https://github.com/tlsnotary/tlsn/tree/main/notary/server#authorization">authorization</a>, or turn off <a href="https://github.com/tlsnotary/tlsn/tree/main/notary/server#optional-tls">TLS</a> if TLS is handled by an external setup, e.g. reverse proxy, cloud setup</p>
+<p>Optionally one can turn on <a href="https://github.com/tlsnotary/tlsn/tree/main/crates/notary/server#authorization">authorization</a>, or turn off <a href="https://github.com/tlsnotary/tlsn/tree/main/crates/notary/server#optional-tls">TLS</a> if TLS is handled by an external setup, e.g. reverse proxy, cloud setup</p>
 </li>
 </ol>
 <h2 id="using-cargo"><a class="header" href="#using-cargo">Using Cargo</a></h2>
@@ -224,22 +224,22 @@ source ~/.cargo/env
 <pre><code class="language-bash">git checkout tags/&lt;version&gt;
 </code></pre>
 <ol start="5">
-<li>To configure the <a href="#configure-server-setting">server setting</a>, please refer to the <code>Using Cargo</code> section in the repo's <a href="https://github.com/tlsnotary/tlsn/blob/main/notary/server/README.md#using-cargo">readme</a></li>
+<li>To configure the <a href="#configure-server-setting">server setting</a>, please refer to the <code>Using Cargo</code> section in the repo's <a href="https://github.com/tlsnotary/tlsn/blob/main/crates/notary/server/README.md#using-cargo">readme</a></li>
 <li>Run the server</li>
 </ol>
-<pre><code class="language-bash">cd tlsn/notary/server
+<pre><code class="language-bash">cd crates/notary/server
 cargo run --release
 </code></pre>
 <h2 id="using-docker"><a class="header" href="#using-docker">Using Docker</a></h2>
 <ol>
 <li>Install docker following your preferred method <a href="https://docs.docker.com/engine/install/ubuntu/">here</a></li>
-<li>To configure the <a href="#configure-server-setting">server setting</a>, please refer to the <code>Using Docker</code> section in the repo's <a href="https://github.com/tlsnotary/tlsn/blob/main/notary/server/README.md#using-docker">readme</a></li>
+<li>To configure the <a href="#configure-server-setting">server setting</a>, please refer to the <code>Using Docker</code> section in the repo's <a href="https://github.com/tlsnotary/tlsn/blob/main/crates/notary/server/README.md#using-docker">readme</a></li>
 <li>Run the notary server docker image of your desired version (⚠️ only prover of the same version is supported for now)</li>
 </ol>
 <pre><code class="language-bash">docker run --init -p 127.0.0.1:7047:7047 ghcr.io/tlsnotary/tlsn/notary-server:&lt;version&gt;
 </code></pre>
 <h2 id="api-endpoints"><a class="header" href="#api-endpoints">API Endpoints</a></h2>
-<p>Please refer to the list of all HTTP APIs <a href="./notary_server_api.html">here</a>, and WebSocket APIs <a href="https://github.com/tlsnotary/tlsn/tree/main/notary/server#websocket-apis">here</a>.</p>
+<p>Please refer to the list of all HTTP APIs <a href="./notary_server_api.html">here</a>, and WebSocket APIs <a href="https://github.com/tlsnotary/tlsn/tree/main/crates/notary/server#websocket-apis">here</a>.</p>
 <h2 id="pse-development-notary-server"><a class="header" href="#pse-development-notary-server">PSE Development Notary Server</a></h2>
 <blockquote>
 <p><strong><em>⚠️ WARNING:</em></strong> notary.pse.dev is hosted for development purposes only. You are welcome to use it for exploration and development; however, please refrain from building your business on it. Use it at your own risk.</p>
@@ -247,10 +247,10 @@ cargo run --release
 <p>The TLSNotary team hosts a public notary server for development, experimentation, and demonstration purposes. The server is currently open to everyone, provided that it is used fairly.</p>
 <p>We host multiple versions of the notary server:</p>
 <div class="table-wrapper"><table><thead><tr><th>Version</th><th>Notary URL</th><th>Info/Status</th><th>GitHub</th><th>Note</th></tr></thead><tbody>
+<tr><td>v0.1.0-alpha.7</td><td>https://notary.pse.dev/v0.1.0-alpha.7</td><td><a href="https://notary.pse.dev/v0.1.0-alpha.7/info">info</a>/<a href="https://notary.pse.dev/v0.1.0-alpha.7/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.7/crates/notary/server">v0.1.0-alpha.7</a></td><td><a href="https://github.com/tlsnotary/tlsn/releases/tag/v0.1.0-alpha.7">Release notes</a></td></tr>
 <tr><td>v0.1.0-alpha.6</td><td>https://notary.pse.dev/v0.1.0-alpha.6</td><td><a href="https://notary.pse.dev/v0.1.0-alpha.6/info">info</a>/<a href="https://notary.pse.dev/v0.1.0-alpha.6/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.6/notary/server">v0.1.0-alpha.6</a></td><td><a href="https://github.com/tlsnotary/tlsn/releases/tag/v0.1.0-alpha.6">Release notes</a></td></tr>
 <tr><td>v0.1.0-alpha.5</td><td>https://notary.pse.dev/v0.1.0-alpha.5</td><td><a href="https://notary.pse.dev/v0.1.0-alpha.5/info">info</a>/<a href="https://notary.pse.dev/v0.1.0-alpha.5/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.5/notary-server">v0.1.0-alpha.5</a></td><td><a href="https://github.com/tlsnotary/tlsn/releases/tag/v0.1.0-alpha.5">Release notes</a></td></tr>
-<tr><td>v0.1.0-alpha.4</td><td>https://notary.pse.dev/v0.1.0-alpha.4</td><td><a href="https://notary.pse.dev/v0.1.0-alpha.4/info">info</a>/<a href="https://notary.pse.dev/v0.1.0-alpha.4/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.4/notary-server">v0.1.0-alpha.4</a></td><td><a href="https://github.com/tlsnotary/tlsn/releases/tag/v0.1.0-alpha.4">Release notes</a></td></tr>
-<tr><td>nightly</td><td>https://notary.pse.dev/nightly</td><td><a href="https://notary.pse.dev/nightly/info">info</a>/<a href="https://notary.pse.dev/nightly/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/dev/notary/server">dev</a></td><td></td></tr>
+<tr><td>nightly</td><td>https://notary.pse.dev/nightly</td><td><a href="https://notary.pse.dev/nightly/info">info</a>/<a href="https://notary.pse.dev/nightly/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/dev/crates/notary/server">dev</a></td><td></td></tr>
 </tbody></table>
 </div>
 <p>For more details on the deployment, refer to this <a href="https://github.com/tlsnotary/tlsn/blob/main/.github/workflows/cd-server.yml">GitHub Action</a>.</p>
@@ -270,6 +270,10 @@ connect.garmin.com:443
 uber.com:443
 riders.uber.com:443
 m.uber.com:443
+wise.com:443
+coinbase.com:443
+accounts.coinbase.com:443
+www.agoda.com:443
 </code></pre>
 <p>You can utilize this WebSocket proxy with the following syntax:</p>
 <pre><code>wss://notary.pse.dev/proxy?token=&lt;domain&gt;
