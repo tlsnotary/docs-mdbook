@@ -22,13 +22,13 @@ In this demo, we will request JSON data from the Star Wars API at <https://swapi
     ```
 3. Checkout the version of this Quick Start:
     ```sh
-    git checkout 1415792f9ea3
+    git checkout v0.1.0-alpha.7
     ```
 4. If you want to use a local TLSNotary server: [Run a local notary server and websocket proxy](#local), otherwise:
    1. Open `app.tsx` in your favorite editor.
    2. Replace `notaryUrl: 'http://localhost:7047',` with:
          ```ts
-            notaryUrl: 'https://notary.pse.dev/v0.1.0-alpha.5',
+            notaryUrl: 'https://notary.pse.dev/v0.1.0-alpha.7',
          ```
       This makes this webpage use the [PSE](https://pse.dev) notary server to notarize the API request. Feel free to use different or [local notary](#local); a local server will be faster because it removes the bandwidth constraints between the user and the notary.
    3. Replace `websocketProxyUrl: 'ws://localhost:55688',` with:
@@ -38,7 +38,7 @@ In this demo, we will request JSON data from the Star Wars API at <https://swapi
       Because a web browser doesn't have the ability to make TCP connection, we need to use a websocket proxy server. This uses a proxy hosted by [PSE](https://pse.dev). Feel free to use different or [local notary](#local) proxy.
    4. In `package.json`: check the version number:
         ```json
-            "tlsn-js": "v0.1.0-alpha.5.0"
+            "tlsn-js": "v0.1.0-alpha.7"
         ```
 5. Install dependencies
     ```sh
@@ -61,11 +61,13 @@ The instructions above, use the [PSE](https://pse.dev) hosted notary server and 
 
 Since a web browser doesn't have the ability to make TCP connection, we need to use a websocket proxy server.
 
-Run your own websockify proxy **locally**:
+1. Install [websocat](https://github.com/vi/websocat):
+```shell
+cargo install websocat
+```
+2. Run a websocket proxy for `https://swapi.dev`:
 ```sh
-git clone https://github.com/novnc/websockify && cd websockify
-./docker/build.sh
-docker run -it --rm -p 55688:80 novnc/websockify 80 swapi.dev:443
+websocat --binary -v ws-l:0.0.0.0:55688 tcp:swapi.dev:443
 ```
 
 Note the `swapi.dev:443` argument on the last line, this is the server we will use in this quick start.
@@ -76,16 +78,16 @@ For this demo, we also need to run a local notary server.
 
 1. Clone the TLSNotary repository  (defaults to the `main` branch, which points to the latest release):
    ```sh
-   git clone --branch v0.1.0-alpha.5 https://github.com/tlsnotary/tlsn.git
+   git clone https://github.com/tlsnotary/tlsn.git
    ```
-2. Edit the notary server config file (`notary-server/config/config.yaml`) to turn off TLS so that self-signed certificates can be avoided.
+2. Edit the notary server config file (`crates/notary/server/config/config.yaml`) to turn off TLS so that self-signed certificates can be avoided (⚠️ this is only for local development purposes — TLS must be used in production).
    ```yaml
    tls:
       enabled: false
    ```
 3. Run the notary server:
    ```sh
-   cd notary-server
+   cd crates/notary/server
    cargo run --release
    ```
 
