@@ -207,7 +207,7 @@ First we need to <a href="#install">install</a> and configure a <a href="#proxy"
 <li>Click <strong>Save</strong></li>
 </ol>
 <p>To run your own websockify proxy <strong>locally</strong>, run:</p>
-<pre><code class="language-sh">cargo install websocat./docker/build.sh
+<pre><code class="language-sh">cargo install websocat
 websocat --binary -v ws-l:0.0.0.0:55688 tcp:api.x.com:443
 </code></pre>
 <p>Note the <code>api.x.com:443</code> argument on the last line.</p>
