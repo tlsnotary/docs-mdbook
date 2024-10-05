@@ -36,7 +36,7 @@ To use the TLSnotary hosted proxy:
 
 To run your own websockify proxy **locally**, run:
 ```sh
-cargo install websocat./docker/build.sh
+cargo install websocat
 websocat --binary -v ws-l:0.0.0.0:55688 tcp:api.x.com:443
 ```
 Note the `api.x.com:443` argument on the last line.
