@@ -181,16 +181,16 @@
 <h1 id="encryption-decryption-and-mac-computation"><a class="header" href="#encryption-decryption-and-mac-computation">Encryption, Decryption, and MAC Computation</a></h1>
 <p>This section explains how the <code>Prover</code> and <code>Verifier</code> use MPC to encrypt data sent to the server, decrypt data received from the server, and compute the MAC for the ciphertext using MPC. It shows how the <code>Prover</code> and <code>Verifier</code> collaborate to encrypt and decrypt data. The <code>Verifier</code> performs these tasks "blindly", without acquiring knowledge of the plaintext.</p>
 <h2 id="encryption"><a class="header" href="#encryption">Encryption</a></h2>
-<p>To encrypt the plaintext, both parties input their TLS key shares as private inputs to the <a href="/mpc/deap.html">MPC</a> protocol, along with some other public data. Additionally, the <code>Prover</code> inputs her plaintext as a private input.</p>
+<p>To encrypt the plaintext, both parties input their TLS key shares as private inputs to the <a href="../../mpc/deap.html">MPC</a> protocol, along with some other public data. Additionally, the <code>Prover</code> inputs her plaintext as a private input.</p>
 <p><img src="../../diagrams/mpc-encryption.svg" alt="Encryption" /></p>
 <p>Both parties see the resulting ciphertext and execute the <a href="../../mpc/mac.html">2PC MAC</a> protocol to compute the MAC for the ciphertext.</p>
 <p>The <code>Prover</code> then dispatches the ciphertext and the MAC to the server.</p>
 <h2 id="decryption"><a class="header" href="#decryption">Decryption</a></h2>
-<p>Once the <code>Prover</code> receives the ciphertext and its associated MAC from the server, the parties first authenticate the ciphertext by validating the MAC. They do this by running the <a href="/mpc/mac.html">MPC</a> protocol to compute the authentic MAC for the ciphertext. They then verify if the authentic MAC matches the MAC received from the server.</p>
-<p>Next, the parties decrypt the ciphertext by providing their key shares as private inputs to the <a href="/mpc/deap.html">MPC</a> protocol, along with the ciphertext and some other public data.</p>
+<p>Once the <code>Prover</code> receives the ciphertext and its associated MAC from the server, the parties first authenticate the ciphertext by validating the MAC. They do this by running the <a href="../../mpc/mac.html">MPC</a> protocol to compute the authentic MAC for the ciphertext. They then verify if the authentic MAC matches the MAC received from the server.</p>
+<p>Next, the parties decrypt the ciphertext by providing their key shares as private inputs to the <a href="../../mpc/deap.html">MPC</a> protocol, along with the ciphertext and some other public data.</p>
 <p><img src="../../diagrams/mpc-decryption.svg" alt="Decryption" /></p>
 <p>The resulting plaintext is revealed ONLY to the <code>Prover</code>.</p>
-<p>Please note, the actual low-level implementation details of decryption are more nuanced than what we have described here. For more information, please consult <a href="/mpc/encryption.html">Low-level Decryption details</a>.</p>
+<p>Please note, the actual low-level implementation details of decryption are more nuanced than what we have described here. For more information, please consult <a href="../../mpc/encryption.html">Low-level Decryption details</a>.</p>
 
                     </main>
 

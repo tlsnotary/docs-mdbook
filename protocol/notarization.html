@@ -179,9 +179,9 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="notarization"><a class="header" href="#notarization">Notarization</a></h1>
-<p>Even though the <code>Prover</code> can prove data provenance directly to the <code>Verifier</code>, in some scenarios it may be beneficial for the <code>Verifier</code> to outsource the verification of the TLS session to a trusted <code>Notary</code> as explained <a href="/intro.html#tls-verification-with-a-general-purpose-notary">here</a>.</p>
+<p>Even though the <code>Prover</code> can prove data provenance directly to the <code>Verifier</code>, in some scenarios it may be beneficial for the <code>Verifier</code> to outsource the verification of the TLS session to a trusted <code>Notary</code> as explained <a href="../intro.html#tls-verification-with-a-general-purpose-notary">here</a>.</p>
 <p>As part of the TLSNotary protocol, the <code>Prover</code> creates authenticated commitments to the plaintext and has the <code>Notary</code> sign them without the <code>Notary</code> ever seeing the plaintext. This offers a way for the <code>Prover</code> to selectively prove the authenticity of arbitrary portions of the plaintext to an application-specific <code>Verifier</code> later.</p>
-<p>Please refer to the <a href="/mpc/commitments.html">Commitments</a> section for low-level details on the commitment scheme.</p>
+<p>Please refer to the <a href="../mpc/commitments.html">Commitments</a> section for low-level details on the commitment scheme.</p>
 <h2 id="signing-the-session-header"><a class="header" href="#signing-the-session-header">Signing the Session Header</a></h2>
 <p>The <code>Notary</code> signs an artifact known as a <code>Session Header</code>, thereby attesting to the authenticity of the plaintext from a TLS session. A <code>Session Header</code> contains a <code>Prover</code>'s commitment to the plaintext and a <code>Prover</code>'s commitment to TLS-specific data which uniquely identifies the server.</p>
 <p>The <code>Prover</code> can later use the signed <code>Session Header</code> to prove data provenance to an application-specific <code>Verifier</code>.</p>

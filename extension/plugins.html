@@ -232,7 +232,7 @@ const mem = Memory.fromString('https://x.com');
 redirect(mem.offset);
 </code></pre>
 <h3 id="notarize"><a class="header" href="#notarize"><code>notarize</code></a></h3>
-<p>Notarizes a request using the <a href="https://github.com/tlsnotary/tlsn-js/blob/main/src/tlsn.ts#L48-L89">prove</a> method in <a href="https://www.npmjs.com/package/tlsn-js">tlsn-js</a>.</p>
+<p>Notarizes a request.</p>
 <p>Example in JavaScript:</p>
 <pre><code class="language-js">const { notarize } = Host.getFunctions();
 const mem = Memory.fromString(JSON.stringify({
