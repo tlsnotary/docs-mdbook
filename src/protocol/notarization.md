@@ -1,10 +1,10 @@
 # Notarization
 
-Even though the `Prover` can prove data provenance directly to the `Verifier`, in some scenarios it may be beneficial for the `Verifier` to outsource the verification of the TLS session to a trusted `Notary` as explained [here](/intro.html#tls-verification-with-a-general-purpose-notary).
+Even though the `Prover` can prove data provenance directly to the `Verifier`, in some scenarios it may be beneficial for the `Verifier` to outsource the verification of the TLS session to a trusted `Notary` as explained [here](../intro.md#tls-verification-with-a-general-purpose-notary).
 
 As part of the TLSNotary protocol, the `Prover` creates authenticated commitments to the plaintext and has the `Notary` sign them without the `Notary` ever seeing the plaintext. This offers a way for the `Prover` to selectively prove the authenticity of arbitrary portions of the plaintext to an application-specific `Verifier` later.
 
-Please refer to the [Commitments](/mpc/commitments.md) section for low-level details on the commitment scheme.  
+Please refer to the [Commitments](../mpc/commitments.md) section for low-level details on the commitment scheme.
 
 ## Signing the Session Header
 

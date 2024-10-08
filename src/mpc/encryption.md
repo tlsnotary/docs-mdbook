@@ -2,7 +2,7 @@
 
 Here we will explain our protocol for 2PC encryption using a block cipher in counter-mode.
 
-Our documentation on [Dual Execution with Asymmetric Privacy](/mpc/deap.md) is recommended prior reading for this section.
+Our documentation on [Dual Execution with Asymmetric Privacy](deap.md) is recommended prior reading for this section.
 
 ## Preliminary
 
@@ -10,7 +10,7 @@ Our documentation on [Dual Execution with Asymmetric Privacy](/mpc/deap.md) is r
 
 It is important to recognise that the Notary's keyshare is an _ephemeral secret_. It is only private for the duration of the User's TLS session, after which the User is free to learn it without affecting the security of the protocol.
 
-It is this fact which allows us to achieve malicious security for relatively low cost. More details on this [here](/mpc/deap.md).
+It is this fact which allows us to achieve malicious security for relatively low cost. More details on this [here](../mpc/deap.md).
 
 ### Premature Leakage
 
@@ -41,7 +41,7 @@ During the entirety of the TLS session the User performs the role of the garbled
 
 ## Encryption Protocol
 
-The encryption protocol uses [DEAP](/mpc/deap.md) without any special variations. The User and Notary directly compute the ciphertext for each block of a message the User wishes to send to the Server:
+The encryption protocol uses [DEAP](../mpc/deap.md) without any special variations. The User and Notary directly compute the ciphertext for each block of a message the User wishes to send to the Server:
 
 $$f(k_U, k_N, ctr, p) = \mathsf{Enc}(k_U \oplus k_N, ctr) \oplus p = c$$
 
@@ -51,7 +51,7 @@ The User creates a commitment to the plaintext active labels for the Notary's ci
 
 The protocol for decryption is very similar but has some key differences to encryption.
 
-For decryption, [DEAP](/mpc/deap.md) is used for every block of the ciphertext to compute the _masked encrypted counter-block_:
+For decryption, [DEAP](../mpc/deap.md) is used for every block of the ciphertext to compute the _masked encrypted counter-block_:
 
 $$f(k_U, k_N, ctr, z) = \mathsf{Enc}(k_U \oplus k_N, ctr) \oplus z = ectr_z$$
 

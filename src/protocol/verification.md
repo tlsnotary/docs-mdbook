@@ -1,7 +1,7 @@
 # Verification
 
 To prove data provenance to a third-party `Verifier`, the `Prover` provides the following information:
-- [`Session Header`](/protocol/notarization.md#signing-the-session-header) signed by the `Notary`
+- [`Session Header`](notarization.md#signing-the-session-header) signed by the `Notary`
 - `opening` to the plaintext commitment
 - `TLS-specific data` which uniquely identifies the server
 - `identity` of the server
@@ -15,4 +15,4 @@ Next, the `Verifier` parses the `opening` with an application-specific parser (e
 
 Below is an example of a verification output for an HTTP 1.1 request and response. Note that since the `Prover` chose not to disclose some sensitive information like their HTTP session token and address, that information will be withheld from the `Verifier` and will appear to him as redacted (in red).
 
-![Verification example](/diagrams/verification_example.svg)
+![Verification example](../diagrams/verification_example.svg)
