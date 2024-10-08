@@ -7,7 +7,7 @@ The **TLSN Extension** has a plugin system that allows you to safely extend its 
 Plugins can add new custom features to the extension by using built-in host functions, such as:
 
 - Requesting private information from the browser, such as cookies and headers of one or more hostnames.
-- Submitting a new notarization request using the [prove](https://github.com/tlsnotary/tlsn-js/blob/main/src/tlsn.ts#L48-L89) method in [tlsn-js](https://www.npmjs.com/package/tlsn-js).
+- Submitting a new notarization request.
 - Redirecting a browsing window.
 
 New features and capabilities will be added based on feedback from developers. Please reach out to us on [Discord](https://discord.gg/9XwESXtcN7).
