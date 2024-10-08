@@ -78,7 +78,7 @@ redirect(mem.offset);
 
 ### `notarize`
 
-Notarizes a request using the [prove](https://github.com/tlsnotary/tlsn-js/blob/main/src/tlsn.ts#L48-L89) method in [tlsn-js](https://www.npmjs.com/package/tlsn-js).
+Notarizes a request.
 
 Example in JavaScript:
 ```js
