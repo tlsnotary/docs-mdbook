@@ -63,11 +63,11 @@ Since a web browser doesn't have the ability to make TCP connection, we need to 
 
 1. Install [websocat](https://github.com/vi/websocat):
 ```shell
-cargo install websocat
+cargo install wstcp
 ```
 2. Run a websocket proxy for `https://swapi.dev`:
-```sh
-websocat --binary -v ws-l:0.0.0.0:55688 tcp:swapi.dev:443
+```shell
+wstcp --bind-addr 127.0.0.1:55688 swapi.dev:443
 ```
 
 Note the `swapi.dev:443` argument on the last line, this is the server we will use in this quick start.
