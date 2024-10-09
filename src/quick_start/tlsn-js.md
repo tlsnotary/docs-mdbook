@@ -61,7 +61,7 @@ The instructions above, use the [PSE](https://pse.dev) hosted notary server and 
 
 Since a web browser doesn't have the ability to make TCP connection, we need to use a websocket proxy server.
 
-1. Install [websocat](https://github.com/vi/websocat):
+1. Install [wstcp](https://github.com/sile/wstcp):
 ```shell
 cargo install wstcp
 ```
