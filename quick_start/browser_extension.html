@@ -206,9 +206,16 @@ First we need to <a href="#install">install</a> and configure a <a href="#proxy"
 <li>Enter <code>wss://notary.pse.dev/proxy</code> as <strong>proxy API</strong></li>
 <li>Click <strong>Save</strong></li>
 </ol>
-<p>To run your own websockify proxy <strong>locally</strong>, run:</p>
-<pre><code class="language-sh">cargo install websocat
-websocat --binary -v ws-l:0.0.0.0:55688 tcp:api.x.com:443
+<p>To run your own websocket proxy <strong>locally</strong>, run:</p>
+<ol>
+<li>Install <a href="https://github.com/sile/wstcp">wstcp</a>:</li>
+</ol>
+<pre><code class="language-shell">cargo install wstcp
+</code></pre>
+<ol start="2">
+<li>Run a websocket proxy for <code>https://swapi.dev</code>:</li>
+</ol>
+<pre><code class="language-shell">wstcp --bind-addr 127.0.0.1:55688 swapi.dev:443
 </code></pre>
 <p>Note the <code>api.x.com:443</code> argument on the last line.</p>
 <p>Next use  <code>ws://localhost:55688</code> as <strong>proxy API</strong> in Step 3 above.</p>

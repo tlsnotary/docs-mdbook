@@ -544,14 +544,14 @@ Because a web browser doesn't have the ability to make TCP connection, we need t
 <h3 id="websocket-proxy"><a class="header" href="#websocket-proxy">Websocket Proxy <a name="proxy"></a></a></h3>
 <p>Since a web browser doesn't have the ability to make TCP connection, we need to use a websocket proxy server.</p>
 <ol>
-<li>Install <a href="https://github.com/vi/websocat">websocat</a>:</li>
+<li>Install <a href="https://github.com/sile/wstcp">wstcp</a>:</li>
 </ol>
-<pre><code class="language-shell">cargo install websocat
+<pre><code class="language-shell">cargo install wstcp
 </code></pre>
 <ol start="2">
 <li>Run a websocket proxy for <code>https://swapi.dev</code>:</li>
 </ol>
-<pre><code class="language-sh">websocat --binary -v ws-l:0.0.0.0:55688 tcp:swapi.dev:443
+<pre><code class="language-shell">wstcp --bind-addr 127.0.0.1:55688 swapi.dev:443
 </code></pre>
 <p>Note the <code>swapi.dev:443</code> argument on the last line, this is the server we will use in this quick start.</p>
 <h3 id="run-a-local-notary-server"><a class="header" href="#run-a-local-notary-server">Run a Local Notary Server <a name="local-notary"></a></a></h3>
@@ -602,9 +602,16 @@ First we need to <a href="quick_start/browser_extension.html#install">install</a
 <li>Enter <code>wss://notary.pse.dev/proxy</code> as <strong>proxy API</strong></li>
 <li>Click <strong>Save</strong></li>
 </ol>
-<p>To run your own websockify proxy <strong>locally</strong>, run:</p>
-<pre><code class="language-sh">cargo install websocat
-websocat --binary -v ws-l:0.0.0.0:55688 tcp:api.x.com:443
+<p>To run your own websocket proxy <strong>locally</strong>, run:</p>
+<ol>
+<li>Install <a href="https://github.com/sile/wstcp">wstcp</a>:</li>
+</ol>
+<pre><code class="language-shell">cargo install wstcp
+</code></pre>
+<ol start="2">
+<li>Run a websocket proxy for <code>https://swapi.dev</code>:</li>
+</ol>
+<pre><code class="language-shell">wstcp --bind-addr 127.0.0.1:55688 swapi.dev:443
 </code></pre>
 <p>Note the <code>api.x.com:443</code> argument on the last line.</p>
 <p>Next use  <code>ws://localhost:55688</code> as <strong>proxy API</strong> in Step 3 above.</p>
