@@ -35,7 +35,7 @@ To use the TLSnotary hosted proxy:
    4. Click **Save**
 
 To run your own websockify proxy **locally**, run:
-1. Install [websocat](https://github.com/vi/websocat):
+1. Install [wstcp](https://github.com/sile/wstcp):
 ```shell
 cargo install wstcp
 ```
