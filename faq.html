@@ -188,6 +188,9 @@
 <li><a href="#faq6">Which TLS versions are supported?</a></li>
 <li><a href="#faq7">What is the overhead of using the TLSNotary protocol?</a></li>
 <li><a href="#faq8">Does TLSNotary use a proxy?</a></li>
+<li><a href="#faq9">Why does my session time out?</a></li>
+<li><a href="#faq10">How to run TLSNotary with extra logging?</a></li>
+<li><a href="#faq11">How do I troubleshoot connection issues?</a></li>
 </ul>
 <h3 id="faq1"><a class="header" href="#faq1">Doesn't TLS allow a third party to verify data authenticity?</a></h3>
 <p>No, it does not. TLS is designed to guarantee the authenticity of data <strong>only to the participants</strong> of the TLS connection. TLS does not have a mechanism to enable the server to "sign" the data.</p>
@@ -214,6 +217,22 @@ There are no immediate plans to support TLS 1.3. Once the web starts to transiti
 <p>25 + 10 + 4 = ~39 MB of <strong>upload</strong> data.</p>
 <h3 id="faq8"><a class="header" href="#faq8">Does TLSNotary use a proxy?</a></h3>
 <p>A proxy is required only for the browser extension because browsers do not allow extensions to open TCP connections. Instead, our extension opens a websocket connection to a proxy (local or remote) which opens a TCP connection with the server. Our custom TLS client is then attached to this connection and the proxy only sees encrypted data.</p>
+<h3 id="faq9"><a class="header" href="#faq9">Why does my session time out?</a></h3>
+<p>If you are experiencing slow performance or server timeouts, make sure you are building with the <code>--release</code> profile. Debug builds are significantly slower due to extra checks. Use:</p>
+<pre><code>cargo run --release
+</code></pre>
+<h3 id="faq10"><a class="header" href="#faq10">How to run TLSNotary with extra logging?</a></h3>
+<p>To get deeper insights into what TLSNotary is doing, you can enable extra logging with <code>RUST_LOG=debug</code> or <code>RUST_LOG=trace</code>. This will generate a lot of output, as it logs extensive network activity. It’s recommended to filter logs for better readability. The recommended configuration is:</p>
+<pre><code>RUST_LOG=trace,yamux=info,uid_mux=info cargo run  --release
+</code></pre>
+<h3 id="faq11"><a class="header" href="#faq11">How do I troubleshoot connection issues?</a></h3>
+<p>If a TLSNotary request fails, first ensure that the request works independently of TLSNotary by testing it with tools like <code>curl</code>, Postman, or another HTTP client. This helps rule out any server or network issues unrelated to TLSNotary.</p>
+<p>Next, confirm that your request includes the necessary headers:</p>
+<ul>
+<li><code>Accept-Encoding: identity</code> to avoid compressed responses.</li>
+<li><code>Connection: close</code> to ensure the server closes the connection after the response.</li>
+</ul>
+<p>If the issue persists, <a href="#faq10">enable extra logging</a> with <code>RUST_LOG=debug</code> or <code>RUST_LOG=trace</code> for deeper insights into what TLSNotary is doing.</p>
 
                     </main>
 
