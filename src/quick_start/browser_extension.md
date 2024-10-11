@@ -34,10 +34,14 @@ To use the TLSnotary hosted proxy:
    3. Enter `wss://notary.pse.dev/proxy` as **proxy API**
    4. Click **Save**
 
-To run your own websockify proxy **locally**, run:
-```sh
-cargo install websocat
-websocat --binary -v ws-l:0.0.0.0:55688 tcp:api.x.com:443
+To run your own websocket proxy **locally**, run:
+1. Install [wstcp](https://github.com/sile/wstcp):
+```shell
+cargo install wstcp
+```
+2. Run a websocket proxy for `https://swapi.dev`:
+```shell
+wstcp --bind-addr 127.0.0.1:55688 swapi.dev:443
 ```
 Note the `api.x.com:443` argument on the last line.
 
