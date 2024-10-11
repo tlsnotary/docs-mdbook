@@ -34,7 +34,7 @@ To use the TLSnotary hosted proxy:
    3. Enter `wss://notary.pse.dev/proxy` as **proxy API**
    4. Click **Save**
 
-To run your own websockify proxy **locally**, run:
+To run your own websocket proxy **locally**, run:
 1. Install [wstcp](https://github.com/sile/wstcp):
 ```shell
 cargo install wstcp
