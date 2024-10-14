@@ -11,6 +11,7 @@
 - [Why does my session time out?](#faq9)
 - [How to run TLSNotary with extra logging?](#faq10)
 - [How do I troubleshoot connection issues?](#faq11)
+- [Does TLSNotary Solve the Oracle Problem?](#faq12)
 
 
 ### Doesn't TLS allow a third party to verify data authenticity? { #faq1 }
@@ -85,3 +86,11 @@ Next, confirm that your request includes the necessary headers:
 - `Connection: close` to ensure the server closes the connection after the response.
 
 If the issue persists, [enable extra logging](#faq10) with `RUST_LOG=debug` or `RUST_LOG=trace` for deeper insights into what TLSNotary is doing.
+
+### Does TLSNotary Solve the Oracle Problem? { #faq12 }
+
+No, TLSNotary does not solve the "Oracle Problem." The Oracle Problem refers to the challenge of ensuring that off-chain data used in blockchain smart contracts is trustworthy and tamper-proof. While TLSNotary allows a Prover and a Verifier to cryptographically verify TLS data, this is not the same as providing a trustless, decentralized solution to the Oracle Problem. TLSNotary relies on a designated Verifier, which means there is still some level of trust required between the parties.
+
+TLSNotary can be used the bring data onchain. But when stakes are high, it is recommended to combine TLSNotary with a dedicated oracle protocol to mitigate these risks. Multiple projects are currently exploring the best solutions.
+
+Note that for off-chain applications, a designated Verifier is a perfectly suitable solution. In traditional settings, delegating verification to a trusted party is common and practical. Trust off-chain can be established through legal agreements, reputation, or regulatory frameworks, making attestations from TLSNotary sufficient for many use cases.
