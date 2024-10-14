@@ -89,7 +89,7 @@ Next, confirm that your request includes the necessary headers:
 
 If the issue persists, [enable extra logging](#faq10) with `RUST_LOG=debug` or `RUST_LOG=trace` for deeper insights into what TLSNotary is doing.
 
-If the connection failure is related to websocket and you are using the browser extension, please ensure that the domain you are connecting to is [whitelisted](https://docs.tlsnotary.org/developers/notary_server.html#websocket-proxy-server) or you will have to [run a local server](https://docs.tlsnotary.org/quick_start/browser_extension.html#websocket-proxy).
+If you are connecting through a WebSocket proxy (e.g., in the browser extension), double-check that the WebSocket proxy connects to the intended domain. Note that PSE's public WebSocket proxy only supports a limited [whitelist](https://docs.tlsnotary.org/developers/notary_server.html#websocket-proxy-server). If you use a local proxy, make sure the domain is correct.
 
 ### What is the difference between TLSNotary and an Oracle? { #faq12 }
 TLSNotary is designed to cryptographically prove the authenticity of HTTPS communications without revealing all data, and is not inherently connected to any blockchain systems. It can be used to verify past and/or private communications.
