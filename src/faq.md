@@ -65,8 +65,7 @@ In a concrete scenario of sending a 1KB HTTP request followed by a 100KB respons
 
 A proxy is required only for the browser extension because browsers do not allow extensions to open TCP connections. Instead, our extension opens a websocket connection to a proxy (local or remote) which opens a TCP connection with the server. Our custom TLS client is then attached to this connection and the proxy only sees encrypted data.
 
-TLSNotary has a [whitelist of application domains](https://docs.tlsnotary.org/developers/notary_server.html#websocket-proxy-server) for the websocket proxy. Run your own local web socket proxy to use TLSNotary with an application not already whitelisted by following [these steps](https://docs.tlsnotary.org/quick_start/browser_extension.html#websocket-proxy).
-
+[PSE hosts a WebSocket proxy](https://docs.tlsnotary.org/developers/notary_server.html#websocket-proxy-server) that you can use for development and experimentation. Note that this proxy supports only a limited [whitelist of domains](https://docs.tlsnotary.org/developers/notary_server.html#websocket-proxy-server). For other domains, you can easily run your own local WebSocket by following [these steps](https://docs.tlsnotary.org/quick_start/browser_extension.html#websocket-proxy).
 ### Why does my session time out? { #faq9 }
 
 If you are experiencing slow performance or server timeouts, make sure you are building with the `--release` profile. Debug builds are significantly slower due to extra checks. Use:
