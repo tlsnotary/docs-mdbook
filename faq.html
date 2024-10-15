@@ -217,6 +217,7 @@ There are no immediate plans to support TLS 1.3. Once the web starts to transiti
 <p>25 + 10 + 4 = ~39 MB of <strong>upload</strong> data.</p>
 <h3 id="faq8"><a class="header" href="#faq8">Does TLSNotary use a proxy?</a></h3>
 <p>A proxy is required only for the browser extension because browsers do not allow extensions to open TCP connections. Instead, our extension opens a websocket connection to a proxy (local or remote) which opens a TCP connection with the server. Our custom TLS client is then attached to this connection and the proxy only sees encrypted data.</p>
+<p><a href="https://docs.tlsnotary.org/developers/notary_server.html#websocket-proxy-server">PSE hosts a WebSocket proxy</a> that you can use for development and experimentation. Note that this proxy supports only a limited <a href="https://docs.tlsnotary.org/developers/notary_server.html#websocket-proxy-server">whitelist of domains</a>. For other domains, you can easily run your own local WebSocket by following <a href="https://docs.tlsnotary.org/quick_start/browser_extension.html#websocket-proxy">these steps</a>.</p>
 <h3 id="faq9"><a class="header" href="#faq9">Why does my session time out?</a></h3>
 <p>If you are experiencing slow performance or server timeouts, make sure you are building with the <code>--release</code> profile. Debug builds are significantly slower due to extra checks. Use:</p>
 <pre><code>cargo run --release
@@ -233,6 +234,7 @@ There are no immediate plans to support TLS 1.3. Once the web starts to transiti
 <li><code>Connection: close</code> to ensure the server closes the connection after the response.</li>
 </ul>
 <p>If the issue persists, <a href="#faq10">enable extra logging</a> with <code>RUST_LOG=debug</code> or <code>RUST_LOG=trace</code> for deeper insights into what TLSNotary is doing.</p>
+<p>If you are connecting through a WebSocket proxy (e.g., in the browser extension), double-check that the WebSocket proxy connects to the intended domain. Note that PSE's public WebSocket proxy only supports a limited <a href="https://docs.tlsnotary.org/developers/notary_server.html#websocket-proxy-server">whitelist</a>. If you use a local proxy, make sure the domain is correct.</p>
 
                     </main>
 
