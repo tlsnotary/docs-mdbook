@@ -12,7 +12,6 @@
 - [How to run TLSNotary with extra logging?](#faq10)
 - [How do I troubleshoot connection issues?](#faq11)
 
-
 ### Doesn't TLS allow a third party to verify data authenticity? { #faq1 }
 
 No, it does not. TLS is designed to guarantee the authenticity of data **only to the participants** of the TLS connection. TLS does not have a mechanism to enable the server to "sign" the data.
@@ -63,6 +62,8 @@ In a concrete scenario of sending a 1KB HTTP request followed by a 100KB respons
 
 A proxy is required only for the browser extension because browsers do not allow extensions to open TCP connections. Instead, our extension opens a websocket connection to a proxy (local or remote) which opens a TCP connection with the server. Our custom TLS client is then attached to this connection and the proxy only sees encrypted data.
 
+[PSE hosts a WebSocket proxy](https://docs.tlsnotary.org/developers/notary_server.html#websocket-proxy-server) that you can use for development and experimentation. Note that this proxy supports only a limited [whitelist of domains](https://docs.tlsnotary.org/developers/notary_server.html#websocket-proxy-server). For other domains, you can easily run your own local WebSocket by following [these steps](https://docs.tlsnotary.org/quick_start/browser_extension.html#websocket-proxy).
+
 ### Why does my session time out? { #faq9 }
 
 If you are experiencing slow performance or server timeouts, make sure you are building with the `--release` profile. Debug builds are significantly slower due to extra checks. Use:
@@ -85,3 +86,5 @@ Next, confirm that your request includes the necessary headers:
 - `Connection: close` to ensure the server closes the connection after the response.
 
 If the issue persists, [enable extra logging](#faq10) with `RUST_LOG=debug` or `RUST_LOG=trace` for deeper insights into what TLSNotary is doing.
+
+If you are connecting through a WebSocket proxy (e.g., in the browser extension), double-check that the WebSocket proxy connects to the intended domain. Note that PSE's public WebSocket proxy only supports a limited [whitelist](https://docs.tlsnotary.org/developers/notary_server.html#websocket-proxy-server). If you use a local proxy, make sure the domain is correct.
