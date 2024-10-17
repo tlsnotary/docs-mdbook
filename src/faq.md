@@ -93,4 +93,4 @@ No, the TLSNotary protocol does not solve the "Oracle Problem." The Oracle Probl
 
 TLSNotary can be used the bring data onchain. But when stakes are high, it is recommended to combine TLSNotary with a dedicated oracle protocol to mitigate these risks. Multiple projects are currently exploring the best solutions.
 
-Note that for off-chain applications, a designated Verifier is a perfectly suitable solution. In traditional settings, delegating verification to a trusted party is common and practical. Trust off-chain can be established through legal agreements, reputation, or regulatory frameworks, making attestations from TLSNotary sufficient for many use cases.
+Note that for off-chain applications, a designated Verifier is a perfectly suitable solution. In traditional settings, delegating verification to a trusted party is common and practical. Off-chain trust can be established through legal agreements, reputation, or regulatory frameworks, making attestations from TLSNotary sufficient for many use cases.
