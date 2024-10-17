@@ -89,7 +89,7 @@ If the issue persists, [enable extra logging](#faq10) with `RUST_LOG=debug` or `
 
 ### Does TLSNotary Solve the Oracle Problem? { #faq12 }
 
-No, TLSNotary does not solve the "Oracle Problem." The Oracle Problem refers to the challenge of ensuring that off-chain data used in blockchain smart contracts is trustworthy and tamper-proof. While TLSNotary allows a Prover and a Verifier to cryptographically verify TLS data, this is not the same as providing a trustless, decentralized solution to the Oracle Problem. TLSNotary relies on a designated Verifier, which means there is still some level of trust required between the parties.
+No, the TLSNotary protocol does not solve the "Oracle Problem." The Oracle Problem refers to the challenge of ensuring that off-chain data used in blockchain smart contracts is trustworthy and tamper-proof. While TLSNotary allows a Prover to cryptographically authenticate TLS data to a Verifier, this is not the same as providing a trustless, decentralized solution to the Oracle Problem. TLSNotary relies on a designated Verifier, which means there is still some level of trust required between the parties.
 
 TLSNotary can be used the bring data onchain. But when stakes are high, it is recommended to combine TLSNotary with a dedicated oracle protocol to mitigate these risks. Multiple projects are currently exploring the best solutions.
 
