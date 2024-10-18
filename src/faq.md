@@ -11,6 +11,8 @@
 - [Why does my session time out?](#faq9)
 - [How to run TLSNotary with extra logging?](#faq10)
 - [How do I troubleshoot connection issues?](#faq11)
+- [Does TLSNotary Solve the Oracle Problem?](#faq12)
+
 
 ### Doesn't TLS allow a third party to verify data authenticity? { #faq1 }
 
@@ -88,3 +90,9 @@ Next, confirm that your request includes the necessary headers:
 If the issue persists, [enable extra logging](#faq10) with `RUST_LOG=debug` or `RUST_LOG=trace` for deeper insights into what TLSNotary is doing.
 
 If you are connecting through a WebSocket proxy (e.g., in the browser extension), double-check that the WebSocket proxy connects to the intended domain. Note that PSE's public WebSocket proxy only supports a limited [whitelist](https://docs.tlsnotary.org/developers/notary_server.html#websocket-proxy-server). If you use a local proxy, make sure the domain is correct.
+
+### Does TLSNotary Solve the Oracle Problem? { #faq12 }
+
+No, the TLSNotary protocol does not solve the "Oracle Problem." The Oracle Problem refers to the challenge of ensuring that off-chain data used in blockchain smart contracts is trustworthy and tamper-proof. While TLSNotary allows a Prover to cryptographically authenticate TLS data to a designated Verifier, trust is still required in the designated Verifier when it attests to the verified data on-chain. Therefore, this is not a trustless, decentralized solution to the Oracle Problem.
+
+TLSNotary can be used to bring data on-chain, but when the stakes are high, it is recommended to combine TLSNotary with a dedicated oracle protocol to mitigate these risks. Multiple projects are currently exploring the best solutions.
