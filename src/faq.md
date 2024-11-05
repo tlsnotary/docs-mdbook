@@ -100,6 +100,6 @@ TLSNotary can be used to bring data on-chain, but when the stakes are high, it i
 
 ### What is a presentation in TLSNotary? { #faq13 }
 
-In TLSNotary, a **presentation** means data shared by the Prover to selectively reveal specific parts of the TLS data committed to earlier during the attestation phase. By using these earlier commitments, the Prover can choose to disclose only particular segments of the TLS data while keeping other parts hidden or redacted. This enables a flexible and controlled way to share proofs, ensuring that sensitive information remains private.
+In TLSNotary, a **presentation** refers to data shared by the Prover to selectively reveal specific parts of the TLS data committed to earlier during the attestation phase. By using these earlier commitments, the Prover can choose to disclose only particular segments of the TLS data while keeping other parts hidden or redacted. This enables a flexible and controlled way to share proofs, ensuring that sensitive information remains private.
 
 The term “presentation” is inspired by similar terminology in the [W3C Verifiable Credentials standard](https://www.w3.org/TR/vc-data-model/#dfn-verifiable-presentations).
