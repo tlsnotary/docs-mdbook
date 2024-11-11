@@ -80,6 +80,8 @@ To get deeper insights into what TLSNotary is doing, you can enable extra loggin
 RUST_LOG=trace,yamux=info,uid_mux=info cargo run  --release
 ```
 
+In the Browser Extension you change the logging level via **Options > Advanced > Logging Level**
+
 ### How do I troubleshoot connection issues? { #faq11 }
 
 If a TLSNotary request fails, first ensure that the request works independently of TLSNotary by testing it with tools like `curl`, Postman, or another HTTP client. This helps rule out any server or network issues unrelated to TLSNotary.
