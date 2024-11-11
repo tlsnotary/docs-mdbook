@@ -228,6 +228,7 @@ There are no immediate plans to support TLS 1.3. Once the web starts to transiti
 <p>To get deeper insights into what TLSNotary is doing, you can enable extra logging with <code>RUST_LOG=debug</code> or <code>RUST_LOG=trace</code>. This will generate a lot of output, as it logs extensive network activity. It’s recommended to filter logs for better readability. The recommended configuration is:</p>
 <pre><code>RUST_LOG=trace,yamux=info,uid_mux=info cargo run  --release
 </code></pre>
+<p>In the Browser Extension you change the logging level via <strong>Options &gt; Advanced &gt; Logging Level</strong></p>
 <h3 id="faq11"><a class="header" href="#faq11">How do I troubleshoot connection issues?</a></h3>
 <p>If a TLSNotary request fails, first ensure that the request works independently of TLSNotary by testing it with tools like <code>curl</code>, Postman, or another HTTP client. This helps rule out any server or network issues unrelated to TLSNotary.</p>
 <p>Next, confirm that your request includes the necessary headers:</p>
