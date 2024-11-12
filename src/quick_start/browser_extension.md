@@ -121,3 +121,23 @@ When the notarization is ready, you can click **View Proof**. If you did close t
 
 * `Requests(0): no requests in the Browser extension` ➡ restart the TLSN browser extension in <chrome://extensions/> and reload the Twitter page.
 * Are you using a local notary server? ➡ Check notary server's console log.
+
+
+
+<!-- 
+
+TODO write your own plugins -> reference to docs
+
+### (Optional) Notarize More Private Data
+
+If the examples above were too easy for you, try to notarize data from other websites such as:
+
+- [ ] Amazon purchase
+- [ ] Twitter DM (see <https://github.com/tlsnotary/tlsn/blob/main/tlsn/examples/twitter/README.md>)
+- [ ] LinkedIn skill
+- [ ] Steam accomplishment
+- [ ] Garmin Connect achievement
+- [ ] AirBnB score
+- [ ] Tesla ownership
+
+-->
