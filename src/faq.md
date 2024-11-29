@@ -5,6 +5,7 @@
 - [What are the trust assumptions of the TLSNotary protocol?](#faq3)
 - [What is the role of a Notary?](#faq4)
 - [Is the Notary an essential part of the TLSNotary protocol?](#faq5)
+- [Why does TLSNotary need an online Verifier? Can't this be done serverlessly in the browser with Zero Knowledge?](#faq14)
 - [Which TLS versions are supported?](#faq6)
 - [What is the overhead of using the TLSNotary protocol?](#faq7)
 - [Does TLSNotary use a proxy?](#faq8)
@@ -42,6 +43,13 @@ Just like the `Verifier` would ([see FAQ above](#faq2)), the `Notary` collaborat
 No, it is not essential. The `Notary` is an optional role which we introduced in the `tlsn` library as a convenience mode for `Verifiers` who choose not to participate in the TLS connection themselves.
 
 For historical reasons, we continue to refer to the protocol between the `Prover` and the `Verifier` as the "TLSNotary" protocol, even though the `Verifier` may choose not to use a `Notary`.
+
+
+### Why does TLSNotary need an online Verifier? Can't this be done serverlessly in the browser with Zero Knowledge? { #faq14 }
+
+TLSNotary uses a multi-party computation (MPC) approach to secure the TLS session. Without MPC, the Prover would have full control over the TLS session keys and could forge the Server’s responses. Zero-knowledge (ZK) proofs alone cannot prevent this. To prevent forged responses, the Verifier participates in the handshake, splitting the TLS session keys between the Prover and the Verifier.
+
+In a proxy-based approach, simple ZK proofs can be used. The proxy server connects to the server, observes the encrypted traffic, and later verifies a ZK proof from the Prover that the plaintext matches the encrypted data. However, TLSNotary’s direct connection model provides stronger guarantees of security and resistance to censorship compared to the proxy approach.
 
 ### Which TLS versions are supported? { #faq6 }
 
