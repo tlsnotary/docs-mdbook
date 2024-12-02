@@ -1,18 +1,19 @@
 # FAQ
 
 - [Doesn't TLS allow a third party to verify data authenticity?](#faq1)
-- [How exactly does a Verifier participate in the TLS connection?](#faq2)
-- [What are the trust assumptions of the TLSNotary protocol?](#faq3)
-- [What is the role of a Notary?](#faq4)
-- [Is the Notary an essential part of the TLSNotary protocol?](#faq5)
-- [Which TLS versions are supported?](#faq6)
-- [What is the overhead of using the TLSNotary protocol?](#faq7)
-- [Does TLSNotary use a proxy?](#faq8)
-- [Why does my session time out?](#faq9)
-- [How to run TLSNotary with extra logging?](#faq10)
-- [How do I troubleshoot connection issues?](#faq11)
-- [Does TLSNotary Solve the Oracle Problem?](#faq12)
-- [What is a presentation in TLSNotary?](#faq13)
+- [Why is it necessary to add a verifier to the TLS connection?](#faq2)
+- [How exactly does a Verifier participate in the TLS connection?](#faq3)
+- [What are the trust assumptions of the TLSNotary protocol?](#faq4)
+- [What is the role of a Notary?](#faq5)
+- [Is the Notary an essential part of the TLSNotary protocol?](#faq6)
+- [Which TLS versions are supported?](#faq7)
+- [What is the overhead of using the TLSNotary protocol?](#faq8)
+- [Does TLSNotary use a proxy?](#faq9)
+- [Why does my session time out?](#faq10)
+- [How to run TLSNotary with extra logging?](#faq11)
+- [How do I troubleshoot connection issues?](#faq12)
+- [Does TLSNotary Solve the Oracle Problem?](#faq13)
+- [What is a presentation in TLSNotary?](#faq14)
 
 
 ### Doesn't TLS allow a third party to verify data authenticity? { #faq1 }
