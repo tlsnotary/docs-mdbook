@@ -267,51 +267,55 @@ With TLSNotary, Alice can selectively prove the authenticity of arbitrary portio
 <h3 id="faq1"><a class="header" href="#faq1">Doesn't TLS allow a third party to verify data authenticity?</a></h3>
 <p>No, it does not. TLS is designed to guarantee the authenticity of data <strong>only to the participants</strong> of the TLS connection. TLS does not have a mechanism to enable the server to "sign" the data.</p>
 <p>The TLSNotary protocol overcomes this limitation by making the third-party <code>Verifier</code> a participant in the TLS connection.</p>
-<h3 id="faq2"><a class="header" href="#faq2">How exactly does a Verifier participate in the TLS connection?</a></h3>
+<h3 id="faq2"><a class="header" href="#faq2">Why is it necessary to add a verifier to the TLS connection?</a></h3>
+<p>One may wonder why the <code>Prover</code> can not simply generate a proof of the TLS connection locally without the help of another party.</p>
+<p>This is not possible because of the way TLS is designed. Specifically, TLS utilizes symmetric-key cryptography with message authentication codes (MACs). As a consequence the TLS client, i.e. the <code>Prover</code>,
+knows the secret key the <code>Server</code> uses to authenticate data and can trivially generate fake transcripts locally. Introducing another party into the connection mitigates this problem by removing unilateral access to the secret key from the <code>Prover</code>.</p>
+<h3 id="faq3"><a class="header" href="#faq3">How exactly does a Verifier participate in the TLS connection?</a></h3>
 <p>The <code>Verifier</code> collaborates with the <code>Prover</code> using secure multi-party computation (MPC). There is no requirement for the <code>Verifier</code> to monitor or to access the <code>Prover's</code> TLS connection. The <code>Prover</code> is the one who communicates with the server.</p>
-<h3 id="faq3"><a class="header" href="#faq3">What are the trust assumptions of the TLSNotary protocol?</a></h3>
+<h3 id="faq4"><a class="header" href="#faq4">What are the trust assumptions of the TLSNotary protocol?</a></h3>
 <p>The protocol does not have trust assumptions. In particular, it does not rely on secure hardware or on the untamperability of the communication channel.</p>
 <p>The protocol does not rely on participants to act honestly. Specifically, it guarantees that, on the one hand, a malicious <code>Prover</code> will not be able to convince the <code>Verifier</code> of the authenticity of false data, and, on the other hand, that a malicious <code>Verifier</code> will not be able to learn the private data of the <code>Prover</code>.</p>
-<h3 id="faq4"><a class="header" href="#faq4">What is the role of a Notary?</a></h3>
+<h3 id="faq5"><a class="header" href="#faq5">What is the role of a Notary?</a></h3>
 <p>In some scenarios where the <code>Verifier</code> is unable to participate in a TLS connection, they may choose to delegate the verification of the online phase of the protocol to an entity called the <code>Notary</code>.</p>
 <p>Just like the <code>Verifier</code> would (<a href="faq.html#faq2">see FAQ above</a>), the <code>Notary</code> collaborates with the <code>Prover</code> using MPC to enable the <code>Prover</code> to communicate with the server. At the end of the online phase, the <code>Notary</code> produces an attestation trusted by the <code>Verifier</code>. Then, in the offline phase, the <code>Verifier</code> is able to ascertain data authenticity based on the attestation.</p>
-<h3 id="faq5"><a class="header" href="#faq5">Is the Notary an essential part of the TLSNotary protocol?</a></h3>
+<h3 id="faq6"><a class="header" href="#faq6">Is the Notary an essential part of the TLSNotary protocol?</a></h3>
 <p>No, it is not essential. The <code>Notary</code> is an optional role which we introduced in the <code>tlsn</code> library as a convenience mode for <code>Verifiers</code> who choose not to participate in the TLS connection themselves.</p>
 <p>For historical reasons, we continue to refer to the protocol between the <code>Prover</code> and the <code>Verifier</code> as the "TLSNotary" protocol, even though the <code>Verifier</code> may choose not to use a <code>Notary</code>.</p>
-<h3 id="faq6"><a class="header" href="#faq6">Which TLS versions are supported?</a></h3>
+<h3 id="faq7"><a class="header" href="#faq7">Which TLS versions are supported?</a></h3>
 <p>We support TLS 1.2, which is an almost-universally deployed version of TLS on the Internet.
 There are no immediate plans to support TLS 1.3. Once the web starts to transition away from TLS 1.2, we will consider adding support for TLS 1.3 or newer.</p>
-<h3 id="faq7"><a class="header" href="#faq7">What is the overhead of using the TLSNotary protocol?</a></h3>
+<h3 id="faq8"><a class="header" href="#faq8">What is the overhead of using the TLSNotary protocol?</a></h3>
 <p>Due to the nature of the underlying MPC, the protocol is bandwidth-bound. We are in the process of implementing more efficient MPC protocols designed to decrease the total data transfer.</p>
 <p>With the upcoming protocol upgrade planned for 2025, we expect the <code>Prover's</code> <strong>upload</strong> data overhead to be:</p>
 <p>~25MB (a fixed cost per one TLSNotary session) + ~10 MB per every 1KB of outgoing data + ~40KB per every 1 KB of incoming data.</p>
 <p>In a concrete scenario of sending a 1KB HTTP request followed by a 100KB response, the <code>Prover's</code> overhead will be:</p>
 <p>25 + 10 + 4 = ~39 MB of <strong>upload</strong> data.</p>
-<h3 id="faq8"><a class="header" href="#faq8">Does TLSNotary use a proxy?</a></h3>
+<h3 id="faq9"><a class="header" href="#faq9">Does TLSNotary use a proxy?</a></h3>
 <p>A proxy is required only for the browser extension because browsers do not allow extensions to open TCP connections. Instead, our extension opens a websocket connection to a proxy (local or remote) which opens a TCP connection with the server. Our custom TLS client is then attached to this connection and the proxy only sees encrypted data.</p>
 <p><a href="https://docs.tlsnotary.org/developers/notary_server.html#websocket-proxy-server">PSE hosts a WebSocket proxy</a> that you can use for development and experimentation. Note that this proxy supports only a limited <a href="https://docs.tlsnotary.org/developers/notary_server.html#websocket-proxy-server">whitelist of domains</a>. For other domains, you can easily run your own local WebSocket by following <a href="https://docs.tlsnotary.org/quick_start/browser_extension.html#websocket-proxy">these steps</a>.</p>
-<h3 id="faq9"><a class="header" href="#faq9">Why does my session time out?</a></h3>
+<h3 id="faq10"><a class="header" href="#faq10">Why does my session time out?</a></h3>
 <p>If you are experiencing slow performance or server timeouts, make sure you are building with the <code>--release</code> profile. Debug builds are significantly slower due to extra checks. Use:</p>
 <pre><code>cargo run --release
 </code></pre>
-<h3 id="faq10"><a class="header" href="#faq10">How to run TLSNotary with extra logging?</a></h3>
+<h3 id="faq11"><a class="header" href="#faq11">How to run TLSNotary with extra logging?</a></h3>
 <p>To get deeper insights into what TLSNotary is doing, you can enable extra logging with <code>RUST_LOG=debug</code> or <code>RUST_LOG=trace</code>. This will generate a lot of output, as it logs extensive network activity. It’s recommended to filter logs for better readability. The recommended configuration is:</p>
 <pre><code>RUST_LOG=trace,yamux=info,uid_mux=info cargo run  --release
 </code></pre>
 <p>In the Browser Extension you change the logging level via <strong>Options &gt; Advanced &gt; Logging Level</strong></p>
-<h3 id="faq11"><a class="header" href="#faq11">How do I troubleshoot connection issues?</a></h3>
+<h3 id="faq12"><a class="header" href="#faq12">How do I troubleshoot connection issues?</a></h3>
 <p>If a TLSNotary request fails, first ensure that the request works independently of TLSNotary by testing it with tools like <code>curl</code>, Postman, or another HTTP client. This helps rule out any server or network issues unrelated to TLSNotary.</p>
 <p>Next, confirm that your request includes the necessary headers:</p>
 <ul>
 <li><code>Accept-Encoding: identity</code> to avoid compressed responses.</li>
 <li><code>Connection: close</code> to ensure the server closes the connection after the response.</li>
 </ul>
-<p>If the issue persists, <a href="faq.html#faq10">enable extra logging</a> with <code>RUST_LOG=debug</code> or <code>RUST_LOG=trace</code> for deeper insights into what TLSNotary is doing.</p>
+<p>If the issue persists, <a href="faq.html#faq11">enable extra logging</a> with <code>RUST_LOG=debug</code> or <code>RUST_LOG=trace</code> for deeper insights into what TLSNotary is doing.</p>
 <p>If you are connecting through a WebSocket proxy (e.g., in the browser extension), double-check that the WebSocket proxy connects to the intended domain. Note that PSE's public WebSocket proxy only supports a limited <a href="https://docs.tlsnotary.org/developers/notary_server.html#websocket-proxy-server">whitelist</a>. If you use a local proxy, make sure the domain is correct.</p>
-<h3 id="faq12"><a class="header" href="#faq12">Does TLSNotary Solve the Oracle Problem?</a></h3>
+<h3 id="faq13"><a class="header" href="#faq13">Does TLSNotary Solve the Oracle Problem?</a></h3>
 <p>No, the TLSNotary protocol does not solve the "Oracle Problem." The Oracle Problem refers to the challenge of ensuring that off-chain data used in blockchain smart contracts is trustworthy and tamper-proof. While TLSNotary allows a Prover to cryptographically authenticate TLS data to a designated Verifier, trust is still required in the designated Verifier when it attests to the verified data on-chain. Therefore, this is not a trustless, decentralized solution to the Oracle Problem.</p>
 <p>TLSNotary can be used to bring data on-chain, but when the stakes are high, it is recommended to combine TLSNotary with a dedicated oracle protocol to mitigate these risks. Multiple projects are currently exploring the best solutions.</p>
-<h3 id="faq13"><a class="header" href="#faq13">What is a presentation in TLSNotary?</a></h3>
+<h3 id="faq14"><a class="header" href="#faq14">What is a presentation in TLSNotary?</a></h3>
 <p>In TLSNotary, a <strong>presentation</strong> refers to data shared by the Prover to selectively reveal specific parts of the TLS data committed to earlier during the attestation phase. By using these earlier commitments, the Prover can choose to disclose only particular segments of the TLS data while keeping other parts hidden or redacted. This enables a flexible and controlled way to share proofs, ensuring that sensitive information remains private.</p>
 <p>The term “presentation” is inspired by similar terminology in the <a href="https://www.w3.org/TR/vc-data-model/#dfn-verifiable-presentations">W3C Verifiable Credentials standard</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
