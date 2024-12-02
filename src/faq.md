@@ -26,7 +26,7 @@ The TLSNotary protocol overcomes this limitation by making the third-party `Veri
 One may wonder why the `Prover` can not simply generate a proof of the TLS connection locally without the help of another party.
 
 This is not possible because of the way TLS is designed. Specifically, TLS utilizes symmetric-key cryptography with message authentication codes (MACs). As a consequence the TLS client, i.e. the `Prover`, 
-knows the secret key the `Server` uses to authenticate data and can trivially generate fake transcripts locally. Introducing another party into the connection mitigates this problem.
+knows the secret key the `Server` uses to authenticate data and can trivially generate fake transcripts locally. Introducing another party into the connection mitigates this problem by removing unilateral access to the secret key from the `Prover`.
 
 ### How exactly does a Verifier participate in the TLS connection? { #faq3 }
 
