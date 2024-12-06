@@ -2,7 +2,7 @@
 
 In this Quick Start you will learn how to use TLSNotary in React/Typescript with [`tlsn-js`](https://github.com/tlsnotary/tlsn-js) NPM module in the browser.
 
-This Quick Start uses the react/typescript [demo app in `tlsn-js`](https://github.com/tlsnotary/tlsn-js/tree/main/demo/react-ts-webpack). The directory contains a webpack configuration file that allows you to quickly bootstrap a webpack app using `tlsn-js`.
+This Quick Start uses the react/typescript [demos in `tlsn-js`](https://github.com/tlsnotary/tlsn-js/tree/main/demo/). This `demo` directory contains multiple demos to quickly bootstrap a webpack app using `tlsn-js`.
 
 ## `tlsn-js` in a React/Typescript app
 
