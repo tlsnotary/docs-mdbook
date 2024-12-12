@@ -71,7 +71,7 @@ We host multiple versions of the notary server:
 | nightly        | https://notary.pse.dev/nightly        | [info](https://notary.pse.dev/nightly/info)/[health](https://notary.pse.dev/nightly/healthcheck)               | [dev](https://github.com/tlsnotary/tlsn/tree/dev/crates/notary/server)                       |                                                                                |
 
 All the servers above run the TLSNotary notary software in a Trusted Execution Environment (TEE), Intel SGX on Azure. 
-You can verify the software attestation by visiting `https://notary.pse.dev/<version>/attestation` (for versions alpha.8-pre and later).
+You can verify the software attestation by visiting `https://notary.pse.dev/<version>/info` (for versions alpha.8-pre and later).
 
 For more details on the deployment, refer to this [GitHub Action](https://github.com/tlsnotary/tlsn/blob/main/.github/workflows/cd-server.yml).
 
