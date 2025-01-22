@@ -18,4 +18,4 @@ These strategies mainly differ in the number of portions committed (`K`). As `K`
 | 1 | `Attestation` | Artifact signed by the `Notary` attesting to the authenticity of the plaintext from a TLS session | Constant | `Attestation` only contains data  that remains constant-sized regardless of `K`, e.g. the merkle root of the commitments |
 | 2 | `Secret` | Artifact containing secret data that correspond to commitments in `Attestation` | Linear | `Secret` contains some data whose sizes scale linearly with `K`, e.g. a merkle tree whose number of leaves equals to `K` |
 
-Using the default setting, every additional portion costs around 250 bytes of secret size increment. For more details, please visit this [Jupyter notebook](https://colab.research.google.com/drive/1o7IOwxZ9DuZLNsg6sQKp2y25kzgUPJhC?usp=sharing).
+Using the default hash algorithm (i.e. BLAKE3), every additional portion committed costs around 250 bytes of increment in the size of `Secret`. For more details, please visit this [Jupyter notebook](https://colab.research.google.com/drive/1o7IOwxZ9DuZLNsg6sQKp2y25kzgUPJhC?usp=sharing).
