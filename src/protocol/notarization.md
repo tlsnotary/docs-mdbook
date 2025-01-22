@@ -4,7 +4,7 @@ Even though the `Prover` can prove data provenance directly to the `Verifier`, i
 
 As part of the TLSNotary protocol, the `Prover` creates authenticated commitments to the plaintext and has the `Notary` sign them without the `Notary` ever seeing the plaintext. This offers a way for the `Prover` to selectively prove the authenticity of arbitrary portions of the plaintext to an application-specific `Verifier` later.
 
-Please refer to the [Commitments](../mpc/commitments.md) section for low-level details on the commitment scheme.
+Please refer to the [Commitments](../mpc/commitments.md) section for low-level details on the commitment scheme; and [Commit Strategy](./commit_strategy.md) section for different strategies the `Prover` can employ when generating these authenticated commitments.
 
 ## Signing the Session Header
 
