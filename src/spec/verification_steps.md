@@ -30,4 +30,4 @@ To summarize: the `Verifier` will only learn those portions of the TLS session t
 
 <!-- // paste here a picture of an HTTP request with redacted fields -->
 
-![Verification example](/diagrams/verification_example.svg)
+![Verification example](../diagrams/verification_example.svg)
