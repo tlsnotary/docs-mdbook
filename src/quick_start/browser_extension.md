@@ -1,6 +1,6 @@
 # TLSNotary Browser Extension <a name="browser"></a>
 
-In this Quick Start we will prove ownership of a Twitter account with TLSNotary's browser extension.
+In this quick start we will prove ownership of a Twitter account with TLSNotary's browser extension.
 First we need to [install](#install) and configure a [websocket proxy](#proxy) and a [notary server](#notary-server).
 
 ## Install Browser Extension (Chrome/Brave) <a name="install"></a>
@@ -10,7 +10,7 @@ The easiest way to install the TLSN browser extension is to use **[Chrome Web St
 ![](images/chromewebstore.png)
 
 Alternatively, you can install it manually:
-1. Download the browser extension from <https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.700/tlsn-extension-0.1.0.700.zip>
+1. Download the browser extension from <https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.800/tlsn-extension-0.1.0.800.zip>
 2. Unzip  
    ⚠️ This is a flat zip file, so be careful if you unzip from the command line, this zip file contains many file at the top level
 3. Open **Manage Extensions**: <chrome://extensions/>
@@ -54,7 +54,7 @@ To create a TLSNotary proof, the browser extension needs a TLSNotary notary serv
 To use the TLSNotary team notary server:
 1. Open the extension
 2. Click **Options**
-3. Update Notary API to: `https://notary.pse.dev/v0.1.0-alpha.7`
+3. Update Notary API to: `https://notary.pse.dev/v0.1.0-alpha.8`
 4. Click **Save**
 5. Skip the next section and [continue with the notarization step](#notarize)
 
@@ -69,24 +69,17 @@ If you plan to run a local notary server:
 
 ### Run a Local Notary Server <a name="local-notary"></a>
 
-1. Clone the TLSNotary repository  (defaults to the `main` branch, which points to the latest release):
+1. Clone the TLSNotary repository (defaults to the `main` branch, which points to the latest release):
    ```shell
       git clone https://github.com/tlsnotary/tlsn.git
    ```
-2. Edit the notary server config file (`crates/notary/server/config/config.yaml`) to turn off TLS so that the browser extension can connect to the local notary server without requiring extra steps to accept self-signed certificates in the browser (⚠️ this is only for local development purposes — TLS must be used in production).
-   ```yaml
-    tls:
-        enabled: false
-        ...
-   ```
-3. Run the notary server:
-   ```shell
+2. Run the notary server:
+   ```sh
    cd crates/notary/server
-   cargo run --release
+   cargo run --release -- --tls-enabled false
    ```
 
 The notary server will now be running in the background waiting for connections.
-
 
 ## Notarize Twitter Account Access <a name="notarize"></a>
 
