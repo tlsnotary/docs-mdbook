@@ -1,6 +1,6 @@
 # Quick Start
 
-This quick start guide will help you get started with TLSNotary, both in native Rust and in the Browser.
+This quick start will help you get started with TLSNotary, both in native Rust and in the Browser.
 
 ## Objectives
 
@@ -9,8 +9,8 @@ This quick start guide will help you get started with TLSNotary, both in native 
 
 ## Rust
 
-1. [Interactive Verification Example](rust.md#interactive)
-2. [Simple Attestation Example](rust.md#attestation)
+1. [Interactive Verification Example](rust.md#interactive): This example demonstrates how to use TLSNotary in a simple interactive session between a Prover and a Verifier. It involves the Verifier first verifying the MPC-TLS session and then confirming the correctness of the data.
+2. [Simple Attestation Example](rust.md#attestation): Use TLSNotary with a Notary attesting to the data.
 
 ## Browser
 

@@ -1,10 +1,14 @@
 # TLSNotary in React/Typescript with `tlsn-js`<a name="browser"></a>
 
-In this quick start you will learn how to use TLSNotary in React/Typescript with [`tlsn-js`](https://github.com/tlsnotary/tlsn-js) NPM module in the browser.
+In this quick start you will learn how to use TLSNotary in React/Typescript with the [`tlsn-js`](https://github.com/tlsnotary/tlsn-js) NPM module in the browser.
 
-This quick start uses the react/typescript [demos in `tlsn-js`](https://github.com/tlsnotary/tlsn-js/tree/main/demo/). This `demo` directory contains multiple demos to quickly bootstrap a webpack app using `tlsn-js`.
+This quick start uses the react/typescript [demos in `tlsn-js`](https://github.com/tlsnotary/tlsn-js/tree/main/demo/). The `demo` directory contains three demos to quickly bootstrap a webpack app using `tlsn-js`:
 
-## `tlsn-js` in a React/Typescript app
+1. [`react-ts-webpack`: create an attestation with a Notary and render the result](#react-ts-webpack)
+2. [`interactive-demo`: proof data interactively to a Verifier](#interactive-demo)
+3. [`web-to-web-p2p`: proof data between two peers, in the browser](#web-to-web-p2p)
+
+## `tlsn-js` in a React/Typescript app<a name="react-ts-webpack"></a>
 
 In this demo, we will request JSON data from the Star Wars API at <https://swapi.dev>. We will use `tlsn-js` to notarize the TLS request with TLSNotary and store the result in a *proof*. Then, we will use `tlsn-js` again to verify this *proof*.
 
@@ -12,7 +16,7 @@ In this demo, we will request JSON data from the Star Wars API at <https://swapi
 
 1. Clone the repository
     ```sh
-    git clone https://github.com/tlsnotary/tlsn-js    
+    git clone https://github.com/tlsnotary/tlsn-js
     ```
 2. Navigate to the demo directory:
    ```sh
@@ -50,6 +54,19 @@ In this demo, we will request JSON data from the Star Wars API at <https://swapi
 8. Click the **Start demo** button
 9. Open **Developer Tools** and monitor the console logs
 
+## Interactive verification with `tlsn-js` <a name="interactive-demo"></a>
+
+![](../diagrams/overview_prover_verifier.svg)
+
+Follow the instructions from:
+<https://github.com/tlsnotary/tlsn-js/blob/main/demo/interactive-demo/README.md>
+
+## Web-to-web proofs with `tlsn-js`<a name="web-to-web-p2p"></a>
+
+This demo showcases peer-to-peer communication between a web prover and a web verifier using TLSNotary. The prover fetches data from swapi.dev and proves it to the verifier.
+
+Follow the instructions from:
+<https://github.com/tlsnotary/tlsn-js/blob/main/demo/web-to-web-p2p/README.md>
 
 ## Run a local notary server and websocket proxy <a name="local"></a> (Optional)
 
