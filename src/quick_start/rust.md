@@ -1,6 +1,6 @@
 # Rust Quick Start
 
-This Quick Start demonstrates the simplest possible use case for TLSNotary. A Prover notarizes data from a local test server with a local Notary.
+This quick start demonstrates the simplest possible use case for TLSNotary. A Prover notarizes data from a local test server with a local Notary.
 
 ## Requirements
 
@@ -19,12 +19,11 @@ Before we start, make sure you have cloned the `tlsn` repository and have a rece
 Follow the instructions from:
 <https://github.com/tlsnotary/tlsn/tree/main/crates/examples/interactive#readme>
 
-## Simple Attestation Example: Verifying Data from an API in Rust with a notary<a name="attestation"></a>
+## Simple Attestation Example: Verifying Data from an API in Rust with a Notary<a name="attestation"></a>
 
 ![](../diagrams/overview_notary.svg)
 
 Follow the instructions from:
 <https://github.com/tlsnotary/tlsn/tree/main/crates/examples/attestation#readme>
-
 
 🍾 Great job! You have successfully used TLSNotary in Rust.

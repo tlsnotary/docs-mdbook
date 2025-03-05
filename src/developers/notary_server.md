@@ -67,13 +67,12 @@ We host multiple versions of the notary server:
 
 | Version        | Notary URL                            | Info/Status                                                                                                    | GitHub                                                                                       | Note                                                                           |
 | -------------- | ------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| v0.1.0-alpha.8 | https://notary.pse.dev/v0.1.0-alpha.8 | [info](https://notary.pse.dev/v0.1.0-alpha.8/info)/[health](https://notary.pse.dev/v0.1.0-alpha.8/healthcheck) | [v0.1.0-alpha.8](https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.8/crates/notary/server) | [Release notes](https://github.com/tlsnotary/tlsn/releases/tag/v0.1.0-alpha.8) |
 | v0.1.0-alpha.7 | https://notary.pse.dev/v0.1.0-alpha.7 | [info](https://notary.pse.dev/v0.1.0-alpha.7/info)/[health](https://notary.pse.dev/v0.1.0-alpha.7/healthcheck) | [v0.1.0-alpha.7](https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.7/crates/notary/server) | [Release notes](https://github.com/tlsnotary/tlsn/releases/tag/v0.1.0-alpha.7) |
 | nightly        | https://notary.pse.dev/nightly        | [info](https://notary.pse.dev/nightly/info)/[health](https://notary.pse.dev/nightly/healthcheck)               | [dev](https://github.com/tlsnotary/tlsn/tree/dev/crates/notary/server)                       |                                                                                |
 
 All the servers above run the TLSNotary notary software in a Trusted Execution Environment (TEE), Intel SGX on Azure. 
 You can verify the software attestation by visiting `https://notary.pse.dev/<version>/info` (for versions alpha.8-pre and later).
-
-For more details on the deployment, refer to this [GitHub Action](https://github.com/tlsnotary/tlsn/blob/main/.github/workflows/cd-server.yml).
 
 To check the status of the notary server, visit the `healthcheck` endpoint at:
 `https://notary.pse.dev/<version>/healthcheck`
