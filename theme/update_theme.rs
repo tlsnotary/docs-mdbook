@@ -11,7 +11,7 @@ use reqwest::blocking;
 use std::fs::File;
 use std::io::{self, Write};
 
-const MDBOOK_VERSION: &str = "0.4.40";
+const MDBOOK_VERSION: &str = "0.4.45";
 
 fn main() -> io::Result<()> {
     let url = format!(
