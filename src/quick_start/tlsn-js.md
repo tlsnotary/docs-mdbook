@@ -5,8 +5,8 @@ In this quick start you will learn how to use TLSNotary in React/Typescript with
 This quick start uses the react/typescript [demos in `tlsn-js`](https://github.com/tlsnotary/tlsn-js/tree/main/demo/). The `demo` directory contains three demos to quickly bootstrap a webpack app using `tlsn-js`:
 
 1. [`react-ts-webpack`: create an attestation with a Notary and render the result](#react-ts-webpack)
-2. [`interactive-demo`: proof data interactively to a Verifier](#interactive-demo)
-3. [`web-to-web-p2p`: proof data between two peers, in the browser](#web-to-web-p2p)
+2. [`interactive-demo`: prove data interactively to a Verifier](#interactive-demo)
+3. [`web-to-web-p2p`: prove data between two peers, in the browser](#web-to-web-p2p)
 
 ## `tlsn-js` in a React/Typescript app<a name="react-ts-webpack"></a>
 
