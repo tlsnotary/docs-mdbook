@@ -158,31 +158,36 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="tlsnotary-in-reacttypescript-with-tlsn-js"><a class="header" href="#tlsnotary-in-reacttypescript-with-tlsn-js">TLSNotary in React/Typescript with <code>tlsn-js</code><a name="browser"></a></a></h1>
-<p>In this Quick Start you will learn how to use TLSNotary in React/Typescript with <a href="https://github.com/tlsnotary/tlsn-js"><code>tlsn-js</code></a> NPM module in the browser.</p>
-<p>This Quick Start uses the react/typescript <a href="https://github.com/tlsnotary/tlsn-js/tree/main/demo/react-ts-webpack">demo app in <code>tlsn-js</code></a>. The directory contains a webpack configuration file that allows you to quickly bootstrap a webpack app using <code>tlsn-js</code>.</p>
-<h2 id="tlsn-js-in-a-reacttypescript-app"><a class="header" href="#tlsn-js-in-a-reacttypescript-app"><code>tlsn-js</code> in a React/Typescript app</a></h2>
+<p>In this quick start you will learn how to use TLSNotary in React/Typescript with the <a href="https://github.com/tlsnotary/tlsn-js"><code>tlsn-js</code></a> NPM module in the browser.</p>
+<p>This quick start uses the react/typescript <a href="https://github.com/tlsnotary/tlsn-js/tree/main/demo/">demos in <code>tlsn-js</code></a>. The <code>demo</code> directory contains three demos to quickly bootstrap a webpack app using <code>tlsn-js</code>:</p>
+<ol>
+<li><a href="#react-ts-webpack"><code>react-ts-webpack</code>: create an attestation with a Notary and render the result</a></li>
+<li><a href="#interactive-demo"><code>interactive-demo</code>: prove data interactively to a Verifier</a></li>
+<li><a href="#web-to-web-p2p"><code>web-to-web-p2p</code>: prove data between two peers, in the browser</a></li>
+</ol>
+<h2 id="tlsn-js-in-a-reacttypescript-app"><a class="header" href="#tlsn-js-in-a-reacttypescript-app"><code>tlsn-js</code> in a React/Typescript app<a name="react-ts-webpack"></a></a></h2>
 <p>In this demo, we will request JSON data from the Star Wars API at <a href="https://swapi.dev">https://swapi.dev</a>. We will use <code>tlsn-js</code> to notarize the TLS request with TLSNotary and store the result in a <em>proof</em>. Then, we will use <code>tlsn-js</code> again to verify this <em>proof</em>.</p>
 <blockquote>
-<p><strong><em>NOTE:</em></strong> ℹ️ This demo uses TLSNotary to notarize <strong>public</strong> data to simplify the Quick Start for everyone. For real-world applications, TLSNotary is particularly valuable for notarizing private and sensitive data.</p>
+<p><strong><em>NOTE:</em></strong> ℹ️ This demo uses TLSNotary to notarize <strong>public</strong> data to simplify the quick start for everyone. For real-world applications, TLSNotary is particularly valuable for notarizing private and sensitive data.</p>
 </blockquote>
 <ol>
 <li>Clone the repository
-<pre><code class="language-sh">git clone https://github.com/tlsnotary/tlsn-js    
+<pre><code class="language-sh">git clone https://github.com/tlsnotary/tlsn-js
 </code></pre>
 </li>
 <li>Navigate to the demo directory:
 <pre><code class="language-sh">cd tlsn-js/demo/react-ts-webpack
 </code></pre>
 </li>
-<li>Checkout the version of this Quick Start:
-<pre><code class="language-sh">git checkout v0.1.0-alpha.7
+<li>Checkout the version of this quick start:
+<pre><code class="language-sh">git checkout v0.1.0-alpha.8
 </code></pre>
 </li>
 <li>If you want to use a local TLSNotary server: <a href="#local">Run a local notary server and websocket proxy</a>, otherwise:
 <ol>
 <li>Open <code>app.tsx</code> in your favorite editor.</li>
 <li>Replace <code>notaryUrl: 'http://localhost:7047',</code> with:
-<pre><code class="language-ts">   notaryUrl: 'https://notary.pse.dev/v0.1.0-alpha.7',
+<pre><code class="language-ts">   notaryUrl: 'https://notary.pse.dev/v0.1.0-alpha.8',
 </code></pre>
 This makes this webpage use the <a href="https://pse.dev">PSE</a> notary server to notarize the API request. Feel free to use different or <a href="#local">local notary</a>; a local server will be faster because it removes the bandwidth constraints between the user and the notary.</li>
 <li>Replace <code>websocketProxyUrl: 'ws://localhost:55688',</code> with:
@@ -190,7 +195,7 @@ This makes this webpage use the <a href="https://pse.dev">PSE</a> notary server 
 </code></pre>
 Because a web browser doesn't have the ability to make TCP connection, we need to use a websocket proxy server. This uses a proxy hosted by <a href="https://pse.dev">PSE</a>. Feel free to use different or <a href="#local">local notary</a> proxy.</li>
 <li>In <code>package.json</code>: check the version number:
-<pre><code class="language-json">    "tlsn-js": "v0.1.0-alpha.7"
+<pre><code class="language-json">    "tlsn-js": "v0.1.0-alpha.8"
 </code></pre>
 </li>
 </ol>
@@ -207,8 +212,16 @@ Because a web browser doesn't have the ability to make TCP connection, we need t
 <li>Click the <strong>Start demo</strong> button</li>
 <li>Open <strong>Developer Tools</strong> and monitor the console logs</li>
 </ol>
+<h2 id="interactive-verification-with-tlsn-js"><a class="header" href="#interactive-verification-with-tlsn-js">Interactive verification with <code>tlsn-js</code> <a name="interactive-demo"></a></a></h2>
+<p><img src="../diagrams/overview_prover_verifier.svg" alt="" /></p>
+<p>Follow the instructions from:
+<a href="https://github.com/tlsnotary/tlsn-js/blob/main/demo/interactive-demo/README.md">https://github.com/tlsnotary/tlsn-js/blob/main/demo/interactive-demo/README.md</a></p>
+<h2 id="web-to-web-proofs-with-tlsn-js"><a class="header" href="#web-to-web-proofs-with-tlsn-js">Web-to-web proofs with <code>tlsn-js</code><a name="web-to-web-p2p"></a></a></h2>
+<p>This demo showcases peer-to-peer communication between a web prover and a web verifier using TLSNotary. The prover fetches data from swapi.dev and proves it to the verifier.</p>
+<p>Follow the instructions from:
+<a href="https://github.com/tlsnotary/tlsn-js/blob/main/demo/web-to-web-p2p/README.md">https://github.com/tlsnotary/tlsn-js/blob/main/demo/web-to-web-p2p/README.md</a></p>
 <h2 id="run-a-local-notary-server-and-websocket-proxy--optional"><a class="header" href="#run-a-local-notary-server-and-websocket-proxy--optional">Run a local notary server and websocket proxy <a name="local"></a> (Optional)</a></h2>
-<p>The instructions above, use the <a href="https://pse.dev">PSE</a> hosted notary server and websocket proxy. This is easier for this Quick Start because it requires less setup. If you develop your own applications with <code>tlsn-js</code>, development will be easier with locally hosted services. This section explains how.</p>
+<p>The instructions above, use the <a href="https://pse.dev">PSE</a> hosted notary server and websocket proxy. This is easier for this quick start because it requires less setup. If you develop your own applications with <code>tlsn-js</code>, development will be easier with locally hosted services. This section explains how.</p>
 <h3 id="websocket-proxy"><a class="header" href="#websocket-proxy">Websocket Proxy <a name="proxy"></a></a></h3>
 <p>Since a web browser doesn't have the ability to make TCP connection, we need to use a websocket proxy server.</p>
 <ol>
@@ -229,14 +242,9 @@ Because a web browser doesn't have the ability to make TCP connection, we need t
 <pre><code class="language-sh">git clone https://github.com/tlsnotary/tlsn.git
 </code></pre>
 </li>
-<li>Edit the notary server config file (<code>crates/notary/server/config/config.yaml</code>) to turn off TLS so that self-signed certificates can be avoided (⚠️ this is only for local development purposes — TLS must be used in production).
-<pre><code class="language-yaml">tls:
-   enabled: false
-</code></pre>
-</li>
 <li>Run the notary server:
 <pre><code class="language-sh">cd crates/notary/server
-cargo run --release
+cargo run --release -- --tls-enabled false
 </code></pre>
 </li>
 </ol>

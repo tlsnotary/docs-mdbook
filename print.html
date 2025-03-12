@@ -280,9 +280,10 @@ There are no immediate plans to support TLS 1.3. Once the web starts to transiti
 </code></pre>
 <h3 id="faq11"><a class="header" href="#faq11">How to run TLSNotary with extra logging?</a></h3>
 <p>To get deeper insights into what TLSNotary is doing, you can enable extra logging with <code>RUST_LOG=debug</code> or <code>RUST_LOG=trace</code>. This will generate a lot of output, as it logs extensive network activity. It’s recommended to filter logs for better readability. The recommended configuration is:</p>
-<pre><code>RUST_LOG=trace,yamux=info,uid_mux=info cargo run  --release
+<pre><code>RUST_LOG=trace,yamux=info,uid_mux=info cargo run --release
 </code></pre>
-<p>In the Browser Extension you change the logging level via <strong>Options &gt; Advanced &gt; Logging Level</strong></p>
+<p>In the browser extension, you can change the logging level via <strong>Options &gt; Advanced &gt; Logging Level</strong>.</p>
+<p>For the notary server, please refer to <a href="https://github.com/tlsnotary/tlsn/blob/main/crates/notary/server/README.md#logging">this</a> on how to change the logging level.</p>
 <h3 id="faq12"><a class="header" href="#faq12">How do I troubleshoot connection issues?</a></h3>
 <p>If a TLSNotary request fails, first ensure that the request works independently of TLSNotary by testing it with tools like <code>curl</code>, Postman, or another HTTP client. This helps rule out any server or network issues unrelated to TLSNotary.</p>
 <p>Next, confirm that your request includes the necessary headers:</p>
@@ -292,224 +293,96 @@ There are no immediate plans to support TLS 1.3. Once the web starts to transiti
 </ul>
 <p>If the issue persists, <a href="faq.html#faq11">enable extra logging</a> with <code>RUST_LOG=debug</code> or <code>RUST_LOG=trace</code> for deeper insights into what TLSNotary is doing.</p>
 <p>If you are connecting through a WebSocket proxy (e.g., in the browser extension), double-check that the WebSocket proxy connects to the intended domain. Note that PSE's public WebSocket proxy only supports a limited <a href="https://docs.tlsnotary.org/developers/notary_server.html#websocket-proxy-server">whitelist</a>. If you use a local proxy, make sure the domain is correct.</p>
-<h3 id="faq13"><a class="header" href="#faq13">Does TLSNotary Solve the Oracle Problem?</a></h3>
-<p>No, the TLSNotary protocol does not solve the "Oracle Problem." The Oracle Problem refers to the challenge of ensuring that off-chain data used in blockchain smart contracts is trustworthy and tamper-proof. While TLSNotary allows a Prover to cryptographically authenticate TLS data to a designated Verifier, trust is still required in the designated Verifier when it attests to the verified data on-chain. Therefore, this is not a trustless, decentralized solution to the Oracle Problem.</p>
+<h3 id="faq13"><a class="header" href="#faq13">Does TLSNotary solve the Oracle Problem?</a></h3>
+<p>No, the TLSNotary protocol does not solve the "Oracle Problem". The Oracle Problem refers to the challenge of ensuring that off-chain data used in blockchain smart contracts is trustworthy and tamper-proof. While TLSNotary allows a Prover to cryptographically authenticate TLS data to a designated Verifier, trust is still required in the designated Verifier when it attests to the verified data on-chain. Therefore, this is not a trustless, decentralized solution to the Oracle Problem.</p>
 <p>TLSNotary can be used to bring data on-chain, but when the stakes are high, it is recommended to combine TLSNotary with a dedicated oracle protocol to mitigate these risks. Multiple projects are currently exploring the best solutions.</p>
 <h3 id="faq14"><a class="header" href="#faq14">What is a presentation in TLSNotary?</a></h3>
 <p>In TLSNotary, a <strong>presentation</strong> refers to data shared by the Prover to selectively reveal specific parts of the TLS data committed to earlier during the attestation phase. By using these earlier commitments, the Prover can choose to disclose only particular segments of the TLS data while keeping other parts hidden or redacted. This enables a flexible and controlled way to share proofs, ensuring that sensitive information remains private.</p>
 <p>The term “presentation” is inspired by similar terminology in the <a href="https://www.w3.org/TR/vc-data-model/#dfn-verifiable-presentations">W3C Verifiable Credentials standard</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="quick-start"><a class="header" href="#quick-start">Quick Start</a></h1>
-<p>This quick start will help you get started with TLSNotary, both in native <a href="quick_start/rust.html">Rust</a> and in the <a href="quick_start/browser_extension.html">browser</a>.</p>
-<ol>
-<li><a href="quick_start/rust.html#rust-simple">Most Basic Example: Proving and Verifying Public Data (Rust)</a></li>
-<li><a href="quick_start/rust.html#rust-discord">Proving and Verifying a Private Discord DM (Rust)</a></li>
-<li><a href="quick_start/tlsn-js.html#browser">Proving and Verifying data in a React/Typescript app</a></li>
-<li><a href="quick_start/browser_extension.html#browser">Proving and Verifying ownership of a Twitter account (Browser)</a></li>
-</ol>
-<p>Objectives of this quick start:</p>
+<p>This quick start will help you get started with TLSNotary, both in native Rust and in the Browser.</p>
+<h2 id="objectives"><a class="header" href="#objectives">Objectives</a></h2>
 <ul>
 <li>Gain a better understanding of what you can do with TLSNotary</li>
-<li>Learn the basics of how to prove and verify data using TLSNotary</li>
+<li>Learn the basics of how to notarize and verify data using TLSNotary</li>
 </ul>
-<p>Let's <a href="quick_start/rust.html">start</a>!</p>
+<h2 id="rust"><a class="header" href="#rust">Rust</a></h2>
+<ol>
+<li><a href="quick_start/rust.html#interactive">Interactive Verification Example</a>: This example demonstrates how to use TLSNotary in a simple interactive session between a Prover and a Verifier. It involves the Verifier first verifying the MPC-TLS session and then confirming the correctness of the data.</li>
+<li><a href="quick_start/rust.html#attestation">Simple Attestation Example</a>: Use TLSNotary with a Notary attesting to the data.</li>
+</ol>
+<h2 id="browser"><a class="header" href="#browser">Browser</a></h2>
+<h3 id="hosted-demo"><a class="header" href="#hosted-demo">Hosted demo</a></h3>
+<p>To get started with TLSNotary in the browser, it is recommended to try the online TLSNotary demo first. This demo shows how TLSNotary can be used to verify private user data in a web app. The demo guides you through the following steps:</p>
+<ol>
+<li>Installing the browser extension</li>
+<li>Installing the website plugin into the browser extension</li>
+<li>Running the plugin to get a TLSNotary attestation</li>
+<li>Verifying the attestation on the server</li>
+</ol>
+<p>Visit <a href="https://demo.tlsnotary.org">demo.tlsnotary.org</a> to try the different steps.</p>
+<h3 id="proving-and-verifying-data-in-a-reacttypescript-app-tlsn-js"><a class="header" href="#proving-and-verifying-data-in-a-reacttypescript-app-tlsn-js">Proving and Verifying Data in a React/Typescript App (<code>tlsn-js</code>)</a></h3>
+<p>Learn how to use TLSNotary in a React/Typescript app with the <code>tlsn-js</code> NPM module.</p>
+<p><a href="quick_start/tlsn-js.html#browser">Proving and Verifying Data in a React/Typescript App</a></p>
+<h3 id="browser-extension"><a class="header" href="#browser-extension">Browser Extension</a></h3>
+<p>Learn how to prove and verify ownership of a Twitter account using the TLSNotary browser extension.</p>
+<p><a href="quick_start/browser_extension.html#browser">Proving and Verifying Ownership of a Twitter Account (Browser)</a></p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="rust-quick-start"><a class="header" href="#rust-quick-start">Rust Quick Start</a></h1>
-<p>This Quick Start will show you how to use TLSNotary in a native Rust application.</p>
+<p>This quick start demonstrates how to use TLSNotary with Rust code.</p>
 <h2 id="requirements"><a class="header" href="#requirements">Requirements</a></h2>
 <p>Before we start, make sure you have cloned the <code>tlsn</code> repository and have a recent version of Rust installed.</p>
-<h3 id="clone-the-tlsnotary-repository"><a class="header" href="#clone-the-tlsnotary-repository">Clone the TLSNotary Repository</a></h3>
-<p>Clone the <code>tlsn</code> repository (defaults to the <code>main</code> branch, which points to the latest release):</p>
+<ol>
+<li>Clone the <code>tlsn</code> repository (defaults to the <code>main</code> branch, which points to the latest release):
 <pre><code class="language-shell">git clone https://github.com/tlsnotary/tlsn.git
 </code></pre>
-<p>Next open the <code>tlsn</code> folder in your favorite IDE.</p>
-<h3 id="install-rust"><a class="header" href="#install-rust">Install Rust</a></h3>
-<p>If you don't have Rust installed yet, you can install it using <a href="https://rustup.rs/">rustup</a>:</p>
-<pre><code class="language-shell">curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-</code></pre>
-<p>To configure your current shell, run:</p>
-<pre><code class="language-shell">source "$HOME/.cargo/env"
-</code></pre>
-<h2 id="simple-example-notarizing-public-data-from-examplecom"><a class="header" href="#simple-example-notarizing-public-data-from-examplecom">Simple Example: Notarizing Public Data from example.com <a name="rust-simple"></a></a></h2>
-<p>This example demonstrates the simplest possible use case for TLSNotary:</p>
-<ol>
-<li>Fetch <a href="https://example.com/">https://example.com/</a> and acquire an attestation of its content.</li>
-<li>Create a verifiable presentation using the attestation, while redacting the value of a header.</li>
-<li>Verify the presentation.</li>
-</ol>
-<h3 id="1-notarize-httpsexamplecom"><a class="header" href="#1-notarize-httpsexamplecom">1. Notarize <a href="https://example.com/">https://example.com/</a></a></h3>
-<p>Run the <code>prove</code> binary:</p>
-<pre><code class="language-shell">cd crates/examples/attestation
-cargo run --release --example attestation_prove
-</code></pre>
-<p>If the notarization was successful, you should see this output in the console:</p>
-<pre><code class="language-log">Starting an MPC TLS connection with the server
-Got a response from the server
-Notarization completed successfully!
-The attestation has been written to `example.attestation.tlsn` and the corresponding secrets to `example.secrets.tlsn`.
-</code></pre>
-<p>If you want to see more details, you can run the prover with extra logging:</p>
-<pre><code class="language-shell">RUST_LOG=DEBUG,uid_mux=INFO,yamux=INFO cargo run --release --example attestation_prove
-</code></pre>
-<p>⚠️ In this simple example the <code>Notary</code> server is automatically started in the background. Note that this is for demonstration purposes only. In a real world example, the notary should be run by a trusted party. Consult the <a href="https://docs.tlsnotary.org/developers/notary_server.html">Notary Server Docs</a> for more details on how to run a notary server.</p>
-<h3 id="2-build-a-verifiable-presentation"><a class="header" href="#2-build-a-verifiable-presentation">2. Build a verifiable presentation</a></h3>
-<p>This will build a verifiable presentation with the <code>User-Agent</code> header redacted from the request. This presentation can be shared with any verifier you wish to present the data to.</p>
-<p>Run the <code>present</code> binary.</p>
-<pre><code class="language-shell">cargo run --release --example attestation_present
-</code></pre>
-<p>If successful, you should see this output in the console:</p>
-<pre><code class="language-log">Presentation built successfully!
-The presentation has been written to `example.presentation.tlsn`.
-</code></pre>
-<h3 id="3-verify-the-presentation"><a class="header" href="#3-verify-the-presentation">3. Verify the presentation</a></h3>
-<p>This will read the presentation from the previous step, verify it, and print the disclosed data to console.</p>
-<p>Run the <code>verify</code> binary.</p>
-<pre><code class="language-shell">cargo run --release --example attestation_verify
-</code></pre>
-<p>If successful, you should see this output in the console:</p>
-<pre><code class="language-log">Verifying presentation with {key algorithm} key: { hex encoded key }
-
-**Ask yourself, do you trust this key?**
-
--------------------------------------------------------------------
-Successfully verified that the data below came from a session with example.com at 2024-10-03 03:01:40 UTC.
-Note that the data which the Prover chose not to disclose are shown as X.
-
-Data sent:
-...
-</code></pre>
-<p>⚠️ Notice that the presentation comes with a "verifying key". This is the key the Notary used when issuing the attestation that the presentation was built from. If you trust the Notary, or more specifically the verifying key, then you can trust that the presented data is authentic.</p>
-<!-- TODO: when explorer is updated -->
-<!--
-You can also use <https://explorer.tlsnotary.org/> to inspect your proofs. Open <https://explorer.tlsnotary.org/> and drag and drop `example.presentation.tlsn` from your file explorer into the drop zone. [Notary public key](https://github.com/tlsnotary/tlsn/blob/main/crates/notary/server/fixture/notary/notary.pub) 
-
-![Proof Visualization](images/explorer.png)
-
-Redacted bytes are marked with `X` characters.
-
-![Proof Redacted](images/explorer_redacted.png)
--->
-<!-- TODO: interactive verifier (p2p) example -->
-<!-- ### (Optional) Extra Experiments
-
-Feel free to try these extra challenges:
-
-- [ ] Modify the `server_name` (or any other data) in `simple_proof.json` and verify that the proof is no longer valid.
-- [ ] Modify the `build_proof_with_redactions` function in `simple_prover.rs` to redact more or different data. -->
-<h2 id="notarizing-private-information-discord-message"><a class="header" href="#notarizing-private-information-discord-message">Notarizing Private Information: Discord Message<a name="rust-discord"></a></a></h2>
-<p>Next, we will use TLSNotary to generate a proof of private information: a private Discord DM.</p>
-<p>We will also use an explicit (locally hosted) notary server this time.</p>
-<h3 id="1-start-a-local-notary-server"><a class="header" href="#1-start-a-local-notary-server">1. Start a Local Notary Server</a></h3>
-<p>The notary server used in this example is more functional compared to the (implicit) simple notary service used in the example above. This notary server should actually be run by the Verifier or a neutral party. To make things simple, we run everything on the same machine.</p>
-<ol>
-<li>Edit the notary server config file (<code>crates/notary/server/config/config.yaml</code>) to turn off TLS so that self-signed certificates can be avoided (⚠️ this is only for local development purposes — TLS must be used in production).
-<pre><code class="language-yaml"> tls:
-     enabled: false
-     ...
-</code></pre>
 </li>
-<li>Run the notary server:
-<pre><code class="language-shell">cd crates/notary/server
-cargo run --release
-</code></pre>
-</li>
+<li>If you don't have Rust installed yet, you can install it using <a href="https://rustup.rs/">rustup</a>. If your Rust version is outdated, update it with <code>rustup update stable</code>.</li>
 </ol>
-<p>The notary server will now be running in the background waiting for connections.</p>
-<p>Keep it running and open a new terminal.</p>
-<h3 id="2-get-authorization-token-and-channel-id"><a class="header" href="#2-get-authorization-token-and-channel-id">2. Get Authorization Token and Channel ID</a></h3>
-<p>Before we can notarize a Discord message, we need some parameters in a <code>.env</code> file.</p>
-<p>In the <code>tlsn/examples/discord</code> folder, copy the <code>.env.example</code> file and name it <code>.env</code>.</p>
-<p>In this <code>.env</code>, we will input the <code>USER_AGENT</code>, <code>AUTHORIZATION</code> token, and <code>CHANNEL_ID</code>.</p>
-<div class="table-wrapper"><table><thead><tr><th>Name</th><th>Example</th><th>Location</th></tr></thead><tbody>
-<tr><td>USER_AGENT</td><td><code>"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/116.0"</code></td><td>Look for <code>User-Agent</code> in request headers</td></tr>
-<tr><td>AUTHORIZATION</td><td><code>"MTE1NDe1Otg4N6NxNjczOTM2OA.GYbUBf.aDtcMUKDOmg6C2kxxFtlFSN1pgdMMBtpHgBBEs"</code></td><td>Look for <code>Authorization</code> in request headers</td></tr>
-<tr><td>CHANNEL_ID</td><td><code>"1154750485639745567"</code></td><td>URL</td></tr>
-</tbody></table>
-</div>
-<p>You can obtain these parameters by opening <a href="https://discord.com/channels/@me">Discord</a> in your browser and accessing the message history you want to notarize.</p>
-<blockquote>
-<p><strong><em>NOTE:</em></strong> ⚠️ Please note that notarizing only works for short transcripts at the moment, so choose a contact with a short history.</p>
-</blockquote>
-<p>Next, open the <strong>Developer Tools</strong>, go to the <strong>Network</strong> tab, and refresh the page. Then, click on <strong>Search</strong> and type <code>/api</code> to filter results to Discord API requests. From there, you can copy the needed information into your <code>.env</code> as indicated above.</p>
-<p>You can find the <code>CHANNEL_ID</code> directly in the URL:</p>
-<p><code>https://discord.com/channels/@me/{CHANNEL_ID)</code></p>
-<p><img src="quick_start/./images/discord_authentication_token.png" alt="Discord Authentication Token" /></p>
-<h3 id="3-notarize"><a class="header" href="#3-notarize">3. Notarize</a></h3>
-<p>In this tlsn/examples/discord folder, run the following command:</p>
-<pre><code class="language-sh">RUST_LOG=DEBUG,uid_mux=INFO,yamux=INFO cargo run --release --example discord_dm
-</code></pre>
-<p>If everything goes well, you should see output similar to the following:</p>
-<pre><code class="language-log">...
-2024-06-26T08:49:47.017439Z DEBUG connect:tls_connection: tls_client_async: handshake complete
-2024-06-26T08:49:48.676459Z DEBUG connect:tls_connection: tls_client_async: server closed connection
-2024-06-26T08:49:48.676481Z DEBUG connect:commit: tls_mpc::leader: committing to transcript
-2024-06-26T08:49:48.676503Z DEBUG connect:tls_connection: tls_client_async: client shutdown
-2024-06-26T08:49:48.676466Z DEBUG discord_dm: Sent request
-2024-06-26T08:49:48.676550Z DEBUG discord_dm: Request OK
-2024-06-26T08:49:48.676598Z DEBUG connect:close_connection: tls_mpc::leader: closing connection
-2024-06-26T08:49:48.676613Z DEBUG connect: tls_mpc::leader: leader actor stopped
-2024-06-26T08:49:48.676618Z DEBUG discord_dm: [
-  {
-    "attachments": [],
-    ...
-    "channel_id": "1154750485639745567",
-    ...
-  }
-]
-2024-06-26T08:49:48.678621Z DEBUG finalize: tlsn_prover::tls::notarize: starting finalization
-2024-06-26T08:49:48.680839Z DEBUG finalize: tlsn_prover::tls::notarize: received OT secret
-2024-06-26T08:49:50.004432Z  INFO finalize:poll{role=Client}:handle_shutdown: uid_mux::yamux: mux connection closed
-2024-06-26T08:49:50.004448Z  INFO finalize:poll{role=Client}: uid_mux::yamux: connection complete
-2024-06-26T08:49:50.004583Z DEBUG discord_dm: Notarization complete!
-</code></pre>
-<!-- TODO: update explorer -->
-<!-- ### Verify
-
-Verify the proof by dropping the JSON file into <https://explorer.tlsnotary.org/> or by running:
-
-```shell
-cargo run --release --example discord_dm_verifier
-``` -->
+<h2 id="simple-interactive-verifier-verifying-data-from-an-api-in-rust"><a class="header" href="#simple-interactive-verifier-verifying-data-from-an-api-in-rust">Simple Interactive Verifier: Verifying Data from an API in Rust<a name="interactive"></a></a></h2>
+<p><img src="quick_start/../diagrams/overview_prover_verifier.svg" alt="" /></p>
+<p>This example demonstrates how to use TLSNotary in a simple interactive session between a Prover and a Verifier. It involves the Verifier first verifying the MPC-TLS session and then confirming the correctness of the data.</p>
+<p>Follow the instructions from:
+<a href="https://github.com/tlsnotary/tlsn/tree/main/crates/examples/interactive#readme">https://github.com/tlsnotary/tlsn/tree/main/crates/examples/interactive#readme</a></p>
+<h2 id="simple-attestation-example-verifying-data-from-an-api-in-rust-with-a-notary"><a class="header" href="#simple-attestation-example-verifying-data-from-an-api-in-rust-with-a-notary">Simple Attestation Example: Verifying Data from an API in Rust with a Notary<a name="attestation"></a></a></h2>
+<p><img src="quick_start/../diagrams/overview_notary.svg" alt="" /></p>
+<p>TLSNotary can also be used in a setup where MPC-TLS verification is delegated to a notary server. In this example, the notary attests to the data served to the prover. Next, the prover can share this attestation with a Verifier who can verify the data.</p>
+<p>Follow the instructions from:
+<a href="https://github.com/tlsnotary/tlsn/tree/main/crates/examples/attestation#readme">https://github.com/tlsnotary/tlsn/tree/main/crates/examples/attestation#readme</a></p>
 <p>🍾 Great job! You have successfully used TLSNotary in Rust.</p>
-<!-- 
-### (Optional) Notarize More Private Data
-
-If the examples above were too easy for you, try to notarize data from other websites such as:
-
-- [ ] Amazon purchase
-- [ ] Twitter DM (see <https://github.com/tlsnotary/tlsn/blob/main/tlsn/examples/twitter/README.md>)
-- [ ] LinkedIn skill
-- [ ] Steam accomplishment
-- [ ] Garmin Connect achievement
-- [ ] AirBnB score
-- [ ] Tesla ownership -->
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="tlsnotary-in-reacttypescript-with-tlsn-js"><a class="header" href="#tlsnotary-in-reacttypescript-with-tlsn-js">TLSNotary in React/Typescript with <code>tlsn-js</code><a name="browser"></a></a></h1>
-<p>In this Quick Start you will learn how to use TLSNotary in React/Typescript with <a href="https://github.com/tlsnotary/tlsn-js"><code>tlsn-js</code></a> NPM module in the browser.</p>
-<p>This Quick Start uses the react/typescript <a href="https://github.com/tlsnotary/tlsn-js/tree/main/demo/react-ts-webpack">demo app in <code>tlsn-js</code></a>. The directory contains a webpack configuration file that allows you to quickly bootstrap a webpack app using <code>tlsn-js</code>.</p>
-<h2 id="tlsn-js-in-a-reacttypescript-app"><a class="header" href="#tlsn-js-in-a-reacttypescript-app"><code>tlsn-js</code> in a React/Typescript app</a></h2>
+<p>In this quick start you will learn how to use TLSNotary in React/Typescript with the <a href="https://github.com/tlsnotary/tlsn-js"><code>tlsn-js</code></a> NPM module in the browser.</p>
+<p>This quick start uses the react/typescript <a href="https://github.com/tlsnotary/tlsn-js/tree/main/demo/">demos in <code>tlsn-js</code></a>. The <code>demo</code> directory contains three demos to quickly bootstrap a webpack app using <code>tlsn-js</code>:</p>
+<ol>
+<li><a href="quick_start/tlsn-js.html#react-ts-webpack"><code>react-ts-webpack</code>: create an attestation with a Notary and render the result</a></li>
+<li><a href="quick_start/tlsn-js.html#interactive-demo"><code>interactive-demo</code>: prove data interactively to a Verifier</a></li>
+<li><a href="quick_start/tlsn-js.html#web-to-web-p2p"><code>web-to-web-p2p</code>: prove data between two peers, in the browser</a></li>
+</ol>
+<h2 id="tlsn-js-in-a-reacttypescript-app"><a class="header" href="#tlsn-js-in-a-reacttypescript-app"><code>tlsn-js</code> in a React/Typescript app<a name="react-ts-webpack"></a></a></h2>
 <p>In this demo, we will request JSON data from the Star Wars API at <a href="https://swapi.dev">https://swapi.dev</a>. We will use <code>tlsn-js</code> to notarize the TLS request with TLSNotary and store the result in a <em>proof</em>. Then, we will use <code>tlsn-js</code> again to verify this <em>proof</em>.</p>
 <blockquote>
-<p><strong><em>NOTE:</em></strong> ℹ️ This demo uses TLSNotary to notarize <strong>public</strong> data to simplify the Quick Start for everyone. For real-world applications, TLSNotary is particularly valuable for notarizing private and sensitive data.</p>
+<p><strong><em>NOTE:</em></strong> ℹ️ This demo uses TLSNotary to notarize <strong>public</strong> data to simplify the quick start for everyone. For real-world applications, TLSNotary is particularly valuable for notarizing private and sensitive data.</p>
 </blockquote>
 <ol>
 <li>Clone the repository
-<pre><code class="language-sh">git clone https://github.com/tlsnotary/tlsn-js    
+<pre><code class="language-sh">git clone https://github.com/tlsnotary/tlsn-js
 </code></pre>
 </li>
 <li>Navigate to the demo directory:
 <pre><code class="language-sh">cd tlsn-js/demo/react-ts-webpack
 </code></pre>
 </li>
-<li>Checkout the version of this Quick Start:
-<pre><code class="language-sh">git checkout v0.1.0-alpha.7
+<li>Checkout the version of this quick start:
+<pre><code class="language-sh">git checkout v0.1.0-alpha.8
 </code></pre>
 </li>
 <li>If you want to use a local TLSNotary server: <a href="quick_start/tlsn-js.html#local">Run a local notary server and websocket proxy</a>, otherwise:
 <ol>
 <li>Open <code>app.tsx</code> in your favorite editor.</li>
 <li>Replace <code>notaryUrl: 'http://localhost:7047',</code> with:
-<pre><code class="language-ts">   notaryUrl: 'https://notary.pse.dev/v0.1.0-alpha.7',
+<pre><code class="language-ts">   notaryUrl: 'https://notary.pse.dev/v0.1.0-alpha.8',
 </code></pre>
 This makes this webpage use the <a href="https://pse.dev">PSE</a> notary server to notarize the API request. Feel free to use different or <a href="quick_start/tlsn-js.html#local">local notary</a>; a local server will be faster because it removes the bandwidth constraints between the user and the notary.</li>
 <li>Replace <code>websocketProxyUrl: 'ws://localhost:55688',</code> with:
@@ -517,7 +390,7 @@ This makes this webpage use the <a href="https://pse.dev">PSE</a> notary server 
 </code></pre>
 Because a web browser doesn't have the ability to make TCP connection, we need to use a websocket proxy server. This uses a proxy hosted by <a href="https://pse.dev">PSE</a>. Feel free to use different or <a href="quick_start/tlsn-js.html#local">local notary</a> proxy.</li>
 <li>In <code>package.json</code>: check the version number:
-<pre><code class="language-json">    "tlsn-js": "v0.1.0-alpha.7"
+<pre><code class="language-json">    "tlsn-js": "v0.1.0-alpha.8"
 </code></pre>
 </li>
 </ol>
@@ -534,8 +407,16 @@ Because a web browser doesn't have the ability to make TCP connection, we need t
 <li>Click the <strong>Start demo</strong> button</li>
 <li>Open <strong>Developer Tools</strong> and monitor the console logs</li>
 </ol>
+<h2 id="interactive-verification-with-tlsn-js"><a class="header" href="#interactive-verification-with-tlsn-js">Interactive verification with <code>tlsn-js</code> <a name="interactive-demo"></a></a></h2>
+<p><img src="quick_start/../diagrams/overview_prover_verifier.svg" alt="" /></p>
+<p>Follow the instructions from:
+<a href="https://github.com/tlsnotary/tlsn-js/blob/main/demo/interactive-demo/README.md">https://github.com/tlsnotary/tlsn-js/blob/main/demo/interactive-demo/README.md</a></p>
+<h2 id="web-to-web-proofs-with-tlsn-js"><a class="header" href="#web-to-web-proofs-with-tlsn-js">Web-to-web proofs with <code>tlsn-js</code><a name="web-to-web-p2p"></a></a></h2>
+<p>This demo showcases peer-to-peer communication between a web prover and a web verifier using TLSNotary. The prover fetches data from swapi.dev and proves it to the verifier.</p>
+<p>Follow the instructions from:
+<a href="https://github.com/tlsnotary/tlsn-js/blob/main/demo/web-to-web-p2p/README.md">https://github.com/tlsnotary/tlsn-js/blob/main/demo/web-to-web-p2p/README.md</a></p>
 <h2 id="run-a-local-notary-server-and-websocket-proxy--optional"><a class="header" href="#run-a-local-notary-server-and-websocket-proxy--optional">Run a local notary server and websocket proxy <a name="local"></a> (Optional)</a></h2>
-<p>The instructions above, use the <a href="https://pse.dev">PSE</a> hosted notary server and websocket proxy. This is easier for this Quick Start because it requires less setup. If you develop your own applications with <code>tlsn-js</code>, development will be easier with locally hosted services. This section explains how.</p>
+<p>The instructions above, use the <a href="https://pse.dev">PSE</a> hosted notary server and websocket proxy. This is easier for this quick start because it requires less setup. If you develop your own applications with <code>tlsn-js</code>, development will be easier with locally hosted services. This section explains how.</p>
 <h3 id="websocket-proxy"><a class="header" href="#websocket-proxy">Websocket Proxy <a name="proxy"></a></a></h3>
 <p>Since a web browser doesn't have the ability to make TCP connection, we need to use a websocket proxy server.</p>
 <ol>
@@ -556,28 +437,23 @@ Because a web browser doesn't have the ability to make TCP connection, we need t
 <pre><code class="language-sh">git clone https://github.com/tlsnotary/tlsn.git
 </code></pre>
 </li>
-<li>Edit the notary server config file (<code>crates/notary/server/config/config.yaml</code>) to turn off TLS so that self-signed certificates can be avoided (⚠️ this is only for local development purposes — TLS must be used in production).
-<pre><code class="language-yaml">tls:
-   enabled: false
-</code></pre>
-</li>
 <li>Run the notary server:
 <pre><code class="language-sh">cd crates/notary/server
-cargo run --release
+cargo run --release -- --tls-enabled false
 </code></pre>
 </li>
 </ol>
 <p>The notary server will now be running in the background waiting for connections.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="tlsnotary-browser-extension"><a class="header" href="#tlsnotary-browser-extension">TLSNotary Browser Extension <a name="browser"></a></a></h1>
-<p>In this Quick Start we will prove ownership of a Twitter account with TLSNotary's browser extension.
-First we need to <a href="quick_start/browser_extension.html#install">install</a> and configure a <a href="quick_start/browser_extension.html#proxy">websocket proxy</a> and a <a href="quick_start/browser_extension.html#notary-server">notary server</a>.</p>
+<p>In this quick start we will prove ownership of a Twitter account with TLSNotary's browser extension.</p>
+<p>Optionaly you can <a href="quick_start/browser_extension.html#install">install</a> and configure a local <a href="quick_start/browser_extension.html#proxy">websocket proxy</a> and local <a href="quick_start/browser_extension.html#notary-server">notary server</a>.</p>
 <h2 id="install-browser-extension-chromebrave"><a class="header" href="#install-browser-extension-chromebrave">Install Browser Extension (Chrome/Brave) <a name="install"></a></a></h2>
 <p>The easiest way to install the TLSN browser extension is to use <strong><a href="https://chromewebstore.google.com/detail/gcfkkledipjbgdbimfpijgbkhajiaaph">Chrome Web Store</a></strong>.</p>
 <p><img src="quick_start/images/chromewebstore.png" alt="" /></p>
 <p>Alternatively, you can install it manually:</p>
 <ol>
-<li>Download the browser extension from <a href="https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.700/tlsn-extension-0.1.0.700.zip">https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.700/tlsn-extension-0.1.0.700.zip</a></li>
+<li>Download the browser extension from <a href="https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.800/tlsn-extension-0.1.0.800.zip">https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.800/tlsn-extension-0.1.0.800.zip</a></li>
 <li>Unzip<br />
 ⚠️ This is a flat zip file, so be careful if you unzip from the command line, this zip file contains many file at the top level</li>
 <li>Open <strong>Manage Extensions</strong>: <a href="chrome://extensions/">chrome://extensions/</a></li>
@@ -604,9 +480,9 @@ First we need to <a href="quick_start/browser_extension.html#install">install</a
 <pre><code class="language-shell">cargo install wstcp
 </code></pre>
 <ol start="2">
-<li>Run a websocket proxy for <code>https://swapi.dev</code>:</li>
+<li>Run a websocket proxy for <code>https://api.x.com</code>:</li>
 </ol>
-<pre><code class="language-shell">wstcp --bind-addr 127.0.0.1:55688 swapi.dev:443
+<pre><code class="language-shell">wstcp --bind-addr 127.0.0.1:55688 api.x.com:443
 </code></pre>
 <p>Note the <code>api.x.com:443</code> argument on the last line.</p>
 <p>Next use  <code>ws://localhost:55688</code> as <strong>proxy API</strong> in Step 3 above.</p>
@@ -616,7 +492,7 @@ First we need to <a href="quick_start/browser_extension.html#install">install</a
 <ol>
 <li>Open the extension</li>
 <li>Click <strong>Options</strong></li>
-<li>Update Notary API to: <code>https://notary.pse.dev/v0.1.0-alpha.7</code></li>
+<li>Update Notary API to: <code>https://notary.pse.dev/v0.1.0-alpha.8</code></li>
 <li>Click <strong>Save</strong></li>
 <li>Skip the next section and <a href="quick_start/browser_extension.html#notarize">continue with the notarization step</a></li>
 </ol>
@@ -631,56 +507,37 @@ First we need to <a href="quick_start/browser_extension.html#install">install</a
 <img width="478"  src="quick_start/images/extension_proxy.png">
 <h3 id="run-a-local-notary-server-1"><a class="header" href="#run-a-local-notary-server-1">Run a Local Notary Server <a name="local-notary"></a></a></h3>
 <ol>
-<li>Clone the TLSNotary repository  (defaults to the <code>main</code> branch, which points to the latest release):
+<li>Clone the TLSNotary repository (defaults to the <code>main</code> branch, which points to the latest release):
 <pre><code class="language-shell">   git clone https://github.com/tlsnotary/tlsn.git
 </code></pre>
 </li>
-<li>Edit the notary server config file (<code>crates/notary/server/config/config.yaml</code>) to turn off TLS so that the browser extension can connect to the local notary server without requiring extra steps to accept self-signed certificates in the browser (⚠️ this is only for local development purposes — TLS must be used in production).
-<pre><code class="language-yaml"> tls:
-     enabled: false
-     ...
-</code></pre>
-</li>
 <li>Run the notary server:
-<pre><code class="language-shell">cd crates/notary/server
-cargo run --release
+<pre><code class="language-sh">cd crates/notary/server
+cargo run --release -- --tls-enabled false
 </code></pre>
 </li>
 </ol>
 <p>The notary server will now be running in the background waiting for connections.</p>
 <h2 id="notarize-twitter-account-access"><a class="header" href="#notarize-twitter-account-access">Notarize Twitter Account Access <a name="notarize"></a></a></h2>
 <ol>
-<li>Open Twitter <a href="https://twitter.com">https://twitter.com</a> and login if you haven't yet.</li>
-<li>Open the extension, you should see requests being recorded:<br />
-<img width="477" src="quick_start/images/extension_requests.png"></li>
-<li>Click on <strong>Requests</strong></li>
-<li>Enter the text <code>setting</code> in search box<br />
-<img width="479" src="quick_start/images/extension_request.png"></li>
-<li>Select the <code>GET xmlhttprequest /1.1/account/settings.json</code> request, and then click on <strong>Notarize</strong><br />
-<img width="477" src="quick_start/images/extension_headers.png"></li>
-<li>Select any headers that you would like to reveal.<br />
-<img width="479"  src="quick_start/images/extension_headers_reveal.png"></li>
-<li>Highlight the text that you want to make public to hide everything else.
-<img width="479"  src="quick_start/images/extension_text_reveal.png"></li>
+<li>Open the extension, you should see the Twitter plugin:<br />
+<img width="477" src="quick_start/images/extension_plugins.png"></li>
+<li>Click the Twitter Plugin</li>
+<li>The TLSNotary Extension sidebar should open and the browser will automatically navigate to Twitter</li>
+<li>If you  haven't already, log in</li>
+<li>The sidebar should automatically proceeds through the steps</li>
 </ol>
-<ul>
-<li>Click <strong>Notarize</strong>, you should see your notarization being processed:
-<img width="477"  src="quick_start/images/extension_process.png"></li>
-</ul>
-<p>If you use the hosted notary server, notarization will take multiple seconds. You can track progress by opening the <em>offscreen console</em>:</p>
+<p>Tip: If you use the hosted notary server, notarization will take multiple seconds. You can track progress by opening the <em>offscreen console</em>:</p>
 <ul>
 <li>Open: <a href="chrome://extensions">chrome://extensions</a> ▸ <strong>TLSN Extension</strong> ▸ <strong>Details</strong> ▸ <strong>offscreen.html</strong></li>
 </ul>
 <h2 id="verify"><a class="header" href="#verify">Verify</a></h2>
-<p>When the notarization is ready, you can click <strong>View Proof</strong>. If you did close the UI, you can find the proof by clicking <strong>History</strong> and <strong>View Proof</strong>.<br />
-<img width="477" src="quick_start/images/extension_history.png"></p>
+<p>When the notarization is ready, you can click the <strong>View</strong> button. If you closed the sidebar, you can find the proof by clicking the extension button and selecting the notarization request in the <strong>History</strong> tab.<br />
+<img width="477" src="quick_start/images/extension_history_new.png"></p>
 <!-- TODO -->
 <!-- You also have the option to download the proof. You can view this proof later by using the **Verify** button or via <https://explorer.tlsnotary.org/>. You can get the Notary public key by visiting the Notary API specified [above](#notary-server). -->
-<h2 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h2>
-<ul>
-<li><code>Requests(0): no requests in the Browser extension</code> ➡ restart the TLSN browser extension in <a href="chrome://extensions/">chrome://extensions/</a> and reload the Twitter page.</li>
-<li>Are you using a local notary server? ➡ Check notary server's console log.</li>
-</ul>
+<h2 id="write-your-own-extension-plugins"><a class="header" href="#write-your-own-extension-plugins">Write your own Extension Plugins</a></h2>
+<p>The TLSNotary Browser extension allows you to add custom plugins for more data sources. The repository at <a href="https://github.com/tlsnotary/tlsn-plugin-boilerplate">https://github.com/tlsnotary/tlsn-plugin-boilerplate</a> shows how the Twitter plugin (see above) is built. The <code>examples</code> folder contains more examples.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="run-a-notary-server"><a class="header" href="#run-a-notary-server">Run a Notary Server</a></h1>
 <p>This guide shows you how to run a <a href="https://github.com/tlsnotary/tlsn/tree/main/crates/notary/server">notary server</a> in an Ubuntu server instance.</p>
@@ -751,13 +608,13 @@ cargo run --release
 <p>The TLSNotary team hosts a public notary server for development, experimentation, and demonstration purposes. The server is currently open to everyone, provided that it is used fairly.</p>
 <p>We host multiple versions of the notary server:</p>
 <div class="table-wrapper"><table><thead><tr><th>Version</th><th>Notary URL</th><th>Info/Status</th><th>GitHub</th><th>Note</th></tr></thead><tbody>
+<tr><td>v0.1.0-alpha.8</td><td>https://notary.pse.dev/v0.1.0-alpha.8</td><td><a href="https://notary.pse.dev/v0.1.0-alpha.8/info">info</a>/<a href="https://notary.pse.dev/v0.1.0-alpha.8/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.8/crates/notary/server">v0.1.0-alpha.8</a></td><td><a href="https://github.com/tlsnotary/tlsn/releases/tag/v0.1.0-alpha.8">Release notes</a></td></tr>
 <tr><td>v0.1.0-alpha.7</td><td>https://notary.pse.dev/v0.1.0-alpha.7</td><td><a href="https://notary.pse.dev/v0.1.0-alpha.7/info">info</a>/<a href="https://notary.pse.dev/v0.1.0-alpha.7/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.7/crates/notary/server">v0.1.0-alpha.7</a></td><td><a href="https://github.com/tlsnotary/tlsn/releases/tag/v0.1.0-alpha.7">Release notes</a></td></tr>
 <tr><td>nightly</td><td>https://notary.pse.dev/nightly</td><td><a href="https://notary.pse.dev/nightly/info">info</a>/<a href="https://notary.pse.dev/nightly/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/dev/crates/notary/server">dev</a></td><td></td></tr>
 </tbody></table>
 </div>
-<p>All the servers above run the TLSNotary notary software in a Trusted Execution Environment (TEE), Intel SGX on Azure.
-You can verify the software attestation by visiting <code>https://notary.pse.dev/&lt;version&gt;/info</code> (for versions alpha.8-pre and later).</p>
-<p>For more details on the deployment, refer to this <a href="https://github.com/tlsnotary/tlsn/blob/main/.github/workflows/cd-server.yml">GitHub Action</a>.</p>
+<p>Alpha.8 and later run the TLSNotary notary software in a Trusted Execution Environment (TEE), Intel SGX on Azure.
+You can verify the software attestation by visiting <code>https://notary.pse.dev/&lt;version&gt;/info</code>.</p>
 <p>To check the status of the notary server, visit the <code>healthcheck</code> endpoint at:
 <code>https://notary.pse.dev/&lt;version&gt;/healthcheck</code></p>
 <h3 id="websocket-proxy-server"><a class="header" href="#websocket-proxy-server">WebSocket Proxy Server</a></h3>

@@ -226,13 +226,13 @@ cargo run --release
 <p>The TLSNotary team hosts a public notary server for development, experimentation, and demonstration purposes. The server is currently open to everyone, provided that it is used fairly.</p>
 <p>We host multiple versions of the notary server:</p>
 <div class="table-wrapper"><table><thead><tr><th>Version</th><th>Notary URL</th><th>Info/Status</th><th>GitHub</th><th>Note</th></tr></thead><tbody>
+<tr><td>v0.1.0-alpha.8</td><td>https://notary.pse.dev/v0.1.0-alpha.8</td><td><a href="https://notary.pse.dev/v0.1.0-alpha.8/info">info</a>/<a href="https://notary.pse.dev/v0.1.0-alpha.8/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.8/crates/notary/server">v0.1.0-alpha.8</a></td><td><a href="https://github.com/tlsnotary/tlsn/releases/tag/v0.1.0-alpha.8">Release notes</a></td></tr>
 <tr><td>v0.1.0-alpha.7</td><td>https://notary.pse.dev/v0.1.0-alpha.7</td><td><a href="https://notary.pse.dev/v0.1.0-alpha.7/info">info</a>/<a href="https://notary.pse.dev/v0.1.0-alpha.7/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.7/crates/notary/server">v0.1.0-alpha.7</a></td><td><a href="https://github.com/tlsnotary/tlsn/releases/tag/v0.1.0-alpha.7">Release notes</a></td></tr>
 <tr><td>nightly</td><td>https://notary.pse.dev/nightly</td><td><a href="https://notary.pse.dev/nightly/info">info</a>/<a href="https://notary.pse.dev/nightly/healthcheck">health</a></td><td><a href="https://github.com/tlsnotary/tlsn/tree/dev/crates/notary/server">dev</a></td><td></td></tr>
 </tbody></table>
 </div>
-<p>All the servers above run the TLSNotary notary software in a Trusted Execution Environment (TEE), Intel SGX on Azure.
-You can verify the software attestation by visiting <code>https://notary.pse.dev/&lt;version&gt;/info</code> (for versions alpha.8-pre and later).</p>
-<p>For more details on the deployment, refer to this <a href="https://github.com/tlsnotary/tlsn/blob/main/.github/workflows/cd-server.yml">GitHub Action</a>.</p>
+<p>Alpha.8 and later run the TLSNotary notary software in a Trusted Execution Environment (TEE), Intel SGX on Azure.
+You can verify the software attestation by visiting <code>https://notary.pse.dev/&lt;version&gt;/info</code>.</p>
 <p>To check the status of the notary server, visit the <code>healthcheck</code> endpoint at:
 <code>https://notary.pse.dev/&lt;version&gt;/healthcheck</code></p>
 <h3 id="websocket-proxy-server"><a class="header" href="#websocket-proxy-server">WebSocket Proxy Server</a></h3>

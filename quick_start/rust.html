@@ -158,174 +158,27 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="rust-quick-start"><a class="header" href="#rust-quick-start">Rust Quick Start</a></h1>
-<p>This Quick Start will show you how to use TLSNotary in a native Rust application.</p>
+<p>This quick start demonstrates how to use TLSNotary with Rust code.</p>
 <h2 id="requirements"><a class="header" href="#requirements">Requirements</a></h2>
 <p>Before we start, make sure you have cloned the <code>tlsn</code> repository and have a recent version of Rust installed.</p>
-<h3 id="clone-the-tlsnotary-repository"><a class="header" href="#clone-the-tlsnotary-repository">Clone the TLSNotary Repository</a></h3>
-<p>Clone the <code>tlsn</code> repository (defaults to the <code>main</code> branch, which points to the latest release):</p>
+<ol>
+<li>Clone the <code>tlsn</code> repository (defaults to the <code>main</code> branch, which points to the latest release):
 <pre><code class="language-shell">git clone https://github.com/tlsnotary/tlsn.git
 </code></pre>
-<p>Next open the <code>tlsn</code> folder in your favorite IDE.</p>
-<h3 id="install-rust"><a class="header" href="#install-rust">Install Rust</a></h3>
-<p>If you don't have Rust installed yet, you can install it using <a href="https://rustup.rs/">rustup</a>:</p>
-<pre><code class="language-shell">curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-</code></pre>
-<p>To configure your current shell, run:</p>
-<pre><code class="language-shell">source "$HOME/.cargo/env"
-</code></pre>
-<h2 id="simple-example-notarizing-public-data-from-examplecom"><a class="header" href="#simple-example-notarizing-public-data-from-examplecom">Simple Example: Notarizing Public Data from example.com <a name="rust-simple"></a></a></h2>
-<p>This example demonstrates the simplest possible use case for TLSNotary:</p>
-<ol>
-<li>Fetch <a href="https://example.com/">https://example.com/</a> and acquire an attestation of its content.</li>
-<li>Create a verifiable presentation using the attestation, while redacting the value of a header.</li>
-<li>Verify the presentation.</li>
-</ol>
-<h3 id="1-notarize-httpsexamplecom"><a class="header" href="#1-notarize-httpsexamplecom">1. Notarize <a href="https://example.com/">https://example.com/</a></a></h3>
-<p>Run the <code>prove</code> binary:</p>
-<pre><code class="language-shell">cd crates/examples/attestation
-cargo run --release --example attestation_prove
-</code></pre>
-<p>If the notarization was successful, you should see this output in the console:</p>
-<pre><code class="language-log">Starting an MPC TLS connection with the server
-Got a response from the server
-Notarization completed successfully!
-The attestation has been written to `example.attestation.tlsn` and the corresponding secrets to `example.secrets.tlsn`.
-</code></pre>
-<p>If you want to see more details, you can run the prover with extra logging:</p>
-<pre><code class="language-shell">RUST_LOG=DEBUG,uid_mux=INFO,yamux=INFO cargo run --release --example attestation_prove
-</code></pre>
-<p>⚠️ In this simple example the <code>Notary</code> server is automatically started in the background. Note that this is for demonstration purposes only. In a real world example, the notary should be run by a trusted party. Consult the <a href="https://docs.tlsnotary.org/developers/notary_server.html">Notary Server Docs</a> for more details on how to run a notary server.</p>
-<h3 id="2-build-a-verifiable-presentation"><a class="header" href="#2-build-a-verifiable-presentation">2. Build a verifiable presentation</a></h3>
-<p>This will build a verifiable presentation with the <code>User-Agent</code> header redacted from the request. This presentation can be shared with any verifier you wish to present the data to.</p>
-<p>Run the <code>present</code> binary.</p>
-<pre><code class="language-shell">cargo run --release --example attestation_present
-</code></pre>
-<p>If successful, you should see this output in the console:</p>
-<pre><code class="language-log">Presentation built successfully!
-The presentation has been written to `example.presentation.tlsn`.
-</code></pre>
-<h3 id="3-verify-the-presentation"><a class="header" href="#3-verify-the-presentation">3. Verify the presentation</a></h3>
-<p>This will read the presentation from the previous step, verify it, and print the disclosed data to console.</p>
-<p>Run the <code>verify</code> binary.</p>
-<pre><code class="language-shell">cargo run --release --example attestation_verify
-</code></pre>
-<p>If successful, you should see this output in the console:</p>
-<pre><code class="language-log">Verifying presentation with {key algorithm} key: { hex encoded key }
-
-**Ask yourself, do you trust this key?**
-
--------------------------------------------------------------------
-Successfully verified that the data below came from a session with example.com at 2024-10-03 03:01:40 UTC.
-Note that the data which the Prover chose not to disclose are shown as X.
-
-Data sent:
-...
-</code></pre>
-<p>⚠️ Notice that the presentation comes with a "verifying key". This is the key the Notary used when issuing the attestation that the presentation was built from. If you trust the Notary, or more specifically the verifying key, then you can trust that the presented data is authentic.</p>
-<!-- TODO: when explorer is updated -->
-<!--
-You can also use <https://explorer.tlsnotary.org/> to inspect your proofs. Open <https://explorer.tlsnotary.org/> and drag and drop `example.presentation.tlsn` from your file explorer into the drop zone. [Notary public key](https://github.com/tlsnotary/tlsn/blob/main/crates/notary/server/fixture/notary/notary.pub) 
-
-![Proof Visualization](images/explorer.png)
-
-Redacted bytes are marked with `X` characters.
-
-![Proof Redacted](images/explorer_redacted.png)
--->
-<!-- TODO: interactive verifier (p2p) example -->
-<!-- ### (Optional) Extra Experiments
-
-Feel free to try these extra challenges:
-
-- [ ] Modify the `server_name` (or any other data) in `simple_proof.json` and verify that the proof is no longer valid.
-- [ ] Modify the `build_proof_with_redactions` function in `simple_prover.rs` to redact more or different data. -->
-<h2 id="notarizing-private-information-discord-message"><a class="header" href="#notarizing-private-information-discord-message">Notarizing Private Information: Discord Message<a name="rust-discord"></a></a></h2>
-<p>Next, we will use TLSNotary to generate a proof of private information: a private Discord DM.</p>
-<p>We will also use an explicit (locally hosted) notary server this time.</p>
-<h3 id="1-start-a-local-notary-server"><a class="header" href="#1-start-a-local-notary-server">1. Start a Local Notary Server</a></h3>
-<p>The notary server used in this example is more functional compared to the (implicit) simple notary service used in the example above. This notary server should actually be run by the Verifier or a neutral party. To make things simple, we run everything on the same machine.</p>
-<ol>
-<li>Edit the notary server config file (<code>crates/notary/server/config/config.yaml</code>) to turn off TLS so that self-signed certificates can be avoided (⚠️ this is only for local development purposes — TLS must be used in production).
-<pre><code class="language-yaml"> tls:
-     enabled: false
-     ...
-</code></pre>
 </li>
-<li>Run the notary server:
-<pre><code class="language-shell">cd crates/notary/server
-cargo run --release
-</code></pre>
-</li>
+<li>If you don't have Rust installed yet, you can install it using <a href="https://rustup.rs/">rustup</a>. If your Rust version is outdated, update it with <code>rustup update stable</code>.</li>
 </ol>
-<p>The notary server will now be running in the background waiting for connections.</p>
-<p>Keep it running and open a new terminal.</p>
-<h3 id="2-get-authorization-token-and-channel-id"><a class="header" href="#2-get-authorization-token-and-channel-id">2. Get Authorization Token and Channel ID</a></h3>
-<p>Before we can notarize a Discord message, we need some parameters in a <code>.env</code> file.</p>
-<p>In the <code>tlsn/examples/discord</code> folder, copy the <code>.env.example</code> file and name it <code>.env</code>.</p>
-<p>In this <code>.env</code>, we will input the <code>USER_AGENT</code>, <code>AUTHORIZATION</code> token, and <code>CHANNEL_ID</code>.</p>
-<div class="table-wrapper"><table><thead><tr><th>Name</th><th>Example</th><th>Location</th></tr></thead><tbody>
-<tr><td>USER_AGENT</td><td><code>"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/116.0"</code></td><td>Look for <code>User-Agent</code> in request headers</td></tr>
-<tr><td>AUTHORIZATION</td><td><code>"MTE1NDe1Otg4N6NxNjczOTM2OA.GYbUBf.aDtcMUKDOmg6C2kxxFtlFSN1pgdMMBtpHgBBEs"</code></td><td>Look for <code>Authorization</code> in request headers</td></tr>
-<tr><td>CHANNEL_ID</td><td><code>"1154750485639745567"</code></td><td>URL</td></tr>
-</tbody></table>
-</div>
-<p>You can obtain these parameters by opening <a href="https://discord.com/channels/@me">Discord</a> in your browser and accessing the message history you want to notarize.</p>
-<blockquote>
-<p><strong><em>NOTE:</em></strong> ⚠️ Please note that notarizing only works for short transcripts at the moment, so choose a contact with a short history.</p>
-</blockquote>
-<p>Next, open the <strong>Developer Tools</strong>, go to the <strong>Network</strong> tab, and refresh the page. Then, click on <strong>Search</strong> and type <code>/api</code> to filter results to Discord API requests. From there, you can copy the needed information into your <code>.env</code> as indicated above.</p>
-<p>You can find the <code>CHANNEL_ID</code> directly in the URL:</p>
-<p><code>https://discord.com/channels/@me/{CHANNEL_ID)</code></p>
-<p><img src="./images/discord_authentication_token.png" alt="Discord Authentication Token" /></p>
-<h3 id="3-notarize"><a class="header" href="#3-notarize">3. Notarize</a></h3>
-<p>In this tlsn/examples/discord folder, run the following command:</p>
-<pre><code class="language-sh">RUST_LOG=DEBUG,uid_mux=INFO,yamux=INFO cargo run --release --example discord_dm
-</code></pre>
-<p>If everything goes well, you should see output similar to the following:</p>
-<pre><code class="language-log">...
-2024-06-26T08:49:47.017439Z DEBUG connect:tls_connection: tls_client_async: handshake complete
-2024-06-26T08:49:48.676459Z DEBUG connect:tls_connection: tls_client_async: server closed connection
-2024-06-26T08:49:48.676481Z DEBUG connect:commit: tls_mpc::leader: committing to transcript
-2024-06-26T08:49:48.676503Z DEBUG connect:tls_connection: tls_client_async: client shutdown
-2024-06-26T08:49:48.676466Z DEBUG discord_dm: Sent request
-2024-06-26T08:49:48.676550Z DEBUG discord_dm: Request OK
-2024-06-26T08:49:48.676598Z DEBUG connect:close_connection: tls_mpc::leader: closing connection
-2024-06-26T08:49:48.676613Z DEBUG connect: tls_mpc::leader: leader actor stopped
-2024-06-26T08:49:48.676618Z DEBUG discord_dm: [
-  {
-    "attachments": [],
-    ...
-    "channel_id": "1154750485639745567",
-    ...
-  }
-]
-2024-06-26T08:49:48.678621Z DEBUG finalize: tlsn_prover::tls::notarize: starting finalization
-2024-06-26T08:49:48.680839Z DEBUG finalize: tlsn_prover::tls::notarize: received OT secret
-2024-06-26T08:49:50.004432Z  INFO finalize:poll{role=Client}:handle_shutdown: uid_mux::yamux: mux connection closed
-2024-06-26T08:49:50.004448Z  INFO finalize:poll{role=Client}: uid_mux::yamux: connection complete
-2024-06-26T08:49:50.004583Z DEBUG discord_dm: Notarization complete!
-</code></pre>
-<!-- TODO: update explorer -->
-<!-- ### Verify
-
-Verify the proof by dropping the JSON file into <https://explorer.tlsnotary.org/> or by running:
-
-```shell
-cargo run --release --example discord_dm_verifier
-``` -->
+<h2 id="simple-interactive-verifier-verifying-data-from-an-api-in-rust"><a class="header" href="#simple-interactive-verifier-verifying-data-from-an-api-in-rust">Simple Interactive Verifier: Verifying Data from an API in Rust<a name="interactive"></a></a></h2>
+<p><img src="../diagrams/overview_prover_verifier.svg" alt="" /></p>
+<p>This example demonstrates how to use TLSNotary in a simple interactive session between a Prover and a Verifier. It involves the Verifier first verifying the MPC-TLS session and then confirming the correctness of the data.</p>
+<p>Follow the instructions from:
+<a href="https://github.com/tlsnotary/tlsn/tree/main/crates/examples/interactive#readme">https://github.com/tlsnotary/tlsn/tree/main/crates/examples/interactive#readme</a></p>
+<h2 id="simple-attestation-example-verifying-data-from-an-api-in-rust-with-a-notary"><a class="header" href="#simple-attestation-example-verifying-data-from-an-api-in-rust-with-a-notary">Simple Attestation Example: Verifying Data from an API in Rust with a Notary<a name="attestation"></a></a></h2>
+<p><img src="../diagrams/overview_notary.svg" alt="" /></p>
+<p>TLSNotary can also be used in a setup where MPC-TLS verification is delegated to a notary server. In this example, the notary attests to the data served to the prover. Next, the prover can share this attestation with a Verifier who can verify the data.</p>
+<p>Follow the instructions from:
+<a href="https://github.com/tlsnotary/tlsn/tree/main/crates/examples/attestation#readme">https://github.com/tlsnotary/tlsn/tree/main/crates/examples/attestation#readme</a></p>
 <p>🍾 Great job! You have successfully used TLSNotary in Rust.</p>
-<!-- 
-### (Optional) Notarize More Private Data
-
-If the examples above were too easy for you, try to notarize data from other websites such as:
-
-- [ ] Amazon purchase
-- [ ] Twitter DM (see <https://github.com/tlsnotary/tlsn/blob/main/tlsn/examples/twitter/README.md>)
-- [ ] LinkedIn skill
-- [ ] Steam accomplishment
-- [ ] Garmin Connect achievement
-- [ ] AirBnB score
-- [ ] Tesla ownership -->
 
                     </main>
 

@@ -158,19 +158,33 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="quick-start"><a class="header" href="#quick-start">Quick Start</a></h1>
-<p>This quick start will help you get started with TLSNotary, both in native <a href="rust.html">Rust</a> and in the <a href="browser_extension.html">browser</a>.</p>
-<ol>
-<li><a href="rust.html#rust-simple">Most Basic Example: Proving and Verifying Public Data (Rust)</a></li>
-<li><a href="rust.html#rust-discord">Proving and Verifying a Private Discord DM (Rust)</a></li>
-<li><a href="tlsn-js.html#browser">Proving and Verifying data in a React/Typescript app</a></li>
-<li><a href="browser_extension.html#browser">Proving and Verifying ownership of a Twitter account (Browser)</a></li>
-</ol>
-<p>Objectives of this quick start:</p>
+<p>This quick start will help you get started with TLSNotary, both in native Rust and in the Browser.</p>
+<h2 id="objectives"><a class="header" href="#objectives">Objectives</a></h2>
 <ul>
 <li>Gain a better understanding of what you can do with TLSNotary</li>
-<li>Learn the basics of how to prove and verify data using TLSNotary</li>
+<li>Learn the basics of how to notarize and verify data using TLSNotary</li>
 </ul>
-<p>Let's <a href="rust.html">start</a>!</p>
+<h2 id="rust"><a class="header" href="#rust">Rust</a></h2>
+<ol>
+<li><a href="rust.html#interactive">Interactive Verification Example</a>: This example demonstrates how to use TLSNotary in a simple interactive session between a Prover and a Verifier. It involves the Verifier first verifying the MPC-TLS session and then confirming the correctness of the data.</li>
+<li><a href="rust.html#attestation">Simple Attestation Example</a>: Use TLSNotary with a Notary attesting to the data.</li>
+</ol>
+<h2 id="browser"><a class="header" href="#browser">Browser</a></h2>
+<h3 id="hosted-demo"><a class="header" href="#hosted-demo">Hosted demo</a></h3>
+<p>To get started with TLSNotary in the browser, it is recommended to try the online TLSNotary demo first. This demo shows how TLSNotary can be used to verify private user data in a web app. The demo guides you through the following steps:</p>
+<ol>
+<li>Installing the browser extension</li>
+<li>Installing the website plugin into the browser extension</li>
+<li>Running the plugin to get a TLSNotary attestation</li>
+<li>Verifying the attestation on the server</li>
+</ol>
+<p>Visit <a href="https://demo.tlsnotary.org">demo.tlsnotary.org</a> to try the different steps.</p>
+<h3 id="proving-and-verifying-data-in-a-reacttypescript-app-tlsn-js"><a class="header" href="#proving-and-verifying-data-in-a-reacttypescript-app-tlsn-js">Proving and Verifying Data in a React/Typescript App (<code>tlsn-js</code>)</a></h3>
+<p>Learn how to use TLSNotary in a React/Typescript app with the <code>tlsn-js</code> NPM module.</p>
+<p><a href="tlsn-js.html#browser">Proving and Verifying Data in a React/Typescript App</a></p>
+<h3 id="browser-extension"><a class="header" href="#browser-extension">Browser Extension</a></h3>
+<p>Learn how to prove and verify ownership of a Twitter account using the TLSNotary browser extension.</p>
+<p><a href="browser_extension.html#browser">Proving and Verifying Ownership of a Twitter Account (Browser)</a></p>
 
                     </main>
 
