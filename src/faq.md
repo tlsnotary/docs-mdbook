@@ -14,7 +14,7 @@
 - [How do I troubleshoot connection issues?](#faq12)
 - [Does TLSNotary Solve the Oracle Problem?](#faq13)
 - [What is a presentation in TLSNotary?](#faq14)
-
+- [Why does TLSNotary need an online Verifier? Can't this be done serverlessly in the browser with Zero Knowledge?](#faq15)
 
 ### Doesn't TLS allow a third party to verify data authenticity? { #faq1 }
 
@@ -115,3 +115,9 @@ TLSNotary can be used to bring data on-chain, but when the stakes are high, it i
 In TLSNotary, a **presentation** refers to data shared by the Prover to selectively reveal specific parts of the TLS data committed to earlier during the attestation phase. By using these earlier commitments, the Prover can choose to disclose only particular segments of the TLS data while keeping other parts hidden or redacted. This enables a flexible and controlled way to share proofs, ensuring that sensitive information remains private.
 
 The term “presentation” is inspired by similar terminology in the [W3C Verifiable Credentials standard](https://www.w3.org/TR/vc-data-model/#dfn-verifiable-presentations).
+
+### Why does TLSNotary need an online Verifier? Can't this be done serverlessly in the browser with Zero Knowledge? { #faq15 }
+
+TLSNotary uses a multi-party computation (MPC) approach to secure the TLS session. Without MPC, the Prover would have full control over the TLS session keys and could forge the Server’s responses. Zero-knowledge (ZK) proofs alone cannot prevent this. To prevent forged responses, the Verifier participates in the handshake, splitting the TLS session keys between the Prover and the Verifier.
+
+In proxy-based designs only ZK proofs are needed. In such designs the verifier proxies the connection with the server, observes the encrypted traffic, and later verifies a ZK proof from the Prover that the plaintext matches the encrypted data. TLSNotary’s direct connection model avoids introducing a network assumption and provides stronger resistance to censorship compared to the proxy approach.
