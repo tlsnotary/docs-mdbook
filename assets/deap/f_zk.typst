@@ -1,0 +1,37 @@
+#set text(font: "New Computer Modern")
+
+#let func(x) = $cal(F)_#x$;
+#let fzk = func("ZK");
+#let P = $cal(P)$;
+#let V = $cal(V)$;
+#let A = $cal(A)$;
+#let mem = $upright(bold(M))$;
+#let keys = $"keys"(#mem)$;
+
+#figure(
+  block(
+    stroke: 1pt,
+    inset: 20pt,
+    [
+        *Functionality* #fzk
+        #set align(left)
+        The functionality runs with parties #P and #V. It maintains a map $#mem: cal(K) -> {0, 1}$
+        of which entries can only be assigned once.
+
+        *Input:* On receiving $("Input", "id", x)$ from #P and $("Input", "id")$ from #V, where $x in {0, 1}$
+        and $"id" in cal(K) \\ #keys$, set $#mem\["id"] <- x$.
+
+        *Call:* On receiving $("Call", f, bold("id")_"x", bold("id")_"y")$ from #P and #V, where $f: {0, 1}^m -> {0, 1}^n$,
+        $forall i in [1, m], "id"_(x,i) in #keys$ and $forall i in [1, n], "id"_(y,i) in cal(K) \\ #keys$:
+        #enum(
+            indent: 20pt,
+            [Retrieve $bold(x)$ where $forall i in [1, m], x_i <- #mem\["id"_(x,i)]$.],
+            [Compute $bold(y) = f(bold(x))$.],
+            [For all $i in [1, n]$ set $#mem\["id"_(y,i)] <- y_i$.]
+        )
+
+        *Output:* On receiving $("Output", "id")$ from #P and #V where $"id" in #keys$, 
+        retrieve $z <- #mem\["id"]$ and send $z$ to both parties.
+    ]
+  )
+)
