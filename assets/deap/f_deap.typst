@@ -1,4 +1,6 @@
 #set text(font: "New Computer Modern")
+#set page(width: 600pt, height: 400pt, margin: 10pt)
+#set align(center + horizon)
 
 #let func(x) = $cal(F)_#x$;
 #let deap = func("DEAP");

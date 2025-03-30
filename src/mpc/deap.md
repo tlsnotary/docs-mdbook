@@ -29,75 +29,9 @@ If Alice is malicious, she has the opportunity to prematurely leak $k$ bits of B
 
 We assume that it is acceptable for either party to cause the protocol to abort at any time, with the condition that no information of Alice's inputs are leaked from doing so.
 
-### Committed Oblivious Transfer
+## Functionality
 
-In the last phase of our protocol Bob must open all oblivious transfers he sent to Alice. To achieve this, we require a very relaxed flavor of committed oblivious transfer. For more detail on these relaxations see section 2 of [Zero-Knowledge Using Garbled Circuits \[JKO13\]](https://eprint.iacr.org/2013/073.pdf).
-
-### Notation
-
-* $x$ and $y$ are Alice and Bob's inputs, respectively.
-* $[X]_A$ denotes an encoding of $x$ chosen by Alice.
-* $[x]$ and $[y]$ are Alice and Bob's encoded _active_ inputs, respectively, ie $\mathsf{Encode}(x, [X]) = [x]$.
-* $\mathsf{com}_x$ denotes a binding commitment to $x$
-* $G$ denotes a garbled circuit for computing $f(x, y) = v$, where:
-  *  $\mathsf{Gb}([X], [Y]) = G$
-  *  $\mathsf{Ev}(G, [x], [y]) = [v]$.
-* $d$ denotes output decoding information where $\mathsf{De}(d, [v]) = v$
-* $\Delta$ denotes the global offset of a garbled circuit where $\forall i: [x]^{1}_i = [x]^{0}_i \oplus \Delta$
-* $\mathsf{PRG}$ denotes a secure pseudo-random generator
-* $\mathsf{H}$ denotes a secure hash function
-
-## Protocol
-
-The protocol can be thought of as three distinct phases: The setup phase, execution, and equality-check.
-
-### Setup
-
-1. Alice creates a garbled circuit $G_A$ with corresponding input labels $([X]_A, [Y]_A)$, and output label commitment $\mathsf{com}_{[V]_A}$.
-2. Bob creates a garbled circuit $G_B$ with corresponding input labels $([X]_B, [Y]_B)$.
-3. For committed OT, Bob picks a seed $\rho$ and uses it to generate all random-tape for his OTs with $\mathsf{PRG}(\rho)$. Bob sends $\mathsf{com}_{\rho}$ to Alice.
-4. Alice retrieves her active input labels $[x]_B$ from Bob using OT.
-5. Bob retrieves his active input labels $[y]_A$ from Alice using OT.
-6. Alice sends $G_A$, $[x]_A$, $d_A$ and $\mathsf{com}_{[V]_A}$ to Bob.
-7. Bob sends $G_B$ and $[y]_B$ to Alice.
-
-### Execution
-
-Both Alice and Bob can execute this phase of the protocol in parallel as described below:
-
-#### Alice
-
-8. Evaluates $G_B$ using $[x]_B$ and $[y]_B$ to acquire $[v]_B$.
-9. Defines $\mathsf{check}_A = [v]_B$.
-10. Computes a commitment $\mathsf{Com}(\mathsf{check}_A, r) = \mathsf{com}_{\mathsf{check}_A}$ where $r$ is a key only known to Alice. She sends this commitment to Bob.
-11. Waits to receive $[v]_A$ from Bob[^1].
-12. Checks that $[v]_A$ is authentic, aborting if not, then decodes $[v]_A$ to $v^A$ using $d_A$.
-
-At this stage, a malicious Bob has learned nothing and Alice has obtained the output $v^A$ which she knows to be authentic.
-
-#### Bob
-
-13. Evaluates $G_A$ using $[x]_A$ and $[y]_A$ to acquire $[v]_A$. He checks $[v]_A$ against the commitment $\mathsf{com}_{[V]_A}$ which Alice sent earlier, aborting if it is invalid.
-14. Decodes $[v]_A$ to $v^A$ using $d_A$ which he received earlier. He defines $\mathsf{check}_B = [v^A]_B$ and stores it for the equality check later.
-15. Sends $[v]_A$ to Alice[^1].
-16. Receives $\mathsf{com}_{\mathsf{check}_A}$ from Alice and stores it for the equality check later.
-
-Bob, even if malicious, has learned nothing except the purported output $v^A$ and is not convinced it is correct. In the next phase Alice will attempt to convince Bob that it is.
-
-Alice, if honest, has learned the correct output $v$ thanks to the authenticity property of garbled circuits. Alice, if malicious, has potentially learned Bob's entire input $y$.
-
-[^1]: This is a significant deviation from standard DualEx protocols such as [\[HKE12\]](https://www.cs.umd.edu/~jkatz/papers/SP12.pdf). Typically the output labels are _not_ returned to the Generator, instead, output authenticity is established during a secure equality check at the end. See the [section below](#malicious-alice) for more detail.
-
-### Equality Check
-
-17. Bob opens his garbled circuit and OT by sending $\Delta_B$, $y$ and $\rho$ to Alice.
-18. Alice, can now derive the _purported_ input labels to Bob's garbled circuit $([X]^{\\*}_B, [Y]^{\\*}_B)$.
-19. Alice uses $\rho$ to open all of Bob's OTs for $[x]_B$ and verifies that they were performed honestly. Otherwise she aborts.
-20. Alice verifies that $G_B$ was garbled honestly by checking $\mathsf{Gb}([X]^{\\*}_B, [Y]^{\\*}_B) == G_B$. Otherwise she aborts.
-21. Alice now opens $\mathsf{com}_{\mathsf{check}_A}$ by sending $\mathsf{check}_A$ and $r$ to Bob.
-22. Bob verifies $\mathsf{com}_{\mathsf{check}_A}$ then asserts $\mathsf{check}_A == \mathsf{check}_B$, aborting otherwise.
-
-Bob is now convinced that $v^A$ is correct, ie $f(x, y) = v^A$. Bob is also assured that Alice only learned up to k bits of his input prior to revealing, with a probability of $2^{-k}$ of it being undetected.
+<img src="../diagrams/f_deap.svg">
 
 ## Analysis
 
