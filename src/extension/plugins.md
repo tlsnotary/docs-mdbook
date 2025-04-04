@@ -1,6 +1,6 @@
 # Browser Extension Plugins
 
-The **TLSN Extension** has a plugin system that allows you to safely extend its functionality. The plugin system is based on [Extism](https://extism.org/docs/concepts/plug-in-system), which enables you to write plugins in the programming language of your choice. This page focuses on plugins written in TypeScript.
+The **TLSN Extension** has a plugin system that allows you to safely extend its functionality.
 
 ## What Can You Do with Plugins?
 
@@ -17,6 +17,15 @@ New features and capabilities will be added based on feedback from developers. P
 You can find a boilerplate template at [tlsn-plugin-boilerplate](https://github.com/tlsnotary/tlsn-plugin-boilerplate), which is a great starting point. This repository explains how to compile and test Typescript plugins.
 
 The [examples folder](https://github.com/tlsnotary/tlsn-plugin-boilerplate/tree/main/examples) contains more examples of TLSNotary plugins.
+
+## Extism
+
+TLSNotary’s plugin system is built on top of [Extism](https://extism.org/docs/concepts/plug-in-system), a framework that allows you to write WebAssembly-based plugins in the language of your choice. This page focuses on writing plugins in **TypeScript**.
+
+> 🛠️ **Extism versions**: Extism is under active development, with frequent updates to both the [host SDK](https://github.com/extism/js-sdk) (used by the TLSNotary browser extension) and the [plugin development kit (PDK)](https://github.com/extism/js-pdk). Because plugins are executed by the host, plugins should be compiled with a **PDK version that is older than or equal to the host SDK version** to ensure compatibility.
+>
+> The TLSNotary browser extension currently uses [Extism SDK version 1.0.2](https://github.com/tlsnotary/tlsn-extension/blob/5545d7abed77f448712a29f3dd8a206713a54416/package.json#L19). We recommend using **PDK version 1.2.0** when compiling your TypeScript plugins.
+
 
 ## Configuration JSON
 
