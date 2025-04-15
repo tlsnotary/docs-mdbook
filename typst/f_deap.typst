@@ -1,0 +1,70 @@
+#set text(font: "New Computer Modern")
+#set page(width: 600pt, height: 500pt, margin: 10pt)
+#set align(center + horizon)
+
+#let func(x) = $cal(F)_#x$;
+#let deap = func("DEAP");
+#let PA = $P_A$;
+#let PB = $P_B$;
+#let A = $cal(A)$;
+#let mem = $upright(bold(M))$;
+#let call = $upright(bold(C))$;
+#let keys = $"keys"(#mem)$;
+
+#figure(
+  block(
+    stroke: 1pt,
+    inset: 20pt,
+    [
+        *Functionality* #deap
+        #set align(left)
+        The functionality runs with parties #PA, #PB, and an adversary #A. It maintains a map $#mem: cal(K) -> ({0,1}, {0,1})$,
+        of which entries can only be assigned once, and stores sets $cal(X), cal(Z) subset.eq cal(K)$.
+
+        *Input:* On receiving $("Input", "id", x)$ from either #PA or #PB, and $("Input", "id")$ from the other party,
+        where $x in {0, 1}$ and $"id" in cal(K) \\ #keys$: \
+        #enum(
+            indent: 20pt,
+            [If the party providing $x$ is corrupt then receive $x' in {0,1}$ 
+            from #A then set $#mem ["id"] <- (x, x')$.
+
+            Else if #PA is corrupt and #PB provided $x$ then receive $f: {0,1} -> {0,1}$
+            from #A then set $#mem ["id"] <- (f(x), x)$.
+            
+            Otherwise, set $#mem ["id"] <- (x, x)$.],
+            [If #PB provided $x$ then store $cal(X) <- cal(X) union {id}$.]
+        )
+
+        *Call:* On receiving $("Call", f, bold("id")_"x", bold("id")_"y")$ from #PA and #PB, where $f: {0,1}^m -> {0,1}^n$,
+        $forall i in [1, m], "id"_(x,i) in #keys$ and $forall i in [1, n], "id"_(y,i) in cal(K) \\ #keys$:
+        #enum(
+            indent: 20pt,
+            [Retrieve $(bold(x)_1, bold(x)_2) <- (#mem ["id"])_("id" in bold("id")_x)$.],
+            [If #PA is corrupt then receive $f'$ and predicate $upright(P): {0,1}^m -> {0,1}$ from #A,
+            then compute $(bold(y)_1, bold(y)_2) = (f'(bold(x)_1), f(bold(x)_2))$ and abort if $upright(P)(bold(x)_1) = 0$.\
+
+            Otherwise, compute $(bold(y)_1, bold(y)_2) = (f(bold(x)_1), f(bold(x)_2))$.
+            ],
+            [For all $i in [1, n]$ set $#mem ["id"_(y,i)] <- (y_(1,i), y_(2,i))$.]
+        )
+
+        *Output:* On receiving $("Output", "id")$ from #PA and #PB where $"id" in #keys$:
+        #enum(
+            indent: 20pt,
+            [Retrieve $(z, \_) <- #mem ["id"]$ and store $cal(Z) <- cal(Z) union {"id"}$.],
+            [If #PA is corrupt then receive $e in {0,1}$ from #A, otherwise set $e = 0$.],
+            [Send $z xor e$ to #PA and #PB.]
+        )
+
+        *Finalize:* On receiving $("Finalize")$ from #PA and #PB ignore all
+        subsequent commands then finally:
+        #enum(
+          indent: 20pt,
+          [Set $bold(id)_x eq "vec"(cal(X))$ and retrieve $(bold(x)_1, bold(x)_2) <- (#mem ["id"])_("id" in bold("id")_x)$.],
+          [Send $(bold("id")_x, bold(x)_1)$ to #PA and then abort if $bold(x)_1 eq.not bold(x)_2$.],
+          [Set $bold(id)_z eq "vec"(cal(Z))$ and retrieve $(bold(z)_1, bold(z)_2) <- (#mem ["id"])_("id" in bold("id")_z)$.],
+          [Send $"true"$ to #PB if $bold(z)_1 = bold(z)_2$ otherwise send $"false"$.],
+        )
+    ]
+  )
+)
