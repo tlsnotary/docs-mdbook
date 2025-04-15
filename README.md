@@ -5,8 +5,8 @@
 Install mdbook and mdbook-katex
 
 ```bash
-cargo install mdbook --version 0.4.40
-cargo install mdbook-katex --version 0.9.0
+cargo install mdbook --version 0.4.45
+cargo install mdbook-katex --version 0.9.3
 cargo install mdbook-linkcheck
 ```
 

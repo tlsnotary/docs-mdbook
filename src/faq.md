@@ -14,7 +14,7 @@
 - [How do I troubleshoot connection issues?](#faq12)
 - [Does TLSNotary Solve the Oracle Problem?](#faq13)
 - [What is a presentation in TLSNotary?](#faq14)
-
+- [Why does TLSNotary need an online Verifier? Can't this be done serverlessly in the browser with Zero Knowledge?](#faq15)
 
 ### Doesn't TLS allow a third party to verify data authenticity? { #faq1 }
 
@@ -85,10 +85,12 @@ cargo run --release
 
 To get deeper insights into what TLSNotary is doing, you can enable extra logging with `RUST_LOG=debug` or `RUST_LOG=trace`. This will generate a lot of output, as it logs extensive network activity. It’s recommended to filter logs for better readability. The recommended configuration is:
 ```
-RUST_LOG=trace,yamux=info,uid_mux=info cargo run  --release
+RUST_LOG=trace,yamux=info,uid_mux=info cargo run --release
 ```
 
-In the Browser Extension you change the logging level via **Options > Advanced > Logging Level**
+In the browser extension, you can change the logging level via **Options > Advanced > Logging Level**.
+
+For the notary server, please refer to [this](https://github.com/tlsnotary/tlsn/blob/main/crates/notary/server/README.md#logging) on how to change the logging level.
 
 ### How do I troubleshoot connection issues? { #faq12 }
 
@@ -102,9 +104,9 @@ If the issue persists, [enable extra logging](#faq11) with `RUST_LOG=debug` or `
 
 If you are connecting through a WebSocket proxy (e.g., in the browser extension), double-check that the WebSocket proxy connects to the intended domain. Note that PSE's public WebSocket proxy only supports a limited [whitelist](https://docs.tlsnotary.org/developers/notary_server.html#websocket-proxy-server). If you use a local proxy, make sure the domain is correct.
 
-### Does TLSNotary Solve the Oracle Problem? { #faq13 }
+### Does TLSNotary solve the Oracle Problem? { #faq13 }
 
-No, the TLSNotary protocol does not solve the "Oracle Problem." The Oracle Problem refers to the challenge of ensuring that off-chain data used in blockchain smart contracts is trustworthy and tamper-proof. While TLSNotary allows a Prover to cryptographically authenticate TLS data to a designated Verifier, trust is still required in the designated Verifier when it attests to the verified data on-chain. Therefore, this is not a trustless, decentralized solution to the Oracle Problem.
+No, the TLSNotary protocol does not solve the "Oracle Problem". The Oracle Problem refers to the challenge of ensuring that off-chain data used in blockchain smart contracts is trustworthy and tamper-proof. While TLSNotary allows a Prover to cryptographically authenticate TLS data to a designated Verifier, trust is still required in the designated Verifier when it attests to the verified data on-chain. Therefore, this is not a trustless, decentralized solution to the Oracle Problem.
 
 TLSNotary can be used to bring data on-chain, but when the stakes are high, it is recommended to combine TLSNotary with a dedicated oracle protocol to mitigate these risks. Multiple projects are currently exploring the best solutions.
 
@@ -113,3 +115,9 @@ TLSNotary can be used to bring data on-chain, but when the stakes are high, it i
 In TLSNotary, a **presentation** refers to data shared by the Prover to selectively reveal specific parts of the TLS data committed to earlier during the attestation phase. By using these earlier commitments, the Prover can choose to disclose only particular segments of the TLS data while keeping other parts hidden or redacted. This enables a flexible and controlled way to share proofs, ensuring that sensitive information remains private.
 
 The term “presentation” is inspired by similar terminology in the [W3C Verifiable Credentials standard](https://www.w3.org/TR/vc-data-model/#dfn-verifiable-presentations).
+
+### Why does TLSNotary need an online Verifier? Can't this be done serverlessly in the browser with Zero Knowledge? { #faq15 }
+
+TLSNotary uses a multi-party computation (MPC) approach to secure the TLS session. Without MPC, the Prover would have full control over the TLS session keys and could forge the Server’s responses. Zero-knowledge (ZK) proofs alone cannot prevent this. To prevent forged responses, the Verifier participates in the handshake, splitting the TLS session keys between the Prover and the Verifier.
+
+In proxy-based designs only ZK proofs are needed. In such designs the verifier proxies the connection with the server, observes the encrypted traffic, and later verifies a ZK proof from the Prover that the plaintext matches the encrypted data. TLSNotary’s direct connection model avoids introducing a network assumption and provides stronger resistance to censorship compared to the proxy approach.
