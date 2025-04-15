@@ -56,3 +56,6 @@ In the extreme case, $\mathcal{A}$ may choose $f'$ such that it simply outputs $
 
 To summarize the above, the finalization procedure ensures a probabilistic leakage bound on the inputs of $P_B$ and also enforces correctness albeit with potentially inconsistent inputs from $P_A$.
 
+## Usage in TLSNotary
+
+TLSNotary uses $\mathcal{F}_{\text{DEAP}}$ such that the `Prover` and `Verifier` are $P_A$ and $P_B$ respectively. This ensures that a corrupted `Verifier` can not extract any private information of the `Prover` nor can it affect the correctness of any of the computations which could lead to malicious state updates in an application. Conversely, a corrupted `Prover` can not prematurely learn the inputs of the `Verifier` nor break correctness in any meaningful way without detection.
