@@ -55,7 +55,7 @@ To create a TLSNotary proof, the browser extension needs a TLSNotary notary serv
 To use the TLSNotary team notary server:
 1. Open the extension
 2. Click **Options**
-3. Update Notary API to: `https://notary.pse.dev/v0.1.0-alpha.8`
+3. Update Notary API to: `https://notary.pse.dev/v0.1.0-alpha.10`
 4. Click **Save**
 5. Skip the next section and [continue with the notarization step](#notarize)
 
