@@ -175,6 +175,8 @@ type PluginConfig = {
   hostFunctions?: string[];
   cookies?: string[];
   headers?: string[];
+  localStorage?: string[];
+  sessionStorage?: string[];
   requests: { method: string; url: string }[];
   notaryUrls?: string[];
   proxyUrls?: string[];
@@ -189,12 +191,13 @@ const plugin = await client.getPlugins('**', 'https://swapi.dev', {id: 'demo-plu
 #### Screenshot
 ![Screenshot 2024-07-04 at 3 23 14 PM](./images/share_installed_plugins.png)
 
-### `client.runPlugin(id)`
+### `client.runPlugin(id, params)`
 
 This method is used to request the execution of a plugin.
 
 #### Parameters
 1. `id`: The ID of the plugin.
+2. `params` *(optional)*: An object containing user input parameters as key-value pairs.
 
 #### Returns
 A promise that resolves to the proof data.
@@ -208,7 +211,10 @@ type ProofData = {
 
 #### Example
 ```ts
-const plugin = await client.runPlugin("6931d2ad63340d3a1fb1a5c1e3f4454c5a518164d6de5ad272e744832355ee02");
+const plugin = await client.runPlugin(
+  "6931d2ad63340d3a1fb1a5c1e3f4454c5a518164d6de5ad272e744832355ee02",
+  { Key: "Value" }
+);
 ```
 
 #### Screenshot

@@ -25,16 +25,18 @@ A plugin must include a configuration JSON file that describes its behavior and 
 <!-- https://github.com/tlsnotary/tlsn-extension/blob/p2p/src/utils/misc.ts#L315-L326 -->
 ```ts
 export type PluginConfig = {
-  title: string;           // The name of the plugin
-  description: string;     // A description of the plugin's purpose
-  icon?: string;           // A base64-encoded image string representing the plugin's icon (optional)
-  steps?: StepConfig[];    // An array describing the UI steps and behavior (see Step UI below) (optional)
-  hostFunctions?: string[];// Host functions that the plugin will have access to
-  cookies?: string[];      // Cookies the plugin will have access to, cached by the extension from specified hosts (optional)
-  headers?: string[];      // Headers the plugin will have access to, cached by the extension from specified hosts (optional)
+  title: string; // The name of the plugin
+  description: string; // A description of the plugin purpose
+  icon?: string; // A base64-encoded image string representing the plugin's icon (optional)
+  steps?: StepConfig[]; // An array describing the UI steps and behavior (see Step UI below) (optional)
+  hostFunctions?: string[]; // Host functions that the plugin will have access to
+  cookies?: string[]; // Cookies the plugin will have access to, cached by the extension from specified hosts (optional)
+  headers?: string[]; // Headers the plugin will have access to, cached by the extension from specified hosts (optional)
+  localStorage?: string[]; // LocalStorage the plugin will have access to, cached by the extension from specified hosts (optional)
+  sessionStorage?: string[]; // SessionStorage the plugin will have access to, cached by the extension from specified hosts (optional)
   requests: { method: string; url: string }[]; // List of requests that the plugin is allowed to make
-  notaryUrls?: string[];   // List of notary services that the plugin is allowed to use (optional)
-  proxyUrls?: string[];    // List of websocket proxies that the plugin is allowed to use (optional)
+  notaryUrls?: string[]; // List of notary services that the plugin is allowed to use (optional)
+  proxyUrls?: string[]; // List of websocket proxies that the plugin is allowed to use (optional)
 };
 ```
 
