@@ -1282,16 +1282,18 @@ message and close the connection.</p>
 <p>A plugin must include a configuration JSON file that describes its behavior and permissions.</p>
 <!-- https://github.com/tlsnotary/tlsn-extension/blob/p2p/src/utils/misc.ts#L315-L326 -->
 <pre><code class="language-ts">export type PluginConfig = {
-  title: string;           // The name of the plugin
-  description: string;     // A description of the plugin's purpose
-  icon?: string;           // A base64-encoded image string representing the plugin's icon (optional)
-  steps?: StepConfig[];    // An array describing the UI steps and behavior (see Step UI below) (optional)
-  hostFunctions?: string[];// Host functions that the plugin will have access to
-  cookies?: string[];      // Cookies the plugin will have access to, cached by the extension from specified hosts (optional)
-  headers?: string[];      // Headers the plugin will have access to, cached by the extension from specified hosts (optional)
+  title: string; // The name of the plugin
+  description: string; // A description of the plugin purpose
+  icon?: string; // A base64-encoded image string representing the plugin's icon (optional)
+  steps?: StepConfig[]; // An array describing the UI steps and behavior (see Step UI below) (optional)
+  hostFunctions?: string[]; // Host functions that the plugin will have access to
+  cookies?: string[]; // Cookies the plugin will have access to, cached by the extension from specified hosts (optional)
+  headers?: string[]; // Headers the plugin will have access to, cached by the extension from specified hosts (optional)
+  localStorage?: string[]; // LocalStorage the plugin will have access to, cached by the extension from specified hosts (optional)
+  sessionStorage?: string[]; // SessionStorage the plugin will have access to, cached by the extension from specified hosts (optional)
   requests: { method: string; url: string }[]; // List of requests that the plugin is allowed to make
-  notaryUrls?: string[];   // List of notary services that the plugin is allowed to use (optional)
-  proxyUrls?: string[];    // List of websocket proxies that the plugin is allowed to use (optional)
+  notaryUrls?: string[]; // List of notary services that the plugin is allowed to use (optional)
+  proxyUrls?: string[]; // List of websocket proxies that the plugin is allowed to use (optional)
 };
 </code></pre>
 <h2 id="step-ui"><a class="header" href="#step-ui">Step UI</a></h2>
@@ -1500,6 +1502,8 @@ Host.outputString(JSON.stringify(id)); // Outputs the notarization ID
   hostFunctions?: string[];
   cookies?: string[];
   headers?: string[];
+  localStorage?: string[];
+  sessionStorage?: string[];
   requests: { method: string; url: string }[];
   notaryUrls?: string[];
   proxyUrls?: string[];
@@ -1510,11 +1514,12 @@ Host.outputString(JSON.stringify(id)); // Outputs the notarization ID
 </code></pre>
 <h4 id="screenshot-5"><a class="header" href="#screenshot-5">Screenshot</a></h4>
 <p><img src="extension/./images/share_installed_plugins.png" alt="Screenshot 2024-07-04 at 3 23 14 PM" /></p>
-<h3 id="clientrunpluginid"><a class="header" href="#clientrunpluginid"><code>client.runPlugin(id)</code></a></h3>
+<h3 id="clientrunpluginid-params"><a class="header" href="#clientrunpluginid-params"><code>client.runPlugin(id, params)</code></a></h3>
 <p>This method is used to request the execution of a plugin.</p>
 <h4 id="parameters-6"><a class="header" href="#parameters-6">Parameters</a></h4>
 <ol>
 <li><code>id</code>: The ID of the plugin.</li>
+<li><code>params</code> <em>(optional)</em>: An object containing user input parameters as key-value pairs.</li>
 </ol>
 <h4 id="returns-6"><a class="header" href="#returns-6">Returns</a></h4>
 <p>A promise that resolves to the proof data.</p>
@@ -1525,7 +1530,10 @@ Host.outputString(JSON.stringify(id)); // Outputs the notarization ID
 }
 </code></pre>
 <h4 id="example-6"><a class="header" href="#example-6">Example</a></h4>
-<pre><code class="language-ts">const plugin = await client.runPlugin("6931d2ad63340d3a1fb1a5c1e3f4454c5a518164d6de5ad272e744832355ee02");
+<pre><code class="language-ts">const plugin = await client.runPlugin(
+  "6931d2ad63340d3a1fb1a5c1e3f4454c5a518164d6de5ad272e744832355ee02",
+  { Key: "Value" }
+);
 </code></pre>
 <h4 id="screenshot-6"><a class="header" href="#screenshot-6">Screenshot</a></h4>
 <p><img src="extension/./images/execute_plugin.png" alt="Screenshot 2024-07-04 at 3 24 09 PM" /></p>
