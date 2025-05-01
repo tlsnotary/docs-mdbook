@@ -55,9 +55,9 @@ To create a TLSNotary proof, the browser extension needs a TLSNotary notary serv
 To use the TLSNotary team notary server:
 1. Open the extension
 2. Click **Options**
-3. Update Notary API to: `https://notary.pse.dev/v0.1.0-alpha.8`
-4. Click **Save**
-5. Skip the next section and [continue with the notarization step](#notarize)
+3. Update Notary API to: `https://notary.pse.dev/v0.1.0-alpha.8` (Please see the list of [supported domains](#team-proxy-domains) below. Not all domains are supported on the team server.)
+5. Click **Save**
+6. Skip the next section and [continue with the notarization step](#notarize)
 
 If you plan to run a local notary server:
 1. Open the extension
@@ -67,6 +67,34 @@ If you plan to run a local notary server:
 5. Run a local notary server (see [below](#local-notary))
 
 <img width="478"  src="images/extension_proxy.png">
+
+#### TLSNotary team notary server supported domains <a name="team-proxy-domains"></a>
+This is a list of the domains that can be proxied by the TLSNotary team notary server. Attempting to notarize other domains will fail silently.
+```
+accounts.coinbase.com:  accounts.coinbase.com:443
+api.reddit.com: api.reddit.com:443
+api.twitter.com: api.twitter.com:443
+api.x.com: api.x.com:443
+coinbase.com:  coinbase.com:444
+connect.garmin.com:  connect.garmin.com:443
+discord.com: discord.com:443
+discord.gg: discord.gg:443
+ethereum.org: ethereum.org:443
+example.com: example.com:443
+gateway.reddit.com: gateway.reddit.com:443
+m.uber.com: m.uber.com:443
+reddit.com: reddit.com:443
+riders.uber.com:  riders.uber.com:443
+swapi.dev: swapi.dev:443
+swapi.info: swapi.info:443
+tlsnotary.org: tlsnotary.org:443
+twitter.com: twitter.com:443
+uber.com:  uber.com:443
+wise.com:  wise.com:443
+www.agoda.com:  www.agoda.com:443
+www.duolingo.com: www.duolingo.com:443
+x.com: x.com:443
+```
 
 ### Run a Local Notary Server <a name="local-notary"></a>
 
