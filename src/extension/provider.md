@@ -1,8 +1,8 @@
 # TLSN Extension's Provider API
 
-This page is a reference for the **TLSN Extension's Provider API**. This API can be used in web pages to execute plugins via the TLSN extension.
+This page is a reference for the **TLSN Extension's Provider API**. This API can be used in web pages to run plugins via the TLSN extension.
 
-The TLSN Extension injects a provider API into websites visited by its users using the `window.tlsn` provider object. This allows webpages to **connect to the TLSN Extension** and execute plugins, with the user's permission.
+The TLSN Extension injects a provider API into websites visited by its users using the `window.tlsn` provider object. This allows webpages to **connect to the TLSN Extension** and ask the user to run plugins.
 
 ## Connect to TLSN Extension
 
@@ -21,13 +21,10 @@ A promise that resolves to the full provider API object.
 const client = await tlsn.connect();
 ```
 
-#### Screenshot
-![Screenshot 2024-07-04 at 2 22 00 PM](./images/connect.png)
-
 
 ### `client.runPlugin(url, params)`
 
-This method is used to request the execution of a plugin by its URL. If the plugin is not already installed, the extension will attempt to install it from the provided URL.
+This method is used to request the execution of a plugin by its URL. The plugin will be loaded automatically, and if the user approves, the extension will guide the user through the plugin's steps.
 
 
 #### Parameters
