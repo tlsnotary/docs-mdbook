@@ -71,26 +71,7 @@ To check the status of the notary server, visit the `healthcheck` endpoint at:
 
 ### WebSocket Proxy Server
 
-Because web browsers don't have the ability to make TCP connections directly, TLSNotary requires a WebSocket proxy to set up TCP connections when it is used in a browser. To facilitate the exploration of TLSNotary and to run the examples easily, the TLSNotary team hosts a public WebSocket proxy server. This server can be used to access the following whitelisted domains:
-
-```
-api.twitter.com:443
-twitter.com:443
-gateway.reddit.com:443
-reddit.com:443
-swapi.dev:443
-api.x.com:443
-x.com:443
-discord.com:443
-connect.garmin.com:443
-uber.com:443
-riders.uber.com:443
-m.uber.com:443
-wise.com:443
-coinbase.com:443
-accounts.coinbase.com:443
-www.agoda.com:443
-```
+Because web browsers don't have the ability to make TCP connections directly, TLSNotary requires a WebSocket proxy to set up TCP connections when it is used in a browser. To facilitate the exploration of TLSNotary and to run the examples easily, the TLSNotary team hosts a public WebSocket proxy server. Note that this proxy only supports a predefined set of domains. You can view the full list of supported domains in the [websockify configuration file](https://github.com/privacy-scaling-explorations/tlsn-infra/blob/main/docker/websockify/websockify_config).
 
 You can utilize this WebSocket proxy with the following syntax:
 
