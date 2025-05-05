@@ -158,8 +158,8 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="tlsn-extensions-provider-api"><a class="header" href="#tlsn-extensions-provider-api">TLSN Extension's Provider API</a></h1>
-<p>This page is a reference for the <strong>TLSN Extension's Provider API</strong>. This API can be used in web pages to request attestation history, notarize requests, manage plugins, and more from the TLSN extension.</p>
-<p>The TLSN Extension injects a provider API into websites visited by its users using the <code>window.tlsn</code> provider object. This allows webpages to <strong>connect to the TLSN Extension</strong> and query TLSN attestations, with the user's permission, of course.</p>
+<p>This page is a reference for the <strong>TLSN Extension's Provider API</strong>. This API can be used in web pages to run plugins via the TLSN extension.</p>
+<p>The TLSN Extension injects a provider API into websites visited by its users using the <code>window.tlsn</code> provider object. This allows webpages to <strong>connect to the TLSN Extension</strong> and ask the user to run plugins.</p>
 <h2 id="connect-to-tlsn-extension"><a class="header" href="#connect-to-tlsn-extension">Connect to TLSN Extension</a></h2>
 <h3 id="tlsnconnect"><a class="header" href="#tlsnconnect"><code>tlsn.connect()</code></a></h3>
 <p>This method is used to request a connection between the website and the extension. Once connected, the website can use the provider API to request actions from the extension.</p>
@@ -170,172 +170,28 @@
 <h4 id="example"><a class="header" href="#example">Example</a></h4>
 <pre><code class="language-ts">const client = await tlsn.connect();
 </code></pre>
-<h4 id="screenshot"><a class="header" href="#screenshot">Screenshot</a></h4>
-<p><img src="./images/connect.png" alt="Screenshot 2024-07-04 at 2 22 00 PM" /></p>
-<h2 id="provider-api-methods"><a class="header" href="#provider-api-methods">Provider API Methods</a></h2>
-<h3 id="clientgethistorymethod-url-metadata"><a class="header" href="#clientgethistorymethod-url-metadata"><code>client.getHistory(method, url, metadata)</code></a></h3>
-<p>This method is used to request attestation history from the extension.</p>
+<h3 id="clientrunpluginurl-params"><a class="header" href="#clientrunpluginurl-params"><code>client.runPlugin(url, params)</code></a></h3>
+<p>This method is used to request the execution of a plugin by its URL. The plugin will be loaded automatically, and if the user approves, the extension will guide the user through the plugin's steps.</p>
 <h4 id="parameters-1"><a class="header" href="#parameters-1">Parameters</a></h4>
 <ol>
-<li><code>method</code>: A glob pattern matching the request method of the proof. (e.g., <code>get</code>, <code>{get,post}</code>, <code>*</code>)</li>
-<li><code>url</code>: A glob pattern matching the request URL of the proof. (e.g., <code>**</code>, <code>https://swapi.dev/**</code>)</li>
-<li><code>metadata</code>: An object containing glob patterns that match metadata about the request. (e.g., <code>{id: "swapi-proof-1"}</code>)</li>
+<li><code>url</code>: The URL to the plugin's WASM file.</li>
+<li><code>params</code> <em>(optional)</em>: An object containing user input parameters as key-value pairs.</li>
 </ol>
 <h4 id="returns-1"><a class="header" href="#returns-1">Returns</a></h4>
-<p>A promise that resolves to an array of proof header data.</p>
-<pre><code class="language-ts">type ProofHeader = {
-  id: string;
-  method: string;
+<p>A promise that resolves to the proof data.</p>
+<pre><code class="language-ts">type ProofData = {
   notaryUrl: string;
-  time: string;
-  url: string;
-  websocketProxyUrl: string;
+  session: Session; // https://github.com/tlsnotary/tlsn-js/blob/main/src/types.ts#L7-L11;
+  substrings: Substrings; // https://github.com/tlsnotary/tlsn-js/blob/main/src/types.ts#L73-L76
 }
 </code></pre>
 <h4 id="example-1"><a class="header" href="#example-1">Example</a></h4>
-<pre><code class="language-ts">const proofs = await client.getHistory('*', '**', {id: '0x1234567890'});
-</code></pre>
-<h4 id="screenshot-1"><a class="header" href="#screenshot-1">Screenshot</a></h4>
-<p><img src="./images/share_proof_history.png" alt="Screenshot 2024-07-04 at 2 41 56 PM" /></p>
-<h3 id="clientgetproofid"><a class="header" href="#clientgetproofid"><code>client.getProof(id)</code></a></h3>
-<p>This method is used to request the full data of a specific proof by its ID.</p>
-<h4 id="parameters-2"><a class="header" href="#parameters-2">Parameters</a></h4>
-<ol>
-<li><code>id</code>: The ID of the proof.</li>
-</ol>
-<h4 id="returns-2"><a class="header" href="#returns-2">Returns</a></h4>
-<p>A promise that resolves to the proof data or <code>null</code>.</p>
-<pre><code class="language-ts">type ProofData = {
-  notaryUrl: string;
-  session: Session; // https://github.com/tlsnotary/tlsn-js/blob/main/src/types.ts#L7-L11;
-  substrings: Substrings; // https://github.com/tlsnotary/tlsn-js/blob/main/src/types.ts#L73-L76
-}
-</code></pre>
-<h4 id="example-2"><a class="header" href="#example-2">Example</a></h4>
-<pre><code class="language-ts">const proof = await client.getProof('FE512M1.72007336176400000000000000000000');
-</code></pre>
-<h4 id="screenshot-2"><a class="header" href="#screenshot-2">Screenshot</a></h4>
-<p><img src="./images/share_proof_data.png" alt="Screenshot 2024-07-04 at 2 44 00 PM" /></p>
-<h3 id="clientnotarizeurl-requestoptions-proofconfig"><a class="header" href="#clientnotarizeurl-requestoptions-proofconfig"><code>client.notarize(url, requestOptions, proofConfig)</code></a></h3>
-<p>This method is used to request notarization of a specific request.</p>
-<h4 id="parameters-3"><a class="header" href="#parameters-3">Parameters</a></h4>
-<ol>
-<li><code>url</code>: The URL of the request.</li>
-<li><code>requestOptions</code>: An object containing the following:
-<ol>
-<li><code>method</code>: <code>GET</code>, <code>POST</code>, <code>PUT</code>, etc.</li>
-<li><code>headers</code>: A map of headers.</li>
-<li><code>body</code>: The string content of the request body.</li>
-</ol>
-</li>
-<li><code>proofConfig</code>: An object containing the following:
-<ol>
-<li><code>notaryUrl</code>: URL of the notary (defaults to the extension's setting).</li>
-<li><code>websocketProxyUrl</code>: URL of the websocket proxy (defaults to the extension's setting).</li>
-<li><code>maxSentData</code>: Maximum allowed sent data (defaults to the extension's setting).</li>
-<li><code>maxRecvData</code>: Maximum allowed received data (defaults to the extension's setting).</li>
-<li><code>maxTranscriptSize</code>: Maximum allowed transcript size (defaults to the extension's setting).</li>
-<li><code>metadata</code>: An object containing metadata.</li>
-</ol>
-</li>
-</ol>
-<h4 id="returns-3"><a class="header" href="#returns-3">Returns</a></h4>
-<p>A promise that resolves to the proof data.</p>
-<pre><code class="language-ts">type ProofData = {
-  notaryUrl: string;
-  session: Session; // https://github.com/tlsnotary/tlsn-js/blob/main/src/types.ts#L7-L11;
-  substrings: Substrings; // https://github.com/tlsnotary/tlsn-js/blob/main/src/types.ts#L73-L76
-}
-</code></pre>
-<h4 id="example-3"><a class="header" href="#example-3">Example</a></h4>
-<pre><code class="language-ts">const proof = await client.notarize(
-  'https://swapi.dev/api/planets/9',
-  {
-    method: 'get',
-    headers: {
-      "Accept": "application/json",
-      "Accept-Encoding": "identity",
-      "Connection": "close",
-      "Cookie": "csrftoken=blahblahblah",
-    }
-  },
-  {
-    metadata: {id: 'test-1'},
-  }
-);
-</code></pre>
-<h4 id="screenshot-3"><a class="header" href="#screenshot-3">Screenshot</a></h4>
-<p><img src="./images/notarize.png" alt="Screenshot 2024-07-04 at 2 54 48 PM" /></p>
-<h3 id="clientinstallpluginurl-metadata"><a class="header" href="#clientinstallpluginurl-metadata"><code>client.installPlugin(url, metadata)</code></a></h3>
-<p>This method is used to request the installation of a plugin.</p>
-<h4 id="parameters-4"><a class="header" href="#parameters-4">Parameters</a></h4>
-<ol>
-<li><code>url</code>: The URL to the plugin's WASM file.</li>
-<li><code>metadata</code>: An object containing metadata about the plugin.</li>
-</ol>
-<h4 id="returns-4"><a class="header" href="#returns-4">Returns</a></h4>
-<p>A promise that resolves to the plugin ID.</p>
-<h4 id="example-4"><a class="header" href="#example-4">Example</a></h4>
-<pre><code class="language-ts">const pluginId = await client.installPlugin(
-  'https://github.com/tlsnotary/tlsn-extension/raw/main/plugins/twitter_profile/index.wasm',
-  { id: 'demo-plugin-1' }
-);
-</code></pre>
-<h4 id="screenshot-4"><a class="header" href="#screenshot-4">Screenshot</a></h4>
-<p><img src="./images/install_plugin.png" alt="Screenshot 2024-07-04 at 3 05 54 PM" /></p>
-<h3 id="clientgetpluginsurl-origin-metadata"><a class="header" href="#clientgetpluginsurl-origin-metadata"><code>client.getPlugins(url, origin, metadata)</code></a></h3>
-<p>This method is used to query installed plugins.</p>
-<h4 id="parameters-5"><a class="header" href="#parameters-5">Parameters</a></h4>
-<ol>
-<li><code>url</code>: A glob pattern matching the URL to the plugin's WASM file.</li>
-<li><code>origin</code>: A glob pattern matching the origin requesting the plugin installation.</li>
-<li><code>metadata</code>: An object containing glob patterns matching metadata about the plugin.</li>
-</ol>
-<h4 id="returns-5"><a class="header" href="#returns-5">Returns</a></h4>
-<p>A promise that resolves to the plugin configuration.</p>
-<pre><code class="language-ts">type PluginConfig = {
-  hash: string;
-  title: string;
-  description: string;
-  icon?: string;
-  steps?: StepConfig[];
-  hostFunctions?: string[];
-  cookies?: string[];
-  headers?: string[];
-  localStorage?: string[];
-  sessionStorage?: string[];
-  requests: { method: string; url: string }[];
-  notaryUrls?: string[];
-  proxyUrls?: string[];
-};
-</code></pre>
-<h4 id="example-5"><a class="header" href="#example-5">Example</a></h4>
-<pre><code class="language-ts">const plugin = await client.getPlugins('**', 'https://swapi.dev', {id: 'demo-plugin-1'});
-</code></pre>
-<h4 id="screenshot-5"><a class="header" href="#screenshot-5">Screenshot</a></h4>
-<p><img src="./images/share_installed_plugins.png" alt="Screenshot 2024-07-04 at 3 23 14 PM" /></p>
-<h3 id="clientrunpluginid-params"><a class="header" href="#clientrunpluginid-params"><code>client.runPlugin(id, params)</code></a></h3>
-<p>This method is used to request the execution of a plugin.</p>
-<h4 id="parameters-6"><a class="header" href="#parameters-6">Parameters</a></h4>
-<ol>
-<li><code>id</code>: The ID of the plugin.</li>
-<li><code>params</code> <em>(optional)</em>: An object containing user input parameters as key-value pairs.</li>
-</ol>
-<h4 id="returns-6"><a class="header" href="#returns-6">Returns</a></h4>
-<p>A promise that resolves to the proof data.</p>
-<pre><code class="language-ts">type ProofData = {
-  notaryUrl: string;
-  session: Session; // https://github.com/tlsnotary/tlsn-js/blob/main/src/types.ts#L7-L11;
-  substrings: Substrings; // https://github.com/tlsnotary/tlsn-js/blob/main/src/types.ts#L73-L76
-}
-</code></pre>
-<h4 id="example-6"><a class="header" href="#example-6">Example</a></h4>
-<pre><code class="language-ts">const plugin = await client.runPlugin(
-  "6931d2ad63340d3a1fb1a5c1e3f4454c5a518164d6de5ad272e744832355ee02",
+<pre><code class="language-ts">const proof = await client.runPlugin(
+  "https://github.com/tlsnotary/tlsn-extension/raw/main/plugins/twitter_profile/index.wasm",
   { Key: "Value" }
 );
 </code></pre>
-<h4 id="screenshot-6"><a class="header" href="#screenshot-6">Screenshot</a></h4>
+<h4 id="screenshot"><a class="header" href="#screenshot">Screenshot</a></h4>
 <p><img src="./images/execute_plugin.png" alt="Screenshot 2024-07-04 at 3 24 09 PM" /></p>
 
                     </main>
