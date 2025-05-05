@@ -24,13 +24,13 @@ In this demo, we will request JSON data from the Star Wars API at <https://swapi
    ```
 3. Checkout the version of this quick start:
    ```sh
-   git checkout v0.1.0-alpha.8
+   git checkout v0.1.0-alpha.10
    ```
 4. If you want to use a local TLSNotary server: [Run a local notary server and websocket proxy](#local), otherwise:
    1. Open `app.tsx` in your favorite editor.
    2. Replace `notaryUrl: 'http://localhost:7047',` with:
       ```ts
-         notaryUrl: 'https://notary.pse.dev/v0.1.0-alpha.8',
+         notaryUrl: 'https://notary.pse.dev/v0.1.0-alpha.10',
       ```
       This makes this webpage use the [PSE](https://pse.dev) notary server to notarize the API request. Feel free to use different or [local notary](#local); a local server will be faster because it removes the bandwidth constraints between the user and the notary.
    3. Replace `websocketProxyUrl: 'ws://localhost:55688',` with:
@@ -40,7 +40,7 @@ In this demo, we will request JSON data from the Star Wars API at <https://swapi
       Because a web browser doesn't have the ability to make TCP connection, we need to use a websocket proxy server. This uses a proxy hosted by [PSE](https://pse.dev). Feel free to use different or [local notary](#local) proxy.
    4. In `package.json`: check the version number:
       ```json
-          "tlsn-js": "v0.1.0-alpha.8"
+          "tlsn-js": "v0.1.0-alpha.10"
       ```
 5. Install dependencies
     ```sh
