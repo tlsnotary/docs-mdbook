@@ -63,17 +63,7 @@ Please refer to the list of all HTTP APIs [here](./notary_server_api.html), and 
 
 The TLSNotary team hosts a public notary server for development, experimentation, and demonstration purposes. The server is currently open to everyone, provided that it is used fairly.
 
-We host multiple versions of the notary server:
-
-| Version        | Notary URL                            | Info/Status                                                                                                    | GitHub                                                                                       | Note                                                                           |
-| -------------- | ------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| v0.1.0-alpha.10 | https://notary.pse.dev/v0.1.0-alpha.10 | [info](https://notary.pse.dev/v0.1.0-alpha.10/info)/[health](https://notary.pse.dev/v0.1.0-alpha.10/healthcheck) | [v0.1.0-alpha.10](https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.10/crates/notary/server) | [Release notes](https://github.com/tlsnotary/tlsn/releases/tag/v0.1.0-alpha.10) |
-| v0.1.0-alpha.9 | https://notary.pse.dev/v0.1.0-alpha.9 | [info](https://notary.pse.dev/v0.1.0-alpha.9/info)/[health](https://notary.pse.dev/v0.1.0-alpha.9/healthcheck) | [v0.1.0-alpha.9](https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.9/crates/notary/server) | [Release notes](https://github.com/tlsnotary/tlsn/releases/tag/v0.1.0-alpha.9) |
-| v0.1.0-alpha.8 | https://notary.pse.dev/v0.1.0-alpha.8 | [info](https://notary.pse.dev/v0.1.0-alpha.8/info)/[health](https://notary.pse.dev/v0.1.0-alpha.8/healthcheck) | [v0.1.0-alpha.8](https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.8/crates/notary/server) | [Release notes](https://github.com/tlsnotary/tlsn/releases/tag/v0.1.0-alpha.8) |
-| v0.1.0-alpha.7 | https://notary.pse.dev/v0.1.0-alpha.7 | [info](https://notary.pse.dev/v0.1.0-alpha.7/info)/[health](https://notary.pse.dev/v0.1.0-alpha.7/healthcheck) | [v0.1.0-alpha.7](https://github.com/tlsnotary/tlsn/tree/v0.1.0-alpha.7/crates/notary/server) | [Release notes](https://github.com/tlsnotary/tlsn/releases/tag/v0.1.0-alpha.7) |
-| nightly        | https://notary.pse.dev/nightly        | [info](https://notary.pse.dev/nightly/info)/[health](https://notary.pse.dev/nightly/healthcheck)               | [dev](https://github.com/tlsnotary/tlsn/tree/dev/crates/notary/server)                       |                                                                                |
-
-Alpha.8 and later run the TLSNotary notary software in a Trusted Execution Environment (TEE), Intel SGX on Azure.
+We host multiple versions of the notary server: Check <https://notary.pse.dev> to get a list of the currently hosted versions. The version with a `-sgx` suffix run the TLSNotary notary software in a Trusted Execution Environment (TEE), Intel SGX on Azure.
 You can verify the software attestation by visiting `https://notary.pse.dev/<version>/info`.
 
 To check the status of the notary server, visit the `healthcheck` endpoint at:
