@@ -180,14 +180,14 @@
 </code></pre>
 </li>
 <li>Checkout the version of this quick start:
-<pre><code class="language-sh">git checkout v0.1.0-alpha.8
+<pre><code class="language-sh">git checkout v0.1.0-alpha.10
 </code></pre>
 </li>
 <li>If you want to use a local TLSNotary server: <a href="#local">Run a local notary server and websocket proxy</a>, otherwise:
 <ol>
 <li>Open <code>app.tsx</code> in your favorite editor.</li>
 <li>Replace <code>notaryUrl: 'http://localhost:7047',</code> with:
-<pre><code class="language-ts">   notaryUrl: 'https://notary.pse.dev/v0.1.0-alpha.8',
+<pre><code class="language-ts">   notaryUrl: 'https://notary.pse.dev/v0.1.0-alpha.10',
 </code></pre>
 This makes this webpage use the <a href="https://pse.dev">PSE</a> notary server to notarize the API request. Feel free to use different or <a href="#local">local notary</a>; a local server will be faster because it removes the bandwidth constraints between the user and the notary.</li>
 <li>Replace <code>websocketProxyUrl: 'ws://localhost:55688',</code> with:
@@ -195,7 +195,7 @@ This makes this webpage use the <a href="https://pse.dev">PSE</a> notary server 
 </code></pre>
 Because a web browser doesn't have the ability to make TCP connection, we need to use a websocket proxy server. This uses a proxy hosted by <a href="https://pse.dev">PSE</a>. Feel free to use different or <a href="#local">local notary</a> proxy.</li>
 <li>In <code>package.json</code>: check the version number:
-<pre><code class="language-json">    "tlsn-js": "v0.1.0-alpha.8"
+<pre><code class="language-json">    "tlsn-js": "v0.1.0-alpha.10"
 </code></pre>
 </li>
 </ol>
