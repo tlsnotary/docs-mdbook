@@ -12,7 +12,7 @@ The easiest way to install the TLSN browser extension is to use **[Chrome Web St
 
 Alternatively, you can install it manually:
 1. Download the browser extension from <https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.1000/tlsn-extension-0.1.0.1000.zip>
-2. Unzip  
+2. Unzip
    ⚠️ This is a flat zip file, so be careful if you unzip from the command line, this zip file contains many file at the top level
 3. Open **Manage Extensions**: <chrome://extensions/>
 4. Enable `Developer mode`
@@ -50,7 +50,7 @@ Next use  `ws://localhost:55688` as **proxy API** in Step 3 above.
 
 ## Notary Server <a name="notary-server"></a>
 
-To create a TLSNotary proof, the browser extension needs a TLSNotary notary server. In a real world scenario, this server should be run by a neutral party, or by the verifier of the proofs. In this quick start, you can either run the server yourself or use the test server from the TLSNotary team. Notarizing TLS with Multi Party Computation involves a lot of communication between the extension and notary server, so running a local server is the fastest option. 
+To create a TLSNotary proof, the browser extension needs a TLSNotary notary server. In a real world scenario, this server should be run by a neutral party, or by the verifier of the proofs. In this quick start, you can either run the server yourself or use the test server from the TLSNotary team. Notarizing TLS with Multi Party Computation involves a lot of communication between the extension and notary server, so running a local server is the fastest option.
 
 To use the TLSNotary team notary server:
 1. Open the extension
@@ -66,7 +66,7 @@ If you plan to run a local notary server:
 4. Click **Save**
 5. Run a local notary server (see [below](#local-notary))
 
-<img width="478"  src="images/extension_proxy.png">
+<img width="478"  src="images/extension_options.png">
 
 ### Run a Local Notary Server <a name="local-notary"></a>
 
@@ -84,21 +84,33 @@ The notary server will now be running in the background waiting for connections.
 
 ## Notarize Twitter Account Access <a name="notarize"></a>
 
-1. Open the extension, you should see the Twitter plugin:  
-   <img width="477" src="images/extension_plugins.png">
-2. Click the Twitter Plugin
-3. The TLSNotary Extension sidebar should open and the browser will automatically navigate to Twitter
-4. If you  haven't already, log in
-5. The sidebar should automatically proceeds through the steps
+   Using the TLSNotary Plugin Demo:
+   1. Goto [TLSNotary Plugin Demo](https://demo.tlsnotary.org)
+   2. Run the Twitter Plugin
+   3. When finished you can view the attestation and transcript of the notarization at the bottom of the page or in the extension.
 
-Tip: If you use the hosted notary server, notarization will take multiple seconds. You can track progress by opening the *offscreen console*:
-* Open: <chrome://extensions> ▸ **TLSN Extension** ▸ **Details** ▸ **offscreen.html**
+
+   Using the Browser console:
+   1. Open Chrome/Brave
+   2. Open the developer console (Right Click -> Inspect or F12)
+   3. Copy/Paste the code below:
+   ```
+   const client = await tlsn.connect();
+
+   await client.runPlugin(
+        'https://github.com/tlsnotary/tlsn-extension/raw/main/src/assets/plugins/twitter_profile.wasm'
+      );
+   ```
+   4. Run the plugin from the pop up window
+   5. This will navigate to [x.com](https://x.com), open the sidepanel, and begin notarization
+
+
 
 ## Verify
 
-When the notarization is ready, you can click the **View** button. If you closed the sidebar, you can find the proof by clicking the extension button and selecting the notarization request in the **History** tab.  
-  <img width="477" src="images/extension_history_new.png">
+   When the notarization is ready, you can click the **View** button. If you closed the sidebar, you can find the proof by clicking the extension button and clicking the Notarization that was just completed
 
+<img width="478"  src="images/extension_history_new.png">
 <!-- TODO -->
 <!-- You also have the option to download the proof. You can view this proof later by using the **Verify** button or via <https://explorer.tlsnotary.org/>. You can get the Notary public key by visiting the Notary API specified [above](#notary-server). -->
 
