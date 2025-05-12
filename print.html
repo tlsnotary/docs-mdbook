@@ -731,6 +731,38 @@ for the data that ensures untampered communication. --><div style="break-before:
 <p>Below is an example of a verification output for an HTTP 1.1 request and response. Note that since the <code>Prover</code> chose not to disclose some sensitive information like their HTTP session token and address, that information will be withheld from the <code>Verifier</code> and will appear to him as redacted (in red).</p>
 <p><img src="protocol/../diagrams/verification_example.svg" alt="Verification example" /></p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="server-identity-privacy"><a class="header" href="#server-identity-privacy">Server identity privacy</a></h1>
+<p>To maximize <code>Prover</code> privacy, the server identity is not revealed to the <code>Verifier</code> by default.
+The TLSNotary protocol mitigates the threat of a malicious <code>Verifier</code> attempting to infer the server identity from the messages they receive during MPC-TLS.
+The exact low-level details are outlined below.</p>
+<h2 id="handshake-hash"><a class="header" href="#handshake-hash">Handshake hash</a></h2>
+<p>During the MPC-TLS handshake, the <code>Verifier</code> learns the hash digest of all handshake messages
+(see "Verify Data" in https://tls12.xargs.org/#client-handshake-finished/annotated).
+If the hashed message lacks sufficient randomness that is unknown to the <code>Verifier</code>, they could collect all TLS certificates in existence and attempt a dictionary attack on the digest.</p>
+<h2 id="sources-of-handshake-randomness"><a class="header" href="#sources-of-handshake-randomness">Sources of handshake randomness</a></h2>
+<p>The randomness in a handshake comes from <code>client random</code>, <code>server random</code>, and the <code>signature</code> (see "Signature" in https://tls12.xargs.org/#server-key-exchange/annotated). For optimization, both <code>client random</code> and <code>server random</code> are revealed to the <code>Verifier</code> during MPC-TLS. We argue that the <code>signature</code> contains sufficient randomness unknown to the <code>Verifier</code> to prevent the dictionary attack described above.</p>
+<p>Note that the signed message <strong>is known</strong> to the <code>Verifier</code>. This message is computed as H(<code>client_random</code> + <code>server_random</code> + kx_params), where</p>
+<ul>
+<li>H is a hash function, usually SHA256</li>
+<li>kx_params are ECDHE key exchange parameters known to the <code>Verifier</code></li>
+</ul>
+<h2 id="signature-unforgeability"><a class="header" href="#signature-unforgeability">Signature unforgeability</a></h2>
+<p>Unforgeability is a key property of signature schemes that ensures that even if the attacker (the <code>Verifier</code> in this case) knows both the message the public key of the signer, it is computationally infeasible to forge a valid signature for that message.</p>
+<blockquote>
+<p>We follow the terminology from the signature forgery taxonomy here: https://crypto.stackexchange.com/questions/44188/what-do-the-signature-security-abbreviations-like-euf-cma-mean/44210#44210</p>
+<ul>
+<li><code>EF-CMA</code>: Existential Forgery under Chosen-Message Attack</li>
+<li><code>UF-KMA</code>: Universal Forgery under Known-Message Attack</li>
+</ul>
+</blockquote>
+<p>All TLS signature schemes are EF-CMA-secure, but we argue that even the weaker UF-KMA security would suffice for our scenario where an attacker is given:</p>
+<ul>
+<li>an arbitrary message,</li>
+<li>a public key, and</li>
+<li>many arbitary messages and their signatures collected from previous server interactions.</li>
+</ul>
+<p>This scenario fits precisely within the UF-KMA model. Since UF-KMA is a subset of EF-CMA, we conclude that our approach is secure.</p>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="key-exchange"><a class="header" href="#key-exchange">Key Exchange</a></h1>
 <p>In TLS, the first step towards obtaining TLS session keys is to compute a shared secret between the client and the server by running the <a href="https://en.wikipedia.org/wiki/Elliptic-curve_Diffie%E2%80%93Hellman">ECDH protocol</a>. The resulting shared secret in TLS terms is <strong>called the pre-master secret <code>PMS</code></strong>.</p>
 <p>With TLSNotary, at the end of the key exchange, the <code>Server</code> gets the <code>PMS</code> as usual. The <code>Prover</code> and the <code>Verifier</code>, jointly operating as the TLS client, compute additive shares of the <code>PMS</code>. This prevents either party from unilaterally sending or receiving messages with the <code>Server</code>. Subsequently, the authenticity and integrity of the messages are guaranteed to both the <code>Prover</code> and <code>Verifier</code>, while also keeping the plaintext hidden from the <code>Verifier</code>.</p>

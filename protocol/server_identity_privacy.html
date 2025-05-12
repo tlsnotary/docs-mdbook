@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Verification - tlsn-docs</title>
+        <title>Server Identity Privacy - tlsn-docs</title>
 
 
         <!-- Custom HTML head -->
@@ -127,7 +127,7 @@
                         <a href="https://github.com/tlsnotary/docs-mdbook" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/tlsnotary/docs-mdbook/edit/main/src/protocol/verification.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/tlsnotary/docs-mdbook/edit/main/src/protocol/server_identity_privacy.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -157,33 +157,47 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="verification"><a class="header" href="#verification">Verification</a></h1>
-<p>To prove data provenance to a third-party <code>Verifier</code>, the <code>Prover</code> provides the following information:</p>
+<h1 id="server-identity-privacy"><a class="header" href="#server-identity-privacy">Server identity privacy</a></h1>
+<p>To maximize <code>Prover</code> privacy, the server identity is not revealed to the <code>Verifier</code> by default.
+The TLSNotary protocol mitigates the threat of a malicious <code>Verifier</code> attempting to infer the server identity from the messages they receive during MPC-TLS.
+The exact low-level details are outlined below.</p>
+<h2 id="handshake-hash"><a class="header" href="#handshake-hash">Handshake hash</a></h2>
+<p>During the MPC-TLS handshake, the <code>Verifier</code> learns the hash digest of all handshake messages
+(see "Verify Data" in https://tls12.xargs.org/#client-handshake-finished/annotated).
+If the hashed message lacks sufficient randomness that is unknown to the <code>Verifier</code>, they could collect all TLS certificates in existence and attempt a dictionary attack on the digest.</p>
+<h2 id="sources-of-handshake-randomness"><a class="header" href="#sources-of-handshake-randomness">Sources of handshake randomness</a></h2>
+<p>The randomness in a handshake comes from <code>client random</code>, <code>server random</code>, and the <code>signature</code> (see "Signature" in https://tls12.xargs.org/#server-key-exchange/annotated). For optimization, both <code>client random</code> and <code>server random</code> are revealed to the <code>Verifier</code> during MPC-TLS. We argue that the <code>signature</code> contains sufficient randomness unknown to the <code>Verifier</code> to prevent the dictionary attack described above.</p>
+<p>Note that the signed message <strong>is known</strong> to the <code>Verifier</code>. This message is computed as H(<code>client_random</code> + <code>server_random</code> + kx_params), where</p>
 <ul>
-<li><a href="notarization.html#signing-the-session-header"><code>Session Header</code></a> signed by the <code>Notary</code></li>
-<li><code>opening</code> to the plaintext commitment</li>
-<li><code>TLS-specific data</code> which uniquely identifies the server</li>
-<li><code>identity</code> of the server</li>
+<li>H is a hash function, usually SHA256</li>
+<li>kx_params are ECDHE key exchange parameters known to the <code>Verifier</code></li>
 </ul>
-<p>The <code>Verifier</code> performs the following verification steps:</p>
+<h2 id="signature-unforgeability"><a class="header" href="#signature-unforgeability">Signature unforgeability</a></h2>
+<p>Unforgeability is a key property of signature schemes that ensures that even if the attacker (the <code>Verifier</code> in this case) knows both the message the public key of the signer, it is computationally infeasible to forge a valid signature for that message.</p>
+<blockquote>
+<p>We follow the terminology from the signature forgery taxonomy here: https://crypto.stackexchange.com/questions/44188/what-do-the-signature-security-abbreviations-like-euf-cma-mean/44210#44210</p>
 <ul>
-<li>verifies that the <code>opening</code> corresponds to the commitment in the <code>Session Header</code></li>
-<li>verifies that the <code>TLS-specific data</code> corresponds to the commitment in the <code>Session Header</code></li>
-<li>verifies the <code>identity</code> of the server against <code>TLS-specific data</code></li>
+<li><code>EF-CMA</code>: Existential Forgery under Chosen-Message Attack</li>
+<li><code>UF-KMA</code>: Universal Forgery under Known-Message Attack</li>
 </ul>
-<p>Next, the <code>Verifier</code> parses the <code>opening</code> with an application-specific parser (e.g. HTTP or JSON) to get the final output. Since the <code>Prover</code> is allowed to selectively disclose the data, that data which was not disclosed by the <code>Prover</code> will appear to the <code>Verifier</code> as redacted.</p>
-<p>Below is an example of a verification output for an HTTP 1.1 request and response. Note that since the <code>Prover</code> chose not to disclose some sensitive information like their HTTP session token and address, that information will be withheld from the <code>Verifier</code> and will appear to him as redacted (in red).</p>
-<p><img src="../diagrams/verification_example.svg" alt="Verification example" /></p>
+</blockquote>
+<p>All TLS signature schemes are EF-CMA-secure, but we argue that even the weaker UF-KMA security would suffice for our scenario where an attacker is given:</p>
+<ul>
+<li>an arbitrary message,</li>
+<li>a public key, and</li>
+<li>many arbitary messages and their signatures collected from previous server interactions.</li>
+</ul>
+<p>This scenario fits precisely within the UF-KMA model. Since UF-KMA is a subset of EF-CMA, we conclude that our approach is secure.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../protocol/commit_strategy.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../protocol/verification.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../protocol/server_identity_privacy.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../mpc/key_exchange.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -193,11 +207,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../protocol/commit_strategy.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../protocol/verification.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../protocol/server_identity_privacy.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../mpc/key_exchange.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
