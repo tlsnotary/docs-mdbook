@@ -12,7 +12,7 @@ The easiest way to install the TLSN browser extension is to use **[Chrome Web St
 
 Alternatively, you can install it manually:
 1. Download the browser extension from <https://github.com/tlsnotary/tlsn-extension/releases/download/0.1.0.1000/tlsn-extension-0.1.0.1000.zip>
-2. Unzip
+2. Unzip  
    ⚠️ This is a flat zip file, so be careful if you unzip from the command line, this zip file contains many file at the top level
 3. Open **Manage Extensions**: <chrome://extensions/>
 4. Enable `Developer mode`
@@ -34,7 +34,7 @@ To use the TLSnotary hosted proxy:
    2. Click **Options**
    3. Enter `wss://notary.pse.dev/proxy` as **proxy API**
    4. Click **Save**
-   
+
 > ⚠️ **Note:** The TLSNotary hosted proxy only supports a predefined set of domains. You can view the full list of supported domains in the [websockify configuration file](https://github.com/privacy-scaling-explorations/tlsn-infra/blob/main/docker/websockify/websockify_config).
 
 To run your own websocket proxy **locally**, run:
@@ -85,6 +85,8 @@ If you plan to run a local notary server:
 The notary server will now be running in the background waiting for connections.
 
 ## Notarize Twitter Account Access <a name="notarize"></a>
+   Note: If you use the hosted notary server, notarization will take multiple seconds. You can track progress by opening the *offscreen console*:
+   * Open: <chrome://extensions> ▸ **TLSN Extension** ▸ **Details** ▸ **offscreen.html**
 
    Using the TLSNotary Plugin Demo:
    1. Goto [TLSNotary Plugin Demo](https://demo.tlsnotary.org)
@@ -110,7 +112,7 @@ The notary server will now be running in the background waiting for connections.
 
 ## Verify
 
-   When the notarization is ready, you can click the **View** button. If you closed the sidebar, you can find the proof by clicking the extension button and clicking the Notarization that was just completed
+   When the notarization is ready, you can click the **View** button. If you closed the sidebar, you can find the proof by clicking the extension button and clicking the "Notarize Request" that was just completed.
 
 <img width="478"  src="images/extension_history_new.png">
 <!-- TODO -->
