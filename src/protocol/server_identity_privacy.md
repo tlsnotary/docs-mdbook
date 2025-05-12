@@ -32,12 +32,3 @@ All TLS signature schemes are EF-CMA-secure, but we argue that even the weaker U
 - many arbitary messages and their signatures collected from previous server interactions.
 
 This scenario fits precisely within the UF-KMA model. Since UF-KMA is a subset of EF-CMA, we conclude that our approach is secure.
-
-
-#### A note on RSASSA-PKCS1-v1_5 message extraction
-
-Under RSASSA-PKCS1-v1_5, the message can be extracted from the signature. However, this peculiarity has no impact on our goal, as the `Verifier` does not learn the signature in the first place.
-
-#### A note on ECDSA public key recovery
-
-Under ECDSA, the pubkey can be recovered from a message and its signature. Again, this peculiarity does not affect our goal, as the `Verifier` does not learn the signature in the first place.
