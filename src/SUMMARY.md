@@ -21,6 +21,7 @@
 - [Notarization](./protocol/notarization.md)
     - [Commit Strategy](./protocol/commit_strategy.md)
 - [Verification](./protocol/verification.md)
+- [Server Identity Privacy](./protocol/server_identity_privacy.md)
 - [Selective Disclosure]()
 
 # MPC
