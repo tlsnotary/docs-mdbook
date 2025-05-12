@@ -1,7 +1,7 @@
 # Server identity privacy
 
 To maximize `Prover` privacy, the server identity is not revealed to the `Verifier` by default. 
-The TLSNotary protocol mitigated the threat of a malicious `Verifier` attempting to infer the server identity from the messages they receive during MPC-TLS. 
+The TLSNotary protocol mitigates the threat of a malicious `Verifier` attempting to infer the server identity from the messages they receive during MPC-TLS. 
 The exact low-level details are outlined below.
 
 ## Handshake hash
