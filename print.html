@@ -511,7 +511,7 @@ cargo run --release -- --tls-enabled false
 <li>Click <strong>Save</strong></li>
 <li>Run a local notary server (see <a href="quick_start/browser_extension.html#local-notary">below</a>)</li>
 </ol>
-<img width="478"  src="quick_start/images/extension_proxy.png">
+<img width="478"  src="quick_start/images/extension_options.png">
 <h3 id="run-a-local-notary-server-1"><a class="header" href="#run-a-local-notary-server-1">Run a Local Notary Server <a name="local-notary"></a></a></h3>
 <ol>
 <li>Clone the TLSNotary repository (defaults to the <code>main</code> branch, which points to the latest release):
@@ -526,21 +526,35 @@ cargo run --release -- --tls-enabled false
 </ol>
 <p>The notary server will now be running in the background waiting for connections.</p>
 <h2 id="notarize-twitter-account-access"><a class="header" href="#notarize-twitter-account-access">Notarize Twitter Account Access <a name="notarize"></a></a></h2>
-<ol>
-<li>Open the extension, you should see the Twitter plugin:<br />
-<img width="477" src="quick_start/images/extension_plugins.png"></li>
-<li>Click the Twitter Plugin</li>
-<li>The TLSNotary Extension sidebar should open and the browser will automatically navigate to Twitter</li>
-<li>If you  haven't already, log in</li>
-<li>The sidebar should automatically proceeds through the steps</li>
-</ol>
-<p>Tip: If you use the hosted notary server, notarization will take multiple seconds. You can track progress by opening the <em>offscreen console</em>:</p>
+<p>Note: If you use the hosted notary server, notarization will take multiple seconds. You can track progress by opening the <em>offscreen console</em>:</p>
 <ul>
 <li>Open: <a href="chrome://extensions">chrome://extensions</a> ▸ <strong>TLSN Extension</strong> ▸ <strong>Details</strong> ▸ <strong>offscreen.html</strong></li>
 </ul>
+<p>Using the TLSNotary Plugin Demo:</p>
+<ol>
+<li>Goto <a href="https://demo.tlsnotary.org">TLSNotary Plugin Demo</a></li>
+<li>Run the Twitter Plugin</li>
+<li>When finished you can view the attestation and transcript of the notarization at the bottom of the page or in the extension.</li>
+</ol>
+<p>Using the Browser console:</p>
+<ol>
+<li>Open Chrome/Brave</li>
+<li>Open the developer console (Right Click -&gt; Inspect or F12)</li>
+<li>Copy/Paste the code below:</li>
+</ol>
+<pre><code>const client = await tlsn.connect();
+
+await client.runPlugin(
+     'https://github.com/tlsnotary/tlsn-extension/raw/main/src/assets/plugins/twitter_profile.wasm'
+   );
+</code></pre>
+<ol start="4">
+<li>Run the plugin from the pop up window</li>
+<li>This will navigate to <a href="https://x.com">x.com</a>, open the sidepanel, and begin notarization</li>
+</ol>
 <h2 id="verify"><a class="header" href="#verify">Verify</a></h2>
-<p>When the notarization is ready, you can click the <strong>View</strong> button. If you closed the sidebar, you can find the proof by clicking the extension button and selecting the notarization request in the <strong>History</strong> tab.<br />
-<img width="477" src="quick_start/images/extension_history_new.png"></p>
+<p>When the notarization is ready, you can click the <strong>View</strong> button. If you closed the sidebar, you can find the proof by clicking the extension button and clicking the "Notarize Request" that was just completed.</p>
+<img width="478"  src="quick_start/images/extension_history_new.png">
 <!-- TODO -->
 <!-- You also have the option to download the proof. You can view this proof later by using the **Verify** button or via <https://explorer.tlsnotary.org/>. You can get the Notary public key by visiting the Notary API specified [above](#notary-server). -->
 <h2 id="write-your-own-extension-plugins"><a class="header" href="#write-your-own-extension-plugins">Write your own Extension Plugins</a></h2>
