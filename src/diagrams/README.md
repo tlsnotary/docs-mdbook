@@ -1,1 +1,0 @@
-The files in this folders are generated. See `../../diagrams/convert_all.sh`
