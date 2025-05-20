@@ -26,10 +26,9 @@
 
 # MPC
 
-- [Key Exchange](./mpc/key_exchange.md)
+- [Binary Arithmetic](./mpc/binary_arithmetic.md)
 - [Finite-Field Arithmetic](./mpc/ff-arithmetic.md)
-- [Dual Execution with Asymmetric Privacy](./mpc/deap.md)
-- [Encryption](./mpc/encryption.md)
+- [Key Exchange](./mpc/key_exchange.md)
 - [MAC](./mpc/mac.md)
 - [Commitments](./mpc/commitments.md)
 
