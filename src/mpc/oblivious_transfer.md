@@ -1,3 +1,0 @@
-# Oblivious Transfer
-
-TODO

@@ -1,22 +1,8 @@
-# TLSNotary mdBook Documentation
+# TLSNotary Documentation (Archived)
 
-## Build
+**Note:**  
+The TLSNotary documentation is no longer maintained in this repository or using mdBook.  
+Documentation now lives at: https://github.com/tlsnotary/website
 
-Install mdbook and mdbook-katex
-
-```bash
-cargo install mdbook --version 0.4.45
-cargo install mdbook-katex --version 0.9.3
-cargo install mdbook-linkcheck
-```
-
-Then build and serve
-
-```bash
-mdbook serve
-```
-
-## Diagrams
-
-All diagrams are made with [draw.io](https://app.diagrams.net/). The diagram source files are stored in the `diagrams` folder.
-The diagram sources can be converted to `png` with the `convert_all.sh` script in the diagrams folder.
+This repository is archived to preserve its history.  
+_Archived on: 2025-05-20_
